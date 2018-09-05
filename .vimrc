@@ -62,7 +62,6 @@ nmap <leader>p :let @+ = expand('%:p')<cr>
 
 map <leader>js :%!python -m json.tool<cr>
 
-inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 
 au BufRead,BufNewFile *.todo        set filetype=todo
 
@@ -85,14 +84,20 @@ nnoremap tc :tabedit %<CR>
 map <leader>s :gr <cword><cr>
 
 
+" Goyo
 function! s:goyo_enter()
     :set linebreak
 endfunction
 
 autocmd! User GoyoEnter nested call <SID>goyo_enter()
 
+" ctrl-p
 let g:ctrlp_custom_ignore = 'node_modules'
 
+" Deoplete
 let g:deoplete#enable_at_startup = 1
+autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 
+" Flake8
 autocmd BufWritePost *.py call Flake8()
