@@ -1,8 +1,6 @@
 " Copy Paste using Ctrl+C, Ctrl+V
-vmap <C-c> "+yi
-vmap <C-v> c<ESC>"+p
-imap <C-v> <C-r><C-o>+
-"vmap <C-x> "+c
+source $VIMRUNTIME/mswin.vim
+behave mswin
 
 set nobackup
 set nowritebackup
