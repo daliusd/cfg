@@ -46,3 +46,6 @@
 [submodule ".vim/pack/plugins/start/vim-python-pep8-indent"]
 	path = .vim/pack/plugins/start/vim-python-pep8-indent
 	url = https://github.com/Vimjas/vim-python-pep8-indent.git
+[submodule ".vim/pack/plugins/start/ale"]
+	path = .vim/pack/plugins/start/ale
+	url = https://github.com/w0rp/ale.git
