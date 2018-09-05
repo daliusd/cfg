@@ -33,9 +33,10 @@ djc_get_app_labels()
 	#   this is now done by checking for a file named __init__.py in the subdirs
 	#   this might need to change
 	django_apps=""
-	for i in $(ls */__init__.py 2>/dev/null);
+	for i in $(find zoombook/ -name __init__.py 2>/dev/null);
 	do
-		django_apps+="$(dirname $i) "
+		init_dir="$(dirname $i) "
+		django_apps+="$(basename $init_dir) "
 	done
 	echo -n "${django_apps}"
 }
@@ -462,6 +463,11 @@ echo -n "	--ipv6 -6
 		--insecure
 		0.0.0.0";
 }
+djc_add_translate()
+{
+echo -n "	-c
+		$(djc_get_app_labels)";
+}
 
 # for a subcommand's flags and arguments
 #   ./manage.py migrate poll[TAB] -> polls
@@ -501,7 +507,7 @@ _djc_manage()
 	verbosities="0 1 2 3"
 
 	# commands that are availiable
-	subcommands="createsuperuser changepassword check compilemessages createcachetable dbshell diffsettings dumpdata flush inspectdb loaddata makemessages makemigrations migrate runfcgi shell showmigrations sql sqlall sqlclear sqlcustom sqldropindexes sqlflush sqlindexes sqlmigrate sqlsequencereset squashmigrations startapp startproject syncdb test testserver validate clearsessions collectstatic findstatic runserver "
+	subcommands="createsuperuser changepassword check compilemessages createcachetable dbshell diffsettings dumpdata flush inspectdb loaddata makemessages makemigrations migrate runfcgi shell showmigrations sql sqlall sqlclear sqlcustom sqldropindexes sqlflush sqlindexes sqlmigrate sqlsequencereset squashmigrations startapp startproject syncdb test testserver translate validate clearsessions collectstatic findstatic runserver "
 
 	# wipe previous completion
 	COMPREPLY=()
