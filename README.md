@@ -16,3 +16,8 @@ config checkout
 config submodules init
 config submodule pull --remote
 ```
+
+Vim notes
+---------
+
+You will need to run ":set spell" to download spell files.
