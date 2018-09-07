@@ -13,8 +13,8 @@ alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 # Do initial config repository configuration and checkout
 config config --local status.showUntrackedFiles no
 config checkout
-config submodules init
-config submodule pull --remote
+config submodule init
+config submodule update --remote --recursive
 ```
 
 Vim notes
