@@ -16,7 +16,6 @@ set bs=2
 set nofixeol
 set fileencodings=utf-8,ucs-bom,latin1
 set encoding=utf-8
-set background=light
 set hlsearch
 set incsearch
 set mouse=a
@@ -26,7 +25,12 @@ set nocp
 set list listchars=trail:.,tab:>-
 set exrc
 :syntax enable
-:colorscheme solarized
+colorscheme solarized
+if has("gui_running")
+    set background=light
+else
+    set background=dark
+endif
 set guioptions-=T
 set guioptions-=m
 set ignorecase
