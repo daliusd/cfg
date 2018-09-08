@@ -13,17 +13,14 @@ set sts=4
 set sw=4
 set tabstop=4
 set bs=2
-set nofixeol
+set nofixeol    " Let's not fix end-of-line
 set fileencodings=utf-8,ucs-bom,latin1
 set encoding=utf-8
 set hlsearch
 set incsearch
 set mouse=a
-set ruler
-set viminfo='20,<50,s10,h
-set nocp
+set nocp    " Makes VIM more useful
 set list listchars=trail:.,tab:>-
-set exrc
 :syntax enable
 colorscheme solarized
 if has("gui_running")
