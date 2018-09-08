@@ -38,18 +38,18 @@ set scrolloff=3     " Keep 3 lines below and above the cursor
 set number          " Show line numbering
 set numberwidth=1   " Use 1 col + 1 space for numbers
 
-noremap j gj
-noremap k gk
+"noremap j gj
+"noremap k gk
 noremap ; :
 
-map <silent> <up> gk
-imap <silent> <up> <C-o>gk
-map <silent> <down> gj
-imap <silent> <down> <C-o>gj
-map <silent> <home> g<home>
-imap <silent> <home> <C-o>g<home>
-map <silent> <end> g<end>
-imap <silent> <end> <C-o>g<end>
+"map <silent> <up> gk
+"imap <silent> <up> <C-o>gk
+"map <silent> <down> gj
+"imap <silent> <down> <C-o>gj
+"map <silent> <home> g<home>
+"imap <silent> <home> <C-o>g<home>
+"map <silent> <end> g<end>
+"imap <silent> <end> <C-o>g<end>
 imap jj <ESC>j
 set spell
 set spelllang=en,lt
@@ -79,6 +79,7 @@ nnoremap tt :tabedit<Space>
 nnoremap td :tabclose<CR>
 nnoremap ta :tabnew<CR>
 nnoremap tc :tabedit %<CR>
+map <C-W> :tabclose<cr>
 
 :set tags=./tags;
 :set grepprg=rg\ --vimgrep\ -M\ 160
