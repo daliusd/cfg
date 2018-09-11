@@ -1,6 +1,8 @@
 " Copy Paste using Ctrl+C, Ctrl+V
-source $VIMRUNTIME/mswin.vim
-behave mswin
+if has("gui_running")
+    source $VIMRUNTIME/mswin.vim
+    behave mswin
+endif
 
 set nobackup
 set nowritebackup
@@ -9,17 +11,18 @@ set undodir=/tmp
 
 set autoindent
 set expandtab
-set sts=4
-set sw=4
-set tabstop=4
-set bs=2
+"set sts=4      " Number of spaces per tab while editing
+set sw=4        " Spaces per indent
+set tabstop=8   " Number of spaces per file
+set bs=2        " same as ":set backspace=indent,eol,start"
 set nofixeol    " Let's not fix end-of-line
 set fileencodings=utf-8,ucs-bom,latin1
 set encoding=utf-8
-set hlsearch
-set incsearch
-set mouse=a
-set nocp    " Makes VIM more useful
+set hlsearch    " Highlight search
+set incsearch   " Show search as you type
+set mouse=a     " Enable mouse for everything
+set nocp        " Makes VIM more useful
+set wildmenu    " better command-line completion
 set list listchars=trail:.,tab:>-
 :syntax enable
 colorscheme solarized
@@ -38,18 +41,20 @@ set scrolloff=3     " Keep 3 lines below and above the cursor
 set number          " Show line numbering
 set numberwidth=1   " Use 1 col + 1 space for numbers
 
-"noremap j gj
-"noremap k gk
 noremap ; :
 
-"map <silent> <up> gk
-"imap <silent> <up> <C-o>gk
-"map <silent> <down> gj
-"imap <silent> <down> <C-o>gj
-"map <silent> <home> g<home>
-"imap <silent> <home> <C-o>g<home>
-"map <silent> <end> g<end>
-"imap <silent> <end> <C-o>g<end>
+" Better navigation for wrapped lines.
+noremap j gj
+noremap k gk
+map <silent> <up> gk
+imap <silent> <up> <C-o>gk
+map <silent> <down> gj
+imap <silent> <down> <C-o>gj
+map <silent> <home> g<home>
+imap <silent> <home> <C-o>g<home>
+map <silent> <end> g<end>
+imap <silent> <end> <C-o>g<end>
+
 imap jj <ESC>j
 set spell
 set spelllang=en,lt
@@ -62,7 +67,7 @@ map <C-m> :cp<cr>
 nmap <leader>p :let @+ = expand('%:p')<cr>
 
 map <leader>js :%!python -m json.tool<cr>
-map <leader>d i<C-R>=strftime("%Y-%m-%d")<CR><Esc>
+map <leader>d i<C-R>=strftime("%Y-%m-%d")<cr><Esc>
 
 au BufRead,BufNewFile *.todo        set filetype=todo
 
@@ -72,6 +77,7 @@ au BufRead,BufNewFile *.md     setlocal textwidth=66
 au BufRead,BufNewFile *.rst     setlocal textwidth=66
 au BufRead,BufNewFile *.todo    setlocal textwidth=66
 
+" Tab navigation
 map <C-Left> :tabprev<CR>
 map <C-Right> :tabnext<CR>
 map <C-S-Left> :tabm -1<CR>
@@ -80,12 +86,14 @@ nnoremap tt :tabedit<Space>
 nnoremap td :tabclose<CR>
 nnoremap ta :tabnew<CR>
 nnoremap tc :tabedit %<CR>
-"map <C-W> :tabclose<cr>
 
+" Faster navigation through code
 :set tags=./tags;
 :set grepprg=rg\ --vimgrep\ -M\ 160
 map <leader>s :gr <cword><cr>
 
+
+" Plugins
 
 " Goyo
 function! s:goyo_enter()
