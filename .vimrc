@@ -62,7 +62,7 @@ map <C-m> :cp<cr>
 nmap <leader>p :let @+ = expand('%:p')<cr>
 
 map <leader>js :%!python -m json.tool<cr>
-
+map <leader>d i<C-R>=strftime("%Y-%m-%d")<CR><Esc>
 
 au BufRead,BufNewFile *.todo        set filetype=todo
 
@@ -70,6 +70,7 @@ au BufRead,BufNewFile *.todo        set filetype=todo
 " http://webtypography.net/Rhythm_and_Proportion/Horizontal_Motion/2.1.2/
 au BufRead,BufNewFile *.md     setlocal textwidth=66
 au BufRead,BufNewFile *.rst     setlocal textwidth=66
+au BufRead,BufNewFile *.todo    setlocal textwidth=66
 
 map <C-Left> :tabprev<CR>
 map <C-Right> :tabnext<CR>
@@ -79,7 +80,7 @@ nnoremap tt :tabedit<Space>
 nnoremap td :tabclose<CR>
 nnoremap ta :tabnew<CR>
 nnoremap tc :tabedit %<CR>
-map <C-W> :tabclose<cr>
+"map <C-W> :tabclose<cr>
 
 :set tags=./tags;
 :set grepprg=rg\ --vimgrep\ -M\ 160
@@ -108,3 +109,4 @@ let g:ale_fixers = {
 \}
 
 let g:ale_fix_on_save = 1
+let g:ale_open_list = 1
