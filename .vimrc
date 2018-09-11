@@ -11,8 +11,13 @@ set undodir=/tmp
 
 set autoindent
 set expandtab
+set smarttab
 "set sts=4      " Number of spaces per tab while editing
 set sw=4        " Spaces per indent
+
+au BufRead,BufNewFile *.html setlocal sw=2
+au BufRead,BufNewFile *.js setlocal sw=2
+
 set tabstop=8   " Number of spaces per file
 set bs=2        " same as ":set backspace=indent,eol,start"
 set nofixeol    " Let's not fix end-of-line
