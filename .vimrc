@@ -72,7 +72,6 @@ map <C-m> :cp<cr>
 nmap <leader>p :let @+ = expand('%:p')<cr>
 
 map <leader>js :%!python -m json.tool<cr>
-map <leader>d i<C-R>=strftime("%Y-%m-%d")<cr><Esc>
 
 au BufRead,BufNewFile *.todo        set filetype=todo
 
@@ -113,7 +112,6 @@ let g:ctrlp_custom_ignore = 'node_modules'
 " Deoplete
 let g:deoplete#enable_at_startup = 1
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
-inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 
 " Ale
 let g:ale_fixers = {
@@ -122,4 +120,3 @@ let g:ale_fixers = {
 \}
 
 let g:ale_fix_on_save = 1
-let g:ale_open_list = 1
