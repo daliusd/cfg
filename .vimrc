@@ -121,3 +121,6 @@ let g:ale_fixers = {
 \}
 
 let g:ale_fix_on_save = 1
+
+" Isort
+let g:vim_isort_map = '' " Removing as this conflicts with UltiSnips somehow
