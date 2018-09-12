@@ -6,6 +6,7 @@ endif
 
 set nobackup
 set nowritebackup
+set undofile
 set directory=/tmp
 set undodir=/tmp
 
