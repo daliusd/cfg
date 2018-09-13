@@ -34,6 +34,8 @@ set directory=/tmp
 set undofile
 set undodir=/tmp
 
+set diffopt+=iwhite " Ignore spaces in diff
+
 " Indentation and Tab
 set autoindent
 set expandtab
