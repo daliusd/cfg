@@ -60,7 +60,8 @@ set spelllang=en,lt
 " Search
 set hlsearch    " Highlight search
 set incsearch   " Show search as you type
-set smartcase   " Ignore case when searching using lowercase. Consider using ignorecase if this is not working.
+set ignorecase  " Ignore case when searching using lowercase
+set smartcase   " Ignore ignorecase if search contains upper case letters
 
 
 " Some little keyboard goods
