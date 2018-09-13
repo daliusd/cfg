@@ -36,6 +36,8 @@ set undodir=/tmp
 
 set diffopt+=iwhite " Ignore spaces in diff
 
+let g:netrw_browsex_viewer="setsid xdg-open"    " Make gx command work properly with URLs in gvim
+
 " Indentation and Tab
 set autoindent
 set expandtab
