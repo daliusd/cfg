@@ -52,9 +52,9 @@
 [submodule ".vim/pack/plugins/start/vim-snippets"]
 	path = .vim/pack/plugins/start/vim-snippets
 	url = https://github.com/honza/vim-snippets.git
-[submodule "/home/dalius/.vim/pack/plugins/start/deoplete-ternjs"]
-	path = /home/dalius/.vim/pack/plugins/start/deoplete-ternjs
+[submodule ".vim/pack/plugins/start/deoplete-ternjs"]
+	path = .vim/pack/plugins/start/deoplete-ternjs
 	url = https://github.com/carlitux/deoplete-ternjs
-[submodule "/home/dalius/.vim/pack/plugins/start/tern_for_vim"]
-	path = /home/dalius/.vim/pack/plugins/start/tern_for_vim
+[submodule ".vim/pack/plugins/start/tern_for_vim"]
+	path = .vim/pack/plugins/start/tern_for_vim
 	url = https://github.com/ternjs/tern_for_vim.git
