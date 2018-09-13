@@ -7,14 +7,14 @@ Initial run requires following commands:
 # Clone this repo
 git clone --bare git@bitbucket.org:daliusd/cfg.git .cfg
 
-# Alias config properly
-alias config='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
+# Alias cfg properly
+alias cfg='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 
 # Do initial config repository configuration and checkout
-config config --local status.showUntrackedFiles no
-config checkout
-config submodule init
-config submodule update --remote --recursive
+cfg config --local status.showUntrackedFiles no
+cfg checkout
+cfg submodule init
+cfg submodule update --remote --recursive
 
 # Run initialization.
 ./init.sh
