@@ -1,0 +1,7 @@
+[core]
+	excludesfile = /home/dalius/.gitignore_global
+[alias]
+	co = checkout
+	br = branch
+	ci = commit
+	st = status
