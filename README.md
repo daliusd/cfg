@@ -15,6 +15,9 @@ config config --local status.showUntrackedFiles no
 config checkout
 config submodule init
 config submodule update --remote --recursive
+
+# Run initialization.
+./init.sh
 ```
 
 Vim notes
