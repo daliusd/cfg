@@ -150,3 +150,11 @@ let g:UltiSnipsExpandTrigger="<c-j>"
 
 " My todo files
 au BufRead,BufNewFile *.todo        set filetype=todo
+
+" fzf
+set rtp+=~/.fzf
+let g:fzf_buffers_jump = 1
+map <c-p> :Files<cr>
+map <c-b> :Windows<cr>
+
+command!      -bang -nargs=* Rgn call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".<q-args>, 1, <bang>0)

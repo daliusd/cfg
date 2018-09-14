@@ -55,3 +55,9 @@
 [submodule ".vim/pack/plugins/start/tern_for_vim"]
 	path = .vim/pack/plugins/start/tern_for_vim
 	url = https://github.com/ternjs/tern_for_vim.git
+[submodule ".vim/pack/plugins/start/limelight.vim"]
+	path = .vim/pack/plugins/start/limelight.vim
+	url = https://github.com/junegunn/limelight.vim.git
+[submodule ".vim/pack/plugins/start/fzf.vim"]
+	path = .vim/pack/plugins/start/fzf.vim
+	url = https://github.com/junegunn/fzf.vim.git
