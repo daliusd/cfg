@@ -3,7 +3,7 @@ alias cfgup='cfg pull && cfg submodule init && cfg submodule update --remote --r
 
 username='Dalius Dobravolskas'
 private_email='dalius.dobravolskas@gmail.com'
-work_email='dalius.dobravolskas@baltoprint.com'
+work_email='dalius.dobravolskas@balto.eu'
 
 alias gitprivate='git config user.email "$private_email" && git config user.name "$username"'
 alias gitwork='git config user.email "$work_email" && git config user.name "$username"'
