@@ -47,7 +47,7 @@ set sw=4        " Spaces per indent
 au BufRead,BufNewFile *.html setlocal sw=2
 au BufRead,BufNewFile *.js setlocal sw=2
 
-set tabstop=8   " Number of spaces per file
+set tabstop=4   " Number of spaces per tab. People usually use 4, but they shouldn't use tab in the first place.
 set bs=2        " same as ":set backspace=indent,eol,start"
 
 set foldmethod=indent
@@ -97,7 +97,6 @@ map <leader>js :%!python -m json.tool<cr>
 " http://webtypography.net/Rhythm_and_Proportion/Horizontal_Motion/2.1.2/
 au BufRead,BufNewFile *.md     setlocal textwidth=66
 au BufRead,BufNewFile *.rst     setlocal textwidth=66
-au BufRead,BufNewFile *.todo    setlocal textwidth=66
 
 " Tab navigation
 map <C-Left> :tabprev<CR>
