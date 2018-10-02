@@ -139,6 +139,7 @@ Plug 'carlitux/deoplete-ternjs'
 Plug 'ternjs/tern_for_vim'
 Plug 'junegunn/limelight.vim'
 Plug 'junegunn/fzf.vim'
+Plug 'elzr/vim-json'
 
 call plug#end()
 
