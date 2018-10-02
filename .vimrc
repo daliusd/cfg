@@ -8,7 +8,6 @@ endif
 set mouse=a     " Enable mouse for everything
 
 :syntax enable
-colorscheme solarized
 if has("gui_running")
     set background=light
 else
@@ -116,6 +115,35 @@ nnoremap tc :tabedit %<CR>
 map <leader>s :gr <cword><cr>
 
 " Plugins
+
+call plug#begin('~/.vim/plugged')
+
+Plug 'Shougo/deoplete.nvim'
+Plug 'roxma/nvim-yarp'
+Plug 'vim-airline/vim-airline-themes'
+Plug 'airblade/vim-gitgutter'
+Plug 'roxma/vim-hug-neovim-rpc'
+Plug 'pangloss/vim-javascript'
+Plug 'zchee/deoplete-jedi'
+Plug 'junegunn/goyo.vim'
+Plug 'vim-airline/vim-airline'
+Plug 'altercation/vim-colors-solarized'
+Plug 'tpope/vim-fugitive'
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'fisadev/vim-isort'
+Plug 'Vimjas/vim-python-pep8-indent'
+Plug 'w0rp/ale'
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
+Plug 'carlitux/deoplete-ternjs'
+Plug 'ternjs/tern_for_vim'
+Plug 'junegunn/limelight.vim'
+Plug 'junegunn/fzf.vim'
+
+call plug#end()
+
+" Solarized
+colorscheme solarized
 
 " Goyo
 function! s:goyo_enter()
