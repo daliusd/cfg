@@ -139,6 +139,7 @@ Plug 'ternjs/tern_for_vim'
 Plug 'junegunn/limelight.vim'
 Plug 'junegunn/fzf.vim'
 Plug 'elzr/vim-json'
+Plug 'fszymanski/deoplete-emoji'
 
 call plug#end()
 
