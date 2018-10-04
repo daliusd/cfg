@@ -140,6 +140,7 @@ Plug 'junegunn/limelight.vim'
 Plug 'junegunn/fzf.vim'
 Plug 'elzr/vim-json'
 Plug 'fszymanski/deoplete-emoji'
+Plug 'davidhalter/jedi-vim'
 
 call plug#end()
 
@@ -160,6 +161,8 @@ let g:ctrlp_custom_ignore = 'node_modules'
 let g:deoplete#enable_at_startup = 1
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+
+let g:deoplete#sources#jedi#show_docstring = 1
 
 " Ale
 let g:ale_fixers = {
@@ -192,3 +195,7 @@ map <c-p> :Files<cr>
 map <c-b> :Windows<cr>
 
 command!      -bang -nargs=* Rgn call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".<q-args>, 1, <bang>0)
+
+" jedi-vim
+let g:jedi#completions_enabled = 0
+let g:jedi#usages_command = "<leader>u"
