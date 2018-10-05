@@ -13,8 +13,6 @@ alias cfg='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
 # Do initial config repository configuration and checkout
 cfg config --local status.showUntrackedFiles no
 cfg checkout
-cfg submodule init
-cfg submodule update --remote --recursive
 
 # Run initialization.
 ./init.sh

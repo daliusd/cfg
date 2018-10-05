@@ -1,5 +1,4 @@
 alias cfg='git --git-dir=/home/dalius/.cfg/ --work-tree=/home/dalius'
-alias cfgup='cfg pull && cfg submodule init && cfg submodule update --remote --recursive'
 
 username='Dalius Dobravolskas'
 private_email='dalius.dobravolskas@gmail.com'
