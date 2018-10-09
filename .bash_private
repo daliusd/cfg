@@ -2,3 +2,13 @@
 
 _completion_loader git
 complete -o bashdefault -o default -o nospace -F __git_wrap__git_main cfg
+
+eval "$(direnv hook bash)"
+
+show_virtual_env() {
+  if [ -n "$VIRTUAL_ENV" ]; then
+    echo "($(basename $VIRTUAL_ENV))"
+  fi
+}
+export -f show_virtual_env
+PS1='$(show_virtual_env)'$PS1
