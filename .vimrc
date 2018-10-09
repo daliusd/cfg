@@ -99,14 +99,19 @@ au BufRead,BufNewFile *.md     setlocal textwidth=66
 au BufRead,BufNewFile *.rst     setlocal textwidth=66
 
 " Tab navigation
-map <C-Left> :tabprev<CR>
-map <C-Right> :tabnext<CR>
-map <C-S-Left> :tabm -1<CR>
-map <C-S-Right> :tabm +1<CR>
-nnoremap tt :tabedit<Space>
-nnoremap td :tabclose<CR>
-nnoremap ta :tabnew<CR>
-nnoremap tc :tabedit %<CR>
+map <C-Left> :bp<CR>
+map <C-Right> :bn<CR>
+map <a-w> :bd<CR>
+
+" XXX: trying to live without tabs
+" map <C-Left> :tabprev<CR>
+" map <C-Right> :tabnext<CR>
+" map <C-S-Left> :tabm -1<CR>
+" map <C-S-Right> :tabm +1<CR>
+" nnoremap tt :tabedit<Space>
+" nnoremap td :tabclose<CR>
+" nnoremap ta :tabnew<CR>
+" nnoremap tc :tabedit %<CR>
 
 " Faster navigation through code
 :set tags=./tags;
@@ -192,9 +197,21 @@ au BufRead,BufNewFile *.todo        set filetype=todo
 set rtp+=~/.fzf
 let g:fzf_buffers_jump = 1
 map <c-p> :Files<cr>
-map <c-b> :Windows<cr>
+" map <c-b> :Windows<cr>
+map <c-b> :Buffers<cr>
 
-command!      -bang -nargs=* Rgn call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".<q-args>, 1, <bang>0)
+command! -bang -nargs=? -complete=dir Files
+    \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
+
+command! -bang -nargs=* Rg
+    \ call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1,
+    \                   fzf#vim#with_preview(),
+    \                   <bang>0)
+
+command! -bang -nargs=* Rgn
+    \ call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".<q-args>, 1,
+    \                   fzf#vim#with_preview(),
+    \                   <bang>0)
 
 " jedi-vim
 let g:jedi#completions_enabled = 0
