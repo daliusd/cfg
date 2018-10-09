@@ -102,6 +102,7 @@ au BufRead,BufNewFile *.rst     setlocal textwidth=66
 map <C-Left> :bp<CR>
 map <C-Right> :bn<CR>
 map <a-w> :bd<CR>
+set hidden
 
 " XXX: trying to live without tabs
 " map <C-Left> :tabprev<CR>
