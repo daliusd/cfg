@@ -44,8 +44,9 @@ set smarttab
 "set sts=4      " Number of spaces per tab while editing
 set sw=4        " Spaces per indent
 
-au BufRead,BufNewFile *.html setlocal sw=2
-au BufRead,BufNewFile *.js setlocal sw=2
+" FIXME: no decision yet
+" au BufRead,BufNewFile *.html setlocal sw=2
+" au BufRead,BufNewFile *.js setlocal sw=2
 
 set tabstop=4   " Number of spaces per tab. People usually use 4, but they shouldn't use tab in the first place.
 set bs=2        " same as ":set backspace=indent,eol,start"
@@ -142,8 +143,8 @@ Plug 'w0rp/ale'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'carlitux/deoplete-ternjs'
-" XXX: Requires extra step: cd ~/.vim/plugged/tern_for_vim, npm install
-Plug 'ternjs/tern_for_vim'
+Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
+Plug 'prettier/vim-prettier', { 'do': 'npm install' }
 Plug 'junegunn/limelight.vim'
 Plug 'junegunn/fzf.vim'
 Plug 'elzr/vim-json'
@@ -229,3 +230,7 @@ map <leader>s :Rgw<cr>
 " jedi-vim
 let g:jedi#completions_enabled = 0
 let g:jedi#usages_command = "<leader>u"
+
+" Prettier
+let g:prettier#autoformat = 0
+autocmd BufWritePre,TextChanged,InsertLeave *.js PrettierAsync
