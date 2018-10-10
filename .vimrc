@@ -233,4 +233,4 @@ let g:jedi#usages_command = "<leader>u"
 
 " Prettier
 let g:prettier#autoformat = 0
-autocmd BufWritePre,TextChanged,InsertLeave *.js PrettierAsync
+autocmd BufWritePre *.js PrettierAsync
