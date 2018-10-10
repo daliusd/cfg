@@ -142,6 +142,7 @@ Plug 'w0rp/ale'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'carlitux/deoplete-ternjs'
+" XXX: Requires extra step: cd ~/.vim/plugged/tern_for_vim, npm install
 Plug 'ternjs/tern_for_vim'
 Plug 'junegunn/limelight.vim'
 Plug 'junegunn/fzf.vim'
