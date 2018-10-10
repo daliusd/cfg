@@ -117,7 +117,6 @@ set hidden
 " Faster navigation through code
 :set tags=./tags;
 :set grepprg=rg\ --vimgrep\ -M\ 160
-map <leader>s :gr <cword><cr>
 
 " Plugins
 
@@ -213,6 +212,13 @@ command! -bang -nargs=* Rgn
     \ call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".<q-args>, 1,
     \                   fzf#vim#with_preview(),
     \                   <bang>0)
+
+command! -bang -nargs=* Rgw
+    \ call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(expand('<cword>')), 1,
+    \                   fzf#vim#with_preview(),
+    \                   <bang>0)
+
+map <leader>s :Rgw<cr>
 
 " jedi-vim
 let g:jedi#completions_enabled = 0
