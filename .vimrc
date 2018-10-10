@@ -100,7 +100,9 @@ au BufRead,BufNewFile *.rst     setlocal textwidth=66
 
 " Tab navigation
 map <C-Left> :bp<CR>
+map <C-PageUp> :bp<CR>
 map <C-Right> :bn<CR>
+map <C-PageDown> :bn<CR>
 map <a-w> :bd<CR>
 set hidden
 
@@ -168,6 +170,9 @@ autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 
 let g:deoplete#sources#jedi#show_docstring = 1
+
+" Airline
+let g:airline#extensions#tabline#enabled = 1
 
 " Ale
 let g:ale_fixers = {
