@@ -179,7 +179,7 @@ let g:airline#extensions#tabline#enabled = 1
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
 \   'javascript': ['prettier', 'eslint'],
-\   'python': ['add_blank_lines_for_python_control_statements', 'isort'],
+\   'python': ['add_blank_lines_for_python_control_statements', 'yapf', 'isort'],
 \}
 
 let g:ale_fix_on_save = 1
