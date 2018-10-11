@@ -179,7 +179,7 @@ let g:airline#extensions#tabline#enabled = 1
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
 \   'javascript': ['prettier', 'eslint'],
-\   'python': ['isort'],
+\   'python': ['add_blank_lines_for_python_control_statements', 'isort'],
 \}
 
 let g:ale_fix_on_save = 1
@@ -202,6 +202,7 @@ let g:fzf_buffers_jump = 1
 map <c-p> :Files<cr>
 " map <c-b> :Windows<cr>
 map <c-b> :Buffers<cr>
+map <c-h> :History<cr>
 
 command! -bang -nargs=? -complete=dir Files
     \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
