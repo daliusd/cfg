@@ -138,7 +138,6 @@ Plug 'vim-airline/vim-airline'
 Plug 'altercation/vim-colors-solarized'
 Plug 'tpope/vim-fugitive'
 Plug 'ludovicchabant/vim-gutentags'
-Plug 'fisadev/vim-isort'
 Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'w0rp/ale'
 Plug 'SirVer/ultisnips'
@@ -180,6 +179,7 @@ let g:airline#extensions#tabline#enabled = 1
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
 \   'javascript': ['prettier', 'eslint'],
+\   'python': ['isort'],
 \}
 
 let g:ale_fix_on_save = 1
@@ -189,10 +189,6 @@ let g:ale_sign_error = "◉"
 let g:ale_sign_warning = "◉"
 highlight ALEErrorSign ctermfg=9 ctermbg=15 guifg=#C30500
 highlight ALEWarningSign ctermfg=11 ctermbg=15 guifg=#ED6237
-
-" Isort
-let g:vim_isort_map = '' " Removing as this conflicts with UltiSnips somehow
-:autocmd BufWritePre *.py :Isort
 
 " UltiSnips
 let g:UltiSnipsExpandTrigger="<c-j>"
