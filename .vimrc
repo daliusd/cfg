@@ -106,6 +106,7 @@ map <C-Right> :bn<CR>
 map <C-PageDown> :bn<CR>
 map <a-w> :bd<CR>
 set hidden
+autocmd FileType netrw setl bufhidden=delete " Workaround for netrw buffers
 
 " XXX: trying to live without tabs
 " map <C-Left> :tabprev<CR>
