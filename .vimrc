@@ -144,7 +144,6 @@ Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 Plug 'carlitux/deoplete-ternjs'
 Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
-Plug 'prettier/vim-prettier', { 'do': 'npm install' }
 Plug 'junegunn/limelight.vim'
 Plug 'junegunn/fzf.vim'
 Plug 'elzr/vim-json'
@@ -179,7 +178,7 @@ let g:airline#extensions#tabline#enabled = 1
 " Ale
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
-\   'javascript': ['eslint'],
+\   'javascript': ['prettier', 'eslint'],
 \}
 
 let g:ale_fix_on_save = 1
@@ -230,7 +229,3 @@ map <leader>s :Rgw<cr>
 " jedi-vim
 let g:jedi#completions_enabled = 0
 let g:jedi#usages_command = "<leader>u"
-
-" Prettier
-let g:prettier#autoformat = 0
-autocmd BufWritePre *.js PrettierAsync
