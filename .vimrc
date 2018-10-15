@@ -149,9 +149,15 @@ Plug 'davidhalter/jedi-vim'
 
 " Javascript
 Plug 'pangloss/vim-javascript'
-Plug 'carlitux/deoplete-ternjs'
-Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
+Plug 'carlitux/deoplete-ternjs' " Run: npm install -g tern
+Plug 'ternjs/tern_for_vim'
 Plug 'elzr/vim-json'
+
+" React
+Plug 'mxw/vim-jsx'
+Plug 'epilande/vim-react-snippets'
+Plug 'epilande/vim-es2015-snippets'
+Plug 'wokalski/autocomplete-flow'
 
 " Status line
 Plug 'vim-airline/vim-airline'
@@ -236,3 +242,7 @@ map <leader>s :Rgw<cr>
 " jedi-vim
 let g:jedi#completions_enabled = 0
 let g:jedi#usages_command = "<leader>u"
+
+" Use tern_for_vim.
+let g:tern#command = ["tern"]
+let g:tern#arguments = ["--persistent"]
