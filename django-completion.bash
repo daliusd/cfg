@@ -554,4 +554,4 @@ _djc_manage()
 
 
 complete -F _djc_manage ./manage.py
-
+complete -F _djc_manage manage.py
