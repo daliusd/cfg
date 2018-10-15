@@ -126,29 +126,41 @@ autocmd FileType netrw setl bufhidden=delete " Workaround for netrw buffers
 
 call plug#begin('~/.vim/plugged')
 
+" Generic programming plugins
+Plug 'junegunn/fzf.vim'
+Plug 'ludovicchabant/vim-gutentags'
+Plug 'w0rp/ale'
+
 Plug 'Shougo/deoplete.nvim'
 Plug 'roxma/nvim-yarp'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'airblade/vim-gitgutter'
 Plug 'roxma/vim-hug-neovim-rpc'
-Plug 'pangloss/vim-javascript'
-Plug 'zchee/deoplete-jedi'
-Plug 'junegunn/goyo.vim'
-Plug 'vim-airline/vim-airline'
-Plug 'altercation/vim-colors-solarized'
-Plug 'tpope/vim-fugitive'
-Plug 'ludovicchabant/vim-gutentags'
-Plug 'Vimjas/vim-python-pep8-indent'
-Plug 'w0rp/ale'
+
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
+
+" Git
+Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-fugitive'
+
+" Python
+Plug 'zchee/deoplete-jedi'
+Plug 'Vimjas/vim-python-pep8-indent'
+Plug 'davidhalter/jedi-vim'
+
+" Javascript
+Plug 'pangloss/vim-javascript'
 Plug 'carlitux/deoplete-ternjs'
 Plug 'ternjs/tern_for_vim', { 'do': 'npm install' }
-Plug 'junegunn/limelight.vim'
-Plug 'junegunn/fzf.vim'
 Plug 'elzr/vim-json'
+
+" Status line
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
+
+" Other
+Plug 'junegunn/goyo.vim'
+Plug 'altercation/vim-colors-solarized'
 Plug 'fszymanski/deoplete-emoji'
-Plug 'davidhalter/jedi-vim'
 
 call plug#end()
 
@@ -161,9 +173,6 @@ function! s:goyo_enter()
 endfunction
 
 autocmd! User GoyoEnter nested call <SID>goyo_enter()
-
-" ctrl-p
-let g:ctrlp_custom_ignore = 'node_modules'
 
 " Deoplete
 let g:deoplete#enable_at_startup = 1
