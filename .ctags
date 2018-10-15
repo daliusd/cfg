@@ -1,2 +1,3 @@
 --exclude=build
 --exclude=.tox
+--exclude=node_modules
