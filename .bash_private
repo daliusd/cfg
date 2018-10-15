@@ -12,3 +12,6 @@ show_virtual_env() {
 }
 export -f show_virtual_env
 PS1='$(show_virtual_env)'$PS1
+
+
+ulimit -n 2048 " Recommendation from https://github.com/carlitux/deoplete-ternjs
