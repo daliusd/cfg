@@ -93,6 +93,10 @@ map <C-m> :cp<cr>
 nmap <leader>p :let @+ = expand('%:p')<cr>
 
 map <leader>js :%!python -m json.tool<cr>
+map <leader>i :ImportName<cr>
+
+command Greview :Git! diff --staged
+nnoremap <leader>gr :Greview<cr>
 
 " The 66-character line (counting both letters and spaces) is widely regarded as ideal.
 " http://webtypography.net/Rhythm_and_Proportion/Horizontal_Motion/2.1.2/
