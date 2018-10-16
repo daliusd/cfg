@@ -120,6 +120,10 @@ autocmd FileType netrw setl bufhidden=delete " Workaround for netrw buffers
 
 " Faster navigation through code
 :set tags=./tags;
+
+nnoremap <c-]> g<c-]>
+vnoremap <c-]> g<c-]>
+
 :set grepprg=rg\ --vimgrep\ -M\ 160
 
 " Plugins
@@ -146,6 +150,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'zchee/deoplete-jedi'
 Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'davidhalter/jedi-vim'
+Plug 'mgedmin/python-imports.vim'
 
 " Javascript
 Plug 'pangloss/vim-javascript'
@@ -234,7 +239,7 @@ command! -bang -nargs=* Rgn
     \                   <bang>0)
 
 command! -bang -nargs=* Rgw
-    \ call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(expand('<cword>')), 1,
+    \ call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case -w ".shellescape(expand('<cword>')), 1,
     \                   fzf#vim#with_preview(),
     \                   <bang>0)
 
