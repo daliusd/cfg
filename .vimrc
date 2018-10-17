@@ -108,6 +108,8 @@ map <C-Left> :bp<CR>
 map <C-PageUp> :bp<CR>
 map <C-Right> :bn<CR>
 map <C-PageDown> :bn<CR>
+map <C-j> :bn<CR>
+map <C-k> :bp<CR>
 map <a-w> :bd<CR>
 set hidden
 autocmd FileType netrw setl bufhidden=delete " Workaround for netrw buffers
@@ -204,7 +206,7 @@ let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
 \   'javascript': ['prettier', 'eslint'],
 \   'css': ['prettier'],
-\   'python': ['add_blank_lines_for_python_control_statements', 'yapf', 'isort'],
+\   'python': ['yapf', 'isort'],
 \}
 
 let g:ale_fix_on_save = 1
