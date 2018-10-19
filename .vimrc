@@ -104,25 +104,16 @@ au BufRead,BufNewFile *.md     setlocal textwidth=66
 au BufRead,BufNewFile *.rst     setlocal textwidth=66
 
 " Tab navigation
-map <C-Left> :bp<CR>
-map <C-PageUp> :bp<CR>
-map <C-Right> :bn<CR>
-map <C-PageDown> :bn<CR>
-map <C-j> :bn<CR>
-map <C-k> :bp<CR>
-map <a-w> :bd<CR>
-set hidden
-autocmd FileType netrw setl bufhidden=delete " Workaround for netrw buffers
+map <c-j> :tabnext<CR>
+map <c-k> :tabprev<CR>
+map <c-a-j> :tabm +1<CR>
+map <c-a-k> :tabm -1<CR>
 
-" XXX: trying to live without tabs
-" map <C-Left> :tabprev<CR>
-" map <C-Right> :tabnext<CR>
-" map <C-S-Left> :tabm -1<CR>
-" map <C-S-Right> :tabm +1<CR>
-" nnoremap tt :tabedit<Space>
-" nnoremap td :tabclose<CR>
-" nnoremap ta :tabnew<CR>
-" nnoremap tc :tabedit %<CR>
+map tt :tabedit<Space>
+map td :tabclose<CR>
+map <a-w> :tabclose<CR>
+map ta :tabnew<CR>
+map ts :tab split<CR>
 
 " Faster navigation through code
 :set tags=./tags;
@@ -200,6 +191,7 @@ let g:deoplete#sources#jedi#show_docstring = 1
 
 " Airline
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#show_buffers = 0
 
 " Ale
 let g:ale_fixers = {
