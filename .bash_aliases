@@ -11,3 +11,4 @@ alias gitprivateglobal='git config --global user.email "$private_email" && git c
 alias gitworkglobal='git config --global user.email "$work_email" && git config --global user.name "$username"'
 
 alias ~='cd ~'
+alias ..='cd ..'
