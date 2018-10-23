@@ -219,8 +219,7 @@ au BufRead,BufNewFile *.todo        set filetype=todo
 set rtp+=~/.fzf
 let g:fzf_buffers_jump = 1
 map <c-p> :Files<cr>
-" map <c-b> :Windows<cr>
-map <c-b> :Buffers<cr>
+map <c-b> :Windows<cr>
 map <c-h> :History<cr>
 
 command! -bang -nargs=? -complete=dir Files
