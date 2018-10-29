@@ -136,6 +136,8 @@ Plug 'Shougo/deoplete.nvim'
 Plug 'roxma/nvim-yarp'
 Plug 'roxma/vim-hug-neovim-rpc'
 
+Plug 'editorconfig/editorconfig-vim'
+
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
@@ -249,3 +251,6 @@ let g:jedi#usages_command = "<leader>u"
 " Use tern_for_vim.
 let g:tern#command = ["tern"]
 let g:tern#arguments = ["--persistent"]
+
+" editorconfig-vim
+let g:EditorConfig_exclude_patterns = ['fugitive://.*']
