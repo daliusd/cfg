@@ -258,3 +258,7 @@ let g:tern#arguments = ["--persistent"]
 
 " editorconfig-vim
 let g:EditorConfig_exclude_patterns = ['fugitive://.*']
+
+" coverage-highlight
+map <leader>h :HighlightCoverage<cr>
+map <leader>hh :HighlightCoverageOff<cr>
