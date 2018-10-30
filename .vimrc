@@ -248,6 +248,9 @@ map <leader>s :Rgw<cr>
 let g:jedi#completions_enabled = 0
 let g:jedi#usages_command = "<leader>u"
 
+let g:jedi#goto_command = "<c-]>"
+autocmd FileType python map <buffer> <leader>d g<c-]>
+
 " Use tern_for_vim.
 let g:tern#command = ["tern"]
 let g:tern#arguments = ["--persistent"]
