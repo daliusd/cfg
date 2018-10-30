@@ -150,6 +150,7 @@ Plug 'zchee/deoplete-jedi'
 Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'davidhalter/jedi-vim'
 Plug 'mgedmin/python-imports.vim'
+Plug 'mgedmin/coverage-highlight.vim'
 
 " Javascript
 Plug 'pangloss/vim-javascript'
