@@ -33,7 +33,6 @@ set directory=/tmp
 set undofile
 set undodir=/tmp
 
-set diffopt+=iwhite " Ignore spaces in diff
 set diffopt+=vertical " Vertical diff
 
 let g:netrw_browsex_viewer="setsid xdg-open"    " Make gx command work properly with URLs in gvim
