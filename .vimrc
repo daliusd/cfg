@@ -37,6 +37,10 @@ set diffopt+=iwhite " Ignore spaces in diff
 
 let g:netrw_browsex_viewer="setsid xdg-open"    " Make gx command work properly with URLs in gvim
 
+" We want string-like-this to be treated as word. That however means that proper spacing must
+" be used in arithmetic operations.
+:set iskeyword+=-
+
 " Indentation and Tab
 set autoindent
 set expandtab
