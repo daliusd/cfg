@@ -163,6 +163,9 @@ Plug 'ternjs/tern_for_vim'
 Plug 'elzr/vim-json'
 Plug 'ruanyl/coverage.vim'
 
+" Html
+Plug 'valloric/MatchTagAlways'
+
 " React
 Plug 'mxw/vim-jsx'
 Plug 'epilande/vim-react-snippets'
