@@ -3,6 +3,8 @@
 _completion_loader git
 complete -o bashdefault -o default -o nospace -F __git_wrap__git_main cfg
 
+PS1='$(__git_ps1)'$PS1
+
 eval "$(direnv hook bash)"
 
 show_virtual_env() {
@@ -25,4 +27,3 @@ _pip_completion()
 }
 complete -o default -F _pip_completion pip
 # pip bash completion end
-
