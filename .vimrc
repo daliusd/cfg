@@ -161,6 +161,7 @@ Plug 'pangloss/vim-javascript'
 Plug 'carlitux/deoplete-ternjs' " Run: npm install -g tern
 Plug 'ternjs/tern_for_vim'
 Plug 'elzr/vim-json'
+Plug 'ruanyl/coverage.vim'
 
 " React
 Plug 'mxw/vim-jsx'
@@ -204,6 +205,7 @@ let g:airline#extensions#tabline#show_buffers = 0
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
 \   'javascript': ['prettier', 'eslint'],
+\   'javascript.jsx': ['prettier', 'eslint'],
 \   'css': ['prettier'],
 \   'json': ['prettier'],
 \   'python': ['yapf', 'isort'],
@@ -268,3 +270,6 @@ let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 " coverage-highlight
 map <leader>h :HighlightCoverage<cr>
 map <leader>hh :HighlightCoverageOff<cr>
+
+" coverage.vim
+let g:coverage_json_report_path = 'coverage/coverage-final.json'
