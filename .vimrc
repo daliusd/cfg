@@ -223,6 +223,9 @@ let g:ale_sign_warning = "◉"
 highlight ALEErrorSign ctermfg=9 ctermbg=15 guifg=#C30500
 highlight ALEWarningSign ctermfg=11 ctermbg=15 guifg=#ED6237
 
+nmap <silent> <leader>aj :ALENext<cr>
+nmap <silent> <leader>ak :ALEPrevious<cr>
+
 " UltiSnips
 let g:UltiSnipsExpandTrigger="<c-j>"
 
@@ -266,6 +269,9 @@ autocmd FileType python map <buffer> <leader>d g<c-]>
 " Use tern_for_vim.
 let g:tern#command = ["tern"]
 let g:tern#arguments = ["--persistent"]
+
+" vim-json
+let g:vim_json_syntax_conceal = 0
 
 " editorconfig-vim
 let g:EditorConfig_exclude_patterns = ['fugitive://.*']
