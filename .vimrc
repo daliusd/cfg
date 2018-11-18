@@ -145,6 +145,8 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
+Plug 'mgedmin/test-switcher.vim'
+
 " Git
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
@@ -282,3 +284,6 @@ map <leader>hh :HighlightCoverageOff<cr>
 
 " coverage.vim
 let g:coverage_json_report_path = 'coverage/coverage-final.json'
+
+" test-switcher.vim
+map <leader>t :SwitchCodeAndTest<CR>
