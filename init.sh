@@ -9,3 +9,6 @@ else
 fi
 
 git config --global include.path "~/.gitconfig_private"
+
+mkdir ~/.npm-global
+npm config set prefix '~/.npm-global'
