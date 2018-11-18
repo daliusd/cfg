@@ -97,7 +97,6 @@ map <C-m> :cp<cr>
 nmap <leader>p :let @+ = expand('%:p')<cr>
 
 map <leader>js :%!python -m json.tool<cr>
-map <leader>i :ImportName<cr>
 
 command Greview :Git! diff --staged
 nnoremap <leader>gr :Greview<cr>
@@ -164,6 +163,7 @@ Plug 'carlitux/deoplete-ternjs' " Run: npm install -g tern
 Plug 'ternjs/tern_for_vim'
 Plug 'elzr/vim-json'
 Plug 'ruanyl/coverage.vim'
+Plug 'Galooshi/vim-import-js'
 
 " Html
 Plug 'valloric/MatchTagAlways'
@@ -218,7 +218,6 @@ let g:ale_fixers = {
 
 let g:ale_fix_on_save = 1
 let g:airline#extensions#ale#enabled = 1
-let g:ale_open_list = 1
 let g:ale_sign_column_always = 1
 let g:ale_sign_error = "◉"
 let g:ale_sign_warning = "◉"
@@ -281,6 +280,9 @@ let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 " coverage-highlight
 map <leader>h :HighlightCoverage<cr>
 map <leader>hh :HighlightCoverageOff<cr>
+
+" mgedmin/python-imports.vim
+autocmd FileType python map <leader>i :ImportName<cr>
 
 " coverage.vim
 let g:coverage_json_report_path = 'coverage/coverage-final.json'
