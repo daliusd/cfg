@@ -1,4 +1,4 @@
-export PATH=~/.npm-global/bin:$PATH
+export PATH=~/.local/bin:~/.npm-global/bin:$PATH
 
 . ~/django-completion.bash
 
