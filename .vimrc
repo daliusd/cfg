@@ -284,6 +284,10 @@ map <leader>hh :HighlightCoverageOff<cr>
 " mgedmin/python-imports.vim
 autocmd FileType python map <leader>i :ImportName<cr>
 
+" Galooshi/vim-import-js
+autocmd FileType javascript map <leader>i :ImportJSWord<cr>
+autocmd FileType javascript.jsx map <leader>i :ImportJSWord<cr>
+
 " coverage.vim
 let g:coverage_json_report_path = 'coverage/coverage-final.json'
 
