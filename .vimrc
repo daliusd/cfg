@@ -244,17 +244,17 @@ command! -bang -nargs=? -complete=dir Files
     \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
 
 command! -bang -nargs=* Rg
-    \ call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".shellescape(<q-args>), 1,
+    \ call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case --iglob !tags ".shellescape(<q-args>), 1,
     \                   fzf#vim#with_preview(),
     \                   <bang>0)
 
 command! -bang -nargs=* Rgn
-    \ call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case ".<q-args>, 1,
+    \ call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case --iglob !tags ".<q-args>, 1,
     \                   fzf#vim#with_preview(),
     \                   <bang>0)
 
 command! -bang -nargs=* Rgw
-    \ call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case -w ".shellescape(expand('<cword>')), 1,
+    \ call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case -w --iglob !tags ".shellescape(expand('<cword>')), 1,
     \                   fzf#vim#with_preview(),
     \                   <bang>0)
 
