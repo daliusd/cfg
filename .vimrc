@@ -293,3 +293,4 @@ let g:coverage_json_report_path = 'coverage/coverage-final.json'
 
 " test-switcher.vim
 map <leader>t :SwitchCodeAndTest<CR>
+map <leader>tt :e %:r.test.%:e<CR>
