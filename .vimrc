@@ -146,6 +146,8 @@ Plug 'honza/vim-snippets'
 
 Plug 'mgedmin/test-switcher.vim'
 
+Plug 'ipod825/vim-netranger'
+
 " Git
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
@@ -294,3 +296,6 @@ let g:coverage_json_report_path = 'coverage/coverage-final.json'
 " test-switcher.vim
 map <leader>t :SwitchCodeAndTest<CR>
 map <leader>tt :e %:r.test.%:e<CR>
+
+" vim-netranger
+map <leader>e :e %:p:h<CR> " Open folder of current file
