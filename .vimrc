@@ -95,6 +95,7 @@ map <silent> <leader>n :silent noh<CR>
 map <C-n> :cn<cr>
 map <C-m> :cp<cr>
 nmap <leader>p :let @+ = expand('%:p')<cr>
+map <leader>e :e %:p:h<CR> " Open folder of current file
 
 map <leader>js :%!python -m json.tool<cr>
 
@@ -146,7 +147,7 @@ Plug 'honza/vim-snippets'
 
 Plug 'mgedmin/test-switcher.vim'
 
-Plug 'ipod825/vim-netranger'
+Plug 'tpope/vim-eunuch'
 
 " Git
 Plug 'airblade/vim-gitgutter'
@@ -296,6 +297,3 @@ let g:coverage_json_report_path = 'coverage/coverage-final.json'
 " test-switcher.vim
 map <leader>t :SwitchCodeAndTest<CR>
 map <leader>tt :e %:r.test.%:e<CR>
-
-" vim-netranger
-map <leader>e :e %:p:h<CR> " Open folder of current file
