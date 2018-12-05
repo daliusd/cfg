@@ -96,6 +96,7 @@ map <C-n> :cn<cr>
 map <C-m> :cp<cr>
 nmap <leader>p :let @+ = expand('%:p')<cr>
 map <leader>e :e %:p:h<CR> " Open folder of current file
+map <leader>cd :cd %:p:h<CR>:pwd<CR> " CD to current's file directory
 
 map <leader>js :%!python -m json.tool<cr>
 
