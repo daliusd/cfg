@@ -173,7 +173,9 @@ Plug 'Galooshi/vim-import-js'
 Plug 'valloric/MatchTagAlways'
 
 " React
-Plug 'mxw/vim-jsx'
+" Plug 'mxw/vim-jsx' <-- Stopped using because of conflict with tern_for_vim
+" and autocomplete-flow.
+Plug 'neoclide/vim-jsx-improve'
 Plug 'epilande/vim-react-snippets'
 Plug 'epilande/vim-es2015-snippets'
 Plug 'wokalski/autocomplete-flow'
@@ -270,6 +272,9 @@ let g:jedi#usages_command = "<leader>u"
 
 let g:jedi#goto_command = "<c-]>"
 autocmd FileType python map <buffer> <leader>d g<c-]>
+
+" pangloss/vim-javascript
+let g:javascript_plugin_flow = 1
 
 " Use tern_for_vim.
 let g:tern#command = ["tern"]
