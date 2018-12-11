@@ -177,7 +177,7 @@ Plug 'valloric/MatchTagAlways'
 " React
 " Plug 'mxw/vim-jsx' <-- Stopped using because of conflict with
 " deoplete-ternjs and autocomplete-flow.
-Plug 'neoclide/vim-jsx-improve'
+Plug 'MaxMEllon/vim-jsx-pretty'
 Plug 'wokalski/autocomplete-flow'
 
 " Status line
