@@ -166,8 +166,7 @@ Plug 'mgedmin/coverage-highlight.vim'
 
 " Javascript
 Plug 'pangloss/vim-javascript'
-Plug 'carlitux/deoplete-ternjs' " Run: npm install -g tern
-Plug 'ternjs/tern_for_vim'
+Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
 Plug 'elzr/vim-json'
 Plug 'ruanyl/coverage.vim'
 Plug 'Galooshi/vim-import-js'
@@ -176,8 +175,8 @@ Plug 'Galooshi/vim-import-js'
 Plug 'valloric/MatchTagAlways'
 
 " React
-" Plug 'mxw/vim-jsx' <-- Stopped using because of conflict with tern_for_vim
-" and autocomplete-flow.
+" Plug 'mxw/vim-jsx' <-- Stopped using because of conflict with
+" deoplete-ternjs and autocomplete-flow.
 Plug 'neoclide/vim-jsx-improve'
 Plug 'wokalski/autocomplete-flow'
 
@@ -284,9 +283,16 @@ autocmd FileType python map <buffer> <leader>d g<c-]>
 " pangloss/vim-javascript
 let g:javascript_plugin_flow = 1
 
-" Use tern_for_vim.
-let g:tern#command = ["tern"]
-let g:tern#arguments = ["--persistent"]
+" deoplete-ternjs
+" XXX: Workaround for not clean tern shutdown https://github.com/carlitux/deoplete-ternjs/issues/66
+function! TernPrep()
+    if !empty(glob(join([getcwd(), ".tern-port"], "/")))
+        echo ".tern-port exists, deleting with result:"
+        echo delete(fnameescape(join([getcwd(), ".tern-port"], "/"))) == 0 ? "Success" : "Fail"
+    endif
+endfunction
+
+autocmd VimEnter * :call TernPrep()
 
 " vim-json
 let g:vim_json_syntax_conceal = 0
