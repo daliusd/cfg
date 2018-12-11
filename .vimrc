@@ -8,6 +8,7 @@ endif
 set mouse=a     " Enable mouse for everything
 
 :syntax enable
+set termguicolors     " enable true colors support
 if has("gui_running")
     set background=light
 else
@@ -143,7 +144,9 @@ Plug 'roxma/vim-hug-neovim-rpc'
 
 Plug 'editorconfig/editorconfig-vim'
 
-Plug 'SirVer/ultisnips'
+" Plug 'SirVer/ultisnips'
+Plug 'Shougo/neosnippet.vim'
+Plug 'Shougo/neosnippet-snippets'
 Plug 'honza/vim-snippets'
 
 Plug 'mgedmin/test-switcher.vim'
@@ -176,8 +179,6 @@ Plug 'valloric/MatchTagAlways'
 " Plug 'mxw/vim-jsx' <-- Stopped using because of conflict with tern_for_vim
 " and autocomplete-flow.
 Plug 'neoclide/vim-jsx-improve'
-Plug 'epilande/vim-react-snippets'
-Plug 'epilande/vim-es2015-snippets'
 Plug 'wokalski/autocomplete-flow'
 
 " Status line
@@ -234,7 +235,14 @@ nmap <silent> <leader>aj :ALENext<cr>
 nmap <silent> <leader>ak :ALEPrevious<cr>
 
 " UltiSnips
-let g:UltiSnipsExpandTrigger="<c-j>"
+" let g:UltiSnipsExpandTrigger="<c-j>"
+
+" neosnippet.vim
+imap <C-j>     <Plug>(neosnippet_expand_or_jump)
+smap <C-j>     <Plug>(neosnippet_expand_or_jump)
+xmap <C-j>     <Plug>(neosnippet_expand_target)
+
+let g:neosnippet#enable_snipmate_compatibility = 1
 
 " My todo files
 au BufRead,BufNewFile *.todo        set filetype=todo
