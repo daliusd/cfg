@@ -233,6 +233,8 @@ highlight ALEWarningSign ctermfg=11 ctermbg=15 guifg=#ED6237
 nmap <silent> <leader>aj :ALENext<cr>
 nmap <silent> <leader>ak :ALEPrevious<cr>
 
+command! ALEToggleFixer execute "let g:ale_fix_on_save = get(g:, 'ale_fix_on_save', 0) ? 0 : 1"
+
 " UltiSnips
 " let g:UltiSnipsExpandTrigger="<c-j>"
 
