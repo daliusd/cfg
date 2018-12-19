@@ -5,4 +5,4 @@
     br = branch
     ci = commit
     st = status
-    lg = !git log --color | emojify | less -r
+    lg = !git log --pretty=format:'%C(yellow)%h%Creset%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%an%Creset' --abbrev-commit --date=short --color | emojify | less -r
