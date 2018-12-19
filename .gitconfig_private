@@ -1,7 +1,8 @@
 [core]
-	excludesfile = /home/dalius/.gitignore_global
+    excludesfile = /home/dalius/.gitignore_global
 [alias]
-	co = checkout
-	br = branch
-	ci = commit
-	st = status
+    co = checkout
+    br = branch
+    ci = commit
+    st = status
+    lg = !git log --color | emojify | less -r
