@@ -170,6 +170,7 @@ Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
 Plug 'elzr/vim-json'
 Plug 'ruanyl/coverage.vim'
 Plug 'Galooshi/vim-import-js'
+Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 
 " Html
 Plug 'valloric/MatchTagAlways'
