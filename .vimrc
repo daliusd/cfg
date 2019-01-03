@@ -286,17 +286,6 @@ autocmd FileType python map <buffer> <leader>d g<c-]>
 " pangloss/vim-javascript
 let g:javascript_plugin_flow = 1
 
-" deoplete-ternjs
-" XXX: Workaround for not clean tern shutdown https://github.com/carlitux/deoplete-ternjs/issues/66
-function! TernPrep()
-    if !empty(glob(join([getcwd(), ".tern-port"], "/")))
-        echo ".tern-port exists, deleting with result:"
-        echo delete(fnameescape(join([getcwd(), ".tern-port"], "/"))) == 0 ? "Success" : "Fail"
-    endif
-endfunction
-
-autocmd VimEnter * :call TernPrep()
-
 " vim-json
 let g:vim_json_syntax_conceal = 0
 
