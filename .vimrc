@@ -172,6 +172,12 @@ Plug 'ruanyl/coverage.vim'
 Plug 'Galooshi/vim-import-js'
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 
+" Typescript
+Plug 'Shougo/vimproc.vim', {'do' : 'make'}
+Plug 'Quramy/tsuquyomi'
+Plug 'leafgarland/typescript-vim'
+Plug 'Quramy/vim-js-pretty-template'
+
 " Html
 Plug 'valloric/MatchTagAlways'
 
@@ -218,6 +224,7 @@ let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
 \   'javascript': ['prettier', 'eslint'],
 \   'javascript.jsx': ['prettier', 'eslint'],
+\   'typescript': ['prettier'],
 \   'css': ['prettier'],
 \   'json': ['prettier'],
 \   'python': ['yapf', 'isort'],
