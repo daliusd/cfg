@@ -138,9 +138,13 @@ Plug 'junegunn/fzf.vim'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'w0rp/ale'
 
-Plug 'Shougo/deoplete.nvim'
-Plug 'roxma/nvim-yarp'
-Plug 'roxma/vim-hug-neovim-rpc'
+if has('nvim')
+  Plug 'Shougo/deoplete.nvim'
+else
+  Plug 'Shougo/deoplete.nvim'
+  Plug 'roxma/nvim-yarp'
+  Plug 'roxma/vim-hug-neovim-rpc'
+endif
 
 Plug 'editorconfig/editorconfig-vim'
 
@@ -173,10 +177,13 @@ Plug 'Galooshi/vim-import-js'
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 
 " Typescript
-Plug 'Shougo/vimproc.vim', {'do' : 'make'}
-Plug 'Quramy/tsuquyomi'
-Plug 'leafgarland/typescript-vim'
-Plug 'Quramy/vim-js-pretty-template'
+" Plug 'Shougo/vimproc.vim', {'do' : 'make'}
+" Plug 'Quramy/tsuquyomi'
+" Plug 'leafgarland/typescript-vim'
+" Plug 'Quramy/vim-js-pretty-template'
+
+Plug 'HerringtonDarkholme/yats.vim'
+Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
 
 " Html
 Plug 'valloric/MatchTagAlways'
