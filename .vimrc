@@ -5,6 +5,10 @@ if has("gui_running")
     behave mswin
 endif
 
+if has('nvim')
+  set clipboard+=unnamedplus
+endif
+
 set mouse=a     " Enable mouse for everything
 
 :syntax enable
