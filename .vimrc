@@ -134,6 +134,7 @@ vnoremap <c-]> g<c-]>
 call plug#begin('~/.vim/plugged')
 
 " Generic programming plugins
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'w0rp/ale'
@@ -177,13 +178,16 @@ Plug 'Galooshi/vim-import-js'
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 
 " Typescript
+" NOTE: not using this as configuration below seems to be better.
 " Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 " Plug 'Quramy/tsuquyomi'
 " Plug 'leafgarland/typescript-vim'
 " Plug 'Quramy/vim-js-pretty-template'
 
 Plug 'HerringtonDarkholme/yats.vim'
-Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
+if has('nvim')
+  Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
+endif
 
 " Html
 Plug 'valloric/MatchTagAlways'
@@ -200,13 +204,14 @@ Plug 'vim-airline/vim-airline-themes'
 
 " Other
 Plug 'junegunn/goyo.vim'
-Plug 'altercation/vim-colors-solarized'
+" Plug 'altercation/vim-colors-solarized'
+Plug 'iCyMind/NeoSolarized'
 Plug 'fszymanski/deoplete-emoji'
 
 call plug#end()
 
 " Solarized
-colorscheme solarized
+colorscheme NeoSolarized
 
 " Goyo
 function! s:goyo_enter()
