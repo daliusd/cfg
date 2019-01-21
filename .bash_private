@@ -38,3 +38,7 @@ eval "$(pipenv --completion)"
 
 export FZF_DEFAULT_COMMAND='fd --type f --hidden --exclude .git'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+
+# nvim
+export NVIM_GTK_NO_WINDOW_DECORATION=1
+export NVIM_GTK_NO_HEADERBAR=1
