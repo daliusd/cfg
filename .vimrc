@@ -9,11 +9,7 @@ set mouse=a     " Enable mouse for everything
 
 :syntax enable
 set termguicolors     " enable true colors support
-if has("gui_running")
-    set background=light
-else
-    set background=dark
-endif
+set background=light
 set guioptions-=T " Hide toolbar
 set guioptions-=m " Hide menu
 
