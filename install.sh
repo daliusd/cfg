@@ -35,8 +35,13 @@ cd ~/projects/neovim-gtk
 sudo make install
 cd ~
 
+# Fonts
 # FiraCode (https://github.com/tonsky/FiraCode)
-gsettings set org.gnome.desktop.interface monospace-font-name 'Fira Code 13'
+# http://typeof.net/Iosevka/
+curl -LO https://github.com/be5invis/Iosevka/releases/download/v2.0.2/01-iosevka-2.0.2.zip
+curl -LO https://github.com/be5invis/Iosevka/releases/download/v2.0.2/02-iosevka-term-2.0.2.zip
+
+gsettings set org.gnome.desktop.interface monospace-font-name 'Iosevka 12'
 
 # Kitty. I will not use this as for now. Maybe in the future.
 # curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
