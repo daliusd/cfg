@@ -49,3 +49,4 @@ gsettings set org.gnome.desktop.interface monospace-font-name 'Iosevka 12'
 
 # Node stuff
 echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+npm completion >> ~/.bashrc
