@@ -11,6 +11,8 @@ npm install -g typescript
 npm install -g neovim
 pip3 install --user pynvim
 
+sudo update-alternatives --config editor
+
 # ripgrep (https://github.com/BurntSushi/ripgrep)
 curl -LO https://github.com/BurntSushi/ripgrep/releases/download/0.10.0/ripgrep_0.10.0_amd64.deb
 sudo dpkg -i ripgrep_0.10.0_amd64.deb
@@ -35,3 +37,7 @@ cd ~
 
 # FiraCode (https://github.com/tonsky/FiraCode)
 gsettings set org.gnome.desktop.interface monospace-font-name 'Fira Code 13'
+
+# Kitty. I will not use this as for now. Maybe in the future.
+# curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
+# gsettings set org.gnome.desktop.default-applications.terminal exec ~/.local/kitty.app/bin/kitty
