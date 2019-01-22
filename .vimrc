@@ -7,6 +7,9 @@ endif
 
 if has('nvim')
   set clipboard+=unnamedplus
+  noremap <C-S>     :update<CR>
+  vnoremap <C-S>    <C-C>:update<CR>
+  inoremap <C-S>    <Esc>:update<CR>gi
 endif
 
 set mouse=a     " Enable mouse for everything
