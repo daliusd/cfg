@@ -56,5 +56,7 @@ gsettings set org.gnome.desktop.interface monospace-font-name 'Iosevka 12'
 echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
 npm completion >> ~/.bashrc
 
+npm install -g import-js
+
 # Gnome tweaks. E.g. use it for Alt+Shift to switch layouts.
 sudo apt install gnome-tweaks
