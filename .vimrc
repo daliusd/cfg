@@ -226,7 +226,14 @@ autocmd! User GoyoEnter nested call <SID>goyo_enter()
 " Deoplete
 let g:deoplete#enable_at_startup = 1
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
-inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+
+" inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+imap <expr><TAB>
+            \ pumvisible() ? "\<C-n>" :
+            \ neosnippet#expandable_or_jumpable() ?
+            \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+            \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
 let g:deoplete#sources#jedi#show_docstring = 1
 
@@ -278,22 +285,12 @@ map <c-p> :Files<cr>
 map <c-b> :Windows<cr>
 map <c-h> :History<cr>
 
-command! -bang -nargs=? -complete=dir Files
-    \ call fzf#vim#files(<q-args>, fzf#vim#with_preview(), <bang>0)
-
-command! -bang -nargs=* Rg
-    \ call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case --iglob !tags ".shellescape(<q-args>), 1,
-    \                   fzf#vim#with_preview(),
-    \                   <bang>0)
-
 command! -bang -nargs=* Rgn
     \ call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case --iglob !tags ".<q-args>, 1,
-    \                   fzf#vim#with_preview(),
     \                   <bang>0)
 
 command! -bang -nargs=* Rgw
     \ call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case -w --iglob !tags ".shellescape(expand('<cword>')), 1,
-    \                   fzf#vim#with_preview(),
     \                   <bang>0)
 
 map <leader>s :Rgw<cr>
