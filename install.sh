@@ -49,8 +49,10 @@ curl -LO https://github.com/be5invis/Iosevka/releases/download/v2.0.2/02-iosevka
 gsettings set org.gnome.desktop.interface monospace-font-name 'Iosevka 12'
 
 # Kitty. I will not use this as for now. Maybe in the future.
-# curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
-# gsettings set org.gnome.desktop.default-applications.terminal exec ~/.local/kitty.app/bin/kitty
+curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin
+
+# Default: /usr/bin/gnome-terminal
+gsettings set org.gnome.desktop.default-applications.terminal exec ~/.local/kitty.app/bin/kitty
 
 # Node stuff
 echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
