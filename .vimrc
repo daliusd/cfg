@@ -10,6 +10,9 @@ if has('nvim')
   noremap <C-S>     :update<CR>
   vnoremap <C-S>    <C-C>:update<CR>
   inoremap <C-S>    <Esc>:update<CR>gi
+
+  set autoread
+  au FocusGained * :checktime
 endif
 
 set mouse=a     " Enable mouse for everything
