@@ -105,7 +105,7 @@ nmap <leader>p :let @+ = expand('%:p')<cr>
 map <leader>e :e %:p:h<CR> " Open folder of current file
 map <leader>cd :cd %:p:h<CR>:pwd<CR> " CD to current's file directory
 
-map <leader>js :%!python -m json.tool<cr>
+map <leader>jd :%!python -m json.tool<cr>
 
 command Greview :Git! diff --staged
 nnoremap <leader>gr :Greview<cr>
