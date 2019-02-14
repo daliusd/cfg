@@ -333,7 +333,8 @@ map <leader>t :SwitchCodeAndTest<CR>
 map <leader>tt :e %:r.test.%:e<CR>
 
 " React specific mappings
-map <leader>rr :exe 'e ' . split(expand('%'), '\.')[0] . '.js'<cr>
-map <leader>rt :exe 'e ' . split(expand('%'), '\.')[0] . '.test.js'<cr>
-map <leader>rs :exe 'e ' . split(expand('%'), '\.')[0] . '.sass'<cr>
-map <leader>rc :exe 'e ' . split(expand('%'), '\.')[0] . '.css'<cr>
+map <leader>jj :exe 'e ' . split(expand('%'), '\.')[0] . '.js'<cr>
+map <leader>jt :exe 'e ' . split(expand('%'), '\.')[0] . '.test.js'<cr>
+map <leader>js :exe 'e ' . split(expand('%'), '\.')[0] . '.sass'<cr>
+map <leader>jc :exe 'e ' . split(expand('%'), '\.')[0] . '.css'<cr>
+map <leader>jm :exe 'e ' . split(expand('%'), '\.')[0] . '.module.css'<cr>
