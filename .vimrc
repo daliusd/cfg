@@ -333,7 +333,18 @@ map <leader>t :SwitchCodeAndTest<CR>
 map <leader>tt :e %:r.test.%:e<CR>
 
 " React specific mappings
-map <leader>jj :exe 'e ' . split(expand('%'), '\.')[0] . '.js'<cr>
+function! SwitchToCodeFile()
+    let fn = split(expand('%'), '\.')[0]
+    if filereadable(fn.'.js')
+        exe 'e ' . fn . '.js'
+    elseif filereadable(fn.'.ts')
+        exe 'e ' . fn . '.ts'
+    elseif filereadable(fn.'.tsx')
+        exe 'e ' . fn . '.tsx'
+    endif
+endfunction
+
+map <leader>jj :call SwitchToCodeFile()<cr>
 map <leader>jt :exe 'e ' . split(expand('%'), '\.')[0] . '.test.js'<cr>
 map <leader>js :exe 'e ' . split(expand('%'), '\.')[0] . '.sass'<cr>
 map <leader>jc :exe 'e ' . split(expand('%'), '\.')[0] . '.css'<cr>
