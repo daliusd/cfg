@@ -331,3 +331,9 @@ let g:coverage_json_report_path = 'coverage/coverage-final.json'
 " test-switcher.vim
 map <leader>t :SwitchCodeAndTest<CR>
 map <leader>tt :e %:r.test.%:e<CR>
+
+" React specific mappings
+map <leader>rr :exe 'e ' . split(expand('%'), '\.')[0] . '.js'<cr>
+map <leader>rt :exe 'e ' . split(expand('%'), '\.')[0] . '.test.js'<cr>
+map <leader>rs :exe 'e ' . split(expand('%'), '\.')[0] . '.sass'<cr>
+map <leader>rc :exe 'e ' . split(expand('%'), '\.')[0] . '.css'<cr>
