@@ -329,8 +329,8 @@ autocmd FileType javascript.jsx map <buffer> <leader>i :ImportJSFix<cr>
 let g:coverage_json_report_path = 'coverage/coverage-final.json'
 
 " test-switcher.vim
-map <leader>t :SwitchCodeAndTest<CR>
-map <leader>tt :e %:r.test.%:e<CR>
+autocmd FileType python map <leader>t :SwitchCodeAndTest<CR>
+autocmd FileType python map <leader>tt :e %:r.test.%:e<CR>
 
 " React specific mappings
 function! SwitchToCodeFile()
@@ -349,3 +349,16 @@ map <leader>jt :exe 'e ' . split(expand('%'), '\.')[0] . '.test.js'<cr>
 map <leader>js :exe 'e ' . split(expand('%'), '\.')[0] . '.sass'<cr>
 map <leader>jc :exe 'e ' . split(expand('%'), '\.')[0] . '.css'<cr>
 map <leader>jm :exe 'e ' . split(expand('%'), '\.')[0] . '.module.css'<cr>
+
+" nvim-typescript
+autocmd FileType typescript map <buffer> <leader>i :TSImport<cr>
+autocmd FileType typescript.tsx map <buffer> <leader>i :TSImport<cr>
+
+autocmd FileType typescript map <buffer> <leader>d g<c-]>
+autocmd FileType typescript.tsx map <buffer> <leader>d g<c-]>
+
+autocmd FileType typescript map <buffer> <c-]> :TSDef<cr>
+autocmd FileType typescript.tsx map <buffer> <c-]> :TSDef<cr>
+
+autocmd FileType typescript map <buffer> <leader>t :TSType<cr>
+autocmd FileType typescript.tsx map <buffer> <leader>t :TSType<cr>
