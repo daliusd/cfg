@@ -364,3 +364,8 @@ autocmd FileType typescript.tsx map <buffer> <c-]> :TSDef<cr>
 
 autocmd FileType typescript map <buffer> <leader>t :TSType<cr>
 autocmd FileType typescript.tsx map <buffer> <leader>t :TSType<cr>
+
+autocmd FileType typescript map <buffer> <leader>x :TSGetCodeFix<cr>
+autocmd FileType typescript.tsx map <buffer> <leader>x :TSGetCodeFix<cr>
+
+set noshowmode " This is shown by vim-airline
