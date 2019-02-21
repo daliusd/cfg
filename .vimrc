@@ -322,8 +322,10 @@ map <leader>hh :HighlightCoverageOff<cr>
 autocmd FileType python map <buffer> <leader>i :ImportName<cr>
 
 " Galooshi/vim-import-js
-autocmd FileType javascript map <buffer> <leader>i :ImportJSFix<cr>
-autocmd FileType javascript.jsx map <buffer> <leader>i :ImportJSFix<cr>
+autocmd FileType javascript map <buffer> <leader>f :ImportJSFix<cr>
+autocmd FileType javascript.jsx map <buffer> <leader>f :ImportJSFix<cr>
+autocmd FileType typescript map <buffer> <leader>f :ImportJSFix<cr>
+autocmd FileType typescript.tsx map <buffer> <leader>f :ImportJSFix<cr>
 
 " coverage.vim
 let g:coverage_json_report_path = 'coverage/coverage-final.json'
