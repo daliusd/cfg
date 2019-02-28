@@ -346,8 +346,19 @@ function! SwitchToCodeFile()
     endif
 endfunction
 
+function! SwitchToTestFile()
+    let fn = split(expand('%'), '\.')[0]
+    if filereadable(fn.'.test.ts')
+        exe 'e ' . fn . '.test.ts'
+    elseif filereadable(fn.'.test.tsx')
+        exe 'e ' . fn . '.test.tsx'
+    else
+        exe 'e ' . fn . '.test.js'
+    endif
+endfunction
+
 map <leader>jj :call SwitchToCodeFile()<cr>
-map <leader>jt :exe 'e ' . split(expand('%'), '\.')[0] . '.test.js'<cr>
+map <leader>jt :call SwitchToTestFile()<cr>
 map <leader>js :exe 'e ' . split(expand('%'), '\.')[0] . '.sass'<cr>
 map <leader>jc :exe 'e ' . split(expand('%'), '\.')[0] . '.css'<cr>
 map <leader>jm :exe 'e ' . split(expand('%'), '\.')[0] . '.module.css'<cr>
