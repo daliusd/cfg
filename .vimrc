@@ -100,7 +100,7 @@ let mapleader = ","
 
 map <silent> <leader>n :silent noh<CR>
 map <C-n> :cn<cr>
-map <C-m> :cp<cr>
+map <C-p> :cp<cr>
 nmap <leader>p :let @+ = expand('%:p')<cr>
 map <leader>e :e %:p:h<CR> " Open folder of current file
 map <leader>cd :cd %:p:h<CR>:pwd<CR> " CD to current's file directory
@@ -284,7 +284,7 @@ au BufRead,BufNewFile *.todo        set filetype=todo
 " fzf
 set rtp+=~/.fzf
 let g:fzf_buffers_jump = 1
-map <c-p> :Files<cr>
+map <c-f> :Files<cr>
 map <c-b> :Windows<cr>
 map <c-h> :History<cr>
 
