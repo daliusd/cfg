@@ -9,7 +9,8 @@ sudo apt-get install neovim
 
 npm install -g typescript
 npm install -g neovim
-pip3 install --user pynvim
+# pip3 install --user pynvim - maybe we will need this in the future
+pip3 install --user neovim
 
 sudo update-alternatives --config editor
 
