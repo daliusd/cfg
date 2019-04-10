@@ -63,3 +63,7 @@ npm install -g import-js
 
 # Gnome tweaks. E.g. use it for Alt+Shift to switch layouts.
 sudo apt install gnome-tweaks
+
+# Conky
+# Select Startup Applications. Click Add. In the resulting dialog box give the name as "Conky" and the command as conky. Click add and close.
+sudo apt-get install conky-all
