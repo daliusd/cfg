@@ -52,9 +52,9 @@ conky.config = {
     default_shade_color = 'white',
     default_outline_color = 'white',
 
-    alignment = 'middle_right',
+    alignment = 'bottom_right',
 	gap_x=56,
-    gap_y = 60,
+    gap_y = 200,
 
     border_width = 1,
 
@@ -75,13 +75,10 @@ conky.config = {
 }
 
 conky.text = [[
-${color black}RAM:$color $mem/$memmax - $memperc%
-${color black}Swap:$color $swap/$swapmax - $swapperc%
-${color black}CPU:$color $cpu%
+$color RAM: $mem - $memperc%
+$color Swap: $swap - $swapperc%
+$color CPU: $cpu%
 
-$color  Name              PID   CPU%   MEM%
 $color ${top name 1} ${top pid 1} ${top cpu 1} ${top mem 1}
 $color ${top name 2} ${top pid 2} ${top cpu 2} ${top mem 2}
-$color ${top name 3} ${top pid 3} ${top cpu 3} ${top mem 3}
-$color ${top name 4} ${top pid 4} ${top cpu 4} ${top mem 4}
 ]]
