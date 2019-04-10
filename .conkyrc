@@ -27,7 +27,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 conky.config = {
     use_xft = true,
-	xftalpha = .5,
+	xftalpha = .6,
     update_interval = 1.0,
 
     background = true,
@@ -75,10 +75,10 @@ conky.config = {
 }
 
 conky.text = [[
-$color RAM: $mem - $memperc%
-$color Swap: $swap - $swapperc%
-$color CPU: $cpu%
+RAM:  $mem - $memperc%
+Swap: $swap - $swapperc%
+CPU:  $cpu%
 
-$color ${top name 1} ${top pid 1} ${top cpu 1} ${top mem 1}
-$color ${top name 2} ${top pid 2} ${top cpu 2} ${top mem 2}
+${top name 1} ${top pid 1} ${top cpu 1} ${top mem 1}
+${top name 2} ${top pid 2} ${top cpu 2} ${top mem 2}
 ]]
