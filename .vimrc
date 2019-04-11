@@ -379,4 +379,4 @@ autocmd FileType typescript.tsx map <buffer> <leader>t :TSType<cr>
 autocmd FileType typescript map <buffer> <leader>x :TSGetCodeFix<cr>
 autocmd FileType typescript.tsx map <buffer> <leader>x :TSGetCodeFix<cr>
 
-set noshowmode " This is shown by vim-airline
+set noshowmode " This is shown by vim-airline already so I don't need NORMAL/INSERT/... in command line
