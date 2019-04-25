@@ -296,6 +296,8 @@ command! -bang -nargs=* Rgw
     \ call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case -w --iglob !tags ".shellescape(expand('<cword>')), 1,
     \                   <bang>0)
 
+:cnoreabbrev rg Rg
+
 map <leader>s :Rgw<cr>
 
 " jedi-vim
