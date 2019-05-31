@@ -213,6 +213,7 @@ Plug 'junegunn/goyo.vim'
 " Plug 'altercation/vim-colors-solarized'
 Plug 'iCyMind/NeoSolarized'
 Plug 'fszymanski/deoplete-emoji'
+Plug 'deathlyfrantic/deoplete-spell'
 
 call plug#end()
 
