@@ -22,6 +22,7 @@ set termguicolors     " enable true colors support
 set background=light
 set guioptions-=T " Hide toolbar
 set guioptions-=m " Hide menu
+set hidden " Allow opening new buffer without saving or opening it in new tab
 
 set wildmenu    " better command-line completion
 set list listchars=trail:.,tab:>- " Show trailing dots and tabs
@@ -35,6 +36,7 @@ set nocp        " Makes VIM more useful
 set nofixeol    " Let's not fix end-of-line
 
 set nobackup
+set noswapfile
 set nowritebackup
 set directory=/tmp
 set undofile
@@ -286,7 +288,7 @@ au BufRead,BufNewFile *.todo        set filetype=todo
 set rtp+=~/.fzf
 let g:fzf_buffers_jump = 1
 map <c-f> :Files<cr>
-map <c-b> :Windows<cr>
+map <c-b> :Buffers<cr>
 map <c-h> :History<cr>
 
 command! -bang -nargs=* Rgn
