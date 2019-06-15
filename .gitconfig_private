@@ -1,5 +1,7 @@
 [core]
     excludesfile = /home/dalius/.gitignore_global
+[push]
+    followTags = true
 [alias]
     co = checkout
     br = branch
