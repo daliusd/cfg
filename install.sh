@@ -67,3 +67,6 @@ sudo apt install gnome-tweaks
 # Conky
 # Select Startup Applications. Click Add. In the resulting dialog box give the name as "Conky" and the command as conky. Click add and close.
 sudo apt-get install conky-all
+
+# tmux
+git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
