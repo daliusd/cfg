@@ -206,6 +206,10 @@ Plug 'valloric/MatchTagAlways'
 Plug 'MaxMEllon/vim-jsx-pretty'
 Plug 'wokalski/autocomplete-flow'
 
+" Svelte
+Plug 'evanleck/vim-svelte'
+Plug 'Shougo/context_filetype.vim'
+
 " Status line
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -270,6 +274,9 @@ nmap <silent> <leader>aj :ALENext<cr>
 nmap <silent> <leader>ak :ALEPrevious<cr>
 
 command! ALEToggleFixer execute "let g:ale_fix_on_save = get(g:, 'ale_fix_on_save', 0) ? 0 : 1"
+
+let g:ale_linter_aliases = {'svelte': ['css', 'javascript']}
+let g:ale_linters = {'svelte': ['stylelint', 'eslint']}
 
 " UltiSnips
 " let g:UltiSnipsExpandTrigger="<c-j>"
@@ -385,3 +392,13 @@ autocmd FileType typescript map <buffer> <leader>x :TSGetCodeFix<cr>
 autocmd FileType typescript.tsx map <buffer> <leader>x :TSGetCodeFix<cr>
 
 set noshowmode " This is shown by vim-airline already so I don't need NORMAL/INSERT/... in command line
+
+" Svelte
+if !exists('g:context_filetype#same_filetypes')
+    let g:context_filetype#filetypes = {}
+endif
+let g:context_filetype#filetypes.svelte =
+            \ [
+            \    {'filetype' : 'javascript', 'start' : '<script>', 'end' : '</script>'},
+            \    {'filetype' : 'css', 'start' : '<style>', 'end' : '</style>'},
+            \ ]
