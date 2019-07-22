@@ -3,7 +3,7 @@
 sudo apt-get install software-properties-common
 
 # Neovim
-sudo add-apt-repository ppa:neovim-ppa/stable
+sudo add-apt-repository ppa:neovim-ppa/unstable
 sudo apt-get update
 sudo apt-get install neovim
 
