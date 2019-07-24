@@ -260,6 +260,7 @@ let g:ale_fixers = {
 \   'css': ['prettier'],
 \   'json': ['prettier'],
 \   'python': ['yapf', 'isort'],
+\   'svelte': ['prettier', 'eslint'],
 \}
 
 let g:ale_fix_on_save = 1
