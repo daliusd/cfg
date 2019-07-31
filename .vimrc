@@ -406,4 +406,6 @@ let g:context_filetype#filetypes.svelte =
             \    {'filetype' : 'css', 'start' : '<style>', 'end' : '</style>'},
             \ ]
 
-autocmd FileType svelte setlocal omnifunc=csscomplete#CompleteCSS
+call deoplete#custom#var('omni', 'functions', {
+\ 'css': ['csscomplete#CompleteCSS']
+\})
