@@ -394,8 +394,6 @@ autocmd FileType typescript.tsx map <buffer> <leader>x :TSGetCodeFix<cr>
 
 set noshowmode " This is shown by vim-airline already so I don't need NORMAL/INSERT/... in command line
 
-let nvim_typescript#diagnostics_enable = 0
-
 " Svelte
 if !exists('g:context_filetype#same_filetypes')
     let g:context_filetype#filetypes = {}
