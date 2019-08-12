@@ -314,6 +314,7 @@ map <leader>s :Rgw<cr>
 " jedi-vim
 let g:jedi#completions_enabled = 0
 let g:jedi#usages_command = "<leader>u"
+let g:jedi#goto_stubs_command = "<leader>ss"
 
 let g:jedi#goto_command = "<c-]>"
 autocmd FileType python map <buffer> <leader>d g<c-]>
