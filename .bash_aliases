@@ -1,3 +1,4 @@
+alias e=nvim-gtk
 alias cfg='git --git-dir=/home/dalius/.cfg/ --work-tree=/home/dalius'
 
 username='Dalius Dobravolskas'
