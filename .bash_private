@@ -1,6 +1,6 @@
 export PATH=~/.local/bin:~/.npm-global/bin:$PATH
 export NODE_PATH=~/.npm-global/lib/node_modules/
-export PYTHONPATH=/home/dalius/.local/lib/python3.6/site-packages
+# export PYTHONPATH=/home/dalius/.local/lib/python3.6/site-packages
 source $HOME/.cargo/env
 
 . ~/django-completion.bash
