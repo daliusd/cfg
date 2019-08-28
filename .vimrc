@@ -1,9 +1,4 @@
 " UI part
-"   Copy Paste using Ctrl+C, Ctrl+V
-if has("gui_running")
-    source $VIMRUNTIME/mswin.vim
-    behave mswin
-endif
 
 if has('nvim')
   set clipboard+=unnamedplus
@@ -84,6 +79,8 @@ set smartcase   " Ignore ignorecase if search contains upper case letters
 " Some little keyboard goods
 noremap ; :
 imap jj <ESC>j
+cmap pp <C-R>"
+cmap <C-V> <C-R>"
 
 " Better navigation for wrapped lines.
 noremap j gj
