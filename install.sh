@@ -9,8 +9,18 @@ sudo apt-get install neovim
 
 npm install -g typescript
 npm install -g neovim
-# pip3 install --user pynvim - maybe we will need this in the future
-pip3 install --user neovim
+
+# neovim python modules
+cd projects
+virtualenv --python=python2.7 py2nvim
+cd py2nvim
+source bin/active
+pip install pynvim
+
+virtualenv py3nvim
+cd py3nvim
+source bin/active
+pip install pynvim
 
 sudo update-alternatives --config editor
 

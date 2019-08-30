@@ -1,3 +1,6 @@
+let g:python3_host_prog = '~/projects/py3nvim/bin/python'
+let g:python_host_prog = '~/projects/py2nvim/bin/python'
+
 " UI part
 
 if has('nvim')
