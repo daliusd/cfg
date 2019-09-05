@@ -298,10 +298,11 @@ au BufRead,BufNewFile *.todo        set filetype=todo
 " fzf
 set rtp+=~/.fzf
 let g:fzf_buffers_jump = 1
-map <c-f> :Files<cr>
-map <c-a-f> :FZF -q <C-R><C-W><CR>
-map <c-b> :Buffers<cr>
-map <c-h> :History<cr>
+nnoremap <c-f> :Files<cr>
+nnoremap <c-a-f> :FZF -q <C-R>+<CR>
+nnoremap <c-a-w> :FZF -q <C-R><C-W><CR>
+nnoremap <c-b> :Buffers<cr>
+nnoremap <c-h> :History<cr>
 
 command! -bang -nargs=* Rgn
     \ call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case --iglob !tags ".<q-args>, 1,
