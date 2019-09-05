@@ -147,6 +147,9 @@ Plug 'junegunn/fzf.vim'
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'w0rp/ale'
 
+Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
+
 if has('nvim')
   Plug 'Shougo/deoplete.nvim'
 else
@@ -408,3 +411,6 @@ let g:context_filetype#filetypes.svelte =
 call deoplete#custom#var('omni', 'functions', {
 \ 'css': ['csscomplete#CompleteCSS']
 \})
+
+" NERD tree
+map <leader>b :NERDTreeToggle<CR>
