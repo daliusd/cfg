@@ -299,6 +299,7 @@ au BufRead,BufNewFile *.todo        set filetype=todo
 set rtp+=~/.fzf
 let g:fzf_buffers_jump = 1
 map <c-f> :Files<cr>
+map <c-a-f> :FZF -q <C-R><C-W><CR>
 map <c-b> :Buffers<cr>
 map <c-h> :History<cr>
 
