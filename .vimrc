@@ -135,7 +135,7 @@ map ts :tab split<CR>
 nnoremap <c-]> g<c-]>
 vnoremap <c-]> g<c-]>
 
-:set grepprg=rg\ --vimgrep\ -M\ 160
+:set grepprg=rg\ --vimgrep\ -M\ 160\ -S
 
 " Plugins
 
