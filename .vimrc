@@ -150,6 +150,8 @@ Plug 'w0rp/ale'
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 
+Plug 'jamessan/vim-gnupg'
+
 if has('nvim')
   Plug 'Shougo/deoplete.nvim'
 else
