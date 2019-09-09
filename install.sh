@@ -80,3 +80,7 @@ sudo apt-get install conky-all
 
 # tmux
 git clone https://github.com/tmux-plugins/tpm ~/.tmux/plugins/tpm
+
+# pass
+sudo apt install pass
+# passff installation - https://github.com/passff/passff#installation
