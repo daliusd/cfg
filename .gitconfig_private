@@ -7,6 +7,6 @@
     br = branch
     ci = commit
     st = status
-    lg = !git log --pretty=format:'%C(yellow)%h%Creset%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%an <%ae>%Creset' --abbrev-commit --date=short --color | emojify | less -R
+    lg = !git log --pretty=format:'%C(yellow)%h%Creset%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%an <%ae> %G?%Creset' --abbrev-commit --date=short --color | emojify | less -R
 [commit]
 	gpgsign = true
