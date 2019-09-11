@@ -25,9 +25,12 @@ pip install pynvim
 sudo update-alternatives --config editor
 
 # Ctags
-sudo add-apt-repository ppa:hnakamur/universal-ctags
-sudo apt-get update
-sudo apt-get install ctags
+git clone https://github.com/universal-ctags/ctags.git
+cd ctags
+./autogen.sh
+./configure
+make
+sudo make install
 
 # ripgrep (https://github.com/BurntSushi/ripgrep)
 curl -LO https://github.com/BurntSushi/ripgrep/releases/download/0.10.0/ripgrep_0.10.0_amd64.deb

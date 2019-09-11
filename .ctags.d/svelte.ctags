@@ -1,0 +1,8 @@
+--extras=+g
+--langdef=csssimple
+--regex-csssimple=/^[ \t]*([A-Za-z]*)\.([A-Za-z0-9_]+[A-Za-z0-9_-]+)/\2/c,class,classes/
+--langdef=svelte
+--map-svelte=.svelte
+--_tabledef-svelte=svelte
+--_mtable-regex-svelte=svelte/(^<script>).*(^<\/script>)//{_guest=JavaScript,1end,2start}
+--_mtable-regex-svelte=svelte/.*(^<style>).*(^<\/style>)//{_guest=csssimple,1end,2start}
