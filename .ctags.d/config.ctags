@@ -2,3 +2,4 @@
 --exclude=.tox
 --exclude=node_modules
 --exclude=*.html
+--map-JavaScript=+.svelte
