@@ -47,6 +47,7 @@ let g:netrw_browsex_viewer="setsid xdg-open"    " Make gx command work properly 
 " We want string-like-this to be treated as word. That however means that proper spacing must
 " be used in arithmetic operations.
 :set iskeyword+=-
+:set iskeyword-=$
 
 " Indentation and Tab
 set autoindent
