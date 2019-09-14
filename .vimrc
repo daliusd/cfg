@@ -83,7 +83,7 @@ set smartcase   " Ignore ignorecase if search contains upper case letters
 " Some little keyboard goods
 noremap ; :
 imap jj <ESC>j
-cmap pp <C-R>+
+cmap ppp <C-R>+
 cmap <C-V> <C-R>+
 
 " Better navigation for wrapped lines.
