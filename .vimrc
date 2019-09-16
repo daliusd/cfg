@@ -9,6 +9,11 @@ if has('nvim')
   vnoremap <C-S>    <C-C>:update<CR>
   inoremap <C-S>    <Esc>:update<CR>gi
 
+  cmap ppp <C-R>+
+  cmap <C-V> <C-R>+
+  imap <C-V> <C-R>+
+  vmap <C-C> y      " I dont' care about this one but let's have it
+
   set autoread
   au FocusGained * :checktime
 endif
@@ -83,8 +88,6 @@ set smartcase   " Ignore ignorecase if search contains upper case letters
 " Some little keyboard goods
 noremap ; :
 imap jj <ESC>j
-cmap ppp <C-R>+
-cmap <C-V> <C-R>+
 
 " Better navigation for wrapped lines.
 noremap j gj
