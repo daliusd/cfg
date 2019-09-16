@@ -5,14 +5,14 @@ let g:python_host_prog = '~/projects/py2nvim/bin/python'
 
 if has('nvim')
   set clipboard+=unnamedplus
-  noremap <C-S>     :update<CR>
-  vnoremap <C-S>    <C-C>:update<CR>
-  inoremap <C-S>    <Esc>:update<CR>gi
+  noremap <C-s>     :update<CR>
+  vnoremap <C-s>    <C-C>:update<CR>
+  inoremap <C-s>    <Esc>:update<CR>gi
 
-  cmap ppp <C-R>+
-  cmap <C-V> <C-R>+
-  imap <C-V> <C-R>+
-  vmap <C-C> y      " I dont' care about this one but let's have it
+  cmap ppp <C-r>+
+  cmap <C-v> <C-r>+
+  imap <C-v> <C-r>+
+  vmap <C-c> y      " I dont' care about this one but let's have it
 
   set autoread
   au FocusGained * :checktime
