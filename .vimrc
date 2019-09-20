@@ -9,7 +9,6 @@ if has('nvim')
   vnoremap <C-s>    <C-C>:update<CR>
   inoremap <C-s>    <Esc>:update<CR>gi
 
-  cmap ppp <C-r>+
   cmap <C-v> <C-r>+
   imap <C-v> <C-r>+
   vmap <C-c> y      " I dont' care about this one but let's have it
