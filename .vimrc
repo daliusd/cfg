@@ -422,3 +422,5 @@ call deoplete#custom#var('omni', 'functions', {
 " NERD tree
 map <leader>b :NERDTreeToggle<CR>
 map <leader>v :NERDTreeFind<CR>
+let g:NERDTreeMapJumpNextSibling = ''
+let g:NERDTreeMapJumpPrevSibling = ''
