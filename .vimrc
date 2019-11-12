@@ -11,6 +11,8 @@ if has('nvim')
 
   cmap <C-v> <C-r>+
   imap <C-v> <C-r>+
+  tnoremap <expr> <C-v> '<C-\><C-N>pi'
+
   vmap <C-c> y      " I dont' care about this one but let's have it
 
   set autoread
@@ -265,6 +267,7 @@ let g:ale_fixers = {
 \   'javascript': ['prettier', 'eslint'],
 \   'javascript.jsx': ['prettier', 'eslint'],
 \   'typescript': ['prettier', 'eslint'],
+\   'typescriptreact': ['prettier', 'eslint'],
 \   'css': ['prettier'],
 \   'json': ['prettier'],
 \   'python': ['yapf', 'isort'],
