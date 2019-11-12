@@ -23,7 +23,7 @@ set mouse=a     " Enable mouse for everything
 
 :syntax enable
 set termguicolors     " enable true colors support
-set background=light
+set background=dark
 set guioptions-=T " Hide toolbar
 set guioptions-=m " Hide menu
 set hidden " Allow opening new buffer without saving or opening it in new tab
