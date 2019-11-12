@@ -26,9 +26,9 @@ if version >= 508 || !exists("did_todo_syn_inits")
 
   " The default methods for highlighting.  Can be overridden later
 
-  hi TodoFinishedSyntax         ctermfg=Green   guifg=#008000 gui=bold
-  hi TodoNotStartedSyntax       ctermfg=Red     guifg=#FF0000
-  hi TodoQuestionSyntax         ctermfg=Cyan    guifg=#0000FF
+  hi TodoFinishedSyntax         ctermfg=Green   guifg=#40AA40 gui=bold
+  hi TodoNotStartedSyntax       ctermfg=Red     guifg=#AA4040
+  hi TodoQuestionSyntax         ctermfg=Cyan    guifg=#4040AA
   hi TodoTitleSyntax            gui=bold
 
   HiLink todoNotStarted         TodoNotStartedSyntax
@@ -40,4 +40,3 @@ if version >= 508 || !exists("did_todo_syn_inits")
 endif
 
 let b:current_syntax = "todo"
-
