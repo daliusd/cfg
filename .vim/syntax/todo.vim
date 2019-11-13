@@ -27,7 +27,7 @@ if version >= 508 || !exists("did_todo_syn_inits")
   " The default methods for highlighting.  Can be overridden later
 
   hi TodoFinishedSyntax         ctermfg=Green   guifg=#40AA40 gui=bold
-  hi TodoNotStartedSyntax       ctermfg=Red     guifg=#AA4040
+  hi TodoNotStartedSyntax       ctermfg=Red     guifg=#CC6060
   hi TodoQuestionSyntax         ctermfg=Cyan    guifg=#4040AA
   hi TodoTitleSyntax            gui=bold
 
