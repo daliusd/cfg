@@ -192,7 +192,9 @@ Plug 'pangloss/vim-javascript'
 Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
 Plug 'elzr/vim-json'
 Plug 'ruanyl/coverage.vim'
-Plug 'Galooshi/vim-import-js'
+" Plug 'Galooshi/vim-import-js' # NOTE: Using vim-js-file-import instead
+
+Plug 'kristijanhusak/vim-js-file-import', {'do': 'npm install'}
 Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 
 " Typescript
@@ -203,9 +205,9 @@ Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 " Plug 'Quramy/vim-js-pretty-template'
 
 Plug 'HerringtonDarkholme/yats.vim'
-if has('nvim')
-  Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
-endif
+" if has('nvim')
+"   Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
+" endif
 
 " Html
 Plug 'valloric/MatchTagAlways'
@@ -349,10 +351,11 @@ map <leader>hh :HighlightCoverageOff<cr>
 autocmd FileType python map <buffer> <leader>i :ImportName<cr>
 
 " Galooshi/vim-import-js
-autocmd FileType javascript map <buffer> <leader>f :ImportJSFix<cr>
-autocmd FileType javascript.jsx map <buffer> <leader>f :ImportJSFix<cr>
-autocmd FileType typescript map <buffer> <leader>f :ImportJSFix<cr>
-autocmd FileType typescript.tsx map <buffer> <leader>f :ImportJSFix<cr>
+" autocmd FileType javascript map <buffer> <leader>f :ImportJSFix<cr>
+" autocmd FileType javascript.jsx map <buffer> <leader>f :ImportJSFix<cr>
+" autocmd FileType typescript map <buffer> <leader>f :ImportJSFix<cr>
+" autocmd FileType typescript.tsx map <buffer> <leader>f :ImportJSFix<cr>
+" autocmd FileType typescriptreact map <buffer> <leader>f :ImportJSFix<cr>
 
 " coverage.vim
 let g:coverage_json_report_path = 'coverage/coverage-final.json'
@@ -390,21 +393,34 @@ map <leader>js :exe 'e ' . split(expand('%'), '\.')[0] . '.sass'<cr>
 map <leader>jc :exe 'e ' . split(expand('%'), '\.')[0] . '.css'<cr>
 map <leader>jm :exe 'e ' . split(expand('%'), '\.')[0] . '.module.css'<cr>
 
+
+" typescript
 " nvim-typescript
-autocmd FileType typescript map <buffer> <leader>i :TSImport<cr>
-autocmd FileType typescript.tsx map <buffer> <leader>i :TSImport<cr>
+" autocmd FileType typescript map <buffer> <leader>i :TSImport<cr>
+" autocmd FileType typescript.tsx map <buffer> <leader>i :TSImport<cr>
+" NOTE: As well vim-js-file-import is in use here
+let g:ale_completion_tsserver_autoimport = 1
+
+" autocmd FileType typescript map <buffer> <leader>d g<c-]>
+" autocmd FileType typescript.tsx map <buffer> <leader>d g<c-]>
+"
+" autocmd FileType typescript map <buffer> <c-]> :TSDef<cr>
+" autocmd FileType typescript.tsx map <buffer> <c-]> :TSDef<cr>
 
 autocmd FileType typescript map <buffer> <leader>d g<c-]>
-autocmd FileType typescript.tsx map <buffer> <leader>d g<c-]>
+autocmd FileType typescriptreact map <buffer> <leader>d g<c-]>
 
-autocmd FileType typescript map <buffer> <c-]> :TSDef<cr>
-autocmd FileType typescript.tsx map <buffer> <c-]> :TSDef<cr>
+autocmd FileType typescript map <buffer> <c-]> :ALEGoToDefinition<cr>
+autocmd FileType typescriptreact <buffer> <c-]> :ALEGoToDefinition<cr>
 
-autocmd FileType typescript map <buffer> <leader>t :TSType<cr>
-autocmd FileType typescript.tsx map <buffer> <leader>t :TSType<cr>
+" autocmd FileType typescript map <buffer> <leader>t :TSType<cr>
+" autocmd FileType typescript.tsx map <buffer> <leader>t :TSType<cr>
 
-autocmd FileType typescript map <buffer> <leader>x :TSGetCodeFix<cr>
-autocmd FileType typescript.tsx map <buffer> <leader>x :TSGetCodeFix<cr>
+autocmd FileType typescript map <buffer> <leader>t :ALEHover<cr>
+autocmd FileType typescriptreact map <buffer> <leader>t :ALEHover<cr>
+
+" autocmd FileType typescript map <buffer> <leader>x :TSGetCodeFix<cr>
+" autocmd FileType typescript.tsx map <buffer> <leader>x :TSGetCodeFix<cr>
 
 set noshowmode " This is shown by vim-airline already so I don't need NORMAL/INSERT/... in command line
 
