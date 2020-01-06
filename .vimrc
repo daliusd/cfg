@@ -201,10 +201,10 @@ Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
 " NOTE: not using this as configuration below seems to be better.
 " Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 " Plug 'Quramy/tsuquyomi'
-" Plug 'leafgarland/typescript-vim'
+Plug 'leafgarland/typescript-vim'
 " Plug 'Quramy/vim-js-pretty-template'
 
-Plug 'HerringtonDarkholme/yats.vim'
+" Plug 'HerringtonDarkholme/yats.vim'
 " if has('nvim')
 "   Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
 " endif
