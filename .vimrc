@@ -392,6 +392,7 @@ map <leader>jt :call SwitchToTestFile()<cr>
 map <leader>js :exe 'e ' . split(expand('%'), '\.')[0] . '.sass'<cr>
 map <leader>jc :exe 'e ' . split(expand('%'), '\.')[0] . '.css'<cr>
 map <leader>jm :exe 'e ' . split(expand('%'), '\.')[0] . '.module.css'<cr>
+map <leader>jn :exe 'e ' . split(expand('%'), '\.')[0] . '.module.sass'<cr>
 
 
 " typescript
@@ -411,7 +412,7 @@ autocmd FileType typescript map <buffer> <leader>d g<c-]>
 autocmd FileType typescriptreact map <buffer> <leader>d g<c-]>
 
 autocmd FileType typescript map <buffer> <c-]> :ALEGoToDefinition<cr>
-autocmd FileType typescriptreact <buffer> <c-]> :ALEGoToDefinition<cr>
+autocmd FileType typescriptreact map <buffer> <c-]> :ALEGoToDefinition<cr>
 
 " autocmd FileType typescript map <buffer> <leader>t :TSType<cr>
 " autocmd FileType typescript.tsx map <buffer> <leader>t :TSType<cr>
