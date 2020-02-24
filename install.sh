@@ -16,6 +16,7 @@ virtualenv --python=python2.7 py2nvim
 cd py2nvim
 source bin/active
 pip install pynvim
+pip install -U msgpack
 
 virtualenv py3nvim
 cd py3nvim
