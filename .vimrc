@@ -454,6 +454,10 @@ let g:LanguageClient_serverCommands = {
     \ 'javascript': ['typescript-language-server', '--stdio'],
     \ 'typescript': ['typescript-language-server', '--stdio'],
     \ 'typescriptreact': ['typescript-language-server', '--stdio'],
+    \ 'html': ['html-languageserver', '--stdio'],
+    \ 'css': ['css-languageserver', '--stdio'],
+    \ 'json': ['json-languageserver', '--stdio'],
+    \ 'svelte': ['svelteserver', '--stdio'],
     \ }
 
 nnoremap <silent> <leader>ca :call LanguageClient#textDocument_codeAction()<CR>
