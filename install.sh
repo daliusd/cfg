@@ -9,6 +9,7 @@ sudo apt-get install neovim
 
 npm install -g typescript
 npm install -g neovim
+npm i typescript-language-server -g
 
 # neovim python modules
 cd projects
