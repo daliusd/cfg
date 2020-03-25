@@ -1,5 +1,10 @@
 alias e=nvim
-alias cfg='git --git-dir=/home/dalius/.cfg/ --work-tree=/home/dalius'
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    alias cfg='git --git-dir=/Users/daliusd/.cfg/ --work-tree=/Users/daliusd'
+    alias ll='ls -alG'
+else
+    alias cfg='git --git-dir=/home/dalius/.cfg/ --work-tree=/home/dalius'
+fi
 
 username='Dalius Dobravolskas'
 private_email='dalius.dobravolskas@gmail.com'

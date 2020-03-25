@@ -1,11 +1,13 @@
 export PATH=~/.local/bin:~/.npm-global/bin:$PATH
 export NODE_PATH=~/.npm-global/lib/node_modules/
 # export PYTHONPATH=/home/dalius/.local/lib/python3.6/site-packages
-source $HOME/.cargo/env
 
-. ~/django-completion.bash
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    [[ -r "$(brew --prefix)/etc/profile.d/bash_completion.sh" ]] && . "$(brew --prefix)/etc/profile.d/bash_completion.sh"
+else
+    _completion_loader git
+fi
 
-_completion_loader git
 complete -o bashdefault -o default -o nospace -F __git_wrap__git_main cfg
 
 PS1='$(__git_ps1)'$PS1
@@ -32,8 +34,7 @@ _pip_completion()
 }
 complete -o default -F _pip_completion pip
 # pip bash completion end
-
-eval "$(pipenv --completion)"
+# eval "$(pipenv --completion)"
 
 # FZF should use fd command
 
@@ -41,8 +42,6 @@ export FZF_DEFAULT_COMMAND='fd --type f --hidden --exclude .git --exclude node_m
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 # nvim
-export NVIM_GTK_NO_WINDOW_DECORATION=1
-export NVIM_GTK_NO_HEADERBAR=1
 export EDITOR=nvim
 
 # gpg
