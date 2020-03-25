@@ -5,7 +5,7 @@ Initial run requires following commands:
 
 ```console
 # Clone this repo
-git clone --bare git@bitbucket.org:daliusd/cfg.git .cfg
+git clone --bare git@github.com:daliusd/cfg.git .cfg
 
 # Alias cfg properly
 alias cfg='/usr/bin/git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
