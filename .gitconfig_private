@@ -1,5 +1,5 @@
 [core]
-    excludesfile = /home/dalius/.gitignore_global
+    excludesfile = ~/.gitignore_global
 [push]
     followTags = true
 [alias]
