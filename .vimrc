@@ -293,7 +293,7 @@ nmap <silent> <leader>ak :ALEPrevious<cr>
 command! ALEToggleFixer execute "let g:ale_fix_on_save = get(g:, 'ale_fix_on_save', 0) ? 0 : 1"
 
 let g:ale_linter_aliases = {'svelte': ['css', 'javascript']}
-let g:ale_linters = {'svelte': ['stylelint', 'eslint', 'tsserver']}
+let g:ale_linters = {'svelte': ['stylelint', 'eslint']}
 
 " UltiSnips
 " let g:UltiSnipsExpandTrigger="<c-j>"
