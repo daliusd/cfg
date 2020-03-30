@@ -8,7 +8,7 @@ fi
 
 username='Dalius Dobravolskas'
 private_email='dalius.dobravolskas@gmail.com'
-work_email='dalius.dobravolskas@balto.eu'
+work_email='daliusd@wix.com'
 
 alias gitprivate='git config user.email "$private_email" && git config user.name "$username"'
 alias gitwork='git config user.email "$work_email" && git config user.name "$username"'
