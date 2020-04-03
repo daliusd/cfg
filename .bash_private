@@ -47,3 +47,5 @@ export EDITOR=nvim
 # gpg
 GPG_TTY=`tty`
 export GPG_TTY
+
+eval "$(fnm env --multi)"
