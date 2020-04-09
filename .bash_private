@@ -49,3 +49,10 @@ GPG_TTY=`tty`
 export GPG_TTY
 
 eval "$(fnm env --multi)"
+
+# Mac OS X stuff
+
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    # UTF-8 support in iTerm2
+    export LANG="en_US.UTF-8"
+fi
