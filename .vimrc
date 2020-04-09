@@ -460,3 +460,9 @@ let g:LanguageClient_serverCommands = {
     \ }
 
 nnoremap <silent> <leader>ca :call LanguageClient#textDocument_codeAction()<CR>
+
+let g:LanguageClient_diagnosticsList='Disabled'
+
+" gutentags
+let g:gutentags_project_root = ['package.json']
+let g:gutentags_exclude_filetypes = ['gitcommit', 'gitrebase']
