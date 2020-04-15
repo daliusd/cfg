@@ -63,7 +63,9 @@ set sw=4        " Spaces per indent
 
 " FIXME: no decision yet
 " au BufRead,BufNewFile *.html setlocal sw=2
-" au BufRead,BufNewFile *.js setlocal sw=2
+au BufRead,BufNewFile *.js setlocal sw=2
+au BufRead,BufNewFile *.ts setlocal sw=2
+au BufRead,BufNewFile *.tsx setlocal sw=2
 
 set tabstop=4   " Number of spaces per tab. People usually use 4, but they shouldn't use tab in the first place.
 set bs=2        " same as ":set backspace=indent,eol,start"
@@ -390,8 +392,20 @@ function! SwitchToTestFile()
     endif
 endfunction
 
+function! SwitchToSpecFile()
+    let fn = split(expand('%'), '\.')[0]
+    if filereadable(fn.'.spec.ts')
+        exe 'e ' . fn . '.spec.ts'
+    elseif filereadable(fn.'.spec.tsx')
+        exe 'e ' . fn . '.spec.tsx'
+    else
+        exe 'e ' . fn . '.spec.ts'
+    endif
+endfunction
+
 map <leader>jj :call SwitchToCodeFile()<cr>
 map <leader>jt :call SwitchToTestFile()<cr>
+map <leader>jy :call SwitchToSpecFile()<cr>
 map <leader>js :exe 'e ' . split(expand('%'), '\.')[0] . '.sass'<cr>
 map <leader>jc :exe 'e ' . split(expand('%'), '\.')[0] . '.css'<cr>
 map <leader>jm :exe 'e ' . split(expand('%'), '\.')[0] . '.module.css'<cr>
