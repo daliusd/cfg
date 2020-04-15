@@ -269,12 +269,20 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_buffers = 0
 
 " Ale
+"
+"
+if filereadable(expand("./tslint.json"))
+    let js_fixers = ['tslint']
+else
+    let js_fixers = ['prettier', 'eslint']
+endif
+
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
-\   'javascript': ['prettier', 'eslint'],
-\   'javascript.jsx': ['prettier', 'eslint'],
-\   'typescript': ['prettier', 'eslint'],
-\   'typescriptreact': ['prettier', 'eslint'],
+\   'javascript': js_fixers,
+\   'javascript.jsx': js_fixers,
+\   'typescript': js_fixers,
+\   'typescriptreact': js_fixers,
 \   'css': ['prettier'],
 \   'json': ['prettier'],
 \   'python': ['yapf', 'isort'],
@@ -282,6 +290,7 @@ let g:ale_fixers = {
 \}
 
 let g:ale_fix_on_save = 1
+let g:ale_linters_explicit = 1
 let g:airline#extensions#ale#enabled = 1
 let g:ale_sign_column_always = 1
 let g:ale_sign_error = "◉"
