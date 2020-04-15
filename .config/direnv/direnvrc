@@ -20,3 +20,7 @@ layout_python-venv() {
     fi
     PATH_add "$VIRTUAL_ENV/bin"
 }
+
+use_fnm() {
+    fnm use
+}
