@@ -22,7 +22,7 @@ set mouse=a     " Enable mouse for everything
 
 :syntax enable
 set termguicolors     " enable true colors support
-set background=dark
+set background=light
 set guioptions-=T " Hide toolbar
 set guioptions-=m " Hide menu
 set hidden " Allow opening new buffer without saving or opening it in new tab
@@ -433,18 +433,23 @@ let g:ale_completion_tsserver_autoimport = 1
 "
 " autocmd FileType typescript map <buffer> <c-]> :TSDef<cr>
 " autocmd FileType typescript.tsx map <buffer> <c-]> :TSDef<cr>
+" autocmd FileType typescript map <buffer> <c-]> :ALEGoToDefinition<cr>
+" autocmd FileType typescriptreact map <buffer> <c-]> :ALEGoToDefinition<cr>
 
 autocmd FileType typescript map <buffer> <leader>d g<c-]>
 autocmd FileType typescriptreact map <buffer> <leader>d g<c-]>
 
-autocmd FileType typescript map <buffer> <c-]> :ALEGoToDefinition<cr>
-autocmd FileType typescriptreact map <buffer> <c-]> :ALEGoToDefinition<cr>
+autocmd FileType typescript map <buffer> <c-]> :call LanguageClient#textDocument_definition()<CR>
+autocmd FileType typescriptreact map <buffer> <c-]> :call LanguageClient#textDocument_definition()<CR>
 
 " autocmd FileType typescript map <buffer> <leader>t :TSType<cr>
 " autocmd FileType typescript.tsx map <buffer> <leader>t :TSType<cr>
 
-autocmd FileType typescript map <buffer> <leader>t :ALEHover<cr>
-autocmd FileType typescriptreact map <buffer> <leader>t :ALEHover<cr>
+" autocmd FileType typescript map <buffer> <leader>t :ALEHover<cr>
+" autocmd FileType typescriptreact map <buffer> <leader>t :ALEHover<cr>
+
+autocmd FileType typescript map <buffer> <leader>t :call LanguageClient#textDocument_hover()<CR>
+autocmd FileType typescriptreact map <buffer> <leader>t :call LanguageClient#textDocument_hover()<CR>
 
 " autocmd FileType typescript map <buffer> <leader>x :TSGetCodeFix<cr>
 " autocmd FileType typescript.tsx map <buffer> <leader>x :TSGetCodeFix<cr>
@@ -472,14 +477,21 @@ let g:NERDTreeMapJumpNextSibling = ''
 let g:NERDTreeMapJumpPrevSibling = ''
 
 " LanguageClient-neovim
+
 let g:LanguageClient_serverCommands = {
-    \ 'javascript': ['typescript-language-server', '--stdio'],
-    \ 'typescript': ['typescript-language-server', '--stdio'],
-    \ 'typescriptreact': ['typescript-language-server', '--stdio'],
+    \ 'javascript': ['javascript-typescript-stdio'],
+    \ 'typescript': ['javascript-typescript-stdio'],
+    \ 'typescriptreact': ['javascript-typescript-stdio'],
     \ 'html': ['html-languageserver', '--stdio'],
     \ 'css': ['css-languageserver', '--stdio'],
     \ 'json': ['json-languageserver', '--stdio'],
     \ 'svelte': ['svelteserver', '--stdio'],
+    \ }
+
+let g:LanguageClient_rootMarkers = {
+    \ 'javascript': ['jsconfig.json'],
+    \ 'typescript': ['tsconfig.json'],
+    \ 'typescriptreact': ['tsconfig.json'],
     \ }
 
 nnoremap <silent> <leader>ca :call LanguageClient#textDocument_codeAction()<CR>
