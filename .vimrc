@@ -328,12 +328,12 @@ nnoremap <c-a-w> :FZF -q <C-R><C-W><CR>
 nnoremap <c-b> :Buffers<cr>
 nnoremap <c-h> :History<cr>
 
-command! -bang -nargs=* Rgn
-    \ call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case --iglob !tags ".<q-args>, 1,
+command! -bang -nargs=* Rg
+    \ call fzf#vim#grep("rg --vimgrep --smart-case --ignore-file ~/.gitignore_global ".<q-args>, 1,
     \                   <bang>0)
 
 command! -bang -nargs=* Rgw
-    \ call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case -w --iglob !tags ".shellescape(expand('<cword>')), 1,
+    \ call fzf#vim#grep("rg --vimgrep --smart-case -w --ignore-file ~/.gitignore_global ".shellescape(expand('<cword>')), 1,
     \                   <bang>0)
 
 :cnoreabbrev rg Rg
