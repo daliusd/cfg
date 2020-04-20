@@ -402,13 +402,14 @@ function! SwitchToTestFile()
 endfunction
 
 function! SwitchToSpecFile()
-    let fn = split(expand('%'), '\.')[0]
-    if filereadable(fn.'.spec.ts')
-        exe 'e ' . fn . '.spec.ts'
-    elseif filereadable(fn.'.spec.tsx')
-        exe 'e ' . fn . '.spec.tsx'
+    let spl = split(expand('%'), '\.')
+    let fn = spl[0]
+    let ext = spl[len(spl)-1]
+
+    if filereadable(fn.'.spec.'.ext)
+        exe 'e ' . fn . '.spec.' . ext
     else
-        exe 'e ' . fn . '.spec.ts'
+        exe 'e ' . fn . '.spec.' . ext
     endif
 endfunction
 
