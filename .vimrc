@@ -437,9 +437,11 @@ let g:ale_completion_tsserver_autoimport = 1
 " autocmd FileType typescript map <buffer> <c-]> :ALEGoToDefinition<cr>
 " autocmd FileType typescriptreact map <buffer> <c-]> :ALEGoToDefinition<cr>
 
+autocmd FileType javascript map <buffer> <leader>d g<c-]>
 autocmd FileType typescript map <buffer> <leader>d g<c-]>
 autocmd FileType typescriptreact map <buffer> <leader>d g<c-]>
 
+autocmd FileType javascript map <buffer> <c-]> :call LanguageClient#textDocument_definition()<CR>
 autocmd FileType typescript map <buffer> <c-]> :call LanguageClient#textDocument_definition()<CR>
 autocmd FileType typescriptreact map <buffer> <c-]> :call LanguageClient#textDocument_definition()<CR>
 
@@ -449,6 +451,7 @@ autocmd FileType typescriptreact map <buffer> <c-]> :call LanguageClient#textDoc
 " autocmd FileType typescript map <buffer> <leader>t :ALEHover<cr>
 " autocmd FileType typescriptreact map <buffer> <leader>t :ALEHover<cr>
 
+autocmd FileType javascript map <buffer> <leader>t :call LanguageClient#textDocument_hover()<CR>
 autocmd FileType typescript map <buffer> <leader>t :call LanguageClient#textDocument_hover()<CR>
 autocmd FileType typescriptreact map <buffer> <leader>t :call LanguageClient#textDocument_hover()<CR>
 
