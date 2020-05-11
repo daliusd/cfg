@@ -18,3 +18,6 @@ alias gitworkglobal='git config --global user.email "$work_email" && git config 
 
 alias ~='cd ~'
 alias ..='cd ..'
+
+alias npmpublic='npm config set registry https://registry.npmjs.org/ && npm config get registry'
+alias npmprivate='npm config set registry http://npm.dev.wixpress.com && npm config get registry'
