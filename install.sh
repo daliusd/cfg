@@ -9,7 +9,7 @@ sudo apt-get install neovim
 
 npm install -g typescript
 npm install -g neovim
-npm i -g javascript-typescript-langserver
+npm i -g typescript-language-server
 npm i -g svelte-language-server
 npm i -g vscode-html-languageserver-bin
 npm i -g vscode-json-languageserver-bin

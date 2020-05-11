@@ -66,6 +66,7 @@ set sw=4        " Spaces per indent
 au BufRead,BufNewFile *.js setlocal sw=2
 au BufRead,BufNewFile *.ts setlocal sw=2
 au BufRead,BufNewFile *.tsx setlocal sw=2
+au BufRead,BufNewFile *.json setlocal sw=2
 
 set tabstop=4   " Number of spaces per tab. People usually use 4, but they shouldn't use tab in the first place.
 set bs=2        " same as ":set backspace=indent,eol,start"
@@ -419,7 +420,7 @@ map <leader>jy :call SwitchToSpecFile()<cr>
 map <leader>js :exe 'e ' . split(expand('%'), '\.')[0] . '.sass'<cr>
 map <leader>jc :exe 'e ' . split(expand('%'), '\.')[0] . '.css'<cr>
 map <leader>jm :exe 'e ' . split(expand('%'), '\.')[0] . '.module.css'<cr>
-map <leader>jn :exe 'e ' . split(expand('%'), '\.')[0] . '.module.sass'<cr>
+map <leader>jn :exe 'e ' . split(expand('%'), '\.')[0] . '.scss'<cr>
 
 
 " typescript
@@ -480,22 +481,14 @@ map <leader>v :NERDTreeFind<CR>
 let g:NERDTreeMapJumpNextSibling = ''
 let g:NERDTreeMapJumpPrevSibling = ''
 
-" LanguageClient-neovim
-
 let g:LanguageClient_serverCommands = {
-    \ 'javascript': ['javascript-typescript-stdio'],
-    \ 'typescript': ['javascript-typescript-stdio'],
-    \ 'typescriptreact': ['javascript-typescript-stdio'],
+    \ 'javascript': ['typescript-language-server', '--stdio'],
+    \ 'typescript': ['typescript-language-server', '--stdio'],
+    \ 'typescriptreact': ['typescript-language-server', '--stdio'],
     \ 'html': ['html-languageserver', '--stdio'],
     \ 'css': ['css-languageserver', '--stdio'],
     \ 'json': ['json-languageserver', '--stdio'],
     \ 'svelte': ['svelteserver', '--stdio'],
-    \ }
-
-let g:LanguageClient_rootMarkers = {
-    \ 'javascript': ['jsconfig.json'],
-    \ 'typescript': ['tsconfig.json'],
-    \ 'typescriptreact': ['tsconfig.json'],
     \ }
 
 nnoremap <silent> <leader>ca :call LanguageClient#textDocument_codeAction()<CR>
