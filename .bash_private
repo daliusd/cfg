@@ -29,7 +29,7 @@ show_node_version() {
 
 PS1='[N:$(show_node_version)]'$PS1
 
-ulimit -n 2048 # Recommendation from https://github.com/carlitux/deoplete-ternjs
+ulimit -n 4096 # Recommendation from https://github.com/carlitux/deoplete-ternjs
 
 # pip bash completion start
 _pip_completion()
