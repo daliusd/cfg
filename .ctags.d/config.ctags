@@ -2,3 +2,7 @@
 --exclude=.tox
 --exclude=node_modules
 --exclude=*.html
+--exclude=bower_components
+--exclude=vendor/bundle
+--exclude=.tmp
+--exclude=dist/
