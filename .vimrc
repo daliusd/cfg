@@ -114,7 +114,7 @@ nmap <leader>p :let @+ = expand('%:p')<cr>
 map <leader>e :e %:p:h<CR> " Open folder of current file
 map <leader>cd :cd %:p:h<CR>:pwd<CR> " CD to current's file directory
 
-map <leader>jd :%!python -m json.tool<cr>
+map <leader>jf :%!python -m json.tool<cr>
 
 command Greview :Git! diff --staged
 nnoremap <leader>gr :Greview<cr>
@@ -142,7 +142,7 @@ map ts :tab split<CR>
 nnoremap <c-]> g<c-]>
 vnoremap <c-]> g<c-]>
 
-:set grepprg=rg\ --vimgrep\ -M\ 160\ -S
+:set grepprg=rg\ --vimgrep\ -M\ 160\ -S\ --ignore-file\ ~/.gitignore_global
 
 " Plugins
 
