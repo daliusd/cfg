@@ -2,6 +2,8 @@ export PATH=~/.local/bin:~/.npm-global/bin:$PATH
 export NODE_PATH=~/.npm-global/lib/node_modules/
 # export PYTHONPATH=/home/dalius/.local/lib/python3.6/site-packages
 
+export HISTCONTROL=ignoreboth:erasedups
+
 if [[ "$OSTYPE" == "darwin"* ]]; then
     [[ -r "$(brew --prefix)/etc/profile.d/bash_completion.sh" ]] && . "$(brew --prefix)/etc/profile.d/bash_completion.sh"
 else
