@@ -2,6 +2,7 @@ alias e=nvim
 if [[ "$OSTYPE" == "darwin"* ]]; then
     alias cfg='git --git-dir=/Users/daliusd/.cfg/ --work-tree=/Users/daliusd'
     alias ll='ls -alG'
+    alias ls='ls -G'
 else
     alias cfg='git --git-dir=/home/dalius/.cfg/ --work-tree=/home/dalius'
 fi
