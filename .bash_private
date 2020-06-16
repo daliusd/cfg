@@ -1,4 +1,4 @@
-export PATH=~/.local/bin:~/.npm-global/bin:$PATH
+export PATH=~/.local/bin:~/.npm-global/bin:~/Library/Python/3.7/bin:$PATH
 export NODE_PATH=~/.npm-global/lib/node_modules/
 # export PYTHONPATH=/home/dalius/.local/lib/python3.6/site-packages
 
