@@ -34,6 +34,8 @@ set scrolloff=3     " Keep 3 lines below and above the cursor
 set number          " Show line numbering
 set numberwidth=1   " Use 1 col + 1 space for numbers
 
+set synmaxcol=500   " should make slightly faster than 3000
+
 " Vim stuff
 set nocp        " Makes VIM more useful
 set nofixeol    " Let's not fix end-of-line
@@ -103,6 +105,10 @@ map <silent> <home> g<home>
 imap <silent> <home> <C-o>g<home>
 map <silent> <end> g<end>
 imap <silent> <end> <C-o>g<end>
+
+" Command mode up/down remap
+cnoremap <c-k> <up>
+cnoremap <c-j> <down>
 
 " Leader commands
 let mapleader = ","
