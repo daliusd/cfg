@@ -21,7 +21,9 @@ endif
 set mouse=a     " Enable mouse for everything
 
 :syntax enable
-set termguicolors     " enable true colors support
+if has('vim')
+  set termguicolors     " enable true colors support
+endif
 set background=light
 set guioptions-=T " Hide toolbar
 set guioptions-=m " Hide menu
@@ -61,14 +63,9 @@ set autoindent
 set expandtab
 set smarttab
 "set sts=4      " Number of spaces per tab while editing
-set sw=4        " Spaces per indent
+set sw=2        " Spaces per indent
 
-" FIXME: no decision yet
-" au BufRead,BufNewFile *.html setlocal sw=2
-au BufRead,BufNewFile *.js setlocal sw=2
-au BufRead,BufNewFile *.ts setlocal sw=2
-au BufRead,BufNewFile *.tsx setlocal sw=2
-au BufRead,BufNewFile *.json setlocal sw=2
+au BufRead,BufNewFile *.py setlocal sw=4
 
 set tabstop=4   " Number of spaces per tab. People usually use 4, but they shouldn't use tab in the first place.
 set bs=2        " same as ":set backspace=indent,eol,start"
@@ -249,6 +246,9 @@ call plug#end()
 
 " Solarized
 colorscheme NeoSolarized
+highlight Comment cterm=italic
+highlight Statement cterm=italic
+highlight Type cterm=italic
 
 " Goyo
 function! s:goyo_enter()

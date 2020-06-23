@@ -96,3 +96,7 @@ sudo apt install pass
 
 # Max OS X
 brew install pinentry-mac
+
+# Italics in terminal and tmux (https://alexpearce.me/2014/05/italics-in-iterm2-vim-tmux/)
+tic xterm-256color-italic.terminfo
+tic -x tmux-256color.terminfo
