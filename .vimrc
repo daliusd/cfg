@@ -21,9 +21,7 @@ endif
 set mouse=a     " Enable mouse for everything
 
 :syntax enable
-if has('vim')
-  set termguicolors     " enable true colors support
-endif
+set termguicolors
 set background=light
 set guioptions-=T " Hide toolbar
 set guioptions-=m " Hide menu
