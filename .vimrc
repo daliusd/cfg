@@ -163,6 +163,7 @@ Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 
 Plug 'jamessan/vim-gnupg'
+Plug 'danilamihailov/beacon.nvim'
 
 if has('nvim')
   Plug 'Shougo/deoplete.nvim'
@@ -503,3 +504,6 @@ let g:LanguageClient_diagnosticsList='Disabled'
 " gutentags
 let g:gutentags_project_root = ['package.json']
 let g:gutentags_exclude_filetypes = ['gitcommit', 'gitrebase']
+
+" beacon
+highlight Beacon guibg=black ctermbg=0
