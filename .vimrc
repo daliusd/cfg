@@ -161,6 +161,7 @@ Plug 'autozimu/LanguageClient-neovim', {
 
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'ryanoasis/vim-devicons'
 
 Plug 'jamessan/vim-gnupg'
 Plug 'danilamihailov/beacon.nvim'
