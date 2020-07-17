@@ -128,8 +128,8 @@ au BufRead,BufNewFile *.rst     setlocal textwidth=66
 " Tab navigation
 map <c-j> :tabnext<CR>
 map <c-k> :tabprev<CR>
-map <c-u> :tabm +1<CR>
-map <c-i> :tabm -1<CR>
+map <c-l> :tabm +1<CR>
+map <c-g> :tabm -1<CR>
 
 
 map tt :tabedit<Space>
@@ -278,6 +278,9 @@ let g:airline#extensions#tabline#show_buffers = 0
 let g:airline#extensions#tabline#show_splits = 0
 let g:airline#extensions#tabline#show_tab_count = 0
 let g:airline#extensions#tabline#show_tab_nr = 0
+
+let g:airline_detect_spell=0
+
 
 " Ale
 "
