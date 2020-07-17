@@ -134,7 +134,7 @@ map <c-g> :tabm -1<CR>
 
 map tt :tabedit<Space>
 map td :tabclose<CR>
-map <a-w> :tabclose<CR>
+map <c-i> :tabclose<CR>
 map ta :tabnew<CR>
 map ts :tab split<CR>
 
