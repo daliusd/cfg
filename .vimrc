@@ -128,8 +128,9 @@ au BufRead,BufNewFile *.rst     setlocal textwidth=66
 " Tab navigation
 map <c-j> :tabnext<CR>
 map <c-k> :tabprev<CR>
-map <c-a-j> :tabm +1<CR>
-map <c-a-k> :tabm -1<CR>
+map <c-u> :tabm +1<CR>
+map <c-i> :tabm -1<CR>
+
 
 map tt :tabedit<Space>
 map td :tabclose<CR>
@@ -279,7 +280,7 @@ let g:airline#extensions#tabline#show_buffers = 0
 "
 "
 if filereadable(expand("./tslint.json"))
-    let js_fixers = ['tslint']
+    let js_fixers = []
 else
     let js_fixers = ['prettier', 'eslint']
 endif
@@ -330,8 +331,6 @@ au BufRead,BufNewFile *.todo        set filetype=todo
 set rtp+=~/.fzf
 let g:fzf_buffers_jump = 1
 nnoremap <c-f> :Files<cr>
-nnoremap <c-a-f> :FZF -q <C-R>+<CR>
-nnoremap <c-a-w> :FZF -q <C-R><C-W><CR>
 nnoremap <c-b> :Buffers<cr>
 nnoremap <c-h> :History<cr>
 nmap <leader>/ :BLines<cr>
