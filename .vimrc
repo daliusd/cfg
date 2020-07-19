@@ -132,11 +132,12 @@ map <c-l> :tabm +1<CR>
 map <c-g> :tabm -1<CR>
 
 
-map tt :tabedit<Space>
+map tt :tabnew<CR>
 map td :tabclose<CR>
 map <c-i> :tabclose<CR>
 map ta :tabnew<CR>
 map ts :tab split<CR>
+map ta :tabonly<CR>
 
 " Faster navigation through code
 :set tags=./tags;
