@@ -137,7 +137,7 @@ map td :tabclose<CR>
 map <c-i> :tabclose<CR>
 map ta :tabnew<CR>
 map ts :tab split<CR>
-map ta :tabonly<CR>
+map to :tabonly<CR>
 
 " Faster navigation through code
 :set tags=./tags;
