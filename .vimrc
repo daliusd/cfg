@@ -117,9 +117,6 @@ map <leader>cd :cd %:p:h<CR>:pwd<CR> " CD to current's file directory
 
 map <leader>jf :%!python -m json.tool<cr>
 
-command Greview :Git! diff --staged
-nnoremap <leader>gr :Greview<cr>
-
 " The 66-character line (counting both letters and spaces) is widely regarded as ideal.
 " http://webtypography.net/Rhythm_and_Proportion/Horizontal_Motion/2.1.2/
 au BufRead,BufNewFile *.md     setlocal textwidth=66
@@ -353,6 +350,7 @@ command! -bang -nargs=* Rgw
 :cnoreabbrev rg Rg
 
 map <leader>s :Rgw<cr>
+map <leader>g :gr <cword><cr>
 
 " jedi-vim
 let g:jedi#completions_enabled = 0
