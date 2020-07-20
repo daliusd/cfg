@@ -131,7 +131,6 @@ map <c-g> :tabm -1<CR>
 
 map tt :tabnew<CR>
 map td :tabclose<CR>
-map <c-i> :tabclose<CR>
 map ta :tabnew<CR>
 map ts :tab split<CR>
 map to :tabonly<CR>
