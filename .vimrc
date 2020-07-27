@@ -301,7 +301,7 @@ let g:ale_fixers = {
 \}
 
 let g:ale_fix_on_save = 1
-let g:ale_linters_explicit = 1
+let g:ale_linters_explicit = 0
 let g:airline#extensions#ale#enabled = 1
 let g:ale_sign_column_always = 1
 let g:ale_sign_error = "◉"
@@ -313,9 +313,6 @@ nmap <silent> <leader>aj :ALENext<cr>
 nmap <silent> <leader>ak :ALEPrevious<cr>
 
 command! ALEToggleFixer execute "let g:ale_fix_on_save = get(g:, 'ale_fix_on_save', 0) ? 0 : 1"
-
-let g:ale_linter_aliases = {'svelte': ['css', 'javascript']}
-let g:ale_linters = {'svelte': ['stylelint', 'eslint']}
 
 " UltiSnips
 " let g:UltiSnipsExpandTrigger="<c-j>"
