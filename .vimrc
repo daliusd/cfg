@@ -282,11 +282,7 @@ let g:airline_detect_spell=0
 " Ale
 "
 "
-if filereadable(expand("./tslint.json"))
-    let js_fixers = []
-else
-    let js_fixers = ['prettier', 'eslint']
-endif
+let js_fixers = ['prettier', 'eslint']
 
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
@@ -504,6 +500,7 @@ let g:LanguageClient_diagnosticsList='Disabled'
 
 " gutentags
 let g:gutentags_project_root = ['package.json']
+let g:gutentags_add_default_project_roots = 0
 let g:gutentags_exclude_filetypes = ['gitcommit', 'gitrebase']
 
 " beacon
