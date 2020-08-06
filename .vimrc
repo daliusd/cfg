@@ -395,13 +395,14 @@ function! SwitchToCodeFile()
 endfunction
 
 function! SwitchToTestFile()
-    let fn = split(expand('%'), '\.')[0]
-    if filereadable(fn.'.test.ts')
-        exe 'e ' . fn . '.test.ts'
-    elseif filereadable(fn.'.test.tsx')
-        exe 'e ' . fn . '.test.tsx'
+    let spl = split(expand('%'), '\.')
+    let fn = spl[0]
+    let ext = spl[len(spl)-1]
+
+    if filereadable(fn.'.test.' . ext)
+        exe 'e ' . fn . '.test.' . ext
     else
-        exe 'e ' . fn . '.test.js'
+        exe 'e ' . fn . '.test.' . ext
     endif
 endfunction
 
