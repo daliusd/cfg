@@ -399,28 +399,19 @@ function! SwitchToTestFile()
     let fn = spl[0]
     let ext = spl[len(spl)-1]
 
-    if filereadable(fn.'.test.' . ext)
+    if filereadable(fn . '.test.' . ext)
         exe 'e ' . fn . '.test.' . ext
-    else
-        exe 'e ' . fn . '.test.' . ext
-    endif
-endfunction
-
-function! SwitchToSpecFile()
-    let spl = split(expand('%'), '\.')
-    let fn = spl[0]
-    let ext = spl[len(spl)-1]
-
-    if filereadable(fn.'.spec.'.ext)
+    elseif filereadable(fn . '.spec.' . ext)
         exe 'e ' . fn . '.spec.' . ext
+    elseif filereadable(fn . '.it.' . ext)
+        exe 'e ' . fn . '.it.' . ext
     else
-        exe 'e ' . fn . '.spec.' . ext
+        exe 'e ' . fn . '.test.'ext
     endif
 endfunction
 
 map <leader>jj :call SwitchToCodeFile()<cr>
 map <leader>jt :call SwitchToTestFile()<cr>
-map <leader>jy :call SwitchToSpecFile()<cr>
 map <leader>js :exe 'e ' . split(expand('%'), '\.')[0] . '.sass'<cr>
 map <leader>jc :exe 'e ' . split(expand('%'), '\.')[0] . '.css'<cr>
 map <leader>jm :exe 'e ' . split(expand('%'), '\.')[0] . '.module.css'<cr>
