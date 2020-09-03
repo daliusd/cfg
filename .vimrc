@@ -406,7 +406,7 @@ function! SwitchToTestFile()
     elseif filereadable(fn . '.it.' . ext)
         exe 'e ' . fn . '.it.' . ext
     else
-        exe 'e ' . fn . '.test.'ext
+        exe 'e ' . fn . '.spec.' . ext
     endif
 endfunction
 
