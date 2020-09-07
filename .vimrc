@@ -423,7 +423,7 @@ map <leader>jn :exe 'e ' . split(expand('%'), '\.')[0] . '.scss'<cr>
 " autocmd FileType typescript map <buffer> <leader>i :TSImport<cr>
 " autocmd FileType typescript.tsx map <buffer> <leader>i :TSImport<cr>
 " NOTE: As well vim-js-file-import is in use here
-let g:ale_completion_tsserver_autoimport = 1
+let g:ale_completion_autoimport = 1
 
 " autocmd FileType typescript map <buffer> <leader>d g<c-]>
 " autocmd FileType typescript.tsx map <buffer> <leader>d g<c-]>
