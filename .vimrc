@@ -12,8 +12,6 @@ if has('nvim')
   imap <C-v> <C-r>+
   tnoremap <expr> <C-v> '<C-\><C-N>pi'
 
-  vmap <C-c> y      " I dont' care about this one but let's have it
-
   set autoread
   au FocusGained * :checktime
 endif
@@ -26,6 +24,7 @@ set background=light
 set guioptions-=T " Hide toolbar
 set guioptions-=m " Hide menu
 set hidden " Allow opening new buffer without saving or opening it in new tab
+set noshowmode " This is shown by vim-airline already so I don't need NORMAL/INSERT/... in command line
 
 set wildmenu    " better command-line completion
 set list listchars=trail:.,tab:>- " Show trailing dots and tabs
@@ -54,16 +53,12 @@ let g:netrw_browsex_viewer="setsid xdg-open"    " Make gx command work properly 
 " We want string-like-this to be treated as word. That however means that proper spacing must
 " be used in arithmetic operations.
 :set iskeyword+=-
-:set iskeyword-=$
 
 " Indentation and Tab
 set autoindent
 set expandtab
 set smarttab
-"set sts=4      " Number of spaces per tab while editing
 set sw=2        " Spaces per indent
-
-au BufRead,BufNewFile *.py setlocal sw=4
 
 set tabstop=4   " Number of spaces per tab. People usually use 4, but they shouldn't use tab in the first place.
 set bs=2        " same as ":set backspace=indent,eol,start"
@@ -136,11 +131,6 @@ map ts :tab split<CR>
 map to :tabonly<CR>
 
 " Faster navigation through code
-:set tags=./tags;
-
-nnoremap <c-]> g<c-]>
-vnoremap <c-]> g<c-]>
-
 :set grepprg=rg\ --vimgrep\ -M\ 160\ -S\ --ignore-file\ ~/.gitignore_global
 
 " Plugins
@@ -150,7 +140,6 @@ call plug#begin('~/.vim/plugged')
 " Generic programming plugins
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'ludovicchabant/vim-gutentags'
 Plug 'dense-analysis/ale'
 Plug 'autozimu/LanguageClient-neovim', {
     \ 'branch': 'next',
@@ -162,7 +151,6 @@ Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'ryanoasis/vim-devicons'
 
 Plug 'jamessan/vim-gnupg'
-Plug 'danilamihailov/beacon.nvim'
 
 if has('nvim')
   Plug 'Shougo/deoplete.nvim'
@@ -174,71 +162,30 @@ endif
 
 Plug 'editorconfig/editorconfig-vim'
 
-" Plug 'SirVer/ultisnips'
-Plug 'Shougo/neosnippet.vim'
-Plug 'Shougo/neosnippet-snippets'
-Plug 'honza/vim-snippets'
-
-Plug 'mgedmin/test-switcher.vim'
-
-Plug 'tpope/vim-eunuch'
-
 " Git
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 
-" Python
-Plug 'zchee/deoplete-jedi'
-Plug 'Vimjas/vim-python-pep8-indent'
-Plug 'davidhalter/jedi-vim'
-Plug 'mgedmin/python-imports.vim'
-Plug 'mgedmin/coverage-highlight.vim'
-
-" Javascript
-Plug 'pangloss/vim-javascript'
-Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
+" JSON
 Plug 'elzr/vim-json'
-Plug 'ruanyl/coverage.vim'
-" Plug 'Galooshi/vim-import-js' # NOTE: Using vim-js-file-import instead
-
-Plug 'kristijanhusak/vim-js-file-import', {'do': 'npm install'}
-Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
-
-" Typescript
-" NOTE: not using this as configuration below seems to be better.
-" Plug 'Shougo/vimproc.vim', {'do' : 'make'}
-" Plug 'Quramy/tsuquyomi'
-Plug 'leafgarland/typescript-vim'
-" Plug 'Quramy/vim-js-pretty-template'
-
-" Plug 'HerringtonDarkholme/yats.vim'
-" if has('nvim')
-"   Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
-" endif
 
 " Html
 Plug 'valloric/MatchTagAlways'
 
-" React
-" Plug 'mxw/vim-jsx' <-- Stopped using because of conflict with
-" deoplete-ternjs and autocomplete-flow.
-Plug 'MaxMEllon/vim-jsx-pretty'
-Plug 'wokalski/autocomplete-flow'
+" Javascript
+Plug 'pangloss/vim-javascript' " Javascript syntax
+Plug 'leafgarland/typescript-vim' " Typescript syntax
+Plug 'MaxMEllon/vim-jsx-pretty'  " JSX, TSX syntax
 
-" Svelte
-Plug 'evanleck/vim-svelte'
-Plug 'Shougo/context_filetype.vim'
+Plug 'ruanyl/coverage.vim'
 
 " Status line
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
 " Other
-Plug 'junegunn/goyo.vim'
-" Plug 'altercation/vim-colors-solarized'
 Plug 'iCyMind/NeoSolarized'
 Plug 'fszymanski/deoplete-emoji'
-Plug 'deathlyfrantic/deoplete-spell'
 
 call plug#end()
 
@@ -247,13 +194,6 @@ colorscheme NeoSolarized
 highlight Comment cterm=italic
 highlight Statement cterm=italic
 highlight Type cterm=italic
-
-" Goyo
-function! s:goyo_enter()
-    :set linebreak
-endfunction
-
-autocmd! User GoyoEnter nested call <SID>goyo_enter()
 
 " Deoplete
 let g:deoplete#enable_at_startup = 1
@@ -278,7 +218,6 @@ let g:airline#extensions#tabline#show_tab_nr = 0
 
 let g:airline_detect_spell=0
 
-
 " Ale
 "
 "
@@ -292,8 +231,6 @@ let g:ale_fixers = {
 \   'typescriptreact': js_fixers,
 \   'css': ['prettier'],
 \   'json': ['prettier'],
-\   'python': ['yapf', 'isort'],
-\   'svelte': ['prettier', 'eslint'],
 \}
 
 let g:ale_fix_on_save = 1
@@ -310,16 +247,6 @@ nmap <silent> <leader>ak :ALEPrevious<cr>
 
 command! ALEToggleFixer execute "let g:ale_fix_on_save = get(g:, 'ale_fix_on_save', 0) ? 0 : 1"
 
-" UltiSnips
-" let g:UltiSnipsExpandTrigger="<c-j>"
-
-" neosnippet.vim
-imap <C-j>     <Plug>(neosnippet_expand_or_jump)
-smap <C-j>     <Plug>(neosnippet_expand_or_jump)
-xmap <C-j>     <Plug>(neosnippet_expand_target)
-
-let g:neosnippet#enable_snipmate_compatibility = 1
-
 " My todo files
 au BufRead,BufNewFile *.todo        set filetype=todo
 
@@ -327,9 +254,7 @@ au BufRead,BufNewFile *.todo        set filetype=todo
 set rtp+=~/.fzf
 let g:fzf_buffers_jump = 1
 nnoremap <c-f> :Files<cr>
-nnoremap <c-b> :Buffers<cr>
 nnoremap <c-h> :History<cr>
-nmap <leader>/ :BLines<cr>
 
 command! -bang -nargs=* Rg
     \ call fzf#vim#grep("rg --vimgrep --smart-case \"".<q-args>."\"", 1,
@@ -344,45 +269,16 @@ command! -bang -nargs=* Rgw
 map <leader>s :Rgw<cr>
 map <leader>g :gr <cword><cr>
 
-" jedi-vim
-let g:jedi#completions_enabled = 0
-let g:jedi#usages_command = "<leader>u"
-let g:jedi#goto_stubs_command = "<leader>ss"
-
-let g:jedi#goto_command = "<c-]>"
-autocmd FileType python map <buffer> <leader>d g<c-]>
-
-" pangloss/vim-javascript
-let g:javascript_plugin_flow = 1
-
 " vim-json
 let g:vim_json_syntax_conceal = 0
 
 " editorconfig-vim
 let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 
-" coverage-highlight
-map <leader>h :HighlightCoverage<cr>
-map <leader>hh :HighlightCoverageOff<cr>
-
-" mgedmin/python-imports.vim
-autocmd FileType python map <buffer> <leader>i :ImportName<cr>
-
-" Galooshi/vim-import-js
-" autocmd FileType javascript map <buffer> <leader>f :ImportJSFix<cr>
-" autocmd FileType javascript.jsx map <buffer> <leader>f :ImportJSFix<cr>
-" autocmd FileType typescript map <buffer> <leader>f :ImportJSFix<cr>
-" autocmd FileType typescript.tsx map <buffer> <leader>f :ImportJSFix<cr>
-" autocmd FileType typescriptreact map <buffer> <leader>f :ImportJSFix<cr>
-
 " coverage.vim
 let g:coverage_json_report_path = 'coverage/coverage-final.json'
 
-" test-switcher.vim
-autocmd FileType python map <leader>t :SwitchCodeAndTest<CR>
-autocmd FileType python map <leader>tt :e %:r.test.%:e<CR>
-
-" React specific mappings
+" Javascript specific mappings
 function! SwitchToCodeFile()
     let fn = split(expand('%'), '\.')[0]
     if filereadable(fn.'.js')
@@ -410,65 +306,33 @@ function! SwitchToTestFile()
     endif
 endfunction
 
+function! SwitchToStyleFile()
+    let fn = split(expand('%'), '\.')[0]
+    if filereadable(fn.'.sass')
+        exe 'e ' . fn . '.sass'
+    elseif filereadable(fn.'.css')
+        exe 'e ' . fn . '.css'
+    elseif filereadable(fn.'.scss')
+        exe 'e ' . fn . '.scss'
+    elseif filereadable(fn.'.module.css')
+        exe 'e ' . fn . '.module.css'
+    endif
+endfunction
+
 map <leader>jj :call SwitchToCodeFile()<cr>
 map <leader>jt :call SwitchToTestFile()<cr>
-map <leader>js :exe 'e ' . split(expand('%'), '\.')[0] . '.sass'<cr>
-map <leader>jc :exe 'e ' . split(expand('%'), '\.')[0] . '.css'<cr>
-map <leader>jm :exe 'e ' . split(expand('%'), '\.')[0] . '.module.css'<cr>
-map <leader>jn :exe 'e ' . split(expand('%'), '\.')[0] . '.scss'<cr>
-
+map <leader>js :call SwitchToStyleFile()<cr>
 
 " typescript
-" nvim-typescript
-" autocmd FileType typescript map <buffer> <leader>i :TSImport<cr>
-" autocmd FileType typescript.tsx map <buffer> <leader>i :TSImport<cr>
-" NOTE: As well vim-js-file-import is in use here
-let g:ale_completion_autoimport = 1
-
-" autocmd FileType typescript map <buffer> <leader>d g<c-]>
-" autocmd FileType typescript.tsx map <buffer> <leader>d g<c-]>
-"
-" autocmd FileType typescript map <buffer> <c-]> :TSDef<cr>
-" autocmd FileType typescript.tsx map <buffer> <c-]> :TSDef<cr>
-" autocmd FileType typescript map <buffer> <c-]> :ALEGoToDefinition<cr>
-" autocmd FileType typescriptreact map <buffer> <c-]> :ALEGoToDefinition<cr>
-
-autocmd FileType javascript map <buffer> <leader>d g<c-]>
-autocmd FileType typescript map <buffer> <leader>d g<c-]>
-autocmd FileType typescriptreact map <buffer> <leader>d g<c-]>
-
 autocmd FileType javascript map <buffer> <c-]> :call LanguageClient#textDocument_definition()<CR>
 autocmd FileType typescript map <buffer> <c-]> :call LanguageClient#textDocument_definition()<CR>
 autocmd FileType typescriptreact map <buffer> <c-]> :call LanguageClient#textDocument_definition()<CR>
-
-" autocmd FileType typescript map <buffer> <leader>t :TSType<cr>
-" autocmd FileType typescript.tsx map <buffer> <leader>t :TSType<cr>
-
-" autocmd FileType typescript map <buffer> <leader>t :ALEHover<cr>
-" autocmd FileType typescriptreact map <buffer> <leader>t :ALEHover<cr>
 
 autocmd FileType javascript map <buffer> <leader>t :call LanguageClient#textDocument_hover()<CR>
 autocmd FileType typescript map <buffer> <leader>t :call LanguageClient#textDocument_hover()<CR>
 autocmd FileType typescriptreact map <buffer> <leader>t :call LanguageClient#textDocument_hover()<CR>
 
-" autocmd FileType typescript map <buffer> <leader>x :TSGetCodeFix<cr>
-" autocmd FileType typescript.tsx map <buffer> <leader>x :TSGetCodeFix<cr>
-
-set noshowmode " This is shown by vim-airline already so I don't need NORMAL/INSERT/... in command line
-
-" Svelte
-if !exists('g:context_filetype#same_filetypes')
-    let g:context_filetype#filetypes = {}
-endif
-let g:context_filetype#filetypes.svelte =
-            \ [
-            \    {'filetype' : 'javascript', 'start' : '<script>', 'end' : '</script>'},
-            \    {'filetype' : 'css', 'start' : '<style>', 'end' : '</style>'},
-            \ ]
-
-call deoplete#custom#var('omni', 'functions', {
-\ 'css': ['csscomplete#CompleteCSS']
-\})
+nnoremap <silent> <leader>ca :call LanguageClient#textDocument_codeAction()<CR>
 
 " NERD tree
 map <leader>b :NERDTreeToggle<CR>
@@ -486,14 +350,122 @@ let g:LanguageClient_serverCommands = {
     \ 'svelte': ['svelteserver', '--stdio'],
     \ }
 
-nnoremap <silent> <leader>ca :call LanguageClient#textDocument_codeAction()<CR>
-
 let g:LanguageClient_diagnosticsList='Disabled'
 
+"
+" Stuff I have stopped using
+"
+" Tags stuff
+"
+" nnoremap <c-]> g<c-]>
+" vnoremap <c-]> g<c-]>
+"
+" :set tags=./tags;
+"
+" Plug 'ludovicchabant/vim-gutentags'
+"
 " gutentags
-let g:gutentags_project_root = ['package.json']
-let g:gutentags_add_default_project_roots = 0
-let g:gutentags_exclude_filetypes = ['gitcommit', 'gitrebase']
+" let g:gutentags_project_root = ['package.json']
+" let g:gutentags_add_default_project_roots = 0
+" let g:gutentags_exclude_filetypes = ['gitcommit', 'gitrebase']
+"
+" Python stuff. I barely write any python code now.
+"
+" au BufRead,BufNewFile *.py setlocal sw=4
+" " Python
+" Plug 'zchee/deoplete-jedi'
+" Plug 'Vimjas/vim-python-pep8-indent'
+" Plug 'davidhalter/jedi-vim'
+"
+" let g:jedi#completions_enabled = 0
+" let g:jedi#usages_command = "<leader>u"
+" let g:jedi#goto_stubs_command = "<leader>ss"
+"
+" let g:jedi#goto_command = "<c-]>"
+" autocmd FileType python map <buffer> <leader>d g<c-]>
+"
+" Plug 'mgedmin/python-imports.vim'
+" Plug 'mgedmin/coverage-highlight.vim'
+" Plug 'mgedmin/test-switcher.vim'
+"
+" autocmd FileType python map <buffer> <leader>i :ImportName<cr>
+" autocmd FileType python map <leader>t :SwitchCodeAndTest<CR>
+" autocmd FileType python map <leader>tt :e %:r.test.%:e<CR>
+"
+" map <leader>h :HighlightCoverage<cr>
+" map <leader>hh :HighlightCoverageOff<cr>
+"
+" Javascript stuff
+"
+" Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
+" Plug 'Galooshi/vim-import-js' # NOTE: Using vim-js-file-import instead
+" Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
+"
+" Language server is good enough for me
+" Plug 'kristijanhusak/vim-js-file-import', {'do': 'npm install'}
+"
+" Typescript stuff
+"
+" Plug 'Shougo/vimproc.vim', {'do' : 'make'}
+" Plug 'Quramy/tsuquyomi'
+" Plug 'Quramy/vim-js-pretty-template'
 
+" Plug 'HerringtonDarkholme/yats.vim'
+" if has('nvim')
+"   Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
+" endif
+
+" Plug 'wokalski/autocomplete-flow'
+" Plug 'mxw/vim-jsx' <-- Stopped using because of conflict with
+" deoplete-ternjs and autocomplete-flow.
+"
+" Svelte
+" Plug 'evanleck/vim-svelte'
+" Plug 'Shougo/context_filetype.vim'
+"
+" if !exists('g:context_filetype#same_filetypes')
+"     let g:context_filetype#filetypes = {}
+" endif
+" let g:context_filetype#filetypes.svelte =
+"             \ [
+"             \    {'filetype' : 'javascript', 'start' : '<script>', 'end' : '</script>'},
+"             \    {'filetype' : 'css', 'start' : '<style>', 'end' : '</style>'},
+"             \ ]
+"
+" call deoplete#custom#var('omni', 'functions', {
+" \ 'css': ['csscomplete#CompleteCSS']
+" \})
+"
+" Other plugins
+"
+" Nice but does not feel really necessary
+" Plug 'danilamihailov/beacon.nvim'
+"
 " beacon
-highlight Beacon guibg=black ctermbg=0
+" highlight Beacon guibg=black ctermbg=0
+"
+" In the end I'm not using snippets.
+"" Plug 'SirVer/ultisnips'
+" Plug 'Shougo/neosnippet.vim'
+" Plug 'Shougo/neosnippet-snippets'
+" Plug 'honza/vim-snippets'
+"
+" " neosnippet.vim
+" imap <C-j>     <Plug>(neosnippet_expand_or_jump)
+" smap <C-j>     <Plug>(neosnippet_expand_or_jump)
+" xmap <C-j>     <Plug>(neosnippet_expand_target)
+"
+" let g:neosnippet#enable_snipmate_compatibility = 1
+"
+" Completely forgot I have this one. nerdtree covers my needs.
+" Plug 'tpope/vim-eunuch'
+" Plug 'junegunn/goyo.vim'
+"
+" function! s:goyo_enter()
+"     :set linebreak
+" endfunction
+"
+" autocmd! User GoyoEnter nested call <SID>goyo_enter()
+"
+" Plug 'altercation/vim-colors-solarized'
+" Plug 'deathlyfrantic/deoplete-spell' - does not work as I have expected
