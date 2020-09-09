@@ -200,13 +200,7 @@ highlight Type cterm=italic
 let g:deoplete#enable_at_startup = 1
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 
-" inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
-imap <expr><TAB>
-            \ pumvisible() ? "\<C-n>" :
-            \ neosnippet#expandable_or_jumpable() ?
-            \    "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
-            \ "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 
 let g:deoplete#sources#jedi#show_docstring = 1
 
