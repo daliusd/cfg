@@ -112,7 +112,8 @@ map <leader>cd :cd %:p:h<CR>:pwd<CR> " CD to current's file directory
 
 map <leader>jf :%!python -m json.tool<cr>
 map <leader>sh :%!node ~/sht.js<cr>
-map <leader>d "=strftime("%Y-%m-%d ")<CR>P
+nnoremap <leader>d "=strftime("%Y-%m-%d ")<CR>P
+inoremap <leader>d <C-R>=strftime("%Y-%m-%d ")<CR>
 
 " The 66-character line (counting both letters and spaces) is widely regarded as ideal.
 " http://webtypography.net/Rhythm_and_Proportion/Horizontal_Motion/2.1.2/
