@@ -41,6 +41,10 @@ curl -LO https://github.com/be5invis/Iosevka/releases/download/v2.0.2/02-iosevka
 
 gsettings set org.gnome.desktop.interface monospace-font-name 'Iosevka 12'
 
+# Mac OSX
+brew tap homebrew/cask-fonts
+brew cask install font-iosevka-nerd-font
+
 # Node stuff
 echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
 npm completion >> ~/.bashrc
