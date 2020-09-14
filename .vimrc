@@ -250,6 +250,7 @@ au BufRead,BufNewFile *.todo        set filetype=todo
 " fzf
 set rtp+=~/.fzf
 let g:fzf_buffers_jump = 1
+let g:fzf_layout = { 'window' : { 'width': 1, 'height': 0.8, 'highlight': 'Normal' } }
 nnoremap <c-f> :Files<cr>
 nnoremap <c-h> :History<cr>
 
