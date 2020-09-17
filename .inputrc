@@ -1,1 +1,3 @@
 set editing-mode vi
+c-k: previous-history
+c-j: next-history
