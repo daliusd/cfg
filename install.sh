@@ -13,7 +13,7 @@ sudo apt-get install neovim
 cd projects/tools
 python3.6 -m venv py3nvim
 cd py3nvim
-source bin/active
+source bin/activate
 pip install pynvim
 
 sudo update-alternatives --config editor
