@@ -143,25 +143,13 @@ call plug#begin('~/.vim/plugged')
 " Generic programming plugins
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'dense-analysis/ale'
-Plug 'autozimu/LanguageClient-neovim', {
-    \ 'branch': 'next',
-    \ 'do': 'bash install.sh',
-    \ }
+Plug 'neoclide/coc.nvim', {'branch': 'release'}"
 
 Plug 'scrooloose/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'ryanoasis/vim-devicons'
 
 Plug 'jamessan/vim-gnupg'
-
-if has('nvim')
-  Plug 'Shougo/deoplete.nvim'
-else
-  Plug 'Shougo/deoplete.nvim'
-  Plug 'roxma/nvim-yarp'
-  Plug 'roxma/vim-hug-neovim-rpc'
-endif
 
 Plug 'editorconfig/editorconfig-vim'
 
@@ -176,8 +164,8 @@ Plug 'elzr/vim-json'
 Plug 'valloric/MatchTagAlways'
 
 " Javascript
-Plug 'pangloss/vim-javascript' " Javascript syntax
-Plug 'leafgarland/typescript-vim' " Typescript syntax
+Plug 'yuezk/vim-js'
+Plug 'HerringtonDarkholme/yats.vim'
 Plug 'MaxMEllon/vim-jsx-pretty'  " JSX, TSX syntax
 
 Plug 'ruanyl/coverage.vim'
@@ -188,7 +176,6 @@ Plug 'vim-airline/vim-airline-themes'
 
 " Other
 Plug 'iCyMind/NeoSolarized'
-Plug 'fszymanski/deoplete-emoji'
 
 call plug#end()
 
@@ -198,13 +185,27 @@ highlight Comment cterm=italic
 highlight Statement cterm=italic
 highlight Type cterm=italic
 
-" Deoplete
-let g:deoplete#enable_at_startup = 1
-autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+" CoC
+inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 
-inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+nmap <silent> <leader>aj <Plug>(coc-diagnostic-prev)
+nmap <silent> <leader>ak <Plug>(coc-diagnostic-next)
 
-let g:deoplete#sources#jedi#show_docstring = 1
+nmap <silent> <c-]> <Plug>(coc-definition)"
+
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocActionAsync('doHover')
+  endif
+endfunction
+
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>qf  <Plug>(coc-fix-current)
 
 " Airline
 let g:airline#extensions#tabline#enabled = 1
@@ -214,35 +215,6 @@ let g:airline#extensions#tabline#show_tab_count = 0
 let g:airline#extensions#tabline#show_tab_nr = 0
 
 let g:airline_detect_spell=0
-
-" Ale
-"
-"
-let js_fixers = ['prettier', 'eslint']
-
-let g:ale_fixers = {
-\   '*': ['remove_trailing_lines', 'trim_whitespace'],
-\   'javascript': js_fixers,
-\   'javascript.jsx': js_fixers,
-\   'typescript': js_fixers,
-\   'typescriptreact': js_fixers,
-\   'css': ['prettier'],
-\   'json': ['prettier'],
-\}
-
-let g:ale_fix_on_save = 1
-let g:ale_linters_explicit = 0
-let g:airline#extensions#ale#enabled = 1
-let g:ale_sign_column_always = 1
-let g:ale_sign_error = "◉"
-let g:ale_sign_warning = "◉"
-highlight ALEErrorSign ctermfg=9 ctermbg=15 guifg=#C30500
-highlight ALEWarningSign ctermfg=11 ctermbg=15 guifg=#ED6237
-
-nmap <silent> <leader>aj :ALENext<cr>
-nmap <silent> <leader>ak :ALEPrevious<cr>
-
-command! ALEToggleFixer execute "let g:ale_fix_on_save = get(g:, 'ale_fix_on_save', 0) ? 0 : 1"
 
 " My todo files
 au BufRead,BufNewFile *.todo        set filetype=todo
@@ -275,6 +247,12 @@ let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 
 " coverage.vim
 let g:coverage_json_report_path = 'coverage/coverage-final.json'
+
+" NERD tree
+map <leader>b :NERDTreeToggle<CR>
+map <leader>v :NERDTreeFind<CR>
+let g:NERDTreeMapJumpNextSibling = ''
+let g:NERDTreeMapJumpPrevSibling = ''
 
 " Javascript specific mappings
 function! SwitchToCodeFile()
@@ -321,35 +299,6 @@ map <leader>jj :call SwitchToCodeFile()<cr>
 map <leader>jt :call SwitchToTestFile()<cr>
 map <leader>js :call SwitchToStyleFile()<cr>
 
-" typescript
-autocmd FileType javascript map <buffer> <c-]> :call LanguageClient#textDocument_definition()<CR>
-autocmd FileType typescript map <buffer> <c-]> :call LanguageClient#textDocument_definition()<CR>
-autocmd FileType typescriptreact map <buffer> <c-]> :call LanguageClient#textDocument_definition()<CR>
-
-autocmd FileType javascript map <buffer> <leader>t :call LanguageClient#textDocument_hover()<CR>
-autocmd FileType typescript map <buffer> <leader>t :call LanguageClient#textDocument_hover()<CR>
-autocmd FileType typescriptreact map <buffer> <leader>t :call LanguageClient#textDocument_hover()<CR>
-
-nnoremap <silent> <leader>ca :call LanguageClient#textDocument_codeAction()<CR>
-
-" NERD tree
-map <leader>b :NERDTreeToggle<CR>
-map <leader>v :NERDTreeFind<CR>
-let g:NERDTreeMapJumpNextSibling = ''
-let g:NERDTreeMapJumpPrevSibling = ''
-
-let g:LanguageClient_serverCommands = {
-    \ 'javascript': ['typescript-language-server', '--stdio'],
-    \ 'typescript': ['typescript-language-server', '--stdio'],
-    \ 'typescriptreact': ['typescript-language-server', '--stdio'],
-    \ 'html': ['html-languageserver', '--stdio'],
-    \ 'css': ['css-languageserver', '--stdio'],
-    \ 'json': ['json-languageserver', '--stdio'],
-    \ 'svelte': ['svelteserver', '--stdio'],
-    \ }
-
-let g:LanguageClient_diagnosticsList='Disabled'
-
 "
 " Stuff I have stopped using
 "
@@ -380,6 +329,9 @@ let g:LanguageClient_diagnosticsList='Disabled'
 " let g:jedi#goto_stubs_command = "<leader>ss"
 "
 " let g:jedi#goto_command = "<c-]>"
+"
+" let g:deoplete#sources#jedi#show_docstring = 1
+"
 " autocmd FileType python map <buffer> <leader>d g<c-]>
 "
 " Plug 'mgedmin/python-imports.vim'
@@ -408,7 +360,8 @@ let g:LanguageClient_diagnosticsList='Disabled'
 " Plug 'Quramy/tsuquyomi'
 " Plug 'Quramy/vim-js-pretty-template'
 
-" Plug 'HerringtonDarkholme/yats.vim'
+" Plug 'pangloss/vim-javascript' " Javascript syntax
+" Plug 'leafgarland/typescript-vim' " Typescript syntax
 " if has('nvim')
 "   Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
 " endif
@@ -467,3 +420,76 @@ let g:LanguageClient_diagnosticsList='Disabled'
 "
 " Plug 'altercation/vim-colors-solarized'
 " Plug 'deathlyfrantic/deoplete-spell' - does not work as I have expected
+"
+" Plugins replaced by CoC
+"
+" Plug 'dense-analysis/ale'
+" Plug 'autozimu/LanguageClient-neovim', {
+"     \ 'branch': 'next',
+"     \ 'do': 'bash install.sh',
+"     \ }
+"
+" if has('nvim')
+"   Plug 'Shougo/deoplete.nvim'
+" else
+"   Plug 'Shougo/deoplete.nvim'
+"   Plug 'roxma/nvim-yarp'
+"   Plug 'roxma/vim-hug-neovim-rpc'
+" endif
+
+" Plug 'fszymanski/deoplete-emoji'
+"
+" Deoplete
+" let g:deoplete#enable_at_startup = 1
+" autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+"
+" Ale
+"
+"
+" let js_fixers = ['prettier', 'eslint']
+"
+" let g:ale_fixers = {
+" \   '*': ['remove_trailing_lines', 'trim_whitespace'],
+" \   'javascript': js_fixers,
+" \   'javascript.jsx': js_fixers,
+" \   'typescript': js_fixers,
+" \   'typescriptreact': js_fixers,
+" \   'css': ['prettier'],
+" \   'json': ['prettier'],
+" \}
+
+" let g:ale_fix_on_save = 1
+" let g:ale_linters_explicit = 0
+" let g:airline#extensions#ale#enabled = 1
+" let g:ale_sign_column_always = 1
+" let g:ale_sign_error = "◉"
+" let g:ale_sign_warning = "◉"
+" highlight ALEErrorSign ctermfg=9 ctermbg=15 guifg=#C30500
+" highlight ALEWarningSign ctermfg=11 ctermbg=15 guifg=#ED6237
+"
+" nmap <silent> <leader>aj :ALENext<cr>
+" nmap <silent> <leader>ak :ALEPrevious<cr>
+"
+" command! ALEToggleFixer execute "let g:ale_fix_on_save = get(g:, 'ale_fix_on_save', 0) ? 0 : 1"
+"
+" autocmd FileType javascript map <buffer> <c-]> :call LanguageClient#textDocument_definition()<CR>
+" autocmd FileType typescript map <buffer> <c-]> :call LanguageClient#textDocument_definition()<CR>
+" autocmd FileType typescriptreact map <buffer> <c-]> :call LanguageClient#textDocument_definition()<CR>
+"
+" autocmd FileType javascript map <buffer> <leader>t :call LanguageClient#textDocument_hover()<CR>
+" autocmd FileType typescript map <buffer> <leader>t :call LanguageClient#textDocument_hover()<CR>
+" autocmd FileType typescriptreact map <buffer> <leader>t :call LanguageClient#textDocument_hover()<CR>
+
+" nnoremap <silent> <leader>ca :call LanguageClient#textDocument_codeAction()<CR>
+"
+" let g:LanguageClient_serverCommands = {
+"     \ 'javascript': ['typescript-language-server', '--stdio'],
+"     \ 'typescript': ['typescript-language-server', '--stdio'],
+"     \ 'typescriptreact': ['typescript-language-server', '--stdio'],
+"     \ 'html': ['html-languageserver', '--stdio'],
+"     \ 'css': ['css-languageserver', '--stdio'],
+"     \ 'json': ['json-languageserver', '--stdio'],
+"     \ 'svelte': ['svelteserver', '--stdio'],
+"     \ }
+"
+" let g:LanguageClient_diagnosticsList='Disabled'
