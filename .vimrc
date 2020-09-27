@@ -46,6 +46,12 @@ set directory=/tmp
 set undofile
 set undodir=/tmp
 
+" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+" delays and poor user experience.
+set updatetime=300
+set shortmess+=c  " Don't pass messages to |ins-completion-menu|.
+set signcolumn=number " merge signcolumn and number column into one
+
 set diffopt+=vertical " Vertical diff
 
 let g:netrw_browsex_viewer="setsid xdg-open"    " Make gx command work properly with URLs in gvim
@@ -191,7 +197,10 @@ inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 nmap <silent> <leader>aj <Plug>(coc-diagnostic-prev)
 nmap <silent> <leader>ak <Plug>(coc-diagnostic-next)
 
-nmap <silent> <c-]> <Plug>(coc-definition)"
+nmap <silent> <c-]> <Plug>(coc-definition)
+nmap <silent> gr <Plug>(coc-references)
+
+nmap <leader>rn <Plug>(coc-rename)
 
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 

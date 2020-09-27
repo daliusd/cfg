@@ -1,3 +1,6 @@
 {
-  "eslint.autoFixOnSave": true
+  "eslint.autoFixOnSave": true,
+  "diagnostic.errorSign": "➤",
+  "diagnostic.infoSign": "↬",
+  "diagnostic.hintSign": "↬"
 }
