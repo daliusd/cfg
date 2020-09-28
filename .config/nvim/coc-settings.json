@@ -1,5 +1,6 @@
 {
   "eslint.autoFixOnSave": true,
+  "coc.preferences.formatOnSaveFiletypes": ["css", "javascript", "typescript"],
   "diagnostic.errorSign": "➤",
   "diagnostic.infoSign": "↬",
   "diagnostic.hintSign": "↬"
