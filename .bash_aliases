@@ -25,3 +25,10 @@ alias npmpublic='npm config set registry https://registry.npmjs.org/ && npm conf
 alias npmprivate='npm config set registry http://npm.dev.wixpress.com && npm config get registry'
 
 alias fixenvrc='fd --hidden .nvmrc -x sh -c "echo ''use fnm'' > {//}/.envrc"'
+
+alias ga='git add .'
+alias gs='git status'
+alias gc='git commit'
+alias gps='git push'
+alias gpl='git pull'
+alias gl='git log --oneline'
