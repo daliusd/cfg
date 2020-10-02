@@ -197,7 +197,10 @@ let g:coc_global_extensions = [
 \ 'coc-prettier',
 \ 'coc-python',
 \ 'coc-tsserver',
-\ 'coc-explorer'
+\ 'coc-explorer',
+\ 'coc-markdownlint',
+\ 'coc-vimlsp',
+\ 'coc-word'
 \ ]
 
 inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
