@@ -4,5 +4,6 @@
   "diagnostic.errorSign": "➤",
   "diagnostic.infoSign": "↬",
   "diagnostic.hintSign": "↬",
+  "explorer.icon.enableNerdfont": true,
   "coc.source.emoji.filetypes": ["markdown", "gitcommit"]
 }

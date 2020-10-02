@@ -113,7 +113,6 @@ map <silent> <leader>n :silent noh<CR>
 map <C-n> :cn<cr>
 map <C-p> :cp<cr>
 nmap <leader>p :let @+ = expand('%:p')<cr>
-map <leader>e :e %:p:h<CR> " Open folder of current file
 map <leader>cd :cd %:p:h<CR>:pwd<CR> " CD to current's file directory
 
 map <leader>jf :%!python -m json.tool<cr>
@@ -150,10 +149,6 @@ call plug#begin('~/.vim/plugged')
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}"
-
-Plug 'scrooloose/nerdtree'
-Plug 'Xuyuanp/nerdtree-git-plugin'
-Plug 'ryanoasis/vim-devicons'
 
 Plug 'jamessan/vim-gnupg'
 
@@ -201,7 +196,8 @@ let g:coc_global_extensions = [
 \ 'coc-json',
 \ 'coc-prettier',
 \ 'coc-python',
-\ 'coc-tsserver'
+\ 'coc-tsserver',
+\ 'coc-explorer'
 \ ]
 
 inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
@@ -231,6 +227,8 @@ nmap <leader>qf  <Plug>(coc-fix-current)
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
 command! -nargs=0 Tsc :call CocAction('runCommand', 'tsserver.watchBuild')
+
+map <leader>e :CocCommand explorer<CR>
 
 " Airline
 let g:airline#extensions#tabline#enabled = 1
@@ -273,11 +271,6 @@ let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 " coverage.vim
 let g:coverage_json_report_path = 'coverage/coverage-final.json'
 
-" NERD tree
-map <leader>b :NERDTreeToggle<CR>
-map <leader>v :NERDTreeFind<CR>
-let g:NERDTreeMapJumpNextSibling = ''
-let g:NERDTreeMapJumpPrevSibling = ''
 
 " Javascript specific mappings
 function! SwitchToCodeFile()
@@ -518,3 +511,17 @@ map <leader>js :call SwitchToStyleFile()<cr>
 "     \ }
 "
 " let g:LanguageClient_diagnosticsList='Disabled'
+"
+"
+" Replaced by coc-explorer
+"
+" NERD tree
+"
+" Plug 'scrooloose/nerdtree'
+" Plug 'Xuyuanp/nerdtree-git-plugin'
+" Plug 'ryanoasis/vim-devicons'
+"
+" map <leader>b :NERDTreeToggle<CR>
+" map <leader>v :NERDTreeFind<CR>
+" let g:NERDTreeMapJumpNextSibling = ''
+" let g:NERDTreeMapJumpPrevSibling = ''
