@@ -192,6 +192,18 @@ highlight Statement cterm=italic
 highlight Type cterm=italic
 
 " CoC
+
+let g:coc_global_extensions = [
+\ 'coc-css',
+\ 'coc-emoji',
+\ 'coc-eslint',
+\ 'coc-html',
+\ 'coc-json',
+\ 'coc-prettier',
+\ 'coc-python',
+\ 'coc-tsserver'
+\ ]
+
 inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 
 nmap <silent> <leader>aj <Plug>(coc-diagnostic-prev)
@@ -217,6 +229,8 @@ nmap <leader>a  <Plug>(coc-codeaction-selected)
 nmap <leader>qf  <Plug>(coc-fix-current)
 
 autocmd CursorHold * silent call CocActionAsync('highlight')
+
+command! -nargs=0 Tsc :call CocAction('runCommand', 'tsserver.watchBuild')
 
 " Airline
 let g:airline#extensions#tabline#enabled = 1
