@@ -216,6 +216,8 @@ xmap <leader>a  <Plug>(coc-codeaction-selected)
 nmap <leader>a  <Plug>(coc-codeaction-selected)
 nmap <leader>qf  <Plug>(coc-fix-current)
 
+autocmd CursorHold * silent call CocActionAsync('highlight')
+
 " Airline
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#show_buffers = 0
