@@ -12,37 +12,14 @@ fi
 
 complete -o bashdefault -o default -o nospace -F __git_wrap__git_main cfg
 
-PS1='$(__git_ps1)'$PS1
-
-eval "$(direnv hook bash)"
-
-show_virtual_env() {
-  if [ -n "$VIRTUAL_ENV" ]; then
-    echo "($(basename $VIRTUAL_ENV))"
-  fi
-}
-export -f show_virtual_env
-PS1='$(show_virtual_env)'$PS1
-
+PS1='\e[34m$(__git_ps1)\e[0m '$PS1
 
 show_node_version() {
     node -v
 }
-
-PS1='[N:$(show_node_version)]'$PS1
+PS1='\e[1m[N:$(show_node_version)]\e[0m'$PS1
 
 ulimit -n 4096 # Recommendation from https://github.com/carlitux/deoplete-ternjs
-
-# pip bash completion start
-_pip_completion()
-{
-    COMPREPLY=( $( COMP_WORDS="${COMP_WORDS[*]}" \
-                   COMP_CWORD=$COMP_CWORD \
-                   PIP_AUTO_COMPLETE=1 $1 ) )
-}
-complete -o default -F _pip_completion pip
-# pip bash completion end
-# eval "$(pipenv --completion)"
 
 # FZF should use fd command
 
@@ -58,6 +35,20 @@ GPG_TTY=`tty`
 export GPG_TTY
 
 eval "$(fnm env --multi)"
+
+function nvmrc_check() {
+  if [[ -f .nvmrc ]]
+  then
+    fnm use
+  fi
+}
+
+function cd() {
+  builtin cd "$@"
+  nvmrc_check
+}
+
+nvmrc_check
 
 # Mac OS X stuff
 
