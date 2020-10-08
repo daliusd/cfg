@@ -27,6 +27,7 @@ alias npmprivate='npm config set registry http://npm.dev.wixpress.com && npm con
 alias fixenvrc='fd --hidden .nvmrc -x sh -c "echo ''use fnm'' > {//}/.envrc"'
 
 alias ga='git add .'
+alias gb='git branch'
 alias gs='git status'
 alias gd='git diff'
 alias gc='git commit'
