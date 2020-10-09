@@ -240,7 +240,33 @@ let g:airline#extensions#tabline#show_splits = 0
 let g:airline#extensions#tabline#show_tab_count = 0
 let g:airline#extensions#tabline#show_tab_nr = 0
 
+let g:airline_powerline_fonts = 1
 let g:airline_detect_spell=0
+let g:airline_theme='silver'
+let g:airline#extensions#tabline#formatter = 'unique_tail'
+let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
+
+let g:airline_mode_map = {
+    \ '__'     : '-',
+    \ 'c'      : 'C',
+    \ 'i'      : 'I',
+    \ 'ic'     : 'I',
+    \ 'ix'     : 'I',
+    \ 'n'      : 'N',
+    \ 'multi'  : 'M',
+    \ 'ni'     : 'N',
+    \ 'no'     : 'N',
+    \ 'R'      : 'R',
+    \ 'Rv'     : 'R',
+    \ 's'      : 'S',
+    \ 'S'      : 'S',
+    \ ''     : 'S',
+    \ 't'      : 'T',
+    \ 'v'      : 'V',
+    \ 'V'      : 'V',
+    \ ''     : 'V',
+    \ }
+
 
 " My todo files
 au BufRead,BufNewFile *.todo        set filetype=todo
