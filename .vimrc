@@ -347,7 +347,7 @@ map <leader>jt :call SwitchToTestFile()<cr>
 map <leader>js :call SwitchToStyleFile()<cr>
 
 function! OpenFailingTest()
-  let lastFile = system("tmux select-pane -L && tmux capture-pane -pNJ -S - | rg -o '[[:alnum:]_.$&+=/@-]*:[0-9]*:[0-9]*' | tail -n 1 && tmux select-pane -R")
+  let lastFile = system("tmux select-pane -L && tmux capture-pane -pJ -S - | rg -o '[[:alnum:]_.$&+=/@-]*:[0-9]*:[0-9]*' | tail -n 1 && tmux select-pane -R")
   let path = split(lastFile, ':')
   if filereadable(path[0])
     exe 'e ' . path[0]
