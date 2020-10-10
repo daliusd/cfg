@@ -347,13 +347,13 @@ map <leader>jt :call SwitchToTestFile()<cr>
 map <leader>js :call SwitchToStyleFile()<cr>
 
 function! OpenFailingTest()
-  silent! exec "!tmux select-pane -L && tmux run-shell \"~/.tmux/plugins/tmux-copycat/scripts/copycat_mode_start.sh '[[:alnum:]_.$&+=/@-]*:[0-9]*:[0-9]*'\" && tmux send-keys -X copy-pipe-and-cancel \"xclip -selection clipboard\" && tmux select-pane -R"
-  let path = split(getreg('+'), ':')
+  let lastFile = system("tmux select-pane -L && tmux capture-pane -pNJ -S - | rg -o '[[:alnum:]_.$&+=/@-]*:[0-9]*:[0-9]*' | tail -n 1 && tmux select-pane -R")
+  let path = split(lastFile, ':')
   if filereadable(path[0])
     exe 'e ' . path[0]
     call cursor(str2nr(path[1]), str2nr(path[2]))
   else
-    echo "File not found: " . getreg('+')
+    echo "File not found: " . lastFile
   endif
 endfunction
 
