@@ -346,6 +346,19 @@ map <leader>jj :call SwitchToCodeFile()<cr>
 map <leader>jt :call SwitchToTestFile()<cr>
 map <leader>js :call SwitchToStyleFile()<cr>
 
+function! OpenFailingTest()
+  silent! exec "!tmux select-pane -L && tmux run-shell \"~/.tmux/plugins/tmux-copycat/scripts/copycat_mode_start.sh '[[:alnum:]_.$&+=/@-]*:[0-9]*:[0-9]*'\" && tmux send-keys -X copy-pipe-and-cancel \"xclip -selection clipboard\" && tmux select-pane -R"
+  let path = split(getreg('+'), ':')
+  if filereadable(path[0])
+    exe 'e ' . path[0]
+    call cursor(str2nr(path[1]), str2nr(path[2]))
+  else
+    echo "File not found: " . getreg('+')
+  endif
+endfunction
+
+map <leader>t :call OpenFailingTest()<cr>
+
 "
 " Stuff I have stopped using
 "
