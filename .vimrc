@@ -8,8 +8,8 @@ if has('nvim')
   vnoremap <C-s>    <C-C>:update<CR>
   inoremap <C-s>    <Esc>:update<CR>gi
 
-  cmap <C-v> <C-r>+
-  imap <C-v> <C-r>+
+  cnoremap <C-v> <C-r>+
+  inoremap <C-v> <C-r>+
   tnoremap <expr> <C-v> '<C-\><C-N>pi'
 
   set autoread
@@ -88,19 +88,22 @@ set smartcase   " Ignore ignorecase if search contains upper case letters
 
 " Some little keyboard goods
 noremap ; :
-imap jj <ESC>j
+inoremap jj <ESC>j
+
+" Exit terminal mode using escape
+tnoremap <ESC> <C-\><C-n>
 
 " Better navigation for wrapped lines.
-noremap j gj
-noremap k gk
-map <silent> <up> gk
-imap <silent> <up> <C-o>gk
-map <silent> <down> gj
-imap <silent> <down> <C-o>gj
-map <silent> <home> g<home>
-imap <silent> <home> <C-o>g<home>
-map <silent> <end> g<end>
-imap <silent> <end> <C-o>g<end>
+nnoremap j gj
+nnoremap k gk
+nnoremap <silent> <up> gk
+inoremap <silent> <up> <C-o>gk
+nnoremap <silent> <down> gj
+inoremap <silent> <down> <C-o>gj
+nnoremap <silent> <home> g<home>
+inoremap <silent> <home> <C-o>g<home>
+nnoremap <silent> <end> g<end>
+inoremap <silent> <end> <C-o>g<end>
 
 " Command mode up/down remap
 cnoremap <c-k> <up>
@@ -109,14 +112,14 @@ cnoremap <c-j> <down>
 " Leader commands
 let mapleader = ","
 
-map <silent> <leader>n :silent noh<CR>
-map <C-n> :cn<cr>
-map <C-p> :cp<cr>
-nmap <leader>p :let @+ = expand('%:p')<cr>
-map <leader>cd :cd %:p:h<CR>:pwd<CR> " CD to current's file directory
+nnoremap <silent> <leader>n :silent noh<CR>
+nnoremap <C-n> :cn<cr>
+nnoremap <C-p> :cp<cr>
+nnoremap <leader>p :let @+ = expand('%:p')<cr>
+nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR> " CD to current's file directory
 
-map <leader>jf :%!python -m json.tool<cr>
-map <leader>sh :%!node ~/sht.js<cr>
+nnoremap <leader>jf :%!python -m json.tool<cr>
+nnoremap <leader>sh :%!node ~/sht.js<cr>
 nnoremap <leader>d "=strftime("%Y-%m-%d ")<CR>P
 inoremap <leader>d <C-R>=strftime("%Y-%m-%d ")<CR>
 
@@ -126,17 +129,17 @@ au BufRead,BufNewFile *.md     setlocal textwidth=66
 au BufRead,BufNewFile *.rst     setlocal textwidth=66
 
 " Tab navigation
-map <c-j> :tabnext<CR>
-map <c-k> :tabprev<CR>
-map <c-l> :tabm +1<CR>
-map <c-g> :tabm -1<CR>
+nnoremap <c-j> :tabnext<CR>
+nnoremap <c-k> :tabprev<CR>
+nnoremap <c-l> :tabm +1<CR>
+nnoremap <c-g> :tabm -1<CR>
 
 
-map tt :tabnew<CR>
-map td :tabclose<CR>
-map ta :tabnew<CR>
-map ts :tab split<CR>
-map to :tabonly<CR>
+nnoremap tt :tabnew<CR>
+nnoremap td :tabclose<CR>
+nnoremap ta :tabnew<CR>
+nnoremap ts :tab split<CR>
+nnoremap to :tabonly<CR>
 
 " Faster navigation through code
 :set grepprg=rg\ --vimgrep\ -M\ 160\ -S\ --ignore-file\ ~/.gitignore_global
@@ -205,13 +208,13 @@ let g:coc_global_extensions = [
 
 inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 
-nmap <silent> <leader>aj <Plug>(coc-diagnostic-prev)
-nmap <silent> <leader>ak <Plug>(coc-diagnostic-next)
+nnoremap <silent> <leader>aj <Plug>(coc-diagnostic-prev)
+nnoremap <silent> <leader>ak <Plug>(coc-diagnostic-next)
 
-nmap <silent> <c-]> <Plug>(coc-definition)
-nmap <silent> gr <Plug>(coc-references)
+nnoremap <silent> <c-]> <Plug>(coc-definition)
+nnoremap <silent> gr <Plug>(coc-references)
 
-nmap <leader>rn <Plug>(coc-rename)
+nnoremap <leader>rn <Plug>(coc-rename)
 
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
@@ -223,15 +226,15 @@ function! s:show_documentation()
   endif
 endfunction
 
-xmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>qf  <Plug>(coc-fix-current)
+xnoremap <leader>a  <Plug>(coc-codeaction-selected)
+nnoremap <leader>a  <Plug>(coc-codeaction-selected)
+nnoremap <leader>qf  <Plug>(coc-fix-current)
 
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
 command! -nargs=0 Tsc :call CocAction('runCommand', 'tsserver.watchBuild')
 
-map <leader>e :CocCommand explorer<CR>
+nnoremap <leader>e :CocCommand explorer<CR>
 
 " Airline
 let g:airline#extensions#tabline#enabled = 1
@@ -288,8 +291,8 @@ command! -bang -nargs=* Rgw
 
 :cnoreabbrev rg Rg
 
-map <leader>s :Rgw<cr>
-map <leader>g :gr <cword><cr>
+nnoremap <leader>s :Rgw<cr>
+nnoremap <leader>g :gr <cword><cr>
 
 " vim-json
 let g:vim_json_syntax_conceal = 0
