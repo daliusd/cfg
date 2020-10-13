@@ -88,10 +88,10 @@ set smartcase   " Ignore ignorecase if search contains upper case letters
 
 " Some little keyboard goods
 noremap ; :
-inoremap jj <ESC>j
+inoremap jk <ESC>
 
 " Exit terminal mode using escape
-tnoremap <ESC> <C-\><C-n>
+tnoremap jk <C-\><C-n>
 
 " Better navigation for wrapped lines.
 nnoremap j gj
