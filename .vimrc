@@ -132,7 +132,7 @@ au BufRead,BufNewFile *.rst     setlocal textwidth=66
 nnoremap <c-j> :tabnext<CR>
 nnoremap <c-k> :tabprev<CR>
 nnoremap <c-l> :tabm +1<CR>
-nnoremap <c-g> :tabm -1<CR>
+nnoremap <c-h> :tabm -1<CR>
 
 
 nnoremap tt :tabnew<CR>
@@ -279,7 +279,7 @@ set rtp+=~/.fzf
 let g:fzf_buffers_jump = 1
 let g:fzf_layout = { 'window' : { 'width': 1, 'height': 0.8, 'highlight': 'Normal' } }
 nnoremap <c-f> :Files<cr>
-nnoremap <c-h> :History<cr>
+nnoremap <c-g> :History<cr>
 
 command! -bang -nargs=* Rg
     \ call fzf#vim#grep("rg --vimgrep --smart-case \"".<q-args>."\"", 1,
