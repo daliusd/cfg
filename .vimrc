@@ -208,13 +208,13 @@ let g:coc_global_extensions = [
 
 inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 
-nnoremap <silent> <leader>aj <Plug>(coc-diagnostic-prev)
-nnoremap <silent> <leader>ak <Plug>(coc-diagnostic-next)
+nmap <silent> <leader>aj <Plug>(coc-diagnostic-prev)
+nmap <silent> <leader>ak <Plug>(coc-diagnostic-next)
 
-nnoremap <silent> <c-]> <Plug>(coc-definition)
-nnoremap <silent> gr <Plug>(coc-references)
+nmap <silent> <c-]> <Plug>(coc-definition)
+nmap <silent> gr <Plug>(coc-references)
 
-nnoremap <leader>rn <Plug>(coc-rename)
+nmap <leader>rn <Plug>(coc-rename)
 
 nnoremap <silent> K :call <SID>show_documentation()<CR>
 
@@ -226,9 +226,9 @@ function! s:show_documentation()
   endif
 endfunction
 
-xnoremap <leader>a  <Plug>(coc-codeaction-selected)
-nnoremap <leader>a  <Plug>(coc-codeaction-selected)
-nnoremap <leader>qf  <Plug>(coc-fix-current)
+xmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>a  <Plug>(coc-codeaction-selected)
+nmap <leader>qf  <Plug>(coc-fix-current)
 
 autocmd CursorHold * silent call CocActionAsync('highlight')
 
