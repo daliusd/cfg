@@ -151,7 +151,18 @@ call plug#begin('~/.vim/plugged')
 " Generic programming plugins
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'neoclide/coc.nvim', {'branch': 'release'}"
+
+Plug 'lambdalisue/fern.vim'
+Plug 'lambdalisue/fern-git-status.vim'
+Plug 'lambdalisue/glyph-palette.vim'
+Plug 'lambdalisue/nerdfont.vim'
+Plug 'lambdalisue/fern-renderer-nerdfont.vim'
+Plug 'lambdalisue/fern-hijack.vim'
+
+Plug 'neovim/nvim-lspconfig'
+Plug 'nvim-lua/completion-nvim'
+Plug 'nvim-lua/diagnostic-nvim'
+Plug 'dense-analysis/ale'
 
 Plug 'jamessan/vim-gnupg'
 
@@ -189,52 +200,98 @@ highlight Comment cterm=italic
 highlight Statement cterm=italic
 highlight Type cterm=italic
 
-" CoC
+" LSP
 
-let g:coc_global_extensions = [
-\ 'coc-css',
-\ 'coc-emoji',
-\ 'coc-eslint',
-\ 'coc-html',
-\ 'coc-json',
-\ 'coc-prettier',
-\ 'coc-python',
-\ 'coc-tsserver',
-\ 'coc-explorer',
-\ 'coc-markdownlint',
-\ 'coc-vimlsp',
-\ 'coc-word'
-\ ]
+lua <<EOF
 
-inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+local on_attach = function(_, bufnr)
+  require'diagnostic'.on_attach()
+  require'completion'.on_attach()
+end
 
-nmap <silent> <leader>aj <Plug>(coc-diagnostic-prev)
-nmap <silent> <leader>ak <Plug>(coc-diagnostic-next)
+require'nvim_lsp'.tsserver.setup{}
+require'nvim_lsp'.tsserver.setup{on_attach=on_attach}
+require'nvim_lsp'.cssls.setup{}
+require'nvim_lsp'.cssls.setup{on_attach=on_attach}
+require'nvim_lsp'.html.setup{}
+require'nvim_lsp'.html.setup{on_attach=on_attach}
+require'nvim_lsp'.jsonls.setup{}
+require'nvim_lsp'.jsonls.setup{on_attach=on_attach}
+EOF
 
-nmap <silent> <c-]> <Plug>(coc-definition)
-nmap <silent> gr <Plug>(coc-references)
+nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
+nnoremap <leader>qf     <cmd>lua vim.lsp.buf.code_action()<CR>
+nnoremap <leader>rn     <cmd>lua vim.lsp.buf.rename()<CR>
+nnoremap <leader>ld     <cmd>lua vim.lsp.util.show_line_diagnostics()<CR>
 
-nmap <leader>rn <Plug>(coc-rename)
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <C-j>   pumvisible() ? "\<C-n>" : "\<C-j>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <C-k>   pumvisible() ? "\<C-p>" : "\<C-k>"
 
-nnoremap <silent> K :call <SID>show_documentation()<CR>
+nnoremap <silent> <leader>aj :PrevDiagnosticCycle<CR>
+nnoremap <silent> <leader>ak :NextDiagnosticCycle<CR>
 
-function! s:show_documentation()
-  if (index(['vim','help'], &filetype) >= 0)
-    execute 'h '.expand('<cword>')
-  else
-    call CocActionAsync('doHover')
-  endif
-endfunction
+" Set completeopt to have a better completion experience
+set completeopt=menuone,noinsert,noselect
 
-xmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>a  <Plug>(coc-codeaction-selected)
-nmap <leader>qf  <Plug>(coc-fix-current)
+" Avoid showing message extra message when using completion
+set shortmess+=c
 
-autocmd CursorHold * silent call CocActionAsync('highlight')
+let g:diagnostic_enable_virtual_text = 1
+let g:diagnostic_virtual_text_prefix = ' '
+let g:diagnostic_insert_delay = 1
 
-command! -nargs=0 Tsc :call CocAction('runCommand', 'tsserver.watchBuild')
+call sign_define("LspDiagnosticsErrorSign", {"text" : "➤", "texthl" : "LspDiagnosticsError"})
+call sign_define("LspDiagnosticsWarningSign", {"text" : "➤", "texthl" : "LspDiagnosticsWarning"})
+call sign_define("LspDiagnosticsInformationSign", {"text" : "↬", "texthl" : "LspDiagnosticsInformation"})
+call sign_define("LspDiagnosticsHintSign", {"text" : "↬", "texthl" : "LspDiagnosticsHint"})
 
-nnoremap <leader>e :CocCommand explorer<CR>
+" Fern
+nnoremap <leader>e :Fern . -reveal=%<cr>
+let g:fern#renderer = "nerdfont"
+
+augroup my-glyph-palette
+  autocmd! *
+  autocmd FileType fern call glyph_palette#apply()
+  autocmd FileType nerdtree,startify call glyph_palette#apply()
+augroup END
+
+" Ale
+let g:ale_linters = {
+\   'javascript': ['eslint'],
+\   'javascript.jsx': ['eslint'],
+\   'typescript': ['eslint'],
+\   'typescriptreact': ['eslint'],
+\}
+
+let js_fixers = ['prettier', 'eslint']
+
+let g:ale_fixers = {
+\   '*': ['remove_trailing_lines', 'trim_whitespace'],
+\   'javascript': js_fixers,
+\   'javascript.jsx': js_fixers,
+\   'typescript': js_fixers,
+\   'typescriptreact': js_fixers,
+\   'css': ['prettier'],
+\   'json': ['prettier'],
+\}
+
+let g:ale_fix_on_save = 1
+let g:ale_linters_explicit = 0
+let g:airline#extensions#ale#enabled = 1
+let g:ale_sign_column_always = 1
+let g:ale_sign_error = "◉"
+let g:ale_sign_warning = "◉"
+highlight ALEErrorSign ctermfg=9 ctermbg=15 guifg=#C30500
+highlight ALEWarningSign ctermfg=11 ctermbg=15 guifg=#ED6237
+
+" nmap <silent> <leader>aj :ALENext<cr>
+" nmap <silent> <leader>ak :ALEPrevious<cr>
+
+command! ALEToggleFixer execute "let g:ale_fix_on_save = get(g:, 'ale_fix_on_save', 0) ? 0 : 1"
 
 " Airline
 let g:airline#extensions#tabline#enabled = 1
@@ -362,6 +419,53 @@ endfunction
 
 map <leader>t :call OpenFailingTest()<cr>
 
+" Plug 'neoclide/coc.nvim', {'branch': 'release'}"
+
+" CoC
+
+" let g:coc_global_extensions = [
+" \ 'coc-css',
+" \ 'coc-emoji',
+" \ 'coc-eslint',
+" \ 'coc-html',
+" \ 'coc-json',
+" \ 'coc-prettier',
+" \ 'coc-python',
+" \ 'coc-tsserver',
+" \ 'coc-explorer',
+" \ 'coc-markdownlint',
+" \ 'coc-vimlsp',
+" \ 'coc-word'
+" \ ]
+"
+" inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+"
+" nmap <silent> <leader>aj <Plug>(coc-diagnostic-prev)
+" nmap <silent> <leader>ak <Plug>(coc-diagnostic-next)
+"
+" nmap <silent> <c-]> <Plug>(coc-definition)
+" nmap <silent> gr <Plug>(coc-references)
+"
+" nmap <leader>rn <Plug>(coc-rename)
+"
+" nnoremap <silent> K :call <SID>show_documentation()<CR>
+"
+" function! s:show_documentation()
+"   if (index(['vim','help'], &filetype) >= 0)
+"     execute 'h '.expand('<cword>')
+"   else
+"     call CocActionAsync('doHover')
+"   endif
+" endfunction
+"
+" nmap <leader>qf  <Plug>(coc-fix-current)
+"
+" autocmd CursorHold * silent call CocActionAsync('highlight')
+"
+" command! -nargs=0 Tsc :call CocAction('runCommand', 'tsserver.watchBuild')
+"
+" nnoremap <leader>e :CocCommand explorer<CR>
+
 "
 " Stuff I have stopped using
 "
@@ -486,7 +590,6 @@ map <leader>t :call OpenFailingTest()<cr>
 "
 " Plugins replaced by CoC
 "
-" Plug 'dense-analysis/ale'
 " Plug 'autozimu/LanguageClient-neovim', {
 "     \ 'branch': 'next',
 "     \ 'do': 'bash install.sh',
