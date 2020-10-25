@@ -283,8 +283,8 @@ let g:ale_fix_on_save = 1
 let g:ale_linters_explicit = 0
 let g:airline#extensions#ale#enabled = 1
 let g:ale_sign_column_always = 1
-let g:ale_sign_error = "◉"
-let g:ale_sign_warning = "◉"
+let g:ale_sign_error = "➤"
+let g:ale_sign_warning = "➤"
 highlight ALEErrorSign ctermfg=9 ctermbg=15 guifg=#C30500
 highlight ALEWarningSign ctermfg=11 ctermbg=15 guifg=#ED6237
 
@@ -608,35 +608,6 @@ map <leader>t :call OpenFailingTest()<cr>
 " Deoplete
 " let g:deoplete#enable_at_startup = 1
 " autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
-"
-" Ale
-"
-"
-" let js_fixers = ['prettier', 'eslint']
-"
-" let g:ale_fixers = {
-" \   '*': ['remove_trailing_lines', 'trim_whitespace'],
-" \   'javascript': js_fixers,
-" \   'javascript.jsx': js_fixers,
-" \   'typescript': js_fixers,
-" \   'typescriptreact': js_fixers,
-" \   'css': ['prettier'],
-" \   'json': ['prettier'],
-" \}
-
-" let g:ale_fix_on_save = 1
-" let g:ale_linters_explicit = 0
-" let g:airline#extensions#ale#enabled = 1
-" let g:ale_sign_column_always = 1
-" let g:ale_sign_error = "◉"
-" let g:ale_sign_warning = "◉"
-" highlight ALEErrorSign ctermfg=9 ctermbg=15 guifg=#C30500
-" highlight ALEWarningSign ctermfg=11 ctermbg=15 guifg=#ED6237
-"
-" nmap <silent> <leader>aj :ALENext<cr>
-" nmap <silent> <leader>ak :ALEPrevious<cr>
-"
-" command! ALEToggleFixer execute "let g:ale_fix_on_save = get(g:, 'ale_fix_on_save', 0) ? 0 : 1"
 "
 " autocmd FileType javascript map <buffer> <c-]> :call LanguageClient#textDocument_definition()<CR>
 " autocmd FileType typescript map <buffer> <c-]> :call LanguageClient#textDocument_definition()<CR>
