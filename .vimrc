@@ -250,7 +250,7 @@ call sign_define("LspDiagnosticsInformationSign", {"text" : "↬", "texthl" : "L
 call sign_define("LspDiagnosticsHintSign", {"text" : "↬", "texthl" : "LspDiagnosticsHint"})
 
 " Fern
-nnoremap <leader>e :Fern . -reveal=%<cr>
+nnoremap <leader>e :Fern %:h<cr>
 let g:fern#renderer = "nerdfont"
 
 augroup my-glyph-palette
