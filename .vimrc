@@ -159,11 +159,13 @@ Plug 'lambdalisue/nerdfont.vim'
 Plug 'lambdalisue/fern-renderer-nerdfont.vim'
 Plug 'lambdalisue/fern-hijack.vim'
 
-Plug 'neovim/nvim-lspconfig'
-Plug 'nvim-lua/completion-nvim'
-Plug 'nvim-lua/diagnostic-nvim'
-Plug 'dense-analysis/ale'
+" Plug 'dense-analysis/ale'
+Plug '~/projects/ale'
 
+Plug 'Shougo/deoplete.nvim'
+Plug 'fszymanski/deoplete-emoji'
+
+Plug 'junegunn/vader.vim'
 Plug 'jamessan/vim-gnupg'
 
 Plug 'editorconfig/editorconfig-vim'
@@ -200,54 +202,6 @@ highlight Comment cterm=italic
 highlight Statement cterm=italic
 highlight Type cterm=italic
 
-" LSP
-
-lua <<EOF
-
-local on_attach = function(_, bufnr)
-  require'diagnostic'.on_attach()
-  require'completion'.on_attach()
-end
-
-require'nvim_lsp'.tsserver.setup{}
-require'nvim_lsp'.tsserver.setup{on_attach=on_attach}
-require'nvim_lsp'.cssls.setup{}
-require'nvim_lsp'.cssls.setup{on_attach=on_attach}
-require'nvim_lsp'.html.setup{}
-require'nvim_lsp'.html.setup{on_attach=on_attach}
-require'nvim_lsp'.jsonls.setup{}
-require'nvim_lsp'.jsonls.setup{on_attach=on_attach}
-EOF
-
-nnoremap <silent> <c-]> <cmd>lua vim.lsp.buf.definition()<CR>
-nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
-nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
-nnoremap <leader>qf     <cmd>lua vim.lsp.buf.code_action()<CR>
-nnoremap <leader>rn     <cmd>lua vim.lsp.buf.rename()<CR>
-nnoremap <leader>ld     <cmd>lua vim.lsp.util.show_line_diagnostics()<CR>
-
-inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <C-j>   pumvisible() ? "\<C-n>" : "\<C-j>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <expr> <C-k>   pumvisible() ? "\<C-p>" : "\<C-k>"
-
-nnoremap <silent> <leader>aj :PrevDiagnosticCycle<CR>
-nnoremap <silent> <leader>ak :NextDiagnosticCycle<CR>
-
-" Set completeopt to have a better completion experience
-set completeopt=menuone,noinsert,noselect
-
-" Avoid showing message extra message when using completion
-set shortmess+=c
-
-let g:diagnostic_enable_virtual_text = 1
-let g:diagnostic_virtual_text_prefix = ' '
-let g:diagnostic_insert_delay = 1
-
-call sign_define("LspDiagnosticsErrorSign", {"text" : "➤", "texthl" : "LspDiagnosticsError"})
-call sign_define("LspDiagnosticsWarningSign", {"text" : "➤", "texthl" : "LspDiagnosticsWarning"})
-call sign_define("LspDiagnosticsInformationSign", {"text" : "↬", "texthl" : "LspDiagnosticsInformation"})
-call sign_define("LspDiagnosticsHintSign", {"text" : "↬", "texthl" : "LspDiagnosticsHint"})
 
 " Fern
 nnoremap <leader>e :Fern %:h<cr>
@@ -260,38 +214,44 @@ augroup my-glyph-palette
 augroup END
 
 " Ale
-let g:ale_linters = {
-\   'javascript': ['eslint'],
-\   'javascript.jsx': ['eslint'],
-\   'typescript': ['eslint'],
-\   'typescriptreact': ['eslint'],
-\}
-
-let js_fixers = ['prettier', 'eslint']
-
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
-\   'javascript': js_fixers,
-\   'javascript.jsx': js_fixers,
-\   'typescript': js_fixers,
-\   'typescriptreact': js_fixers,
-\   'css': ['prettier'],
-\   'json': ['prettier'],
 \}
 
 let g:ale_fix_on_save = 1
-let g:ale_linters_explicit = 0
 let g:airline#extensions#ale#enabled = 1
 let g:ale_sign_column_always = 1
-let g:ale_sign_error = "➤"
-let g:ale_sign_warning = "➤"
+let g:ale_sign_error = "🐛"
+let g:ale_sign_warning = "⚠️"
+let g:ale_sign_info = "ℹ"
 highlight ALEErrorSign ctermfg=9 ctermbg=15 guifg=#C30500
 highlight ALEWarningSign ctermfg=11 ctermbg=15 guifg=#ED6237
 
-" nmap <silent> <leader>aj :ALENext<cr>
-" nmap <silent> <leader>ak :ALEPrevious<cr>
+nmap <silent> <leader>aj :ALENext<cr>
+nmap <silent> <leader>ak :ALEPrevious<cr>
+
+autocmd FileType javascript map <buffer> <c-]> :ALEGoToDefinition<CR>
+autocmd FileType typescript map <buffer> <c-]> :ALEGoToDefinition<CR>
+autocmd FileType typescriptreact map <buffer> <c-]> :ALEGoToDefinition<CR>
+
+nnoremap K :ALEHover<CR>
+nnoremap <leader>qf :ALECodeFix<CR>
+nnoremap <leader>rn :ALERename<CR>
+nnoremap <silent> gr :ALEFindReferences<CR>
 
 command! ALEToggleFixer execute "let g:ale_fix_on_save = get(g:, 'ale_fix_on_save', 0) ? 0 : 1"
+
+" Deoplete
+
+let g:deoplete#enable_at_startup = 1
+autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
+
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <C-j>   pumvisible() ? "\<C-n>" : "\<C-j>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <C-k>   pumvisible() ? "\<C-p>" : "\<C-k>"
+
+call deoplete#custom#source('emoji', 'converters', ['converter_emoji'])
 
 " Airline
 let g:airline#extensions#tabline#enabled = 1
@@ -360,7 +320,6 @@ let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 " coverage.vim
 let g:coverage_json_report_path = 'coverage/coverage-final.json'
 
-
 " Javascript specific mappings
 function! SwitchToCodeFile()
     let fn = split(expand('%'), '\.')[0]
@@ -418,229 +377,3 @@ function! OpenFailingTest()
 endfunction
 
 map <leader>t :call OpenFailingTest()<cr>
-
-" Plug 'neoclide/coc.nvim', {'branch': 'release'}"
-
-" CoC
-
-" let g:coc_global_extensions = [
-" \ 'coc-css',
-" \ 'coc-emoji',
-" \ 'coc-eslint',
-" \ 'coc-html',
-" \ 'coc-json',
-" \ 'coc-prettier',
-" \ 'coc-python',
-" \ 'coc-tsserver',
-" \ 'coc-explorer',
-" \ 'coc-markdownlint',
-" \ 'coc-vimlsp',
-" \ 'coc-word'
-" \ ]
-"
-" inoremap <silent><expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
-"
-" nmap <silent> <leader>aj <Plug>(coc-diagnostic-prev)
-" nmap <silent> <leader>ak <Plug>(coc-diagnostic-next)
-"
-" nmap <silent> <c-]> <Plug>(coc-definition)
-" nmap <silent> gr <Plug>(coc-references)
-"
-" nmap <leader>rn <Plug>(coc-rename)
-"
-" nnoremap <silent> K :call <SID>show_documentation()<CR>
-"
-" function! s:show_documentation()
-"   if (index(['vim','help'], &filetype) >= 0)
-"     execute 'h '.expand('<cword>')
-"   else
-"     call CocActionAsync('doHover')
-"   endif
-" endfunction
-"
-" nmap <leader>qf  <Plug>(coc-fix-current)
-"
-" autocmd CursorHold * silent call CocActionAsync('highlight')
-"
-" command! -nargs=0 Tsc :call CocAction('runCommand', 'tsserver.watchBuild')
-"
-" nnoremap <leader>e :CocCommand explorer<CR>
-
-"
-" Stuff I have stopped using
-"
-" Tags stuff
-"
-" nnoremap <c-]> g<c-]>
-" vnoremap <c-]> g<c-]>
-"
-" :set tags=./tags;
-"
-" Plug 'ludovicchabant/vim-gutentags'
-"
-" gutentags
-" let g:gutentags_project_root = ['package.json']
-" let g:gutentags_add_default_project_roots = 0
-" let g:gutentags_exclude_filetypes = ['gitcommit', 'gitrebase']
-"
-" Python stuff. I barely write any python code now.
-"
-" au BufRead,BufNewFile *.py setlocal sw=4
-" " Python
-" Plug 'zchee/deoplete-jedi'
-" Plug 'Vimjas/vim-python-pep8-indent'
-" Plug 'davidhalter/jedi-vim'
-"
-" let g:jedi#completions_enabled = 0
-" let g:jedi#usages_command = "<leader>u"
-" let g:jedi#goto_stubs_command = "<leader>ss"
-"
-" let g:jedi#goto_command = "<c-]>"
-"
-" let g:deoplete#sources#jedi#show_docstring = 1
-"
-" autocmd FileType python map <buffer> <leader>d g<c-]>
-"
-" Plug 'mgedmin/python-imports.vim'
-" Plug 'mgedmin/coverage-highlight.vim'
-" Plug 'mgedmin/test-switcher.vim'
-"
-" autocmd FileType python map <buffer> <leader>i :ImportName<cr>
-" autocmd FileType python map <leader>t :SwitchCodeAndTest<CR>
-" autocmd FileType python map <leader>tt :e %:r.test.%:e<CR>
-"
-" map <leader>h :HighlightCoverage<cr>
-" map <leader>hh :HighlightCoverageOff<cr>
-"
-" Javascript stuff
-"
-" Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
-" Plug 'Galooshi/vim-import-js' # NOTE: Using vim-js-file-import instead
-" Plug 'styled-components/vim-styled-components', { 'branch': 'main' }
-"
-" Language server is good enough for me
-" Plug 'kristijanhusak/vim-js-file-import', {'do': 'npm install'}
-"
-" Typescript stuff
-"
-" Plug 'Shougo/vimproc.vim', {'do' : 'make'}
-" Plug 'Quramy/tsuquyomi'
-" Plug 'Quramy/vim-js-pretty-template'
-
-" Plug 'pangloss/vim-javascript' " Javascript syntax
-" Plug 'leafgarland/typescript-vim' " Typescript syntax
-" if has('nvim')
-"   Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
-" endif
-
-" Plug 'wokalski/autocomplete-flow'
-" Plug 'mxw/vim-jsx' <-- Stopped using because of conflict with
-" deoplete-ternjs and autocomplete-flow.
-"
-" Svelte
-" Plug 'evanleck/vim-svelte'
-" Plug 'Shougo/context_filetype.vim'
-"
-" if !exists('g:context_filetype#same_filetypes')
-"     let g:context_filetype#filetypes = {}
-" endif
-" let g:context_filetype#filetypes.svelte =
-"             \ [
-"             \    {'filetype' : 'javascript', 'start' : '<script>', 'end' : '</script>'},
-"             \    {'filetype' : 'css', 'start' : '<style>', 'end' : '</style>'},
-"             \ ]
-"
-" call deoplete#custom#var('omni', 'functions', {
-" \ 'css': ['csscomplete#CompleteCSS']
-" \})
-"
-" Other plugins
-"
-" Nice but does not feel really necessary
-" Plug 'danilamihailov/beacon.nvim'
-"
-" beacon
-" highlight Beacon guibg=black ctermbg=0
-"
-" In the end I'm not using snippets.
-"" Plug 'SirVer/ultisnips'
-" Plug 'Shougo/neosnippet.vim'
-" Plug 'Shougo/neosnippet-snippets'
-" Plug 'honza/vim-snippets'
-"
-" " neosnippet.vim
-" imap <C-j>     <Plug>(neosnippet_expand_or_jump)
-" smap <C-j>     <Plug>(neosnippet_expand_or_jump)
-" xmap <C-j>     <Plug>(neosnippet_expand_target)
-"
-" let g:neosnippet#enable_snipmate_compatibility = 1
-"
-" Completely forgot I have this one. nerdtree covers my needs.
-" Plug 'tpope/vim-eunuch'
-" Plug 'junegunn/goyo.vim'
-"
-" function! s:goyo_enter()
-"     :set linebreak
-" endfunction
-"
-" autocmd! User GoyoEnter nested call <SID>goyo_enter()
-"
-" Plug 'altercation/vim-colors-solarized'
-" Plug 'deathlyfrantic/deoplete-spell' - does not work as I have expected
-"
-" Plugins replaced by CoC
-"
-" Plug 'autozimu/LanguageClient-neovim', {
-"     \ 'branch': 'next',
-"     \ 'do': 'bash install.sh',
-"     \ }
-"
-" if has('nvim')
-"   Plug 'Shougo/deoplete.nvim'
-" else
-"   Plug 'Shougo/deoplete.nvim'
-"   Plug 'roxma/nvim-yarp'
-"   Plug 'roxma/vim-hug-neovim-rpc'
-" endif
-
-" Plug 'fszymanski/deoplete-emoji'
-"
-" Deoplete
-" let g:deoplete#enable_at_startup = 1
-" autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
-"
-" autocmd FileType javascript map <buffer> <c-]> :call LanguageClient#textDocument_definition()<CR>
-" autocmd FileType typescript map <buffer> <c-]> :call LanguageClient#textDocument_definition()<CR>
-" autocmd FileType typescriptreact map <buffer> <c-]> :call LanguageClient#textDocument_definition()<CR>
-"
-" autocmd FileType javascript map <buffer> <leader>t :call LanguageClient#textDocument_hover()<CR>
-" autocmd FileType typescript map <buffer> <leader>t :call LanguageClient#textDocument_hover()<CR>
-" autocmd FileType typescriptreact map <buffer> <leader>t :call LanguageClient#textDocument_hover()<CR>
-
-" nnoremap <silent> <leader>ca :call LanguageClient#textDocument_codeAction()<CR>
-"
-" let g:LanguageClient_serverCommands = {
-"     \ 'javascript': ['typescript-language-server', '--stdio'],
-"     \ 'typescript': ['typescript-language-server', '--stdio'],
-"     \ 'typescriptreact': ['typescript-language-server', '--stdio'],
-"     \ 'html': ['html-languageserver', '--stdio'],
-"     \ 'css': ['css-languageserver', '--stdio'],
-"     \ 'json': ['json-languageserver', '--stdio'],
-"     \ 'svelte': ['svelteserver', '--stdio'],
-"     \ }
-"
-" let g:LanguageClient_diagnosticsList='Disabled'
-"
-"
-" Replaced by coc-explorer
-"
-" NERD tree
-"
-" Plug 'scrooloose/nerdtree'
-" Plug 'Xuyuanp/nerdtree-git-plugin'
-" Plug 'ryanoasis/vim-devicons'
-"
-" map <leader>b :NERDTreeToggle<CR>
-" map <leader>v :NERDTreeFind<CR>
-" let g:NERDTreeMapJumpNextSibling = ''
-" let g:NERDTreeMapJumpPrevSibling = ''
