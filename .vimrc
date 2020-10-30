@@ -164,6 +164,7 @@ Plug '~/projects/ale'
 
 Plug 'Shougo/deoplete.nvim'
 Plug 'fszymanski/deoplete-emoji'
+Plug 'ujihisa/neco-look'
 
 Plug 'junegunn/vader.vim'
 Plug 'jamessan/vim-gnupg'
@@ -196,12 +197,8 @@ Plug 'iCyMind/NeoSolarized'
 
 call plug#end()
 
-" Solarized
+" Colors
 colorscheme NeoSolarized
-highlight Comment cterm=italic
-highlight Statement cterm=italic
-highlight Type cterm=italic
-
 
 " Fern
 nnoremap <leader>e :Fern %:h<cr>
@@ -214,18 +211,30 @@ augroup my-glyph-palette
 augroup END
 
 " Ale
+let js_fixers = ['prettier', 'eslint']
+
 let g:ale_fixers = {
 \   '*': ['remove_trailing_lines', 'trim_whitespace'],
+\   'javascript': js_fixers,
+\   'javascript.jsx': js_fixers,
+\   'typescript': js_fixers,
+\   'typescriptreact': js_fixers,
+\   'css': ['prettier'],
+\   'json': ['prettier'],
 \}
 
 let g:ale_fix_on_save = 1
 let g:airline#extensions#ale#enabled = 1
+let g:ale_virtualtext_cursor = 1
 let g:ale_sign_column_always = 1
+let g:ale_completion_autoimport = 1
+
 let g:ale_sign_error = "🐛"
 let g:ale_sign_warning = "⚠️"
 let g:ale_sign_info = "ℹ"
 highlight ALEErrorSign ctermfg=9 ctermbg=15 guifg=#C30500
 highlight ALEWarningSign ctermfg=11 ctermbg=15 guifg=#ED6237
+
 
 nmap <silent> <leader>aj :ALENext<cr>
 nmap <silent> <leader>ak :ALEPrevious<cr>
