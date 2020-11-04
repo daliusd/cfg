@@ -245,7 +245,8 @@ autocmd FileType typescript map <buffer> <c-]> :ALEGoToDefinition<CR>
 autocmd FileType typescriptreact map <buffer> <c-]> :ALEGoToDefinition<CR>
 
 nnoremap K :ALEHover<CR>
-nnoremap <leader>qf :ALECodeFix<CR>
+nnoremap <leader>qf :ALECodeAction<CR>
+vnoremap <leader>qf :ALECodeAction<CR>
 nnoremap <leader>rn :ALERename<CR>
 nnoremap <silent> gr :ALEFindReferences<CR>
 
