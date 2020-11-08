@@ -33,6 +33,9 @@ curl -LO https://github.com/be5invis/Iosevka/releases/download/v2.0.2/02-iosevka
 
 gsettings set org.gnome.desktop.interface monospace-font-name 'Iosevka 12'
 
+" Hide terminal title bar in Ubuntu
+sudo apt install gnome-shell-extension-pixelsaver
+
 # Mac OSX
 brew tap homebrew/cask-fonts
 brew cask install font-iosevka-nerd-font
