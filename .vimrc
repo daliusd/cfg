@@ -200,6 +200,7 @@ call plug#end()
 
 " Colors
 " colorscheme NeoSolarized
+let g:pencil_higher_contrast_ui = 1
 colorscheme pencil
 
 " Fern
