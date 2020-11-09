@@ -194,11 +194,13 @@ Plug 'vim-airline/vim-airline-themes'
 
 " Other
 Plug 'lifepillar/vim-solarized8'
+Plug 'reedes/vim-colors-pencil'
 
 call plug#end()
 
 " Colors
-colorscheme solarized8
+"colorscheme solarized8
+colorscheme pencil
 
 " Fern
 nnoremap <leader>e :Fern %:h<cr>
@@ -273,7 +275,8 @@ let g:airline#extensions#tabline#show_tab_nr = 0
 
 let g:airline_powerline_fonts = 1
 let g:airline_detect_spell=0
-let g:airline_theme='solarized'
+"let g:airline_theme='solarized'
+let g:airline_theme='pencil'
 let g:airline#extensions#tabline#formatter = 'unique_tail'
 let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
 
