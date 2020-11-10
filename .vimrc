@@ -200,6 +200,7 @@ call plug#end()
 
 " Colors
 "colorscheme solarized8
+let g:pencil_gutter_color = 1
 colorscheme pencil
 
 " Fern
