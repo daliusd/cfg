@@ -196,6 +196,8 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'lifepillar/vim-solarized8'
 Plug 'reedes/vim-colors-pencil'
 
+Plug 'gko/vim-coloresque'
+
 call plug#end()
 
 " Colors
