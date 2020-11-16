@@ -265,7 +265,6 @@ command! ALEToggleFixer execute "let g:ale_fix_on_save = get(g:, 'ale_fix_on_sav
 " Deoplete
 
 let g:deoplete#enable_at_startup = 1
-autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 
 " inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <C-j>   pumvisible() ? "\<C-n>" : "\<C-j>"
