@@ -66,7 +66,7 @@ set expandtab
 set smarttab
 set sw=2        " Spaces per indent
 
-set tabstop=4   " Number of spaces per tab. People usually use 4, but they shouldn't use tab in the first place.
+set tabstop=8   " Number of spaces per tab. People usually use 4, but they shouldn't use tab in the first place.
 set bs=2        " same as ":set backspace=indent,eol,start"
 
 set foldmethod=indent
@@ -238,16 +238,21 @@ let g:ale_completion_autoimport = 1
 let g:ale_sign_error = "🐛"
 let g:ale_sign_warning = "⚠️"
 let g:ale_sign_info = "ℹ"
-highlight ALEErrorSign ctermfg=9 ctermbg=15 guifg=#C30500
-highlight ALEWarningSign ctermfg=11 ctermbg=15 guifg=#ED6237
+
+augroup ale-colors
+  highlight ALEErrorSign ctermfg=9 ctermbg=15 guifg=#C30500
+  highlight ALEWarningSign ctermfg=11 ctermbg=15 guifg=#ED6237
+augroup END
 
 
 nmap <silent> <leader>aj :ALENext<cr>
 nmap <silent> <leader>ak :ALEPrevious<cr>
 
-autocmd FileType javascript map <buffer> <c-]> :ALEGoToDefinition<CR>
-autocmd FileType typescript map <buffer> <c-]> :ALEGoToDefinition<CR>
-autocmd FileType typescriptreact map <buffer> <c-]> :ALEGoToDefinition<CR>
+augroup ale-go-to-definition
+  autocmd FileType javascript map <buffer> <c-]> :ALEGoToDefinition<CR>
+  autocmd FileType typescript map <buffer> <c-]> :ALEGoToDefinition<CR>
+  autocmd FileType typescriptreact map <buffer> <c-]> :ALEGoToDefinition<CR>
+augroup END
 
 nnoremap K :ALEHover<CR>
 nnoremap <leader>qf :ALECodeAction<CR>
