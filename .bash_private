@@ -55,3 +55,51 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
     # UTF-8 support in iTerm2
     export LANG="en_US.UTF-8"
 fi
+
+# Git auto-completion for git short commands
+
+__git_wrap_git_add() {
+    __git_func_wrap _git_add
+}
+complete -o bashdefault -o default -o nospace -F __git_wrap_git_add ga
+
+__git_wrap_git_branch() {
+    __git_func_wrap _git_branch
+}
+complete -o bashdefault -o default -o nospace -F __git_wrap_git_branch gb
+
+__git_wrap_git_status() {
+    __git_func_wrap _git_status
+}
+complete -o bashdefault -o default -o nospace -F __git_wrap_git_status gs
+
+__git_wrap_git_diff() {
+    __git_func_wrap _git_diff
+}
+complete -o bashdefault -o default -o nospace -F __git_wrap_git_diff gd
+complete -o bashdefault -o default -o nospace -F __git_wrap_git_diff gds
+
+__git_wrap_git_commit() {
+    __git_func_wrap _git_commit
+}
+complete -o bashdefault -o default -o nospace -F __git_wrap_git_commit gci
+
+__git_wrap_git_checkout() {
+    __git_func_wrap _git_checkout
+}
+complete -o bashdefault -o default -o nospace -F __git_wrap_git_checkout gco
+
+__git_wrap_git_push() {
+    __git_func_wrap _git_push
+}
+complete -o bashdefault -o default -o nospace -F __git_wrap_git_push gps
+
+__git_wrap_git_pull() {
+    __git_func_wrap _git_pull
+}
+complete -o bashdefault -o default -o nospace -F __git_wrap_git_pull gpl
+
+__git_wrap_git_log() {
+    __git_func_wrap _git_log
+}
+complete -o bashdefault -o default -o nospace -F __git_wrap_git_log gl
