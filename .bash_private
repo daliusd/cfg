@@ -12,12 +12,17 @@ fi
 
 complete -o bashdefault -o default -o nospace -F __git_wrap__git_main cfg
 
-PS1='\[\e[34m$(__git_ps1)\e[0m\] '$PS1
-
 show_node_version() {
     node -v
 }
-PS1='\[\e[1m[N:$(show_node_version)]\e[0m\]'$PS1
+
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  # No colors in Mac OS as they cause problems
+  PS1='[N:$(show_node_version)]$(__git_ps1) '$PS1
+
+else
+  PS1='\[\e[1m[N:$(show_node_version)]\e[0m\]\[\e[34m$(__git_ps1)\e[0m\] '$PS1
+fi
 
 ulimit -n 4096 # Recommendation from https://github.com/carlitux/deoplete-ternjs
 
