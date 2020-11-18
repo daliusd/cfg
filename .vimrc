@@ -205,6 +205,8 @@ call plug#end()
 let g:pencil_gutter_color = 1
 colorscheme pencil
 
+let g:markdown_fenced_languages = ['css', 'javascript', 'json']
+
 " Fern
 nnoremap <leader>e :Fern %:h<cr>
 let g:fern#renderer = "nerdfont"
@@ -216,6 +218,7 @@ augroup my-glyph-palette
 augroup END
 
 " Ale
+
 let js_fixers = ['prettier', 'eslint']
 
 let g:ale_fixers = {
