@@ -7,6 +7,8 @@ else
     alias cfg='git --git-dir=/home/dalius/.cfg/ --work-tree=/home/dalius'
 fi
 
+alias snc='~/sync.sh'
+
 username='Dalius Dobravolskas'
 private_email='dalius.dobravolskas@gmail.com'
 work_email='daliusd@wix.com'
