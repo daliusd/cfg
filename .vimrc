@@ -1,4 +1,4 @@
-let g:python3_host_prog = expand('~').'/projects/tools/py3nvim/bin/python'
+let g:python3_host_prog = expand('~').'/projects/soft/py3nvim/bin/python'
 
 " UI part
 
