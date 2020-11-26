@@ -116,6 +116,7 @@ nnoremap <silent> <leader>n :silent noh<CR>
 nnoremap <C-n> :cn<cr>
 nnoremap <C-p> :cp<cr>
 nnoremap <leader>p :let @+ = expand('%:p')<cr>
+nnoremap <leader>o :let @+ = expand('%')<cr>
 nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR> " CD to current's file directory
 
 nnoremap <leader>jf :%!python -m json.tool<cr>
@@ -388,6 +389,14 @@ endfunction
 map <leader>jj :call SwitchToCodeFile()<cr>
 map <leader>jt :call SwitchToTestFile()<cr>
 map <leader>js :call SwitchToStyleFile()<cr>
+
+function! GetLastMessage()
+  execute ":redir @+"
+  execute ":1messages"
+  execute ":redir END"
+endfunction
+
+nnoremap <leader>m :call GetLastMessage()<cr>
 
 function! OpenFailingTest()
   let lastFile = system("tmux select-pane -L && tmux capture-pane -pJ -S - | rg -o '[[:alnum:]_.$&+=/@-]*:[0-9]*:[0-9]*' | tail -n 1 && tmux select-pane -R")
