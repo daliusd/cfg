@@ -69,7 +69,7 @@ set sw=2        " Spaces per indent
 set tabstop=8   " Number of spaces per tab. People usually use 4, but they shouldn't use tab in the first place.
 set bs=2        " same as ":set backspace=indent,eol,start"
 
-set foldmethod=indent
+set foldmethod=syntax
 set foldlevelstart=99
 filetype plugin indent on
 
@@ -315,6 +315,7 @@ let g:airline_mode_map = {
 
 " My todo files
 au BufRead,BufNewFile *.todo        set filetype=todo
+au BufRead,BufNewFile *.todo        set foldmethod=indent
 
 " fzf
 set rtp+=~/.fzf
