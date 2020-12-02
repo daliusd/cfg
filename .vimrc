@@ -314,8 +314,8 @@ let g:airline_mode_map = {
 
 
 " My todo files
-au BufRead,BufNewFile *.todo        set filetype=todo
-au BufRead,BufNewFile *.todo        set foldmethod=indent
+au BufRead,BufNewFile *.todo        setlocal filetype=todo
+au BufRead,BufNewFile *.todo        setlocal foldmethod=indent
 
 " fzf
 set rtp+=~/.fzf
