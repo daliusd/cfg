@@ -39,6 +39,9 @@ sudo apt install gnome-shell-extension-pixelsaver
 # Mac OSX
 brew tap homebrew/cask-fonts
 brew cask install font-iosevka-nerd-font
+brew install git-delta
+
+" Debian https://github.com/dandavison/delta/releases/download/0.4.4/git-delta_0.4.4_amd64.deb
 
 # Node stuff
 echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p

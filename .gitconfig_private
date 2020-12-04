@@ -1,5 +1,6 @@
 [core]
     excludesfile = ~/.gitignore_global
+    pager = delta
 [push]
     followTags = true
 [alias]
@@ -10,5 +11,11 @@
     lg = !git log --pretty=format:'%C(yellow)%h%Creset%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%an <%ae> %G?%Creset' --abbrev-commit --date=short --color
     root = rev-parse --show-toplevel
 [commit]
-	gpgsign = true
-	verbose = true
+    gpgsign = true
+    verbose = true
+
+[delta]
+    syntax-theme = GitHub
+
+[interactive]
+    diffFilter = delta --color-only --light
