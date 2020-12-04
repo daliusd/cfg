@@ -196,6 +196,7 @@ Plug 'vim-airline/vim-airline-themes'
 " Other
 Plug 'lifepillar/vim-solarized8'
 Plug 'reedes/vim-colors-pencil'
+Plug 'cormacrelf/vim-colors-github'
 
 Plug 'gko/vim-coloresque'
 
@@ -203,8 +204,10 @@ call plug#end()
 
 " Colors
 "colorscheme solarized8
-let g:pencil_gutter_color = 1
-colorscheme pencil
+"let g:pencil_gutter_color = 1
+"colorscheme pencil
+let g:github_colors_soft = 1
+colorscheme github
 
 let g:markdown_fenced_languages = ['css', 'javascript', 'json']
 
@@ -287,7 +290,8 @@ let g:airline#extensions#tabline#show_tab_nr = 0
 let g:airline_powerline_fonts = 1
 let g:airline_detect_spell=0
 "let g:airline_theme='solarized'
-let g:airline_theme='pencil'
+"let g:airline_theme='pencil'
+let g:airline_theme='github'
 let g:airline#extensions#tabline#formatter = 'unique_tail'
 let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
 
