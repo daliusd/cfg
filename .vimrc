@@ -110,7 +110,7 @@ cnoremap <c-k> <up>
 cnoremap <c-j> <down>
 
 " Leader commands
-let mapleader = ","
+let mapleader = "\<space>"
 
 nnoremap <silent> <leader>n :silent noh<CR>
 nnoremap <C-n> :cn<cr>
