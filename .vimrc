@@ -168,6 +168,7 @@ Plug '~/projects/ale'
 Plug 'Shougo/deoplete.nvim'
 Plug 'fszymanski/deoplete-emoji'
 Plug 'ujihisa/neco-look'
+Plug 'ncm2/float-preview.nvim'
 
 Plug 'junegunn/vader.vim'
 Plug 'jamessan/vim-gnupg'
@@ -281,6 +282,9 @@ inoremap <expr> <C-j>   pumvisible() ? "\<C-n>" : "\<C-j>"
 inoremap <expr> <C-k>   pumvisible() ? "\<C-p>" : "\<C-k>"
 
 call deoplete#custom#source('emoji', 'converters', ['converter_emoji'])
+
+set completeopt-=preview
+let g:float_preview#docked = 0
 
 " Airline
 let g:airline#extensions#tabline#enabled = 1
