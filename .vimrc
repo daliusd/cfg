@@ -87,7 +87,7 @@ set smartcase   " Ignore ignorecase if search contains upper case letters
 
 
 " Some little keyboard goods
-noremap ; :
+nnoremap ; :
 inoremap jk <ESC>
 
 " Exit terminal mode using escape
@@ -110,6 +110,7 @@ cnoremap <c-k> <up>
 cnoremap <c-j> <down>
 
 " Leader commands
+nnoremap <SPACE> <Nop>
 let mapleader = "\<space>"
 
 nnoremap <silent> <leader>n :silent noh<CR>
@@ -122,7 +123,6 @@ nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR> " CD to current's file directory
 nnoremap <leader>jf :%!python -m json.tool<cr>
 nnoremap <leader>sh :%!node ~/sht.js<cr>
 nnoremap <leader>d "=strftime("%Y-%m-%d ")<CR>P
-inoremap <leader>d <C-R>=strftime("%Y-%m-%d ")<CR>
 
 " The 66-character line (counting both letters and spaces) is widely regarded as ideal.
 " http://webtypography.net/Rhythm_and_Proportion/Horizontal_Motion/2.1.2/
@@ -255,8 +255,8 @@ augroup ale-colors
 augroup END
 
 
-nmap <silent> <leader>aj :ALENext<cr>
-nmap <silent> <leader>ak :ALEPrevious<cr>
+nnoremap <silent> <leader>aj :ALENext<cr>
+nnoremap <silent> <leader>ak :ALEPrevious<cr>
 
 augroup ale-go-to-definition
   autocmd FileType javascript map <buffer> <c-]> :ALEGoToDefinition<CR>
@@ -397,9 +397,9 @@ function! SwitchToStyleFile()
     endif
 endfunction
 
-map <leader>jj :call SwitchToCodeFile()<cr>
-map <leader>jt :call SwitchToTestFile()<cr>
-map <leader>js :call SwitchToStyleFile()<cr>
+nnoremap <leader>jj :call SwitchToCodeFile()<cr>
+nnoremap <leader>jt :call SwitchToTestFile()<cr>
+nnoremap <leader>js :call SwitchToStyleFile()<cr>
 
 function! GetLastMessage()
   execute ":redir @+"
@@ -420,4 +420,4 @@ function! OpenFailingTest()
   endif
 endfunction
 
-map <leader>t :call OpenFailingTest()<cr>
+nnoremap <leader>t :call OpenFailingTest()<cr>
