@@ -39,3 +39,6 @@ alias gco='git checkout'
 alias gps='git push'
 alias gpl='git pull'
 alias gl='git lg'
+
+# Tilde commands for Mac
+alias tildeswap=$'hidutil property --set \'{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0x700000064,"HIDKeyboardModifierMappingDst":0x700000035}]}\''
