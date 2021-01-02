@@ -161,8 +161,8 @@ Plug 'will133/vim-dirdiff'
 
 Plug 'tpope/vim-vinegar'
 
-" Plug 'dense-analysis/ale'
-Plug '~/projects/ale'
+Plug 'dense-analysis/ale'
+" Plug '~/projects/ale'
 
 Plug 'Shougo/deoplete.nvim'
 Plug 'fszymanski/deoplete-emoji'
