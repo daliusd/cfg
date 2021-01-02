@@ -105,6 +105,7 @@ inoremap <silent> <home> <C-o>g<home>
 nnoremap <silent> <end> g<end>
 inoremap <silent> <end> <C-o>g<end>
 
+
 " Command mode up/down remap
 cnoremap <c-k> <up>
 cnoremap <c-j> <down>
@@ -112,6 +113,9 @@ cnoremap <c-j> <down>
 " Leader commands
 nnoremap <SPACE> <Nop>
 let mapleader = "\<space>"
+
+" vimrc file
+nnoremap <leader>v :e ~/.vimrc<cr>
 
 nnoremap <silent> <leader>n :silent noh<CR>
 nnoremap <C-n> :cn<cr>
@@ -155,12 +159,7 @@ Plug 'junegunn/fzf.vim'
 
 Plug 'will133/vim-dirdiff'
 
-Plug 'lambdalisue/fern.vim'
-Plug 'lambdalisue/fern-git-status.vim'
-Plug 'lambdalisue/glyph-palette.vim'
-Plug 'lambdalisue/nerdfont.vim'
-Plug 'lambdalisue/fern-renderer-nerdfont.vim'
-Plug 'lambdalisue/fern-hijack.vim'
+Plug 'tpope/vim-vinegar'
 
 " Plug 'dense-analysis/ale'
 Plug '~/projects/ale'
@@ -197,8 +196,8 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
 " Other
-Plug 'lifepillar/vim-solarized8'
-Plug 'reedes/vim-colors-pencil'
+" Plug 'lifepillar/vim-solarized8'
+" Plug 'reedes/vim-colors-pencil'
 Plug 'cormacrelf/vim-colors-github'
 
 Plug 'gko/vim-coloresque'
@@ -214,15 +213,9 @@ colorscheme github
 
 let g:markdown_fenced_languages = ['css', 'javascript', 'json']
 
-" Fern
-nnoremap <leader>e :Fern %:h<cr>
-let g:fern#renderer = "nerdfont"
-
-augroup my-glyph-palette
-  autocmd! *
-  autocmd FileType fern call glyph_palette#apply()
-  autocmd FileType nerdtree,startify call glyph_palette#apply()
-augroup END
+" File explorer
+command! ExploreFind let @/=expand("%:t") | execute 'Explore' expand("%:h") | normal n
+nnoremap <Leader>e :ExploreFind<CR>
 
 " Ale
 
