@@ -177,6 +177,7 @@ Plug 'editorconfig/editorconfig-vim'
 " Git
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rhubarb'
 
 " JSON
 Plug 'elzr/vim-json'
