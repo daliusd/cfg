@@ -3,6 +3,8 @@
     pager = delta
 [push]
     followTags = true
+[pull]
+    rebase = false
 [alias]
     co = checkout
     br = branch
