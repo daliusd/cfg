@@ -124,7 +124,13 @@ nnoremap <leader>p :let @+ = expand('%:p')<cr>
 nnoremap <leader>o :let @+ = expand('%')<cr>
 nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR> " CD to current's file directory
 
-nnoremap <leader>jf :%!python -m json.tool<cr>
+
+function! FormatJSON()
+  exe '%!python -m json.tool'
+  set filetype=json
+endfunction
+
+nnoremap <leader>jf :call FormatJSON()<cr>
 nnoremap <leader>sh :%!node ~/sht.js<cr>
 nnoremap <leader>d "=strftime("%Y-%m-%d ")<CR>P
 
