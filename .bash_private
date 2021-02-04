@@ -41,6 +41,7 @@ GPG_TTY=`tty`
 export GPG_TTY
 
 function nvmrc_check() {
+  echo '.nvmrc check running'
   if [[ -f .nvmrc ]]
   then
     fnm use
