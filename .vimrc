@@ -244,6 +244,7 @@ let g:ale_virtualtext_cursor = 1
 let g:ale_virtualtext_prefix = "🔥 "
 let g:ale_sign_column_always = 1
 let g:ale_completion_autoimport = 1
+let g:ale_lsp_suggestions = 1
 
 let g:ale_sign_error = "🐛"
 let g:ale_sign_warning = "⚠️"
