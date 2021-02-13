@@ -422,3 +422,7 @@ function! OpenFailingTest()
 endfunction
 
 nnoremap <leader>t :call OpenFailingTest()<cr>
+
+" Fugitive
+:cnoreabbrev gps Git push
+:cnoreabbrev gpl Git pull
