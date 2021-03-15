@@ -180,6 +180,8 @@ Plug 'jamessan/vim-gnupg'
 
 Plug 'editorconfig/editorconfig-vim'
 
+Plug 'kburdett/vim-nuuid'
+
 " Git
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
