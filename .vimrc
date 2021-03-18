@@ -211,6 +211,8 @@ Plug 'cormacrelf/vim-colors-github'
 
 Plug 'gko/vim-coloresque'
 
+Plug 'psliwka/vim-smoothie'
+
 call plug#end()
 
 " Colors
