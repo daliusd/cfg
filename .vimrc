@@ -18,7 +18,8 @@ endif
 
 set mouse=a     " Enable mouse for everything
 
-:syntax enable
+syntax spell toplevel
+syntax enable
 set termguicolors
 set background=light
 set guioptions-=T " Hide toolbar
