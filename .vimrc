@@ -191,9 +191,6 @@ Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 
-" JSON
-Plug 'elzr/vim-json'
-
 " Html
 Plug 'valloric/MatchTagAlways'
 
@@ -354,9 +351,6 @@ command! -bang -nargs=* Rgw
 
 nnoremap <leader>s :Rgw<cr>
 nnoremap <leader>g :gr <cword><cr>
-
-" vim-json
-let g:vim_json_syntax_conceal = 0
 
 " editorconfig-vim
 let g:EditorConfig_exclude_patterns = ['fugitive://.*']
