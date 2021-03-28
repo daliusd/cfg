@@ -71,8 +71,9 @@ set tabstop=8   " Number of spaces per tab. People usually use 4, but they shoul
 set bs=2        " same as ":set backspace=indent,eol,start"
 
 " Tree-sitter based folding
-set foldmethod=expr
-set foldexpr=nvim_treesitter#foldexpr()
+set foldmethod=syntax
+" set foldmethod=expr
+" set foldexpr=nvim_treesitter#foldexpr()
 
 set foldlevelstart=99
 filetype plugin indent on
@@ -195,7 +196,10 @@ Plug 'tpope/vim-rhubarb'
 Plug 'valloric/MatchTagAlways'
 
 " Javascript
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+" Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'yuezk/vim-js'
+Plug 'HerringtonDarkholme/yats.vim'
+Plug 'MaxMEllon/vim-jsx-pretty'  " JSX, TSX syntax
 
 Plug 'ruanyl/coverage.vim'
 
@@ -435,11 +439,11 @@ let g:smoothie_speed_linear_factor = 20
 let g:smoothie_speed_exponentiation_factor = 0.95
 
 " tree-sitter
-lua <<EOF
-require'nvim-treesitter.configs'.setup {
-  ensure_installed = "all",     -- one of "all", "language", or a list of languages
-  highlight = {
-    enable = true,              -- false will disable the whole extension
-  },
-}
-EOF
+" lua <<EOF
+" require'nvim-treesitter.configs'.setup {
+"   ensure_installed = "all",     -- one of "all", "language", or a list of languages
+"   highlight = {
+"     enable = true,              -- false will disable the whole extension
+"   },
+" }
+" EOF
