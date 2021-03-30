@@ -55,8 +55,6 @@ set signcolumn=number " merge signcolumn and number column into one
 
 set diffopt+=vertical " Vertical diff
 
-let g:netrw_browsex_viewer="setsid xdg-open"    " Make gx command work properly with URLs in gvim
-
 " We want string-like-this to be treated as word. That however means that proper spacing must
 " be used in arithmetic operations.
 :set iskeyword+=-
@@ -448,3 +446,19 @@ let g:smoothie_speed_exponentiation_factor = 0.95
 "   },
 " }
 " EOF
+
+function! OpenURLUnderCursor()
+  let s:uri = expand('<cWORD>')
+  let s:uri = matchstr(s:uri, '[a-z]*:\/\/[^ >,;()]*')
+  let s:uri = substitute(s:uri, '?', '\\?', '')
+  let s:uri = shellescape(s:uri, 1)
+  if s:uri != ''
+    if has('macunix')
+      silent exec "!open '".s:uri."'"
+    else
+      silent exec "!xdg-open '".s:uri."'"
+    endif
+    :redraw!
+  endif
+endfunction
+nnoremap gx :call OpenURLUnderCursor()<CR>
