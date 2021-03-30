@@ -127,6 +127,7 @@ nnoremap <C-n> :cn<cr>
 nnoremap <C-p> :cp<cr>
 nnoremap <leader>p :let @+ = expand('%:p')<cr>
 nnoremap <leader>o :let @+ = expand('%')<cr>
+nnoremap <leader>i :let @+ = expand('%:t')<cr>
 nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR> " CD to current's file directory
 
 
