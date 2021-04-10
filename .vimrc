@@ -342,10 +342,6 @@ let g:fzf_layout = { 'window' : { 'width': 1, 'height': 0.8, 'highlight': 'Norma
 nnoremap <c-f> :Files<cr>
 nnoremap <c-g> :History<cr>
 
-command! -bang -nargs=* Rg
-    \ call fzf#vim#grep("rg --vimgrep --smart-case \"".<q-args>."\"", 1,
-    \                   <bang>0)
-
 command! -bang -nargs=* Rgw
     \ call fzf#vim#grep("rg --vimgrep --smart-case -w ".shellescape(expand('<cword>')), 1,
     \                   <bang>0)
