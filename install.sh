@@ -25,6 +25,8 @@ sudo dpkg -i ripgrep_0.10.0_amd64.deb
 # bat
 # sudo dpkg -i bat....
 
+# starship
+
 # fd (https://github.com/sharkdp/fd)
 curl -LO https://github.com/sharkdp/fd/releases/download/v7.2.0/fd_7.2.0_amd64.deb
 sudo dpkg -i fd_7.2.0_amd64.deb
