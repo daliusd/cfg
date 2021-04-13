@@ -297,6 +297,7 @@ inoremap <expr> <C-j>   pumvisible() ? "\<C-n>" : "\<C-j>"
 inoremap <expr> <C-k>   pumvisible() ? "\<C-p>" : "\<C-k>"
 
 call deoplete#custom#source('emoji', 'converters', ['converter_emoji'])
+call deoplete#custom#var('buffer', 'require_same_filetype', v:false)
 
 set completeopt-=preview
 let g:float_preview#docked = 0
