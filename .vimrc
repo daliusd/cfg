@@ -177,6 +177,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'will133/vim-dirdiff'
 
 Plug 'tpope/vim-vinegar'
+Plug 'tpope/vim-surround'
 Plug 'tmsvg/pear-tree'
 
 Plug 'dense-analysis/ale'
