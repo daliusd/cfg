@@ -272,8 +272,8 @@ augroup ale-colors
 augroup END
 
 
-nnoremap <silent> <leader>aj :ALENext<cr>
-nnoremap <silent> <leader>ak :ALEPrevious<cr>
+nnoremap <silent> <leader>aj :ALENext -error<cr>
+nnoremap <silent> <leader>ak :ALEPrevious -error<cr>
 
 augroup ale-go-to-definition
   autocmd FileType javascript map <buffer> <c-]> :ALEGoToDefinition<CR>
