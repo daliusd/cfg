@@ -141,8 +141,13 @@ function! FormatJSON()
   set filetype=json
 endfunction
 
+function! FormatSHTOUT()
+  exe ':%!node ~/sht.js'
+  set filetype=json
+endfunction
+
 nnoremap <leader>jf :call FormatJSON()<cr>
-nnoremap <leader>sh :%!node ~/sht.js<cr>
+nnoremap <leader>sh :call FormatSHTOUT()<cr>
 nnoremap <leader>d "=strftime("%Y-%m-%d ")<CR>P
 
 " The 66-character line (counting both letters and spaces) is widely regarded as ideal.
