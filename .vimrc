@@ -227,8 +227,6 @@ Plug 'cormacrelf/vim-colors-github'
 
 Plug 'gko/vim-coloresque'
 
-Plug 'psliwka/vim-smoothie'
-
 call plug#end()
 
 " Colors
@@ -441,12 +439,6 @@ nnoremap <leader>t :call OpenFailingTest()<cr>
 " Fugitive
 :cnoreabbrev gps Git push
 :cnoreabbrev gpl Git pull
-
-" vim-smoothie
-let g:smoothie_update_interval = 50
-let g:smoothie_speed_constant_factor = 20
-let g:smoothie_speed_linear_factor = 20
-let g:smoothie_speed_exponentiation_factor = 0.95
 
 " tree-sitter
 " lua <<EOF

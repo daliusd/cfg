@@ -115,7 +115,7 @@ function delete-branches() {
     xargs git branch --delete --force
 }
 
-function use-branch() {
+function br() {
   git branch |
     grep --invert-match '\*' |
     cut -c 3- |
