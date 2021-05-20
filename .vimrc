@@ -69,7 +69,7 @@ set tabstop=8   " Number of spaces per tab. People usually use 4, but they shoul
 set bs=2        " same as ":set backspace=indent,eol,start"
 
 " Tree-sitter based folding
-set foldmethod=syntax
+set foldmethod=indent " syntax folding method makes prettier fixer slower
 " set foldmethod=expr
 " set foldexpr=nvim_treesitter#foldexpr()
 
