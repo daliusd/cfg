@@ -359,6 +359,7 @@ nnoremap <c-g> :History<cr>
 
 command! -bang -nargs=* Rgw
     \ call fzf#vim#grep("rg --vimgrep --smart-case -w ".shellescape(expand('<cword>')), 1,
+    \                   fzf#vim#with_preview(),
     \                   <bang>0)
 
 :cnoreabbrev rg Rg
