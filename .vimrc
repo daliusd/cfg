@@ -162,6 +162,19 @@ nnoremap ta :tabnew<CR>
 nnoremap ts :tab split<CR>
 nnoremap to :tabonly<CR>
 
+augroup netrw_mapping
+    autocmd!
+    autocmd filetype netrw call NetrwMapping()
+augroup END
+
+function! NetrwMapping()
+    nnoremap <buffer> tt :tabnew<CR>
+    nnoremap <buffer> td :tabclose<CR>
+    nnoremap <buffer> ta :tabnew<CR>
+    nnoremap <buffer> ts :tab split<CR>
+    nnoremap <buffer> to :tabonly<CR>
+endfunction
+
 " Faster navigation through code
 :set grepprg=rg\ --vimgrep\ -M\ 160\ -S\ --ignore-file\ ~/.gitignore_global
 
