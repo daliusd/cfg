@@ -10,7 +10,7 @@ sudo apt-get install neovim
 ./nodeinstall.sh
 
 # neovim python modules
-cd projects/tools
+cd projects/soft
 python3.6 -m venv py3nvim
 cd py3nvim
 source bin/activate
@@ -18,19 +18,13 @@ pip install pynvim
 
 sudo update-alternatives --config editor
 
-# ripgrep (https://github.com/BurntSushi/ripgrep)
-curl -LO https://github.com/BurntSushi/ripgrep/releases/download/0.10.0/ripgrep_0.10.0_amd64.deb
-sudo dpkg -i ripgrep_0.10.0_amd64.deb
+sudo apt install ripgrep
+sudo apt install fd-find
 
 # bat
 # sudo dpkg -i bat....
 
 # starship
-
-# fd (https://github.com/sharkdp/fd)
-curl -LO https://github.com/sharkdp/fd/releases/download/v7.2.0/fd_7.2.0_amd64.deb
-sudo dpkg -i fd_7.2.0_amd64.deb
-
 # Fonts
 # http://typeof.net/Iosevka/
 curl -LO https://github.com/be5invis/Iosevka/releases/download/v2.0.2/01-iosevka-2.0.2.zip
