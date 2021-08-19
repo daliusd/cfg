@@ -89,9 +89,6 @@ set ignorecase  " Ignore case when searching using lowercase
 set smartcase   " Ignore ignorecase if search contains upper case letters
 
 
-" Some little keyboard goods
-nnoremap ; :
-
 " Better navigation for wrapped lines.
 nnoremap j gj
 nnoremap k gk
@@ -109,8 +106,7 @@ cnoremap <c-k> <up>
 cnoremap <c-j> <down>
 
 " Leader commands
-nnoremap <SPACE> <Nop>
-let mapleader = "\<space>"
+let mapleader = ","
 
 " vimrc file
 nnoremap <leader>v :e ~/.vimrc<cr>
