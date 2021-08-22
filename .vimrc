@@ -241,10 +241,6 @@ colorscheme github
 
 let g:markdown_fenced_languages = ['css', 'javascript', 'json']
 
-" File explorer
-command! ExploreFind let @/=expand("%:t") | execute 'Explore' expand("%:h") | normal n
-nnoremap <Leader>e :ExploreFind<CR>
-
 " Ale
 
 let js_fixers = ['prettier', 'eslint']
@@ -282,9 +278,7 @@ nnoremap <silent> <leader>aj :ALENext -error<cr>
 nnoremap <silent> <leader>ak :ALEPrevious -error<cr>
 
 augroup ale-go-to-definition
-  autocmd FileType javascript map <buffer> <c-]> :ALEGoToDefinition<CR>
-  autocmd FileType typescript map <buffer> <c-]> :ALEGoToDefinition<CR>
-  autocmd FileType typescriptreact map <buffer> <c-]> :ALEGoToDefinition<CR>
+  nnoremap <leader>f :ALEGoToDefinition<CR>
 augroup END
 
 nnoremap K :ALEHover<CR>
