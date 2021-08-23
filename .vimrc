@@ -135,10 +135,14 @@ function! UnformatSHTOUT()
   set filetype=json
 endfunction
 
+command Thtml execute "%!tidy -q -i --show-errors 0"
+command Txml  execute "%!tidy -q -i --show-errors 0 -xml"
+
 nnoremap <leader>jf :call FormatJSON()<cr>
 nnoremap <leader>sh :call FormatSHTOUT()<cr>
 nnoremap <leader>su :call UnformatSHTOUT()<cr>
 nnoremap <leader>d "=strftime("%Y-%m-%d ")<CR>P
+nnoremap <leader>h :Thtml<cr>
 
 " The 66-character line (counting both letters and spaces) is widely regarded as ideal.
 " http://webtypography.net/Rhythm_and_Proportion/Horizontal_Motion/2.1.2/
