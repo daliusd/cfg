@@ -105,20 +105,12 @@ inoremap <silent> <end> <C-o>g<end>
 cnoremap <c-k> <up>
 cnoremap <c-j> <down>
 
-" Leader commands
-let mapleader = ","
-
-" vimrc file
-nnoremap <leader>v :e ~/.vimrc<cr>
-
-nnoremap <silent> <leader>n :silent noh<CR>
+" Next/Previous result
 nnoremap <C-n> :cn<cr>
 nnoremap <C-p> :cp<cr>
-nnoremap <leader>p :let @+ = expand('%:p')<cr>
-nnoremap <leader>o :let @+ = expand('%')<cr>
-nnoremap <leader>i :let @+ = expand('%:t')<cr>
-nnoremap <leader>cd :cd %:p:h<CR>:pwd<CR> " CD to current's file directory
 
+" Leader commands
+let mapleader = ","
 
 function! FormatJSON()
   exe '%!python -m json.tool'
@@ -138,12 +130,6 @@ endfunction
 command Thtml execute "%!tidy -q -i --show-errors 0"
 command Txml  execute "%!tidy -q -i --show-errors 0 -xml"
 
-nnoremap <leader>jf :call FormatJSON()<cr>
-nnoremap <leader>sh :call FormatSHTOUT()<cr>
-nnoremap <leader>su :call UnformatSHTOUT()<cr>
-nnoremap <leader>d "=strftime("%Y-%m-%d ")<CR>P
-nnoremap <leader>h :Thtml<cr>
-
 " The 66-character line (counting both letters and spaces) is widely regarded as ideal.
 " http://webtypography.net/Rhythm_and_Proportion/Horizontal_Motion/2.1.2/
 au BufRead,BufNewFile *.md     setlocal textwidth=66
@@ -154,7 +140,6 @@ nnoremap <c-j> :tabnext<CR>
 nnoremap <c-k> :tabprev<CR>
 nnoremap <c-l> :tabm +1<CR>
 nnoremap <c-h> :tabm -1<CR>
-
 
 nnoremap tt :tabnew<CR>
 nnoremap td :tabclose<CR>
@@ -282,28 +267,15 @@ augroup ale-colors
 augroup END
 
 
-nnoremap <silent> <leader>aj :ALENext -error<cr>
-nnoremap <silent> <leader>ak :ALEPrevious -error<cr>
-
-augroup ale-go-to-definition
-  nnoremap <leader>f :ALEGoToDefinition<CR>
-augroup END
-
-nnoremap K :ALEHover<CR>
-nnoremap <leader>qf :ALECodeAction<CR>
-vnoremap <leader>qf :ALECodeAction<CR>
-nnoremap <leader>rn :ALERename<CR>
-nnoremap <silent> gr :ALEFindReferences<CR>
-
 command! ALEToggleFixer execute "let g:ale_fix_on_save = get(g:, 'ale_fix_on_save', 0) ? 0 : 1"
 
 " Deoplete
 
 let g:deoplete#enable_at_startup = 1
 
-" inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <C-j>   pumvisible() ? "\<C-n>" : "\<C-j>"
-" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <C-k>   pumvisible() ? "\<C-p>" : "\<C-k>"
 
 call deoplete#custom#source('emoji', 'converters', ['converter_emoji'])
@@ -357,8 +329,6 @@ au BufRead,BufNewFile *.todo        setlocal foldmethod=indent
 set rtp+=~/.fzf
 let g:fzf_buffers_jump = 1
 let g:fzf_layout = { 'window' : { 'width': 1, 'height': 0.8, 'highlight': 'Normal' } }
-nnoremap <c-f> :Files<cr>
-nnoremap <c-g> :History<cr>
 
 command! -bang -nargs=* Rgw
     \ call fzf#vim#grep("rg --vimgrep --smart-case -w ".shellescape(expand('<cword>')), 1,
@@ -367,8 +337,6 @@ command! -bang -nargs=* Rgw
 
 :cnoreabbrev rg Rg
 
-nnoremap <leader>s :Rgw<cr>
-nnoremap <leader>g :gr <cword><cr>
 
 " editorconfig-vim
 let g:EditorConfig_exclude_patterns = ['fugitive://.*']
@@ -417,17 +385,11 @@ function! SwitchToStyleFile()
     endif
 endfunction
 
-nnoremap <leader>jj :call SwitchToCodeFile()<cr>
-nnoremap <leader>jt :call SwitchToTestFile()<cr>
-nnoremap <leader>js :call SwitchToStyleFile()<cr>
-
 function! GetLastMessage()
   execute ":redir @+"
   execute ":1messages"
   execute ":redir END"
 endfunction
-
-nnoremap <leader>m :call GetLastMessage()<cr>
 
 function! OpenFailingTest()
   let lastFile = system("tmux select-pane -L && tmux capture-pane -pJ -S - | rg -o '[[:alnum:]_.$&+=/@-]*:[0-9]*:[0-9]*' | tail -n 1 && tmux select-pane -R")
@@ -440,11 +402,12 @@ function! OpenFailingTest()
   endif
 endfunction
 
-nnoremap <leader>t :call OpenFailingTest()<cr>
-
 " Fugitive
 :cnoreabbrev gps Git push
 :cnoreabbrev gpl Git pull
+
+" gitgutter
+let g:gitgutter_map_keys = 0
 
 " tree-sitter
 " lua <<EOF
@@ -471,3 +434,54 @@ function! OpenURLUnderCursor()
   endif
 endfunction
 nnoremap gx :call OpenURLUnderCursor()<CR>
+
+" Leader config
+
+nnoremap <silent> <leader>n :silent noh<CR>
+
+nnoremap <leader>pf :let @+ = expand('%:p')<cr>
+nnoremap <leader>pp :let @+ = expand('%')<cr>
+nnoremap <leader>pn :let @+ = expand('%:t')<cr>
+
+nnoremap <leader>cj :call FormatJSON()<cr>
+nnoremap <leader>cs :call FormatSHTOUT()<cr>
+nnoremap <leader>cu :call UnformatSHTOUT()<cr>
+nnoremap <leader>ch :Thtml<cr>
+
+nnoremap <leader>d "=strftime("%Y-%m-%d ")<CR>P
+
+nnoremap <leader>h :History<cr>
+nnoremap <leader>f :Files<cr>
+nnoremap <leader>s :Rgw<cr>
+nnoremap <leader>g :gr <cword><cr>
+
+nnoremap <leader>d :ALEGoToDefinition<CR>
+nnoremap <leader>k :ALEHover<CR>
+
+nnoremap <leader>aj :ALENext -error<cr>
+nnoremap <leader>ak :ALEPrevious -error<cr>
+nnoremap <leader>ac :ALECodeAction<CR>
+vnoremap <leader>ac :ALECodeAction<CR>
+nnoremap <leader>ar :ALERename<CR>
+nnoremap <leader>af :ALEFindReferences<CR>
+
+nnoremap <leader>jj :call SwitchToCodeFile()<cr>
+nnoremap <leader>jt :call SwitchToTestFile()<cr>
+nnoremap <leader>js :call SwitchToStyleFile()<cr>
+
+nnoremap <leader>l :call GetLastMessage()<cr>
+
+nnoremap <leader>m :Maps<cr>
+
+nnoremap <leader>t :call OpenFailingTest()<cr>
+
+" window commands
+nnoremap <leader>wc :wincmd c<CR>
+nnoremap <leader>wo :wincmd o<CR>
+nnoremap <leader>wh :wincmd h<CR>
+nnoremap <leader>wj :wincmd j<CR>
+nnoremap <leader>wk :wincmd k<CR>
+nnoremap <leader>wl :wincmd l<CR>
+
+" vimrc file
+nnoremap <leader>v :e ~/.vimrc<cr>

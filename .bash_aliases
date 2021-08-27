@@ -39,7 +39,9 @@ alias gco='git checkout'
 alias gps='git push'
 alias gpl='git pull'
 alias gl='git lg'
+alias gsu='git ci -m "temp" && git stash && git reset --soft HEAD~1'
 
 # Tilde commands for Mac
+
 alias tildeswap=$'hidutil property --set \'{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0x700000064,"HIDKeyboardModifierMappingDst":0x700000035}]}\''
 alias tilderestore=$'hidutil property --set \'{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0x700000064,"HIDKeyboardModifierMappingDst":0x700000064}]}\''
