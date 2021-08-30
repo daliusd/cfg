@@ -448,7 +448,7 @@ nnoremap <leader>cs :call FormatSHTOUT()<cr>
 nnoremap <leader>cu :call UnformatSHTOUT()<cr>
 nnoremap <leader>ch :Thtml<cr>
 
-nnoremap <leader>d "=strftime("%Y-%m-%d ")<CR>P
+nnoremap <leader>id "=strftime("%Y-%m-%d ")<CR>P
 
 nnoremap <leader>h :History<cr>
 nnoremap <leader>f :Files<cr>
