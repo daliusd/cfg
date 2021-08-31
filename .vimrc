@@ -117,18 +117,24 @@ function! FormatJSON()
   set filetype=json
 endfunction
 
+command FormatJSON call FormatJSON()
+
 function! FormatSHTOUT()
   exe ':%!node ~/sht.js'
   set filetype=json
 endfunction
+
+command FormatSHTOUT call FormatSHTOUT()
 
 function! UnformatSHTOUT()
   exe ':%!node ~/usht.js'
   set filetype=json
 endfunction
 
-command Thtml execute "%!tidy -q -i --show-errors 0"
-command Txml  execute "%!tidy -q -i --show-errors 0 -xml"
+command UnformatSHTOUT call UnformatSHTOUT()
+
+command FormatHtml execute "%!tidy -q -i --show-errors 0"
+command FormatXml execute "%!tidy -q -i --show-errors 0 -xml"
 
 " The 66-character line (counting both letters and spaces) is widely regarded as ideal.
 " http://webtypography.net/Rhythm_and_Proportion/Horizontal_Motion/2.1.2/
@@ -437,16 +443,17 @@ nnoremap gx :call OpenURLUnderCursor()<CR>
 
 " Leader config
 
+nnoremap <leader>, :
+nnoremap <leader>o <c-o>
 nnoremap <silent> <leader>n :silent noh<CR>
+nnoremap <leader>z :w<CR>
+nnoremap <leader>q :q<CR>
 
 nnoremap <leader>pf :let @+ = expand('%:p')<cr>
 nnoremap <leader>pp :let @+ = expand('%')<cr>
 nnoremap <leader>pn :let @+ = expand('%:t')<cr>
 
-nnoremap <leader>cj :call FormatJSON()<cr>
-nnoremap <leader>cs :call FormatSHTOUT()<cr>
-nnoremap <leader>cu :call UnformatSHTOUT()<cr>
-nnoremap <leader>ch :Thtml<cr>
+nnoremap <leader>c :Commands<cr>
 
 nnoremap <leader>id "=strftime("%Y-%m-%d ")<CR>P
 
