@@ -447,7 +447,7 @@ nnoremap <leader>, :
 nnoremap <leader>o <c-o>
 nnoremap <silent> <leader>n :silent noh<CR>
 nnoremap <leader>z :w<CR>
-nnoremap <leader>q :q<CR>
+nnoremap <leader>q :qa<CR>
 
 nnoremap <leader>pf :let @+ = expand('%:p')<cr>
 nnoremap <leader>pp :let @+ = expand('%')<cr>
