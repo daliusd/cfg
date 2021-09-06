@@ -147,7 +147,6 @@ nnoremap <c-k> :tabprev<CR>
 nnoremap <c-l> :tabm +1<CR>
 nnoremap <c-h> :tabm -1<CR>
 
-nnoremap tt :tabnew<CR>
 nnoremap td :tabclose<CR>
 nnoremap ta :tabnew<CR>
 nnoremap ts :tab split<CR>
