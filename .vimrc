@@ -149,6 +149,7 @@ nnoremap <c-h> :tabm -1<CR>
 
 nnoremap td :tabclose<CR>
 nnoremap ta :tabnew<CR>
+nnoremap tn :tabnew<CR>
 nnoremap ts :tab split<CR>
 nnoremap to :tabonly<CR>
 nnoremap tj :tabnext<CR>
@@ -189,6 +190,8 @@ Plug 'tmsvg/pear-tree'
 Plug 'dense-analysis/ale'
 " Plug '~/projects/ale'
 
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+
 Plug 'Shougo/deoplete.nvim'
 Plug 'fszymanski/deoplete-emoji'
 Plug 'ujihisa/neco-look'
@@ -199,21 +202,10 @@ Plug 'jamessan/vim-gnupg'
 
 Plug 'editorconfig/editorconfig-vim'
 
-Plug 'kburdett/vim-nuuid'
-
 " Git
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
-
-" Html
-Plug 'valloric/MatchTagAlways'
-
-" Javascript
-" Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'yuezk/vim-js'
-Plug 'HerringtonDarkholme/yats.vim'
-Plug 'MaxMEllon/vim-jsx-pretty'  " JSX, TSX syntax
 
 Plug 'ruanyl/coverage.vim'
 
@@ -222,8 +214,6 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
 " Other
-" Plug 'lifepillar/vim-solarized8'
-" Plug 'reedes/vim-colors-pencil'
 Plug 'cormacrelf/vim-colors-github'
 
 Plug 'gko/vim-coloresque'
@@ -231,10 +221,6 @@ Plug 'gko/vim-coloresque'
 call plug#end()
 
 " Colors
-"colorscheme solarized8
-"let g:pencil_gutter_color = 1
-"colorscheme pencil
-let g:github_colors_soft = 1
 colorscheme github
 
 let g:markdown_fenced_languages = ['css', 'javascript', 'json']
