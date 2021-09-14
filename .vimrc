@@ -430,6 +430,7 @@ nnoremap gx :call OpenURLUnderCursor()<CR>
 
 nnoremap <leader>, :
 nnoremap <leader>o <c-o>
+nnoremap <leader>t <c-t>
 nnoremap <silent> <leader>n :silent noh<CR>
 nnoremap <leader>z :w<CR>
 nnoremap <leader>q :qa<CR>
@@ -465,7 +466,7 @@ nnoremap <leader>l :call GetLastMessage()<cr>
 
 nnoremap <leader>m :Maps<cr>
 
-nnoremap <leader>t :call OpenFailingTest()<cr>
+" nnoremap <leader>t :call OpenFailingTest()<cr>
 
 " window commands
 nnoremap <leader>wc :wincmd c<CR>
