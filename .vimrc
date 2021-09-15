@@ -183,10 +183,12 @@ Plug 'junegunn/fzf.vim'
 
 Plug 'will133/vim-dirdiff'
 
-Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'tmsvg/pear-tree'
+
+Plug 'kyazdani42/nvim-web-devicons' " for file icons
+Plug 'kyazdani42/nvim-tree.lua'
 
 Plug 'dense-analysis/ale'
 " Plug '~/projects/ale'
@@ -285,8 +287,6 @@ let g:airline#extensions#tabline#show_tab_nr = 0
 
 let g:airline_powerline_fonts = 1
 let g:airline_detect_spell=0
-"let g:airline_theme='solarized'
-"let g:airline_theme='pencil'
 let g:airline_theme='github'
 let g:airline#extensions#tabline#formatter = 'unique_tail'
 let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
@@ -312,6 +312,10 @@ let g:airline_mode_map = {
     \ ''     : 'V',
     \ }
 
+" nvim-tree
+nnoremap <leader>x :NvimTreeToggle<CR>
+nnoremap <leader>r :NvimTreeRefresh<CR>
+nnoremap <leader>e :NvimTreeFindFile<CR>
 
 " My todo files
 au BufRead,BufNewFile *.todo        setlocal filetype=todo
