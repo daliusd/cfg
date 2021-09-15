@@ -120,14 +120,14 @@ endfunction
 command FormatJSON call FormatJSON()
 
 function! FormatSHTOUT()
-  exe ':%!node ~/sht.js'
+  exe ':%!node ~/bin/sht.js'
   set filetype=json
 endfunction
 
 command FormatSHTOUT call FormatSHTOUT()
 
 function! UnformatSHTOUT()
-  exe ':%!node ~/usht.js'
+  exe ':%!node ~/bin/usht.js'
   set filetype=json
 endfunction
 
