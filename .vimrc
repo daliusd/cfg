@@ -217,14 +217,14 @@ Plug 'ruanyl/coverage.vim'
 Plug 'vim-airline/vim-airline'
 
 " Other
-Plug 'sonph/onehalf', { 'rtp': 'vim' }
+Plug 'cormacrelf/vim-colors-github'
 
 Plug 'gko/vim-coloresque'
 
 call plug#end()
 
 " Colors
-colorscheme onehalflight
+colorscheme github
 
 let g:markdown_fenced_languages = ['css', 'javascript', 'json']
 
@@ -287,7 +287,7 @@ let g:airline#extensions#tabline#show_tab_nr = 0
 
 let g:airline_powerline_fonts = 1
 let g:airline_detect_spell=0
-let g:airline_theme='onehalflight'
+let g:airline_theme='github'
 let g:airline#extensions#tabline#formatter = 'unique_tail'
 let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
 
