@@ -17,7 +17,7 @@
     gpgsign = true
 
 [delta]
-    syntax-theme = GitHub
+    syntax-theme = Nord
 
 [interactive]
-    diffFilter = delta --color-only --light
+    diffFilter = delta --color-only --dark
