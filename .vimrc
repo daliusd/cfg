@@ -316,6 +316,9 @@ nnoremap <leader>x :NvimTreeToggle<CR>
 nnoremap <leader>r :NvimTreeRefresh<CR>
 nnoremap <leader>e :NvimTreeFindFile<CR>
 
+let g:nvim_tree_disable_netrw = 0
+let g:nvim_tree_hijack_netrw = 0
+
 " My todo files
 au BufRead,BufNewFile *.todo        setlocal filetype=todo
 au BufRead,BufNewFile *.todo        setlocal foldmethod=indent
