@@ -183,6 +183,7 @@ Plug 'junegunn/fzf.vim'
 
 Plug 'will133/vim-dirdiff'
 
+Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 Plug 'tmsvg/pear-tree'
