@@ -21,7 +21,7 @@ set mouse=a     " Enable mouse for everything
 syntax spell toplevel
 syntax enable
 set termguicolors
-set background=dark
+set background=light
 set guioptions-=T " Hide toolbar
 set guioptions-=m " Hide menu
 set hidden " Allow opening new buffer without saving or opening it in new tab
@@ -216,14 +216,14 @@ Plug 'ruanyl/coverage.vim'
 Plug 'vim-airline/vim-airline'
 
 " Other
-Plug 'arcticicestudio/nord-vim'
+Plug 'sonph/onehalf', { 'rtp': 'vim' }
 
 Plug 'gko/vim-coloresque'
 
 call plug#end()
 
 " Colors
-colorscheme nord
+colorscheme onehalflight
 
 let g:markdown_fenced_languages = ['css', 'javascript', 'json']
 
@@ -286,7 +286,7 @@ let g:airline#extensions#tabline#show_tab_nr = 0
 
 let g:airline_powerline_fonts = 1
 let g:airline_detect_spell=0
-let g:airline_theme='nord'
+let g:airline_theme='onehalflight'
 let g:airline#extensions#tabline#formatter = 'unique_tail'
 let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
 
