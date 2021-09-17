@@ -17,7 +17,7 @@
     gpgsign = true
 
 [delta]
-    syntax-theme = OneHalfLight
+    syntax-theme = GitHub
 
 [interactive]
     diffFilter = delta --color-only --dark
