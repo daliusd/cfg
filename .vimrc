@@ -25,7 +25,7 @@ set background=light
 set guioptions-=T " Hide toolbar
 set guioptions-=m " Hide menu
 set hidden " Allow opening new buffer without saving or opening it in new tab
-set noshowmode " This is shown by vim-airline already so I don't need NORMAL/INSERT/... in command line
+set noshowmode " This is shown by line plugin already so I don't need NORMAL/INSERT/... in command line
 
 set wildmenu    " better command-line completion
 set list listchars=trail:.,tab:>- " Show trailing dots and tabs
@@ -214,21 +214,17 @@ Plug 'tpope/vim-rhubarb'
 Plug 'ruanyl/coverage.vim'
 
 " Status line
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+Plug 'hoob3rt/lualine.nvim'
 
 " Other
-Plug 'morhetz/gruvbox'
+Plug 'ishan9299/nvim-solarized-lua'
 
 Plug 'gko/vim-coloresque'
 
 call plug#end()
 
 " Colors
-"colorscheme github
-let g:gruvbox_italic=1
-let g:gruvbox_contrast_light='hard'
-colorscheme gruvbox
+colorscheme solarized
 
 " Ale
 
@@ -245,7 +241,6 @@ let g:ale_fixers = {
 \}
 
 let g:ale_fix_on_save = 1
-let g:airline#extensions#ale#enabled = 1
 let g:ale_virtualtext_cursor = 1
 let g:ale_virtualtext_prefix = "🔥 "
 let g:ale_sign_column_always = 1
@@ -280,39 +275,29 @@ call deoplete#custom#var('buffer', 'require_same_filetype', v:false)
 set completeopt-=preview
 let g:float_preview#docked = 0
 
-" Airline
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#show_buffers = 0
-let g:airline#extensions#tabline#show_splits = 0
-let g:airline#extensions#tabline#show_tab_count = 0
-let g:airline#extensions#tabline#show_tab_nr = 0
-
-let g:airline_powerline_fonts = 1
-let g:airline_detect_spell=0
-let g:airline_theme='base16_gruvbox_light_hard'
-let g:airline#extensions#tabline#formatter = 'unique_tail'
-let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
-
-let g:airline_mode_map = {
-    \ '__'     : '-',
-    \ 'c'      : 'C',
-    \ 'i'      : 'I',
-    \ 'ic'     : 'I',
-    \ 'ix'     : 'I',
-    \ 'n'      : 'N',
-    \ 'multi'  : 'M',
-    \ 'ni'     : 'N',
-    \ 'no'     : 'N',
-    \ 'R'      : 'R',
-    \ 'Rv'     : 'R',
-    \ 's'      : 'S',
-    \ 'S'      : 'S',
-    \ ''     : 'S',
-    \ 't'      : 'T',
-    \ 'v'      : 'V',
-    \ 'V'      : 'V',
-    \ ''     : 'V',
-    \ }
+" lualine
+lua <<EOF
+require('lualine').setup{
+  options = {
+    theme = 'solarized_light'
+  },
+  sections = {
+    lualine_a = {'mode'},
+    lualine_b = {'branch'},
+    lualine_c = {'filename'},
+    lualine_x = {'encoding', 'fileformat', 'filetype',
+      {
+        'diagnostics',
+        sources = {'ale'},
+        sections = {'error', 'warn', 'info', 'hint'},
+        symbols = {error = '🐛', warn = '⚠️', info = 'ℹ', hint = 'H'}
+      }
+    },
+    lualine_y = {'progress'},
+    lualine_z = {'location'}
+  },
+}
+EOF
 
 " nvim-tree
 nnoremap <leader>x :NvimTreeToggle<CR>
