@@ -109,6 +109,8 @@ cnoremap <c-j> <down>
 nnoremap <C-n> :cn<cr>
 nnoremap <C-p> :cp<cr>
 
+nnoremap ; :
+
 " Leader commands
 let mapleader = ","
 
