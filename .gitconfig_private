@@ -17,7 +17,7 @@
     gpgsign = true
 
 [delta]
-    syntax-theme = GitHub
+    syntax-theme = gruvbox-light
 
 [interactive]
     diffFilter = delta --color-only --dark

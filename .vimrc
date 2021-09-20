@@ -215,18 +215,20 @@ Plug 'ruanyl/coverage.vim'
 
 " Status line
 Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
 " Other
-Plug 'cormacrelf/vim-colors-github'
+Plug 'morhetz/gruvbox'
 
 Plug 'gko/vim-coloresque'
 
 call plug#end()
 
 " Colors
-colorscheme github
-
-let g:markdown_fenced_languages = ['css', 'javascript', 'json']
+"colorscheme github
+let g:gruvbox_italic=1
+let g:gruvbox_contrast_light='hard'
+colorscheme gruvbox
 
 " Ale
 
@@ -287,7 +289,7 @@ let g:airline#extensions#tabline#show_tab_nr = 0
 
 let g:airline_powerline_fonts = 1
 let g:airline_detect_spell=0
-let g:airline_theme='github'
+let g:airline_theme='base16_gruvbox_light_hard'
 let g:airline#extensions#tabline#formatter = 'unique_tail'
 let g:airline#parts#ffenc#skip_expected_string='utf-8[unix]'
 
