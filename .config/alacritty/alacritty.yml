@@ -67,3 +67,9 @@ bell:
   animation: EaseOut
   duration: 50
   color: '#ffffff'
+
+mouse:
+  url:
+    launcher:
+      program: open
+    modifiers: Command
