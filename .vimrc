@@ -250,9 +250,9 @@ let g:ale_completion_autoimport = 1
 let g:ale_lsp_suggestions = 1
 let g:ale_floating_preview = 1
 
-let g:ale_sign_error = "🐛"
-let g:ale_sign_warning = "⚠️"
-let g:ale_sign_info = "ℹ"
+let g:ale_sign_error = "E"
+let g:ale_sign_warning = "W"
+let g:ale_sign_info = "I"
 
 augroup ale-colors
   highlight ALEErrorSign ctermfg=9 ctermbg=15 guifg=#C30500
@@ -297,7 +297,7 @@ require('lualine').setup{
         'diagnostics',
         sources = {'ale'},
         sections = {'error', 'warn', 'info', 'hint'},
-        symbols = {error = '🐛', warn = '⚠️', info = 'ℹ', hint = 'H'}
+        symbols = {error = 'E', warn = 'W', info = 'I', hint = 'H'}
       }
     },
     lualine_y = {'progress'},
