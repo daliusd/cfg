@@ -110,6 +110,7 @@ nnoremap <C-n> :cn<cr>
 nnoremap <C-p> :cp<cr>
 
 nnoremap ; :
+vnoremap ; :
 
 " Leader commands
 let mapleader = ","
