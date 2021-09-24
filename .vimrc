@@ -293,7 +293,7 @@ require('lualine').setup{
         path = 1
       }
     },
-    lualine_x = {'encoding', 'fileformat',
+    lualine_x = {'encoding', 'fileformat', 'filetype',
       {
         'diagnostics',
         sources = {'ale'},
