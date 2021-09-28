@@ -200,7 +200,6 @@ Plug 'dense-analysis/ale'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 Plug 'Shougo/deoplete.nvim'
-Plug 'fszymanski/deoplete-emoji'
 Plug 'ujihisa/neco-look'
 Plug 'ncm2/float-preview.nvim'
 
@@ -272,7 +271,6 @@ inoremap <expr> <C-j>   pumvisible() ? "\<C-n>" : "\<C-j>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <C-k>   pumvisible() ? "\<C-p>" : "\<C-k>"
 
-call deoplete#custom#source('emoji', 'converters', ['converter_emoji'])
 call deoplete#custom#var('buffer', 'require_same_filetype', v:false)
 
 set completeopt-=preview
