@@ -306,6 +306,10 @@ require('lualine').setup{
 EOF
 
 " nvim-tree
+lua <<EOF
+require('nvim-tree').setup()
+EOF
+
 nnoremap <leader>x :NvimTreeToggle<CR>
 nnoremap <leader>r :NvimTreeRefresh<CR>
 nnoremap <leader>e :NvimTreeFindFile<CR>
