@@ -25,13 +25,13 @@ font:
 
   italic:
     family: Iosevka Nerd Font Mono
-    style: Light Italic
+    style: Italic
 
   bold_italic:
     family: Iosevka Nerd Font Mono
     style: Bold Italic
 
-  size: 13.0
+  size: 17.0
 
 # Colors (Solarized Light)
 colors:
