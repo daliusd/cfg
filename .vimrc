@@ -228,6 +228,16 @@ call plug#end()
 " Colors
 colorscheme solarized
 
+:hi Statement gui=italic cterm=italic
+:hi Conditional gui=italic cterm=italic
+:hi Repeat gui=italic cterm=italic
+:hi Operator gui=italic cterm=italic
+:hi Keyword gui=italic cterm=italic
+:hi Exception gui=italic cterm=italic
+
+:hi Special gui=italic cterm=italic
+:hi typescriptVariable gui=italic guifg=#268bd2 cterm=italic ctermfg=56
+
 " Ale
 
 let js_fixers = ['prettier', 'eslint']
@@ -436,7 +446,6 @@ nnoremap gx :call OpenURLUnderCursor()<CR>
 
 " Leader config
 
-nnoremap <leader>, :
 nnoremap <leader>o <c-o>
 nnoremap <leader>t <c-t>
 nnoremap <silent> <leader>n :silent noh<CR>
@@ -498,3 +507,13 @@ function! RenameAll()
 endfunction
 
 command RenameAll call RenameAll()
+
+function! SynStack ()
+    for i1 in synstack(line("."), col("."))
+        let i2 = synIDtrans(i1)
+        let n1 = synIDattr(i1, "name")
+        let n2 = synIDattr(i2, "name")
+        echo n1 "->" n2
+    endfor
+endfunction
+map gm :call SynStack()<CR>
