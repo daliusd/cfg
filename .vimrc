@@ -361,11 +361,7 @@ let g:gitgutter_map_keys = 0
 
 " tree-sitter
 lua <<EOF
-require'nvim-treesitter.configs'.setup {
-  highlight = {
-    enable = true,              -- false will disable the whole extension
-  },
-}
+require'nvim-treesitter.configs'.setup {}
 EOF
 
 function! OpenURLUnderCursor()
