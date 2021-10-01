@@ -222,11 +222,13 @@ colorscheme solarized
 :hi Conditional gui=italic cterm=italic
 :hi Repeat gui=italic cterm=italic
 :hi Operator gui=italic cterm=italic
-:hi Keyword gui=italic cterm=italic
+":hi Keyword gui=italic cterm=italic
 :hi Exception gui=italic cterm=italic
 
 :hi Special gui=italic cterm=italic
 :hi typescriptVariable gui=italic guifg=#268bd2 cterm=italic ctermfg=56
+:hi typescriptFuncKeyword gui=italic guifg=#859900 cterm=italic ctermfg=56
+:hi typescriptAliasKeyword gui=italic guifg=#859900 cterm=italic ctermfg=56
 
 " Ale
 
