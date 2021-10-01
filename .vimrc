@@ -4,13 +4,6 @@ let g:python3_host_prog = expand('~').'/projects/soft/py3nvim/bin/python'
 
 if has('nvim')
   set clipboard+=unnamedplus
-  noremap <C-s>     :update<CR>
-  vnoremap <C-s>    <C-C>:update<CR>
-  inoremap <C-s>    <Esc>:update<CR>gi
-
-  cnoremap <C-v> <C-r>+
-  inoremap <C-v> <C-r>+
-  tnoremap <expr> <C-v> '<C-\><C-N>pi'
 
   set autoread
   au FocusGained * :checktime
@@ -22,8 +15,6 @@ syntax spell toplevel
 syntax enable
 set termguicolors
 set background=light
-set guioptions-=T " Hide toolbar
-set guioptions-=m " Hide menu
 set hidden " Allow opening new buffer without saving or opening it in new tab
 set noshowmode " This is shown by line plugin already so I don't need NORMAL/INSERT/... in command line
 
@@ -37,7 +28,6 @@ set numberwidth=1   " Use 1 col + 1 space for numbers
 set synmaxcol=500   " should make slightly faster than 3000
 
 " Vim stuff
-set nocp        " Makes VIM more useful
 set nofixeol    " Let's not fix end-of-line
 
 set nobackup
@@ -174,7 +164,7 @@ function! NetrwMapping()
 endfunction
 
 " Faster navigation through code
-:set grepprg=rg\ --vimgrep\ -M\ 160\ -S\ --ignore-file\ ~/.gitignore_global
+:set grepprg=rg\ --vimgrep\ -M\ 160\ -S
 
 " Plugins
 
@@ -353,80 +343,31 @@ let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 " coverage.vim
 let g:coverage_json_report_path = 'coverage/coverage-final.json'
 
-" Javascript specific mappings
-function! SwitchToCodeFile()
-    let fn = split(expand('%'), '\.')[0]
-    if filereadable(fn.'.js')
-        exe 'e ' . fn . '.js'
-    elseif filereadable(fn.'.ts')
-        exe 'e ' . fn . '.ts'
-    elseif filereadable(fn.'.tsx')
-        exe 'e ' . fn . '.tsx'
-    endif
-endfunction
-
-function! SwitchToTestFile()
-    let spl = split(expand('%'), '\.')
-    let fn = spl[0]
-    let ext = spl[len(spl)-1]
-
-    if filereadable(fn . '.test.' . ext)
-        exe 'e ' . fn . '.test.' . ext
-    elseif filereadable(fn . '.spec.' . ext)
-        exe 'e ' . fn . '.spec.' . ext
-    elseif filereadable(fn . '.it.' . ext)
-        exe 'e ' . fn . '.it.' . ext
-    else
-        exe 'e ' . fn . '.spec.' . ext
-    endif
-endfunction
-
-function! SwitchToStyleFile()
-    let fn = split(expand('%'), '\.')[0]
-    if filereadable(fn.'.sass')
-        exe 'e ' . fn . '.sass'
-    elseif filereadable(fn.'.css')
-        exe 'e ' . fn . '.css'
-    elseif filereadable(fn.'.scss')
-        exe 'e ' . fn . '.scss'
-    elseif filereadable(fn.'.module.css')
-        exe 'e ' . fn . '.module.css'
-    endif
-endfunction
-
 function! GetLastMessage()
   execute ":redir @+"
   execute ":1messages"
   execute ":redir END"
 endfunction
 
-function! OpenFailingTest()
-  let lastFile = system("tmux select-pane -L && tmux capture-pane -pJ -S - | rg -o '[[:alnum:]_.$&+=/@-]*:[0-9]*:[0-9]*' | tail -n 1 && tmux select-pane -R")
-  let path = split(lastFile, ':')
-  if filereadable(path[0])
-    exe 'e ' . path[0]
-    call cursor(str2nr(path[1]), str2nr(path[2]))
-  else
-    echo "File not found: " . lastFile
-  endif
-endfunction
-
 " Fugitive
 :cnoreabbrev gps Git push
 :cnoreabbrev gpl Git pull
+:cnoreabbrev gs Git
+:cnoreabbrev gd Gdiffsplit
+:cnoreabbrev gb Git blame
 
 " gitgutter
 let g:gitgutter_map_keys = 0
 
 " tree-sitter
-" lua <<EOF
-" require'nvim-treesitter.configs'.setup {
-"   ensure_installed = "all",     -- one of "all", "language", or a list of languages
-"   highlight = {
-"     enable = true,              -- false will disable the whole extension
-"   },
-" }
-" EOF
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  ensure_installed = "all",     -- one of "all", "language", or a list of languages
+  highlight = {
+    enable = true,              -- false will disable the whole extension
+  },
+}
+EOF
 
 function! OpenURLUnderCursor()
   let s:uri = expand('<cWORD>')
@@ -449,7 +390,6 @@ nnoremap gx :call OpenURLUnderCursor()<CR>
 nnoremap <leader>o <c-o>
 nnoremap <leader>t <c-t>
 nnoremap <silent> <leader>n :silent noh<CR>
-nnoremap <leader>z :w<CR>
 nnoremap <leader>q :qa<CR>
 
 nnoremap <leader>pf :let @+ = expand('%:p')<cr>
@@ -475,15 +415,9 @@ vnoremap <leader>ac :ALECodeAction<CR>
 nnoremap <leader>ar :ALERename<CR>
 nnoremap <leader>af :ALEFindReferences<CR>
 
-nnoremap <leader>jj :call SwitchToCodeFile()<cr>
-nnoremap <leader>jt :call SwitchToTestFile()<cr>
-nnoremap <leader>js :call SwitchToStyleFile()<cr>
-
 nnoremap <leader>l :call GetLastMessage()<cr>
 
 nnoremap <leader>m :Maps<cr>
-
-" nnoremap <leader>t :call OpenFailingTest()<cr>
 
 " window commands
 nnoremap <leader>wc :wincmd c<CR>
@@ -496,7 +430,7 @@ nnoremap <leader>wl :wincmd l<CR>
 " vimrc file
 nnoremap <leader>v :e ~/.vimrc<cr>
 
-
+" Misc
 
 function! RenameAll()
     let l:frompart = input("Rename from: ", expand("<cword>"))
@@ -516,4 +450,5 @@ function! SynStack ()
         echo n1 "->" n2
     endfor
 endfunction
+
 map gm :call SynStack()<CR>
