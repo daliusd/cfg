@@ -60,8 +60,6 @@ set bs=2        " same as ":set backspace=indent,eol,start"
 
 " Tree-sitter based folding
 set foldmethod=indent " syntax folding method makes prettier fixer slower
-" set foldmethod=expr
-" set foldexpr=nvim_treesitter#foldexpr()
 
 set foldlevelstart=99
 filetype plugin indent on
@@ -186,8 +184,6 @@ Plug 'kyazdani42/nvim-tree.lua'
 
 Plug 'dense-analysis/ale'
 " Plug '~/projects/ale'
-
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 
 Plug 'Shougo/deoplete.nvim'
 Plug 'ujihisa/neco-look'
@@ -360,11 +356,6 @@ endfunction
 
 " gitgutter
 let g:gitgutter_map_keys = 0
-
-" tree-sitter
-lua <<EOF
-require'nvim-treesitter.configs'.setup {}
-EOF
 
 function! OpenURLUnderCursor()
   let s:uri = expand('<cWORD>')
