@@ -228,6 +228,8 @@ colorscheme solarized
 :hi typescriptClassExtends gui=italic guifg=#859900 cterm=italic ctermfg=56
 :hi typescriptInterfaceKeyword gui=italic guifg=#859900 cterm=italic ctermfg=56
 :hi typescriptAliasKeyword gui=italic guifg=#859900 cterm=italic ctermfg=56
+:hi javaScriptFunction gui=italic guifg=#859900 cterm=italic ctermfg=56
+:hi javaScriptReserved gui=italic guifg=#859900 cterm=italic ctermfg=56
 
 " Ale
 
@@ -411,6 +413,7 @@ nnoremap <leader>l :call GetLastMessage()<cr>
 nnoremap <leader>m :Maps<cr>
 
 " window commands
+nnoremap <leader>ww :wincmd w<CR>
 nnoremap <leader>wc :wincmd c<CR>
 nnoremap <leader>wo :wincmd o<CR>
 nnoremap <leader>wh :wincmd h<CR>
