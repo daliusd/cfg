@@ -203,8 +203,7 @@ Plug 'hoob3rt/lualine.nvim'
 " Other
 Plug 'ishan9299/nvim-solarized-lua'
 
-Plug 'gko/vim-coloresque'
-
+Plug 'norcalli/nvim-colorizer.lua'
 call plug#end()
 
 " Colors
@@ -303,6 +302,8 @@ require('lualine').setup{
   },
 }
 EOF
+
+lua require'colorizer'.setup()
 
 " My todo files
 au BufRead,BufNewFile *.todo        setlocal filetype=todo
