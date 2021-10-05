@@ -177,10 +177,6 @@ Plug 'will133/vim-dirdiff'
 Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
-Plug 'tmsvg/pear-tree'
-
-Plug 'kyazdani42/nvim-web-devicons' " for file icons
-Plug 'kyazdani42/nvim-tree.lua'
 
 Plug 'dense-analysis/ale'
 " Plug '~/projects/ale'
@@ -307,21 +303,6 @@ require('lualine').setup{
   },
 }
 EOF
-
-" nvim-tree
-lua <<EOF
-require('nvim-tree').setup{
-  disable_netrw = false,
-  hijack_netrw = false,
-  view = {
-    width = 40,
-    }
-}
-EOF
-
-nnoremap <leader>x :NvimTreeToggle<CR>
-nnoremap <leader>r :NvimTreeRefresh<CR>
-nnoremap <leader>e :NvimTreeFindFile<CR>
 
 " My todo files
 au BufRead,BufNewFile *.todo        setlocal filetype=todo
