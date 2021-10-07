@@ -200,6 +200,9 @@ Plug 'ruanyl/coverage.vim'
 " Status line
 Plug 'hoob3rt/lualine.nvim'
 
+Plug 'kyazdani42/nvim-web-devicons'
+Plug 'alvarosevilla95/luatab.nvim'
+
 " Other
 Plug 'ishan9299/nvim-solarized-lua'
 
@@ -301,6 +304,8 @@ require('lualine').setup{
     lualine_z = {'location'}
   },
 }
+
+vim.o.tabline = '%!v:lua.require\'luatab\'.tabline()'
 EOF
 
 lua require'colorizer'.setup()
