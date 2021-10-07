@@ -42,6 +42,7 @@ set undodir=/tmp
 set updatetime=300
 set shortmess+=c  " Don't pass messages to |ins-completion-menu|.
 set signcolumn=number " merge signcolumn and number column into one
+set showtabline=2
 
 set diffopt+=vertical " Vertical diff
 
@@ -58,7 +59,6 @@ set sw=2        " Spaces per indent
 set tabstop=8   " Number of spaces per tab. People usually use 4, but they shouldn't use tab in the first place.
 set bs=2        " same as ":set backspace=indent,eol,start"
 
-" Tree-sitter based folding
 set foldmethod=indent " syntax folding method makes prettier fixer slower
 
 set foldlevelstart=99
@@ -201,7 +201,11 @@ Plug 'ruanyl/coverage.vim'
 Plug 'hoob3rt/lualine.nvim'
 
 Plug 'kyazdani42/nvim-web-devicons'
+
 Plug 'alvarosevilla95/luatab.nvim'
+
+Plug 'tamago324/lir.nvim'
+Plug 'nvim-lua/plenary.nvim'
 
 " Other
 Plug 'ishan9299/nvim-solarized-lua'
@@ -306,6 +310,44 @@ require('lualine').setup{
 }
 
 vim.o.tabline = '%!v:lua.require\'luatab\'.tabline()'
+
+local actions = require'lir.actions'
+local clipboard_actions = require'lir.clipboard.actions'
+
+require'lir'.setup {
+  show_hidden_files = true,
+  devicons_enable = true,
+  mappings = {
+    ['<cr>']     = actions.edit,
+    ['<C-s>'] = actions.split,
+    ['<C-v>'] = actions.vsplit,
+    ['<C-t>'] = actions.tabedit,
+
+    ['-']     = actions.up,
+    ['q']     = actions.quit,
+
+    ['%']     = actions.mkdir,
+    ['i']     = actions.newfile,
+    ['r']     = actions.rename,
+    ['@']     = actions.cd,
+    ['y']     = actions.yank_path,
+    ['.']     = actions.toggle_show_hidden,
+    ['d']     = actions.delete,
+
+    ['c'] = clipboard_actions.copy,
+    ['x'] = clipboard_actions.cut,
+    ['p'] = clipboard_actions.paste,
+  },
+  float = {
+    winblend = 0,
+  },
+  hide_cursor = true,
+}
+
+vim.cmd [[augroup lir-settings]]
+vim.cmd [[  autocmd!]]
+vim.cmd [[  autocmd Filetype lir setlocal nospell]]
+vim.cmd [[augroup END]]
 EOF
 
 lua require'colorizer'.setup()
