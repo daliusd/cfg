@@ -1,4 +1,5 @@
 format = """
+$time\
 $username\
 $hostname\
 $shlvl\
@@ -22,3 +23,9 @@ $jobs\
 $battery\
 $status\
 $character"""
+
+[time]
+disabled = false
+format = '🕙 $time | '
+time_format = "%T"
+utc_time_offset = "+3"
