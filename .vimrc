@@ -143,10 +143,6 @@ nnoremap ta :tabnew<CR>
 nnoremap tn :tabnew<CR>
 nnoremap ts :tab split<CR>
 nnoremap to :tabonly<CR>
-nnoremap tj :tabnext<CR>
-nnoremap tk :tabprev<CR>
-nnoremap tl :tabm +1<CR>
-nnoremap th :tabm -1<CR>
 
 augroup netrw_mapping
     autocmd!
