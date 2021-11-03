@@ -170,6 +170,8 @@ Plug 'junegunn/fzf.vim'
 
 Plug 'ddrscott/vim-side-search'
 
+Plug 'github/copilot.vim'
+
 Plug 'will133/vim-dirdiff'
 
 Plug 'tpope/vim-vinegar'
@@ -374,6 +376,10 @@ let g:side_search_prg = 'rg --word-regexp'
   \. " --case-sensitive"
   \. " -M 160"
   \. " --line-number"
+
+function! FindRootDirectory()
+  return getcwd()
+endfunction
 
 " editorconfig-vim
 let g:EditorConfig_exclude_patterns = ['fugitive://.*']
