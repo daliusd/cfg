@@ -168,8 +168,6 @@ call plug#begin('~/.vim/plugged')
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
-Plug 'ddrscott/vim-side-search'
-
 Plug 'github/copilot.vim'
 
 Plug 'will133/vim-dirdiff'
@@ -367,19 +365,6 @@ command! -bang -nargs=* Rgw
     \                   <bang>0)
 
 :cnoreabbrev rg Rg
-:cnoreabbrev ss SideSearch
-
-" vim-side-search
-let g:side_search_prg = 'rg --word-regexp'
-  \. " --ignore='*.js.map'"
-  \. " --heading --stats -B 1 -A 4"
-  \. " --case-sensitive"
-  \. " -M 160"
-  \. " --line-number"
-
-function! FindRootDirectory()
-  return getcwd()
-endfunction
 
 " editorconfig-vim
 let g:EditorConfig_exclude_patterns = ['fugitive://.*']
@@ -437,8 +422,7 @@ nnoremap <leader>id "=strftime("%Y-%m-%d ")<CR>P
 nnoremap <leader>h :History<cr>
 nnoremap <leader>f :Files<cr>
 nnoremap <leader>s :Rgw<cr>
-"nnoremap <leader>g :gr <cword><cr>
-nnoremap <leader>g :SideSearch <cword><CR> | wincmd p
+nnoremap <leader>g :gr <cword><cr>
 
 nnoremap <leader>d :ALEGoToDefinition<CR>
 nnoremap <leader>k :ALEHover<CR>
