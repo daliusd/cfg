@@ -422,7 +422,7 @@ nnoremap <leader>id "=strftime("%Y-%m-%d ")<CR>P
 nnoremap <leader>h :History<cr>
 nnoremap <leader>f :Files<cr>
 nnoremap <leader>s :Rgw<cr>
-nnoremap <leader>g :gr <cword><cr>
+nnoremap <leader>g :silent gr <cword><cr>
 
 nnoremap <leader>d :ALEGoToDefinition<CR>
 nnoremap <leader>k :ALEHover<CR>
