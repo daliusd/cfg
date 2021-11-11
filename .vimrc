@@ -451,7 +451,7 @@ nnoremap <leader>wl :wincmd l<CR>
 nnoremap <leader>v :e ~/.vimrc<cr>
 
 " terminal
-tnoremap <Esc> <C-\><C-n>
+tnoremap <leader>e <C-\><C-n>
 
 " Misc
 
