@@ -450,6 +450,9 @@ nnoremap <leader>wl :wincmd l<CR>
 " vimrc file
 nnoremap <leader>v :e ~/.vimrc<cr>
 
+" terminal
+tnoremap <Esc> <C-\><C-n>
+
 " Misc
 
 function! RenameAll()
