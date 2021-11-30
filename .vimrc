@@ -358,6 +358,7 @@ au BufRead,BufNewFile *.todo        setlocal foldmethod=indent
 set rtp+=~/.fzf
 let g:fzf_buffers_jump = 1
 let g:fzf_layout = { 'window' : { 'width': 1, 'height': 0.8, 'highlight': 'Normal' } }
+let g:fzf_preview_window = ['right:40%', 'ctrl-s']
 
 command! -bang -nargs=* Rgw
     \ call fzf#vim#grep("rg --vimgrep --smart-case -w ".shellescape(expand('<cword>')), 1,

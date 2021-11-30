@@ -1,5 +1,5 @@
 format = """
-$time\
+${custom.tztime}\
 $username\
 $hostname\
 $shlvl\
@@ -24,8 +24,7 @@ $battery\
 $status\
 $character"""
 
-[time]
-disabled = false
-format = '🕙 $time | '
-time_format = "%T"
-utc_time_offset = "+3"
+[custom.tztime]
+command = 'date +"🕙%H:%M:%S"'
+when = "true"
+format = '[\[$symbol($output)\] ](green)'
