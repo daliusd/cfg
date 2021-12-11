@@ -5,6 +5,7 @@ if [[ "$OSTYPE" == "darwin"* ]]; then
     alias ls='ls -G'
 else
     alias cfg='git --git-dir=/home/dalius/.cfg/ --work-tree=/home/dalius'
+    alias open='xdg-open'
 fi
 
 alias snc='sync.sh'
