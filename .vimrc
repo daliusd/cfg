@@ -200,8 +200,6 @@ Plug 'hoob3rt/lualine.nvim'
 
 Plug 'kyazdani42/nvim-web-devicons'
 
-Plug 'alvarosevilla95/luatab.nvim'
-
 Plug 'tamago324/lir.nvim'
 Plug 'nvim-lua/plenary.nvim'
 
@@ -306,8 +304,6 @@ require('lualine').setup{
     lualine_z = {'location'}
   },
 }
-
-require('luatab').setup({})
 
 local actions = require'lir.actions'
 local clipboard_actions = require'lir.clipboard.actions'
