@@ -137,6 +137,10 @@ nnoremap <c-j> :tabnext<CR>
 nnoremap <c-k> :tabprev<CR>
 nnoremap <c-l> :tabm +1<CR>
 nnoremap <c-h> :tabm -1<CR>
+nnoremap <c-down> :tabnext<CR>
+nnoremap <c-up> :tabprev<CR>
+nnoremap <c-right> :tabm +1<CR>
+nnoremap <c-left> :tabm -1<CR>
 
 nnoremap td :tabclose<CR>
 nnoremap ta :tabnew<CR>
