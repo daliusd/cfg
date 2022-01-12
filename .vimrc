@@ -344,6 +344,9 @@ endfunction
 :cnoreabbrev gd Gdiffsplit
 :cnoreabbrev gb Git blame
 
+" date
+iabbrev <expr> ddd strftime('%Y-%m-%d')
+
 " gitgutter
 let g:gitgutter_map_keys = 0
 
@@ -375,8 +378,6 @@ nnoremap <leader>pp :let @+ = expand('%')<cr>
 nnoremap <leader>pn :let @+ = expand('%:t')<cr>
 
 nnoremap <leader>c :Commands<cr>
-
-nnoremap <leader>id "=strftime("%Y-%m-%d ")<CR>P
 
 nnoremap <leader>h :History<cr>
 nnoremap <leader>f :Files<cr>
