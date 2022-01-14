@@ -1,9 +1,0 @@
-{
-  "eslint.autoFixOnSave": true,
-  "coc.preferences.formatOnSaveFiletypes": ["css", "javascript", "typescript"],
-  "diagnostic.errorSign": "➤",
-  "diagnostic.infoSign": "↬",
-  "diagnostic.hintSign": "↬",
-  "explorer.icon.enableNerdfont": true,
-  "coc.source.emoji.filetypes": ["markdown", "gitcommit"]
-}

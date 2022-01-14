@@ -11,8 +11,8 @@ endif
 
 set mouse=a     " Enable mouse for everything
 
-syntax spell toplevel
-syntax enable
+syntax spell
+syntax on
 set termguicolors
 set background=light
 set hidden " Allow opening new buffer without saving or opening it in new tab
@@ -24,8 +24,6 @@ set list listchars=trail:.,tab:>- " Show trailing dots and tabs
 set scrolloff=3     " Keep 3 lines below and above the cursor
 set number          " Show line numbering
 set numberwidth=1   " Use 1 col + 1 space for numbers
-
-set synmaxcol=500   " should make slightly faster than 3000
 
 " Vim stuff
 set nofixeol    " Let's not fix end-of-line
@@ -48,7 +46,7 @@ set diffopt+=vertical " Vertical diff
 
 " We want string-like-this to be treated as word. That however means that proper spacing must
 " be used in arithmetic operations.
-:set iskeyword+=-
+set iskeyword+=-
 
 " Indentation and Tab
 set autoindent
@@ -201,8 +199,13 @@ Plug 'ruanyl/coverage.vim'
 
 " Status line
 Plug 'hoob3rt/lualine.nvim'
+Plug 'kyazdani42/nvim-web-devicons'
 
 " Other
+Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
+Plug 'nvim-treesitter/playground'
+Plug 'lewis6991/spellsitter.nvim'
+
 Plug 'ishan9299/nvim-solarized-lua'
 
 Plug 'norcalli/nvim-colorizer.lua'
@@ -211,22 +214,49 @@ call plug#end()
 " Colors
 colorscheme solarized
 
-:hi Statement gui=italic cterm=italic
-:hi Conditional gui=italic cterm=italic
-:hi Repeat gui=italic cterm=italic
-:hi Operator gui=italic cterm=italic
-":hi Keyword gui=italic cterm=italic
-:hi Exception gui=italic cterm=italic
+lua <<EOF
+require'nvim-treesitter.configs'.setup {
+  highlight = {
+    enable = true,
+    disable = {},
+    additional_vim_regex_highlighting = false,
+  },
+  indent = {
+    enable = false,
+    disable = {},
+  }
+}
 
-:hi Special gui=italic cterm=italic
-:hi typescriptVariable gui=italic guifg=#268bd2 cterm=italic ctermfg=56
-:hi typescriptFuncKeyword gui=italic guifg=#859900 cterm=italic ctermfg=56
-:hi typescriptClassKeyword gui=italic guifg=#859900 cterm=italic ctermfg=56
-:hi typescriptClassExtends gui=italic guifg=#859900 cterm=italic ctermfg=56
-:hi typescriptInterfaceKeyword gui=italic guifg=#859900 cterm=italic ctermfg=56
-:hi typescriptAliasKeyword gui=italic guifg=#859900 cterm=italic ctermfg=56
-:hi javaScriptFunction gui=italic guifg=#859900 cterm=italic ctermfg=56
-:hi javaScriptReserved gui=italic guifg=#859900 cterm=italic ctermfg=56
+require('spellsitter').setup()
+
+require "nvim-treesitter.configs".setup {
+  playground = {
+    enable = true,
+    disable = {},
+    updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
+    persist_queries = false, -- Whether the query persists across vim sessions
+    keybindings = {
+      toggle_query_editor = 'o',
+      toggle_hl_groups = 'i',
+      toggle_injected_languages = 't',
+      toggle_anonymous_nodes = 'a',
+      toggle_language_display = 'I',
+      focus_language = 'f',
+      unfocus_language = 'F',
+      update = 'R',
+      goto_node = '<cr>',
+      show_help = '?',
+    },
+  }
+}
+EOF
+
+" Use TSHighlightCaptureUnderCursor to find good group
+hi TSKeyword gui=italic cterm=italic
+hi TSKeywordFunction gui=italic cterm=italic
+hi TSInclude gui=italic cterm=italic
+hi TSRepeat gui=italic cterm=italic
+hi TSConditional gui=italic cterm=italic
 
 " Ale
 
@@ -391,7 +421,7 @@ nnoremap <leader>ak :ALEPrevious -error<cr>
 nnoremap <leader>ac :ALECodeAction<CR>
 vnoremap <leader>ac :ALECodeAction<CR>
 nnoremap <leader>ar :ALERename<CR>
-nnoremap <leader>af :ALEFindReferences<CR>
+nnoremap <leader>af :ALEFindReferences -quickfix<CR>
 
 nnoremap <leader>l :call GetLastMessage()<cr>
 

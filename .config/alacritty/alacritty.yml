@@ -17,19 +17,15 @@ scrolling:
 font:
   normal:
     family: VictorMono Nerd Font Mono
-    style: Medium
 
   bold:
     family: VictorMono Nerd Font Mono
-    style: Bold
 
   italic:
     family: VictorMono Nerd Font Mono
-    style: Medium Italic
 
   bold_italic:
     family: VictorMono Nerd Font Mono
-    style: Bold Italic
 
   size: 17.0
 
