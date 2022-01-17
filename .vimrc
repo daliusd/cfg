@@ -260,6 +260,8 @@ hi TSKeywordFunction gui=italic cterm=italic
 hi TSInclude gui=italic cterm=italic
 hi TSRepeat gui=italic cterm=italic
 hi TSConditional gui=italic cterm=italic
+hi TSType gui=italic cterm=italic
+hi TSConstMacro gui=italic cterm=italic
 
 " Ale
 
