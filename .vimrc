@@ -441,6 +441,9 @@ nnoremap <leader>wj :wincmd j<CR>
 nnoremap <leader>wk :wincmd k<CR>
 nnoremap <leader>wl :wincmd l<CR>
 
+" date
+iabbrev <expr> ,d strftime('%Y-%m-%d')
+
 " vimrc file
 nnoremap <leader>v :e ~/.vimrc<cr>
 
