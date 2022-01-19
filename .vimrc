@@ -99,7 +99,7 @@ nnoremap ; :
 vnoremap ; :
 
 " Leader commands
-let mapleader = ","
+let mapleader = " "
 
 function! FormatJSON()
   exe '%!python -m json.tool'
