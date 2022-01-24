@@ -95,8 +95,8 @@ cnoremap <c-j> <down>
 nnoremap <C-n> :cn<cr>
 nnoremap <C-p> :cp<cr>
 
-nnoremap ; :
-vnoremap ; :
+"nnoremap ; :
+"vnoremap ; :
 
 " Leader commands
 let mapleader = " "
@@ -179,6 +179,7 @@ Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 
 Plug 'justinmk/vim-sneak'
+Plug 'unblevable/quick-scope'
 
 Plug 'dense-analysis/ale'
 " Plug '~/projects/ale'
