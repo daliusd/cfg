@@ -179,8 +179,8 @@ r() {
 
       if [[ -n $scripts ]]; then
           script_name=$(echo $scripts | awk -F ': ' '{gsub(/"/, "", $1); print $1}')
-          print -s "yarn run "$script_name;
-          yarn run $script_name
+          echo "npm run "$script_name;
+          npm run $script_name
       else
           echo "Exit: You haven't selected any script"
       fi
