@@ -178,6 +178,8 @@ Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 
+Plug 'justinmk/vim-sneak'
+
 Plug 'dense-analysis/ale'
 " Plug '~/projects/ale'
 
@@ -397,6 +399,9 @@ function! OpenURLUnderCursor()
   endif
 endfunction
 nnoremap gx :call OpenURLUnderCursor()<CR>
+
+" sneak
+let g:sneak#s_next = 1
 
 " Leader config
 
