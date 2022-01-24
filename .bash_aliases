@@ -40,6 +40,7 @@ alias gciv='git commit -v'
 alias gco='git checkout'
 alias gps='git push'
 alias gpl='git pull'
+alias gpls='git pull --rebase && gps'
 alias gl='git lg'
 alias gsu='git ci -m "temp" && git stash && git reset --soft HEAD~1'
 
