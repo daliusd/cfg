@@ -1,3 +1,8 @@
+HISTSIZE=100000
+HISTFILESIZE=200000
+shopt -s histappend
+PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
+
 eval "$(starship init bash)"
 
 export PATH=~/bin:~/.local/bin:~/.npm-global/bin:~/Library/Python/3.7/bin:$PATH
@@ -180,6 +185,7 @@ r() {
       if [[ -n $scripts ]]; then
           script_name=$(echo $scripts | awk -F ': ' '{gsub(/"/, "", $1); print $1}')
           echo "npm run "$script_name;
+          history -s npm run $script_name
           npm run $script_name
       else
           echo "Exit: You haven't selected any script"
