@@ -140,11 +140,11 @@ nnoremap <c-up> :tabprev<CR>
 nnoremap <c-right> :tabm +1<CR>
 nnoremap <c-left> :tabm -1<CR>
 
-nnoremap td :tabclose<CR>
-nnoremap ta :tabnew<CR>
-nnoremap tn :tabnew<CR>
-nnoremap ts :tab split<CR>
-nnoremap to :tabonly<CR>
+nnoremap gd :tabclose<CR>
+nnoremap ga :tabnew<CR>
+nnoremap gn :tabnew<CR>
+nnoremap gs :tab split<CR>
+nnoremap go :tabonly<CR>
 
 augroup netrw_mapping
     autocmd!
