@@ -214,6 +214,8 @@ Plug 'kyazdani42/nvim-web-devicons'
 Plug 'ishan9299/nvim-solarized-lua'
 
 Plug 'norcalli/nvim-colorizer.lua'
+
+Plug 'sirtaj/vim-openscad'
 call plug#end()
 
 " Colors
