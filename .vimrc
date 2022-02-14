@@ -441,13 +441,13 @@ nnoremap <leader>l :call GetLastMessage()<cr>
 nnoremap <leader>m :Maps<cr>
 
 " window commands
-nnoremap <leader>ww :wincmd w<CR>
-nnoremap <leader>wc :wincmd c<CR>
-nnoremap <leader>wo :wincmd o<CR>
-nnoremap <leader>wh :wincmd h<CR>
-nnoremap <leader>wj :wincmd j<CR>
-nnoremap <leader>wk :wincmd k<CR>
-nnoremap <leader>wl :wincmd l<CR>
+nnoremap <leader>ww <c-w>w
+nnoremap <leader>wc <c-w>c
+nnoremap <leader>wo <c-w>o
+nnoremap <leader>wh <c-w>h
+nnoremap <leader>wj <c-w>j
+nnoremap <leader>wk <c-w>k
+nnoremap <leader>wl <c-w>l
 
 " date
 iabbrev <expr> ,d strftime('%Y-%m-%d')
