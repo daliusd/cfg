@@ -142,7 +142,6 @@ nnoremap <c-left> :tabm -1<CR>
 
 nnoremap gd :tabclose<CR>
 nnoremap ga :tabnew<CR>
-nnoremap gn :tabnew<CR>
 nnoremap gs :tab split<CR>
 nnoremap go :tabonly<CR>
 
@@ -152,11 +151,10 @@ augroup netrw_mapping
 augroup END
 
 function! NetrwMapping()
-    nnoremap <buffer> tt :tabnew<CR>
-    nnoremap <buffer> td :tabclose<CR>
-    nnoremap <buffer> ta :tabnew<CR>
-    nnoremap <buffer> ts :tab split<CR>
-    nnoremap <buffer> to :tabonly<CR>
+    nnoremap <buffer> gd :tabclose<CR>
+    nnoremap <buffer> ga :tabnew<CR>
+    nnoremap <buffer> gs :tab split<CR>
+    nnoremap <buffer> go :tabonly<CR>
 endfunction
 
 " Faster navigation through code
