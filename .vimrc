@@ -158,7 +158,7 @@ function! NetrwMapping()
 endfunction
 
 " Faster navigation through code
-:set grepprg=rg\ --vimgrep\ -M\ 160\ -S
+:set grepprg=rg\ --vimgrep\ -M\ 160\ -S\ --
 
 " Plugins
 
@@ -357,7 +357,7 @@ let g:fzf_layout = { 'up' : '100%' }
 let g:fzf_preview_window = ['up:50%', 'ctrl-s']
 
 command! -bang -nargs=* Rgw
-    \ call fzf#vim#grep("rg --vimgrep --smart-case -w ".shellescape(expand('<cword>')), 1,
+    \ call fzf#vim#grep("rg --vimgrep --smart-case -w -- ".shellescape(expand('<cword>')), 1,
     \                   fzf#vim#with_preview(),
     \                   <bang>0)
 
@@ -437,6 +437,8 @@ nnoremap <leader>af :ALEFindReferences -quickfix<CR>
 nnoremap <leader>l :call GetLastMessage()<cr>
 
 nnoremap <leader>m :Maps<cr>
+
+nnoremap <leader>b :update<cr>
 
 " window commands
 nnoremap <leader>ww <c-w>w
