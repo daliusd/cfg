@@ -421,7 +421,7 @@ nnoremap <leader>i "=strftime("%Y-%m-%d ")<CR>P
 
 nnoremap <leader>h :History<cr>
 nnoremap <leader>f :Files<cr>
-nnoremap <leader>s :Rgw<cr>
+nnoremap <leader>r :Rgw<cr>
 nnoremap <leader>g :silent gr <cword><cr>
 
 nnoremap <leader>d :ALEGoToDefinition<CR>
@@ -438,7 +438,7 @@ nnoremap <leader>l :call GetLastMessage()<cr>
 
 nnoremap <leader>m :Maps<cr>
 
-nnoremap <leader>b :update<cr>
+nnoremap <leader>s :update<cr>
 
 " window commands
 nnoremap <leader>ww <c-w>w
