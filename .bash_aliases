@@ -48,3 +48,5 @@ alias gsu='git ci -m "temp" && git stash && git reset --soft HEAD~1'
 
 alias tildeswap=$'hidutil property --set \'{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0x700000064,"HIDKeyboardModifierMappingDst":0x700000035}]}\''
 alias tilderestore=$'hidutil property --set \'{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0x700000064,"HIDKeyboardModifierMappingDst":0x700000064}]}\''
+
+alias fix-spotlight='fd -t d -I node_modules -x touch "{}/.metadata_never_index"'
