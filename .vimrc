@@ -95,8 +95,8 @@ cnoremap <c-j> <down>
 nnoremap <C-n> :cn<cr>
 nnoremap <C-p> :cp<cr>
 
-"nnoremap ; :
-"vnoremap ; :
+nnoremap ; :
+vnoremap ; :
 
 " Leader commands
 let mapleader = " "
@@ -176,9 +176,6 @@ Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-commentary'
 
-Plug 'justinmk/vim-sneak'
-Plug 'unblevable/quick-scope'
-
 Plug 'dense-analysis/ale'
 " Plug '~/projects/ale'
 
@@ -195,8 +192,6 @@ Plug 'editorconfig/editorconfig-vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
-
-Plug 'ruanyl/coverage.vim'
 
 " Tree-sitter
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
@@ -366,9 +361,6 @@ command! -bang -nargs=* Rgw
 " editorconfig-vim
 let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 
-" coverage.vim
-let g:coverage_json_report_path = 'coverage/coverage-final.json'
-
 function! GetLastMessage()
   execute ":redir @+"
   execute ":1messages"
@@ -400,9 +392,6 @@ function! OpenURLUnderCursor()
   endif
 endfunction
 nnoremap gx :call OpenURLUnderCursor()<CR>
-
-" sneak
-let g:sneak#s_next = 1
 
 " Leader config
 
