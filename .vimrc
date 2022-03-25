@@ -122,6 +122,13 @@ endfunction
 
 command UnformatSHTOUT call UnformatSHTOUT()
 
+function! UnformatJSON()
+  exe ':%!node ~/bin/unjson.js'
+  set filetype=
+endfunction
+
+command UnformatJSON call UnformatJSON()
+
 command FormatHtml execute "%!tidy -q -i --show-errors 0"
 command FormatXml execute "%!tidy -q -i --show-errors 0 -xml"
 
