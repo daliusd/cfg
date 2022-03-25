@@ -208,6 +208,7 @@ Plug 'lewis6991/spellsitter.nvim'
 " Status line
 Plug 'hoob3rt/lualine.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
+Plug 'sangdol/mintabline.vim'
 
 " Other
 
