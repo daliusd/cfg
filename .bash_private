@@ -195,6 +195,23 @@ r() {
   fi
 }
 
+y() {
+  if cat package.json > /dev/null 2>&1; then
+      scripts=$(cat package.json | jq -r '.scripts | to_entries[] | [.key, .value] | @tsv' | fzf --height 40%)
+
+      if [[ -n $scripts ]]; then
+          script_name=$(echo "$scripts" | awk -F '\t' '{print $1}')
+          echo "yarn "$script_name;
+          history -s yarn $script_name
+          yarn $script_name
+      else
+          echo "Exit: You haven't selected any script"
+      fi
+  else
+      echo "Error: There's no package.json"
+  fi
+}
+
 expand-package-script() {
   if cat package.json > /dev/null 2>&1; then
       scripts=$(cat package.json | jq -r '.scripts | to_entries[] | [.key, .value] | @tsv' | fzf --height 40%)
