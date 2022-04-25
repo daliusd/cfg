@@ -102,7 +102,7 @@ vnoremap ; :
 let mapleader = " "
 
 function! FormatJSON()
-  exe '%!python -m json.tool'
+  exe '%!python3 -m json.tool'
   set filetype=json
 endfunction
 
