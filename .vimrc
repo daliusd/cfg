@@ -186,6 +186,8 @@ Plug 'tpope/vim-commentary'
 Plug 'dense-analysis/ale'
 " Plug '~/projects/ale'
 
+Plug 'folke/trouble.nvim'
+
 Plug 'Shougo/deoplete.nvim'
 Plug 'ujihisa/neco-look'
 Plug 'ncm2/float-preview.nvim'
@@ -284,8 +286,9 @@ let g:ale_fixers = {
 \}
 
 let g:ale_fix_on_save = 1
-let g:ale_virtualtext_cursor = 1
-let g:ale_virtualtext_prefix = "🔥 "
+"let g:ale_virtualtext_cursor = 1
+"let g:ale_virtualtext_prefix = "🔥 "
+let g:ale_send_to_neovim_diagnostics = 1
 let g:ale_sign_column_always = 1
 let g:ale_completion_autoimport = 1
 let g:ale_lsp_suggestions = 1
@@ -403,18 +406,14 @@ nnoremap gx :call OpenURLUnderCursor()<CR>
 
 " Leader config
 
-nnoremap <leader>o <c-o>
-nnoremap <leader>t <c-t>
 nnoremap <silent> <leader>n :silent noh<CR>
 nnoremap <leader>q :qa<CR>
 
-nnoremap <leader>pf :let @+ = expand('%:p')<cr>
-nnoremap <leader>pp :let @+ = expand('%')<cr>
-nnoremap <leader>pn :let @+ = expand('%:t')<cr>
+nnoremap <leader>p :let @+ = expand('%:p')<cr>
+nnoremap <leader>o :let @+ = expand('%:t')<cr>
+nnoremap <leader>i :let @+ = expand('%')
 
 nnoremap <leader>c :Commands<cr>
-
-nnoremap <leader>i "=strftime("%Y-%m-%d ")<CR>P
 
 nnoremap <leader>h :History<cr>
 nnoremap <leader>f :Files<cr>
@@ -436,6 +435,7 @@ nnoremap <leader>l :call GetLastMessage()<cr>
 nnoremap <leader>m :Maps<cr>
 
 nnoremap <leader>s :update<cr>
+nnoremap <leader>x :TroubleToggle<cr>
 
 " window commands
 nnoremap <leader>ww <c-w>w
