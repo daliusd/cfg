@@ -17,6 +17,14 @@
 
 [delta]
     syntax-theme = Solarized (light)
+    max-line-length = 100000
+    navigate = true
 
 [interactive]
-    diffFilter = delta --color-only --dark
+    diffFilter = delta --color-only
+
+[merge]
+    conflictstyle = diff3
+
+[diff]
+    colorMoved = default
