@@ -175,6 +175,9 @@ call plug#begin('~/.vim/plugged')
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
+
 Plug 'github/copilot.vim'
 
 Plug 'will133/vim-dirdiff'
@@ -317,6 +320,8 @@ inoremap <expr> <C-k>   pumvisible() ? "\<C-p>" : "\<C-k>"
 
 call deoplete#custom#var('buffer', 'require_same_filetype', v:false)
 
+autocmd FileType TelescopePrompt call deoplete#custom#buffer_option('auto_complete', v:false)
+
 set completeopt-=preview
 let g:float_preview#docked = 0
 
@@ -409,9 +414,9 @@ nnoremap gx :call OpenURLUnderCursor()<CR>
 nnoremap <silent> <leader>n :silent noh<CR>
 nnoremap <leader>q :qa<CR>
 
+nnoremap <leader>i :let @+ = expand('%:t')<cr>
+nnoremap <leader>o :let @+ = expand('%')<cr>
 nnoremap <leader>p :let @+ = expand('%:p')<cr>
-nnoremap <leader>o :let @+ = expand('%:t')<cr>
-nnoremap <leader>i :let @+ = expand('%')
 
 nnoremap <leader>c :Commands<cr>
 
@@ -419,6 +424,7 @@ nnoremap <leader>h :History<cr>
 nnoremap <leader>f :Files<cr>
 nnoremap <leader>r :Rgw<cr>
 nnoremap <leader>g :silent gr <cword><cr>
+nnoremap <leader>t :Telescope live_grep<cr>
 
 nnoremap <leader>d :ALEGoToDefinition<CR>
 nnoremap <leader>k :ALEHover<CR>
