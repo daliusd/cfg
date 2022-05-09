@@ -438,6 +438,10 @@ nnoremap <leader>wl <c-w>l
 " date
 iabbrev <expr> ,d strftime('%Y-%m-%d')
 
+command! -bang -nargs=1 Rg Telescope live_grep theme=ivy default_text=<args>
+
+:cnoreabbrev rg Rg
+
 " vimrc file
 nnoremap <leader>v :e ~/.vimrc<cr>
 
