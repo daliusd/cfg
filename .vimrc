@@ -173,7 +173,6 @@ call plug#begin('~/.vim/plugged')
 
 " Generic programming plugins
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-Plug 'junegunn/fzf.vim'
 
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
@@ -362,19 +361,6 @@ lua require'colorizer'.setup()
 au BufRead,BufNewFile *.todo        setlocal filetype=todo
 au BufRead,BufNewFile *.todo        setlocal foldmethod=indent
 
-" fzf
-set rtp+=~/.fzf
-let g:fzf_buffers_jump = 1
-let g:fzf_layout = { 'up' : '100%' }
-let g:fzf_preview_window = ['up:50%', 'ctrl-s']
-
-command! -bang -nargs=* Rgw
-    \ call fzf#vim#grep("rg --vimgrep --smart-case -w -- ".shellescape(expand('<cword>')), 1,
-    \                   fzf#vim#with_preview(),
-    \                   <bang>0)
-
-:cnoreabbrev rg Rg
-
 " editorconfig-vim
 let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 
@@ -419,13 +405,11 @@ nnoremap <leader>i :let @+ = expand('%:t')<cr>
 nnoremap <leader>o :let @+ = expand('%')<cr>
 nnoremap <leader>p :let @+ = expand('%:p')<cr>
 
-nnoremap <leader>c :Commands<cr>
-
-nnoremap <leader>h :History<cr>
-nnoremap <leader>f :Files<cr>
-nnoremap <leader>r :Rgw<cr>
+nnoremap <leader>h :Telescope oldfiles theme=ivy<cr>
+nnoremap <leader>f :Telescope find_files theme=ivy<cr>
+nnoremap <leader>r :Telescope grep_string theme=ivy<cr>
 nnoremap <leader>g :silent gr <cword><cr>
-nnoremap <leader>t :Telescope live_grep<cr>
+nnoremap <leader>t :Telescope live_grep theme=ivy<cr>
 
 nnoremap <leader>d :ALEGoToDefinition<CR>
 nnoremap <leader>k :ALEHover<CR>
@@ -438,8 +422,6 @@ nnoremap <leader>ar :ALERename<CR>
 nnoremap <leader>af :ALEFindReferences -quickfix<CR>
 
 nnoremap <leader>l :call GetLastMessage()<cr>
-
-nnoremap <leader>m :Maps<cr>
 
 nnoremap <leader>s :update<cr>
 nnoremap <leader>x :TroubleToggle<cr>
