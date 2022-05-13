@@ -355,6 +355,23 @@ require('lualine').setup{
 
 EOF
 
+" Telescope
+lua <<EOF
+local actions = require("telescope.actions")
+
+require("telescope").setup({
+    defaults = {
+        mappings = {
+            i = {
+                ["<esc>"] = actions.close,
+                ["<c-c>"] = false,
+            },
+        },
+    },
+})
+
+EOF
+
 lua require'colorizer'.setup()
 
 " My todo files
@@ -407,7 +424,7 @@ nnoremap <leader>p :let @+ = expand('%:p')<cr>
 
 nnoremap <leader>h :Telescope oldfiles theme=ivy<cr>
 nnoremap <leader>f :Telescope find_files theme=ivy<cr>
-nnoremap <leader>r :Telescope grep_string theme=ivy initial_mode=normal<cr>
+nnoremap <leader>r :Telescope grep_string theme=ivy<cr>
 nnoremap <leader>g :silent gr <cword><cr>
 nnoremap <leader>t :Telescope live_grep theme=ivy<cr>
 
@@ -438,7 +455,7 @@ nnoremap <leader>wl <c-w>l
 " date
 iabbrev <expr> ,d strftime('%Y-%m-%d')
 
-command! -bang -nargs=1 Rg Telescope live_grep theme=ivy initial_mode=normal default_text=<args>
+command! -bang -nargs=1 Rg Telescope live_grep theme=ivy default_text=<args>
 
 :cnoreabbrev rg Rg
 
