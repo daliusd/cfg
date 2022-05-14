@@ -193,6 +193,7 @@ Plug 'folke/trouble.nvim'
 Plug 'Shougo/deoplete.nvim'
 Plug 'ujihisa/neco-look'
 Plug 'ncm2/float-preview.nvim'
+Plug 'bew/deoplete-emoji-backup'
 
 Plug 'junegunn/vader.vim'
 Plug 'jamessan/vim-gnupg'
@@ -365,6 +366,8 @@ require("telescope").setup({
             i = {
                 ["<esc>"] = actions.close,
                 ["<c-c>"] = false,
+                ["<c-j>"] = actions.move_selection_next,
+                ["<c-k>"] = actions.move_selection_previous,
             },
         },
     },
