@@ -357,6 +357,7 @@ lua <<EOF
         }
       },
       { name = 'emoji' },
+    }, {
       {
         name = 'look',
         keyword_length = 2,
