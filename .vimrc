@@ -140,6 +140,8 @@ au BufRead,BufNewFile *.rst     setlocal textwidth=66
 " Tab navigation
 nnoremap <c-j> :tabnext<CR>
 nnoremap <c-k> :tabprev<CR>
+inoremap <c-j> <c-o>:tabnext<CR>
+inoremap <c-k> <c-o>:tabprev<CR>
 nnoremap <c-l> :tabm +1<CR>
 nnoremap <c-h> :tabm -1<CR>
 nnoremap <c-down> :tabnext<CR>
@@ -190,10 +192,14 @@ Plug 'dense-analysis/ale'
 
 Plug 'folke/trouble.nvim'
 
-Plug 'Shougo/deoplete.nvim'
-Plug 'ujihisa/neco-look'
-Plug 'ncm2/float-preview.nvim'
-Plug 'bew/deoplete-emoji-backup'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'hrsh7th/cmp-omni'
+Plug 'hrsh7th/cmp-emoji'
+Plug 'hrsh7th/cmp-copilot'
+Plug 'octaltree/cmp-look'
+Plug 'hrsh7th/nvim-cmp'
 
 Plug 'junegunn/vader.vim'
 Plug 'jamessan/vim-gnupg'
@@ -293,6 +299,7 @@ let g:ale_fix_on_save = 1
 "let g:ale_virtualtext_prefix = "🔥 "
 let g:ale_send_to_neovim_diagnostics = 1
 let g:ale_sign_column_always = 1
+let g:ale_completion_enabled = 1
 let g:ale_completion_autoimport = 1
 let g:ale_lsp_suggestions = 1
 let g:ale_floating_preview = 1
@@ -310,21 +317,73 @@ augroup END
 
 command! ALEToggleFixer execute "let g:ale_fix_on_save = get(g:, 'ale_fix_on_save', 0) ? 0 : 1"
 
-" Deoplete
+set completeopt=menu,menuone,noselect " nvim-cmp suggestion
 
-let g:deoplete#enable_at_startup = 1
+" nvim-cmp
+lua <<EOF
+  local cmp = require'cmp'
 
-inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <C-j>   pumvisible() ? "\<C-n>" : "\<C-j>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <expr> <C-k>   pumvisible() ? "\<C-p>" : "\<C-k>"
+  cmp.setup({
+    window = {
+      -- completion = cmp.config.window.bordered(),
+      -- documentation = cmp.config.window.bordered(),
+    },
+    mapping = cmp.mapping.preset.insert({
+      ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+      ['<C-f>'] = cmp.mapping.scroll_docs(4),
+      ['<C-Space>'] = cmp.mapping.complete(),
+      ['<C-e>'] = cmp.mapping.abort(),
+      ['<C-j>'] = cmp.mapping.select_next_item(),
+      ['<C-k>'] = cmp.mapping.select_prev_item(),
+      ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+      ['<Tab>'] = function(fallback)
+        if cmp.visible() then
+          cmp.select_next_item()
+        else
+          fallback()
+        end
+      end
+    }),
+    sources = cmp.config.sources({
+      { name = 'omni' },
+      { name = 'copilot' },
+      {
+        name = 'buffer',
+        option = {
+          keyword_pattern = [[\k\+]],
+          get_bufnrs = function()
+            return vim.api.nvim_list_bufs()
+          end
+        }
+      },
+      { name = 'emoji' },
+      {
+        name = 'look',
+        keyword_length = 2,
+        option = {
+          convert_case = true,
+          loud = true
+        }
+      }
+    })
+  })
 
-call deoplete#custom#var('buffer', 'require_same_filetype', v:false)
+  cmp.setup.cmdline('/', {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = {
+      { name = 'buffer' }
+    }
+  })
 
-autocmd FileType TelescopePrompt call deoplete#custom#buffer_option('auto_complete', v:false)
-
-set completeopt-=preview
-let g:float_preview#docked = 0
+  cmp.setup.cmdline(':', {
+    mapping = cmp.mapping.preset.cmdline(),
+    sources = cmp.config.sources({
+      { name = 'path' }
+    }, {
+      { name = 'cmdline' }
+    })
+  })
+EOF
 
 " lualine
 lua <<EOF
@@ -439,6 +498,7 @@ nnoremap <leader>ak :ALEPrevious -error<cr>
 nnoremap <leader>ac :ALECodeAction<CR>
 vnoremap <leader>ac :ALECodeAction<CR>
 nnoremap <leader>ar :ALERename<CR>
+nnoremap <leader>at :ALEGoToTypeDefinition<CR>
 nnoremap <leader>af :ALEFindReferences -quickfix<CR>
 
 nnoremap <leader>l :call GetLastMessage()<cr>
