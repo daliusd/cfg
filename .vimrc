@@ -188,7 +188,8 @@ Plug 'will133/vim-dirdiff'
 
 Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-surround'
-Plug 'tpope/vim-commentary'
+
+Plug 'numToStr/Comment.nvim'
 
 Plug 'dense-analysis/ale'
 " Plug '~/projects/ale'
@@ -300,8 +301,6 @@ let g:ale_fixers = {
 \}
 
 let g:ale_fix_on_save = 1
-"let g:ale_virtualtext_cursor = 1
-"let g:ale_virtualtext_prefix = "🔥 "
 let g:ale_send_to_neovim_diagnostics = 1
 let g:ale_sign_column_always = 1
 let g:ale_completion_enabled = 1
@@ -323,6 +322,8 @@ augroup END
 command! ALEToggleFixer execute "let g:ale_fix_on_save = get(g:, 'ale_fix_on_save', 0) ? 0 : 1"
 
 set completeopt=menu,menuone,noselect " nvim-cmp suggestion
+
+lua require('Comment').setup()
 
 " nvim-cmp
 lua <<EOF
