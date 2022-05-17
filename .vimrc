@@ -154,6 +154,9 @@ nnoremap ga :tabnew<CR>
 nnoremap gs :tab split<CR>
 nnoremap go :tabonly<CR>
 
+nnoremap <silent> gh <Cmd>Sort<CR>
+vnoremap <silent> gh <Esc><Cmd>Sort<CR>
+
 augroup netrw_mapping
     autocmd!
     autocmd filetype netrw call NetrwMapping()
@@ -205,6 +208,8 @@ Plug 'junegunn/vader.vim'
 Plug 'jamessan/vim-gnupg'
 
 Plug 'editorconfig/editorconfig-vim'
+
+Plug 'sQVe/sort.nvim'
 
 " Git
 Plug 'airblade/vim-gitgutter'
@@ -386,6 +391,12 @@ lua <<EOF
   })
 EOF
 
+" sort.nvim
+
+lua << EOF
+  require("sort").setup({})
+EOF
+
 " lualine
 lua <<EOF
 require('lualine').setup{
@@ -519,7 +530,7 @@ nnoremap <leader>wl <c-w>l
 " date
 iabbrev <expr> ,d strftime('%Y-%m-%d')
 
-command! -bang -nargs=1 Rg Telescope live_grep theme=ivy default_text=<args>
+command! -bang -nargs=1 Rg execute "Telescope live_grep theme=ivy default_text=" . fnameescape("<args>")
 
 :cnoreabbrev rg Rg
 
