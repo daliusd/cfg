@@ -187,7 +187,7 @@ Plug 'github/copilot.vim'
 Plug 'will133/vim-dirdiff'
 
 Plug 'tpope/vim-vinegar'
-Plug 'tpope/vim-surround'
+Plug 'machakann/vim-sandwich'
 
 Plug 'numToStr/Comment.nvim'
 
