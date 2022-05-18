@@ -211,6 +211,8 @@ Plug 'jamessan/vim-gnupg'
 Plug 'editorconfig/editorconfig-vim'
 
 Plug 'sQVe/sort.nvim'
+Plug 'windwp/nvim-autopairs'
+Plug 'windwp/nvim-ts-autotag'
 
 " Git
 Plug 'airblade/vim-gitgutter'
@@ -249,12 +251,10 @@ require'nvim-treesitter.configs'.setup {
   indent = {
     enable = false,
     disable = {},
-  }
-}
-
-require('spellsitter').setup()
-
-require "nvim-treesitter.configs".setup {
+  },
+  autotag = {
+    enable = true,
+  },
   playground = {
     enable = true,
     disable = {},
@@ -274,6 +274,8 @@ require "nvim-treesitter.configs".setup {
     },
   }
 }
+
+require('spellsitter').setup()
 
 EOF
 
@@ -390,6 +392,10 @@ lua <<EOF
       { name = 'cmdline' }
     })
   })
+
+  require('nvim-autopairs').setup{}
+  local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+  cmp.event:on( 'confirm_done', cmp_autopairs.on_confirm_done({  map_char = { tex = '' } }))
 EOF
 
 " sort.nvim
