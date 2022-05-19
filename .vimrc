@@ -182,11 +182,13 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 
+Plug 'MunifTanjim/nui.nvim'
+Plug 'nvim-neo-tree/neo-tree.nvim', { 'branch': 'v2.x' }
+
 Plug 'github/copilot.vim'
 
 Plug 'will133/vim-dirdiff'
 
-Plug 'tpope/vim-vinegar'
 Plug 'machakann/vim-sandwich'
 
 Plug 'numToStr/Comment.nvim'
@@ -287,6 +289,24 @@ hi TSRepeat gui=italic cterm=italic
 hi TSConditional gui=italic cterm=italic
 hi TSType gui=italic cterm=italic
 hi TSConstMacro gui=italic cterm=italic
+
+" neo-tree
+let g:neo_tree_remove_legacy_commands = 1
+hi NeoTreeTitleBar guifg=#ffffff guibg=#586e75
+
+lua <<EOF
+require("neo-tree").setup({
+        window = {
+          mapping_options = {
+            noremap = true,
+            nowait = true,
+          },
+          mappings = {
+            ["i"] = { "toggle_node" },
+          }
+        },
+      })
+EOF
 
 " Ale
 
@@ -524,6 +544,8 @@ nnoremap <leader>l :call GetLastMessage()<cr>
 
 nnoremap <leader>s :update<cr>
 nnoremap <leader>x :TroubleToggle<cr>
+nnoremap <leader>b :Neotree left filesystem reveal toggle<cr>
+nnoremap - :Neotree float filesystem reveal reveal_force_cwd<cr>
 
 " window commands
 nnoremap <leader>ww <c-w>w
