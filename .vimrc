@@ -193,6 +193,9 @@ Plug 'machakann/vim-sandwich'
 
 Plug 'numToStr/Comment.nvim'
 
+Plug 'vim-test/vim-test'
+Plug 'rcarriga/vim-ultest', { 'do': ':UpdateRemotePlugins' }
+
 Plug 'dense-analysis/ale'
 " Plug '~/projects/ale'
 
@@ -489,11 +492,11 @@ function! GetLastMessage()
 endfunction
 
 " Fugitive
-:cnoreabbrev gps Git push
-:cnoreabbrev gpl Git pull
-:cnoreabbrev gs Git
-:cnoreabbrev gd Gdiffsplit
-:cnoreabbrev gb Git blame
+:cnoreabbrev <expr> gps getcmdtype() == ':' ? 'Git push' : 'gps'
+:cnoreabbrev <expr> gpl getcmdtype() == ':' ? 'Git pull' : 'gpl'
+:cnoreabbrev <expr> gs getcmdtype() == ':' ? 'Git' : 'gs'
+:cnoreabbrev <expr> gd getcmdtype() == ':' ? 'Gdiffsplit' : 'gd'
+:cnoreabbrev <expr> gb getcmdtype() == ':' ? 'Git blame' : 'gb'
 
 " gitgutter
 let g:gitgutter_map_keys = 0
@@ -513,6 +516,24 @@ function! OpenURLUnderCursor()
   endif
 endfunction
 nnoremap gx :call OpenURLUnderCursor()<CR>
+
+" vim-ultest
+
+let g:ultest_use_pty = 1
+
+augroup UltestRunner
+    au!
+    au BufWritePost * UltestNearest
+augroup END
+
+hi UltestPass ctermfg=Green guifg=#40AA40
+hi UltestFail ctermfg=Red guifg=#CC6060
+hi UltestRunning ctermfg=Yellow guifg=#FFEC63
+hi UltestBorder ctermfg=Red guifg=#CC6060
+hi UltestSummaryInfo ctermfg=cyan guifg=#4040AA gui=bold cterm=bold
+
+let g:ultest_running_sign="●"
+let g:ultest_output_on_line=0
 
 " Leader config
 
@@ -556,12 +577,19 @@ nnoremap <leader>wj <c-w>j
 nnoremap <leader>wk <c-w>k
 nnoremap <leader>wl <c-w>l
 
+nnoremap <leader>uf <Plug>(ultest-run-file)
+nnoremap <leader>un <Plug>(ultest-run-nearest)
+nnoremap <leader>us <Plug>(ultest-summary-toggle)
+nnoremap <leader>uj <Plug>(ultest-next-fail)
+nnoremap <leader>uk <Plug>(ultest-prev-fail)
+nnoremap <leader>uo <Plug>(ultest-output-show)
+
 " date
 iabbrev <expr> ,d strftime('%Y-%m-%d')
 
 command! -bang -nargs=1 Rg execute "Telescope live_grep theme=ivy default_text=" . fnameescape("<args>")
 
-:cnoreabbrev rg Rg
+:cnoreabbrev <expr> rg getcmdtype() == ':' ? 'Rg' : 'rg'
 
 " vimrc file
 nnoremap <leader>v :e ~/.vimrc<cr>
