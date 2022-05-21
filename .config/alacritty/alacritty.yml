@@ -17,6 +17,7 @@ scrolling:
 font:
   normal:
     family: VictorMono Nerd Font Mono
+    style: medium
 
   bold:
     family: VictorMono Nerd Font Mono
@@ -27,7 +28,7 @@ font:
   bold_italic:
     family: VictorMono Nerd Font Mono
 
-  size: 17.0
+  size: 12.0
 
 # Colors (Solarized Light)
 colors:
