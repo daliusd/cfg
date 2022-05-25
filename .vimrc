@@ -19,7 +19,7 @@ set hidden " Allow opening new buffer without saving or opening it in new tab
 set noshowmode " This is shown by line plugin already so I don't need NORMAL/INSERT/... in command line
 
 set wildmenu    " better command-line completion
-set list listchars=trail:.,tab:>- " Show trailing dots and tabs
+set list listchars=trail:.,tab:▷▷⋮ " Show trailing dots and tabs
 
 set scrolloff=3     " Keep 3 lines below and above the cursor
 set number          " Show line numbering
