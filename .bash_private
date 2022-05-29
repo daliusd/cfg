@@ -9,6 +9,11 @@ eval "$(starship init bash)"
 export PATH=~/bin:~/.local/bin:~/Library/Python/3.7/bin:$PATH
 # export PYTHONPATH=/home/dalius/.local/lib/python3.6/site-packages
 
+if [[ "$OSTYPE" == "linux"* ]]; then
+  export GEM_HOME=~/.ruby/
+  export PATH=$PATH:~/.ruby/bin
+fi
+
 export HISTCONTROL=ignoreboth:erasedups
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
