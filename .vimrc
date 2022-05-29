@@ -538,6 +538,8 @@ hi UltestSummaryInfo ctermfg=cyan guifg=#4040AA gui=bold cterm=bold
 let g:ultest_running_sign="●"
 let g:ultest_output_on_line=0
 
+let g:test#runner_commands = ['VSpec', 'Jest', 'Playwright']
+
 " Leader config
 
 nnoremap <silent> <leader>n :silent noh<CR>
