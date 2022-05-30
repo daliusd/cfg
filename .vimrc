@@ -495,11 +495,11 @@ function! GetLastMessage()
 endfunction
 
 " Fugitive
-:cnoreabbrev <expr> gps getcmdtype() == ':' ? 'Git push' : 'gps'
-:cnoreabbrev <expr> gpl getcmdtype() == ':' ? 'Git pull' : 'gpl'
-:cnoreabbrev <expr> gs getcmdtype() == ':' ? 'Git' : 'gs'
-:cnoreabbrev <expr> gd getcmdtype() == ':' ? 'Gdiffsplit' : 'gd'
-:cnoreabbrev <expr> gb getcmdtype() == ':' ? 'Git blame' : 'gb'
+:cnoreabbrev <expr> gps (getcmdtype() == ':' && getcmdline() ==# 'gps') ? 'Git push' : 'gps'
+:cnoreabbrev <expr> gpl (getcmdtype() == ':' && getcmdline() ==# 'gpl') ? 'Git pull' : 'gpl'
+:cnoreabbrev <expr> gs (getcmdtype() == ':' && getcmdline() ==# 'gs') ? 'Git' : 'gs'
+:cnoreabbrev <expr> gd (getcmdtype() == ':' && getcmdline() ==# 'gd') ? 'Gdiffsplit' : 'gd'
+:cnoreabbrev <expr> gb (getcmdtype() == ':' && getcmdline() ==# 'gb') ? 'Git blame' : 'gb'
 
 " gitgutter
 let g:gitgutter_map_keys = 0
@@ -594,7 +594,7 @@ iabbrev <expr> ,d strftime('%Y-%m-%d')
 
 command! -bang -nargs=1 Rg execute "Telescope live_grep theme=ivy default_text=" . fnameescape("<args>")
 
-:cnoreabbrev <expr> rg getcmdtype() == ':' ? 'Rg' : 'rg'
+:cnoreabbrev <expr> rg (getcmdtype() == ':' && getcmdline() ==# 'rg') ? 'Rg' : 'rg'
 
 " vimrc file
 nnoremap <leader>v :e ~/.vimrc<cr>
