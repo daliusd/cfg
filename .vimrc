@@ -377,6 +377,9 @@ lua <<EOF
       end
     }),
     sources = cmp.config.sources({
+      {
+        name = 'buffer',
+      },
       { name = 'omni' },
       { name = 'copilot' },
       {
