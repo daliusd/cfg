@@ -170,7 +170,7 @@ function! NetrwMapping()
 endfunction
 
 " Faster navigation through code
-:set grepprg=rg\ --vimgrep\ -M\ 160\ -S\ --
+:set grepprg=rg\ --vimgrep\ -M\ 160\ -S
 
 " Plugins
 
@@ -381,11 +381,6 @@ lua <<EOF
     sources = cmp.config.sources({
       {
         name = 'buffer',
-      },
-      { name = 'omni' },
-      { name = 'copilot' },
-      {
-        name = 'buffer',
         option = {
           keyword_pattern = [[\k\+]],
           get_bufnrs = function()
@@ -393,6 +388,8 @@ lua <<EOF
           end
         }
       },
+      { name = 'omni' },
+      { name = 'copilot' },
       { name = 'emoji' },
     }, {
       {

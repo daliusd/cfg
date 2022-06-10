@@ -40,6 +40,7 @@ alias gps='git push'
 alias gpl='git pull'
 alias gpls='git pull --rebase && gps'
 alias gl='git lg'
+alias glt='git lgt'
 alias gsu='git ci -m "temp" && git stash && git reset --soft HEAD~1'
 
 # Tilde commands for Mac

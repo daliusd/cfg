@@ -115,6 +115,7 @@ __git_wrap_git_log() {
     __git_func_wrap _git_log
 }
 complete -o bashdefault -o default -o nospace -F __git_wrap_git_log gl
+complete -o bashdefault -o default -o nospace -F __git_wrap_git_log glt
 
 # From https://seb.jambor.dev/posts/improving-shell-workflows-with-fzf/
 function delete-branches() {
