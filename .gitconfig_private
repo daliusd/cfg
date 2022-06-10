@@ -9,7 +9,7 @@
     br = branch
     ci = commit
     st = status
-    lg = "!cd -- \"${GIT_PREFIX:-.}\" && f() { git log --pretty=format:'%C(yellow)%h%Creset %s %Cgreen(%cr) %C(bold blue)%an <%ae> %G?%Creset' --abbrev-commit --date=short --color $@; }; f"
+    lg = "!cd -- \"${GIT_PREFIX:-.}\" && f() { git log --pretty=format:'%C(yellow)%h%Creset %s %Cgreen(%cr) %C(bold blue)%ae %G?%Creset' --abbrev-commit --date=short --color $@; }; f"
     lgt = "!cd -- \"${GIT_PREFIX:-.}\" && f() { git log --pretty=format:'%C(yellow)%h%Creset%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%an <%ae> %G?%Creset' --abbrev-commit --date=short --color $@; }; f"
     root = rev-parse --show-toplevel
     cc = "!cd -- \"${GIT_PREFIX:-.}\" && f() { git log --format=format: --name-only $@ | egrep -v '^$' | sort | uniq -c | sort -rg | head -15; }; f"
