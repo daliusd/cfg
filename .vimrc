@@ -197,7 +197,9 @@ Plug 'machakann/vim-sandwich'
 Plug 'numToStr/Comment.nvim'
 
 Plug 'vim-test/vim-test'
-Plug 'rcarriga/vim-ultest', { 'do': ':UpdateRemotePlugins' }
+Plug 'antoinemadec/FixCursorHold.nvim' " Required by neotest
+Plug 'nvim-neotest/neotest'
+Plug 'nvim-neotest/neotest-vim-test'
 
 Plug 'dense-analysis/ale'
 " Plug '~/projects/ale'
@@ -545,21 +547,29 @@ nnoremap gx :call OpenURLUnderCursor()<CR>
 
 " vim-ultest
 
-let g:ultest_use_pty = 1
+lua <<EOF
+require("neotest").setup({
+  adapters = {
+    require("neotest-vim-test")({
+      ignore_file_types = { "vim", "lua" },
+    }),
+  },
+  diagnostic = {
+    enabled = true
+  },
+  highlights = {
+    test = "NeotestTest"
+  },
+  icons = {
+    running = "●",
+  },
+})
+EOF
 
-augroup UltestRunner
-    au!
-    au BufWritePost * UltestNearest
-augroup END
-
-hi UltestPass ctermfg=Green guifg=#40AA40
-hi UltestFail ctermfg=Red guifg=#CC6060
-hi UltestRunning ctermfg=Yellow guifg=#FFEC63
-hi UltestBorder ctermfg=Red guifg=#CC6060
-hi UltestSummaryInfo ctermfg=cyan guifg=#4040AA gui=bold cterm=bold
-
-let g:ultest_running_sign="●"
-let g:ultest_output_on_line=0
+hi NeotestPassed ctermfg=Green guifg=#40AA40
+hi NeotestFailed ctermfg=Red guifg=#CC6060
+hi NeotestRunning ctermfg=Yellow guifg=#FFEC63
+hi NeotestBorder ctermfg=Red guifg=#CC6060
 
 let g:test#runner_commands = ['VSpec', 'Jest', 'Playwright']
 
@@ -605,12 +615,12 @@ nnoremap <leader>wj <c-w>j
 nnoremap <leader>wk <c-w>k
 nnoremap <leader>wl <c-w>l
 
-nnoremap <leader>uf <Plug>(ultest-run-file)
-nnoremap <leader>un <Plug>(ultest-run-nearest)
-nnoremap <leader>us <Plug>(ultest-summary-toggle)
-nnoremap <leader>uj <Plug>(ultest-next-fail)
-nnoremap <leader>uk <Plug>(ultest-prev-fail)
-nnoremap <leader>uo <Plug>(ultest-output-show)
+nnoremap <leader>uf :lua require("neotest").run.run(vim.fn.expand("%"))<cr>
+nnoremap <leader>un :lua require("neotest").run.run()<cr>
+nnoremap <leader>us :lua require("neotest").summary.toggle()<cr>
+nnoremap <leader>uj :lua require("neotest").jump.next()<cr>
+nnoremap <leader>uk :lua require("neotest").jump.prev()<cr>
+nnoremap <leader>uo :lua require("neotest").output.open({ enter = true })<cr>
 
 " date
 iabbrev <expr> ,d strftime('%Y-%m-%d')
