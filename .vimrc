@@ -371,7 +371,7 @@ lua <<EOF
       ['<C-e>'] = cmp.mapping.abort(),
       ['<C-j>'] = cmp.mapping.select_next_item(),
       ['<C-k>'] = cmp.mapping.select_prev_item(),
-      ['<CR>'] = cmp.mapping.confirm({ select = true }), -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
+      ['<CR>'] = cmp.mapping.confirm({ select = false }),
       ['<Tab>'] = function(fallback)
         if cmp.visible() then
           cmp.select_next_item()
@@ -618,8 +618,8 @@ nnoremap <leader>wl <c-w>l
 nnoremap <leader>uf :lua require("neotest").run.run(vim.fn.expand("%"))<cr>
 nnoremap <leader>un :lua require("neotest").run.run()<cr>
 nnoremap <leader>us :lua require("neotest").summary.toggle()<cr>
-nnoremap <leader>uj :lua require("neotest").jump.next()<cr>
-nnoremap <leader>uk :lua require("neotest").jump.prev()<cr>
+nnoremap <leader>uj :lua require("neotest").jump.next({ status = "failed" })<cr>
+nnoremap <leader>uk :lua require("neotest").jump.prev({ status = "failed" })<cr>
 nnoremap <leader>uo :lua require("neotest").output.open({ enter = true })<cr>
 
 " date
