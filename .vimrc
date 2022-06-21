@@ -188,8 +188,6 @@ Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 Plug 'MunifTanjim/nui.nvim'
 Plug 'nvim-neo-tree/neo-tree.nvim', { 'branch': 'v2.x' }
 
-Plug 'github/copilot.vim'
-
 Plug 'will133/vim-dirdiff'
 
 Plug 'machakann/vim-sandwich'
@@ -211,7 +209,6 @@ Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/cmp-omni'
 Plug 'hrsh7th/cmp-emoji'
-Plug 'hrsh7th/cmp-copilot'
 Plug 'octaltree/cmp-look'
 Plug 'hrsh7th/nvim-cmp'
 
@@ -391,7 +388,6 @@ lua <<EOF
         }
       },
       { name = 'omni' },
-      { name = 'copilot' },
       { name = 'emoji' },
     }, {
       {
