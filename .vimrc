@@ -587,6 +587,7 @@ nnoremap <leader>f :Telescope find_files theme=ivy<cr>
 nnoremap <leader>r :Telescope grep_string theme=ivy<cr>
 nnoremap <leader>g :silent gr <cword><cr>
 nnoremap <leader>t :Telescope live_grep theme=ivy<cr>
+nnoremap <leader>c :Telescope commands theme=ivy<cr>
 
 nnoremap <leader>d :ALEGoToDefinition<CR>
 nnoremap <leader>k :ALEHover<CR>
@@ -628,6 +629,13 @@ iabbrev <expr> ,d strftime('%Y-%m-%d')
 command! -bang -nargs=1 Rg execute "Telescope live_grep theme=ivy default_text=" . fnameescape("<args>")
 
 :cnoreabbrev <expr> rg (getcmdtype() == ':' && getcmdline() ==# 'rg') ? 'Rg' : 'rg'
+
+function! YoshiTest()
+  let g:test#javascript#runner = 'jest'
+  let g:test#javascript#jest#executable='yarn yoshi test'
+endfunction
+
+command YoshiTest call YoshiTest()
 
 " vimrc file
 nnoremap <leader>v :e ~/.vimrc<cr>
