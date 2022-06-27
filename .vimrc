@@ -199,8 +199,9 @@ Plug 'antoinemadec/FixCursorHold.nvim' " Required by neotest
 Plug 'nvim-neotest/neotest'
 Plug 'nvim-neotest/neotest-vim-test'
 
-Plug 'dense-analysis/ale'
-" Plug '~/projects/ale'
+Plug 'neovim/nvim-lspconfig'
+Plug 'jose-elias-alvarez/null-ls.nvim'
+Plug 'jose-elias-alvarez/typescript.nvim'
 
 Plug 'folke/trouble.nvim'
 
@@ -209,8 +210,12 @@ Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/cmp-omni'
 Plug 'hrsh7th/cmp-emoji'
+Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'octaltree/cmp-look'
 Plug 'hrsh7th/nvim-cmp'
+
+Plug 'hrsh7th/cmp-vsnip'
+Plug 'hrsh7th/vim-vsnip'
 
 Plug 'junegunn/vader.vim'
 Plug 'jamessan/vim-gnupg'
@@ -313,50 +318,106 @@ require("neo-tree").setup({
       })
 EOF
 
-" Ale
+" nvim-lspconfig
+lua <<EOF
 
-let js_fixers = ['prettier', 'eslint']
+local opts = { noremap=true, silent=true }
+vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, opts)
+vim.keymap.set('n', '<leader>ak', vim.diagnostic.goto_prev, opts)
+vim.keymap.set('n', '<leader>aj', vim.diagnostic.goto_next, opts)
+vim.keymap.set('n', '<leader>aq', vim.diagnostic.setloclist, opts)
 
-let g:ale_fixers = {
-\   '*': ['remove_trailing_lines', 'trim_whitespace'],
-\   'javascript': js_fixers,
-\   'javascript.jsx': js_fixers,
-\   'typescript': js_fixers,
-\   'typescriptreact': js_fixers,
-\   'css': ['prettier'],
-\   'json': ['prettier'],
-\}
+local on_attach = function(client, bufnr)
+  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
-let g:ale_fix_on_save = 1
-let g:ale_send_to_neovim_diagnostics = 1
-let g:ale_sign_column_always = 1
-let g:ale_completion_enabled = 1
-let g:ale_completion_autoimport = 1
-let g:ale_lsp_suggestions = 1
-let g:ale_floating_preview = 1
-let g:ale_floating_window_border = ['│', '─', '╭', '╮', '╯', '╰']
+  local bufopts = { noremap=true, silent=true, buffer=bufnr }
+  vim.keymap.set('n', '<leader>ad', vim.lsp.buf.declaration, bufopts)
+  vim.keymap.set('n', '<leader>d', vim.lsp.buf.definition, bufopts)
+  vim.keymap.set('n', '<leader>k', vim.lsp.buf.hover, bufopts)
 
-let g:ale_sign_error = "E"
-let g:ale_sign_warning = "W"
-let g:ale_sign_info = "I"
+  vim.keymap.set('n', '<leader>ai', vim.lsp.buf.implementation, bufopts)
+  vim.keymap.set('n', '<leader>ah', vim.lsp.buf.signature_help, bufopts)
 
-augroup ale-colors
-  highlight ALEErrorSign ctermfg=9 ctermbg=15 guifg=#C30500
-  highlight ALEWarningSign ctermfg=11 ctermbg=15 guifg=#ED6237
-augroup END
+  vim.keymap.set('n', '<leader>at', vim.lsp.buf.type_definition, bufopts)
+  vim.keymap.set('n', '<leader>ar', vim.lsp.buf.rename, bufopts)
+  vim.keymap.set('n', '<leader>ac', vim.lsp.buf.code_action, bufopts)
+  vim.keymap.set('n', '<leader>af', vim.lsp.buf.references, bufopts)
+  vim.keymap.set('n', '<leader>ap', vim.lsp.buf.formatting, bufopts)
 
+  if client.name ~= 'null-ls' then
+    client.resolved_capabilities.document_formatting = false
+    client.resolved_capabilities.document_range_formatting = false
+  end
 
-command! ALEToggleFixer execute "let g:ale_fix_on_save = get(g:, 'ale_fix_on_save', 0) ? 0 : 1"
+  if client.resolved_capabilities.document_formatting then
+    vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()")
+  end
+end
 
-set completeopt=menu,menuone,noselect " nvim-cmp suggestion
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = require('cmp_nvim_lsp').update_capabilities(capabilities)
+
+require('lspconfig')['tsserver'].setup({})
+
+require("typescript").setup({
+  server = {
+    on_attach = on_attach,
+    capabilities = capabilities
+  }
+
+})
+
+local null_ls = require("null-ls")
+local command_resolver = require("null-ls.helpers.command_resolver")
+
+local dynamic_command = function(params)
+  return command_resolver.from_node_modules(params)
+    or command_resolver.from_yarn_pnp(params)
+    or vim.fn.executable(params.command) == 1 and params.command
+end
+
+null_ls.setup({
+    sources = {
+        null_ls.builtins.diagnostics.trail_space,
+        null_ls.builtins.formatting.trim_newlines,
+        null_ls.builtins.formatting.trim_whitespace,
+        null_ls.builtins.diagnostics.tsc.with({
+          dynamic_command = dynamic_command,
+        }),
+        null_ls.builtins.diagnostics.eslint_d.with({
+          dynamic_command = dynamic_command,
+        }),
+        null_ls.builtins.formatting.prettier.with({
+          dynamic_command = dynamic_command,
+        }),
+        null_ls.builtins.formatting.eslint_d.with({
+          dynamic_command = dynamic_command,
+        }),
+        null_ls.builtins.code_actions.eslint_d.with({
+          dynamic_command = dynamic_command,
+        }),
+        null_ls.builtins.diagnostics.write_good,
+    },
+    on_attach = on_attach
+})
+
+EOF
 
 lua require('Comment').setup()
 
 " nvim-cmp
+
+set completeopt=menu,menuone,noselect " nvim-cmp suggestion
+
 lua <<EOF
   local cmp = require'cmp'
 
   cmp.setup({
+    snippet = {
+      expand = function(args)
+        vim.fn["vsnip#anonymous"](args.body)
+      end,
+    },
     window = {
       -- completion = cmp.config.window.bordered(),
       -- documentation = cmp.config.window.bordered(),
@@ -387,7 +448,7 @@ lua <<EOF
           end
         }
       },
-      { name = 'omni' },
+      { name = 'nvim_lsp' },
       { name = 'emoji' },
     }, {
       {
@@ -467,7 +528,7 @@ require('lualine').setup{
     lualine_x = {'encoding', 'fileformat', 'filetype',
       {
         'diagnostics',
-        sources = {'ale'},
+        sources = { 'nvim_diagnostic' },
         sections = {'error', 'warn', 'info', 'hint'},
         symbols = {error = 'E', warn = 'W', info = 'I', hint = 'H'}
       }
@@ -584,17 +645,6 @@ nnoremap <leader>r :Telescope grep_string theme=ivy<cr>
 nnoremap <leader>g :silent gr <cword><cr>
 nnoremap <leader>t :Telescope live_grep theme=ivy<cr>
 nnoremap <leader>c :Telescope commands theme=ivy<cr>
-
-nnoremap <leader>d :ALEGoToDefinition<CR>
-nnoremap <leader>k :ALEHover<CR>
-
-nnoremap <leader>aj :ALENext -error<cr>
-nnoremap <leader>ak :ALEPrevious -error<cr>
-nnoremap <leader>ac :ALECodeAction<CR>
-vnoremap <leader>ac :ALECodeAction<CR>
-nnoremap <leader>ar :ALERename<CR>
-nnoremap <leader>at :ALEGoToTypeDefinition<CR>
-nnoremap <leader>af :ALEFindReferences -quickfix<CR>
 
 nnoremap <leader>l :call GetLastMessage()<cr>
 
