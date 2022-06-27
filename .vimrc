@@ -439,6 +439,7 @@ lua <<EOF
       end
     }),
     sources = cmp.config.sources({
+      { name = 'nvim_lsp' },
       {
         name = 'buffer',
         option = {
@@ -448,7 +449,6 @@ lua <<EOF
           end
         }
       },
-      { name = 'nvim_lsp' },
       { name = 'emoji' },
     }, {
       {
