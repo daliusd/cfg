@@ -227,7 +227,7 @@ Plug 'windwp/nvim-autopairs'
 Plug 'windwp/nvim-ts-autotag'
 
 " Git
-Plug 'airblade/vim-gitgutter'
+Plug 'lewis6991/gitsigns.nvim'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-rhubarb'
 
@@ -397,6 +397,7 @@ null_ls.setup({
           dynamic_command = dynamic_command,
         }),
         null_ls.builtins.diagnostics.write_good,
+        null_ls.builtins.code_actions.gitsigns,
     },
     on_attach = on_attach
 })
@@ -504,10 +505,12 @@ end
 vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
 EOF
 
-" sort.nvim
-
 lua << EOF
+  -- sort.nvim
   require("sort").setup({})
+
+  -- gitsigns
+  require('gitsigns').setup()
 EOF
 
 " lualine
