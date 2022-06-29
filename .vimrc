@@ -216,6 +216,7 @@ Plug 'hrsh7th/nvim-cmp'
 
 Plug 'hrsh7th/cmp-vsnip'
 Plug 'hrsh7th/vim-vsnip'
+Plug 'rafamadriz/friendly-snippets'
 
 Plug 'junegunn/vader.vim'
 Plug 'jamessan/vim-gnupg'
@@ -341,6 +342,7 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', '<leader>at', vim.lsp.buf.type_definition, bufopts)
   vim.keymap.set('n', '<leader>ar', vim.lsp.buf.rename, bufopts)
   vim.keymap.set('n', '<leader>ac', vim.lsp.buf.code_action, bufopts)
+  vim.keymap.set('v', '<leader>ac', vim.lsp.buf.range_code_action, bufopts)
   vim.keymap.set('n', '<leader>af', vim.lsp.buf.references, bufopts)
   vim.keymap.set('n', '<leader>ap', vim.lsp.buf.formatting, bufopts)
 
@@ -372,7 +374,6 @@ local command_resolver = require("null-ls.helpers.command_resolver")
 
 local dynamic_command = function(params)
   return command_resolver.from_node_modules(params)
-    or command_resolver.from_yarn_pnp(params)
     or vim.fn.executable(params.command) == 1 and params.command
 end
 
@@ -384,22 +385,17 @@ null_ls.setup({
         null_ls.builtins.diagnostics.tsc.with({
           dynamic_command = dynamic_command,
         }),
-        null_ls.builtins.diagnostics.eslint_d.with({
-          dynamic_command = dynamic_command,
-        }),
+        null_ls.builtins.diagnostics.eslint_d,
         null_ls.builtins.formatting.prettier.with({
           dynamic_command = dynamic_command,
         }),
-        null_ls.builtins.formatting.eslint_d.with({
-          dynamic_command = dynamic_command,
-        }),
-        null_ls.builtins.code_actions.eslint_d.with({
-          dynamic_command = dynamic_command,
-        }),
+        null_ls.builtins.formatting.eslint_d,
+        null_ls.builtins.code_actions.eslint_d,
         null_ls.builtins.diagnostics.write_good,
         null_ls.builtins.code_actions.gitsigns,
     },
     on_attach = on_attach
+    -- debug = true,
 })
 
 EOF
@@ -441,6 +437,7 @@ lua <<EOF
     }),
     sources = cmp.config.sources({
       { name = 'nvim_lsp' },
+      { name = 'vsnip' },
       {
         name = 'buffer',
         option = {
@@ -451,6 +448,7 @@ lua <<EOF
         }
       },
       { name = 'emoji' },
+      { name = 'path' },
     }, {
       {
         name = 'look',
@@ -510,15 +508,7 @@ lua << EOF
   require("sort").setup({})
 
   -- gitsigns
-  require('gitsigns').setup({
-    signs = {
-      add          = {hl = 'GitSignsAdd'   , text = '+', numhl='GitSignsAddNr'   , linehl='GitSignsAddLn'},
-      change       = {hl = 'GitSignsChange', text = '|', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
-      delete       = {hl = 'GitSignsDelete', text = '_', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
-      topdelete    = {hl = 'GitSignsDelete', text = '-', numhl='GitSignsDeleteNr', linehl='GitSignsDeleteLn'},
-      changedelete = {hl = 'GitSignsChange', text = '~', numhl='GitSignsChangeNr', linehl='GitSignsChangeLn'},
-      },
-  })
+  require('gitsigns').setup()
 EOF
 
 " lualine
