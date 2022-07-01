@@ -38,7 +38,7 @@ set undodir=/tmp
 " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
 " delays and poor user experience.
 set updatetime=300
-set shortmess+=c  " Don't pass messages to |ins-completion-menu|.
+set completeopt=menu,menuone,noselect " nvim-cmp suggestion
 set signcolumn=number " merge signcolumn and number column into one
 set showtabline=2
 
@@ -55,7 +55,6 @@ set smarttab
 set sw=2        " Spaces per indent
 
 set tabstop=8   " Number of spaces per tab. People usually use 4, but they shouldn't use tab in the first place.
-set bs=2        " same as ":set backspace=indent,eol,start"
 
 set foldmethod=indent " syntax folding method makes prettier fixer slower
 
@@ -82,10 +81,6 @@ nnoremap <silent> <up> gk
 inoremap <silent> <up> <C-o>gk
 nnoremap <silent> <down> gj
 inoremap <silent> <down> <C-o>gj
-nnoremap <silent> <home> g<home>
-inoremap <silent> <home> <C-o>g<home>
-nnoremap <silent> <end> g<end>
-inoremap <silent> <end> <C-o>g<end>
 
 " Command mode up/down remap
 cnoremap <c-k> <up>
@@ -100,37 +95,6 @@ vnoremap ; :
 
 " Leader commands
 let mapleader = " "
-
-function! FormatJSON()
-  exe '%!python3 -m json.tool'
-  set filetype=json
-endfunction
-
-command FormatJSON call FormatJSON()
-
-function! FormatSHTOUT()
-  exe ':%!node ~/bin/sht.js'
-  set filetype=json
-endfunction
-
-command FormatSHTOUT call FormatSHTOUT()
-
-function! UnformatSHTOUT()
-  exe ':%!node ~/bin/usht.js'
-  set filetype=json
-endfunction
-
-command UnformatSHTOUT call UnformatSHTOUT()
-
-function! UnformatJSON()
-  exe ':%!node ~/bin/unjson.js'
-  set filetype=
-endfunction
-
-command UnformatJSON call UnformatJSON()
-
-command FormatHtml execute "%!tidy -q -i --show-errors 0"
-command FormatXml execute "%!tidy -q -i --show-errors 0 -xml"
 
 " The 66-character line (counting both letters and spaces) is widely regarded as ideal.
 " http://webtypography.net/Rhythm_and_Proportion/Horizontal_Motion/2.1.2/
@@ -156,18 +120,6 @@ nnoremap go :tabonly<CR>
 
 nnoremap <silent> gh <Cmd>Sort<CR>
 vnoremap <silent> gh <Esc><Cmd>Sort<CR>
-
-augroup netrw_mapping
-    autocmd!
-    autocmd filetype netrw call NetrwMapping()
-augroup END
-
-function! NetrwMapping()
-    nnoremap <buffer> gd :tabclose<CR>
-    nnoremap <buffer> ga :tabnew<CR>
-    nnoremap <buffer> gs :tab split<CR>
-    nnoremap <buffer> go :tabonly<CR>
-endfunction
 
 " Faster navigation through code
 :set grepprg=rg\ --vimgrep\ -M\ 160\ -S
@@ -208,7 +160,6 @@ Plug 'folke/trouble.nvim'
 Plug 'hrsh7th/cmp-buffer'
 Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-cmdline'
-Plug 'hrsh7th/cmp-omni'
 Plug 'hrsh7th/cmp-emoji'
 Plug 'hrsh7th/cmp-nvim-lsp'
 Plug 'octaltree/cmp-look'
@@ -245,16 +196,17 @@ Plug 'sangdol/mintabline.vim'
 " Other
 
 Plug 'ishan9299/nvim-solarized-lua'
-
 Plug 'norcalli/nvim-colorizer.lua'
 
-Plug 'sirtaj/vim-openscad'
 call plug#end()
 
 " Colors
 colorscheme solarized
 
 lua <<EOF
+
+-- nvim-treesitter
+
 require'nvim-treesitter.configs'.setup {
   highlight = {
     enable = true,
@@ -290,22 +242,10 @@ require'nvim-treesitter.configs'.setup {
 
 require('spellsitter').setup()
 
-EOF
+-- neotree
 
-" Use TSHighlightCaptureUnderCursor to find good group
-hi TSKeyword gui=italic cterm=italic
-hi TSKeywordFunction gui=italic cterm=italic
-hi TSInclude gui=italic cterm=italic
-hi TSRepeat gui=italic cterm=italic
-hi TSConditional gui=italic cterm=italic
-hi TSType gui=italic cterm=italic
-hi TSConstMacro gui=italic cterm=italic
+vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]])
 
-" neo-tree
-let g:neo_tree_remove_legacy_commands = 1
-hi NeoTreeTitleBar guifg=#ffffff guibg=#586e75
-
-lua <<EOF
 require("neo-tree").setup({
         window = {
           mapping_options = {
@@ -317,10 +257,8 @@ require("neo-tree").setup({
           }
         },
       })
-EOF
 
-" nvim-lspconfig
-lua <<EOF
+-- nvim-lspconfig
 
 local opts = { noremap=true, silent=true }
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, opts)
@@ -398,93 +336,86 @@ null_ls.setup({
     -- debug = true,
 })
 
-EOF
+require('Comment').setup()
 
-lua require('Comment').setup()
+-- nvim-cmp
 
-" nvim-cmp
+local cmp = require'cmp'
 
-set completeopt=menu,menuone,noselect " nvim-cmp suggestion
-
-lua <<EOF
-  local cmp = require'cmp'
-
-  cmp.setup({
-    snippet = {
-      expand = function(args)
-        vim.fn["vsnip#anonymous"](args.body)
-      end,
-    },
-    window = {
-      -- completion = cmp.config.window.bordered(),
-      -- documentation = cmp.config.window.bordered(),
-    },
-    mapping = cmp.mapping.preset.insert({
-      ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-      ['<C-f>'] = cmp.mapping.scroll_docs(4),
-      ['<C-Space>'] = cmp.mapping.complete(),
-      ['<C-e>'] = cmp.mapping.abort(),
-      ['<C-j>'] = cmp.mapping.select_next_item(),
-      ['<C-k>'] = cmp.mapping.select_prev_item(),
-      ['<CR>'] = cmp.mapping.confirm({ select = false }),
-      ['<Tab>'] = function(fallback)
-        if cmp.visible() then
-          cmp.select_next_item()
-        else
-          fallback()
-        end
+cmp.setup({
+  snippet = {
+    expand = function(args)
+      vim.fn["vsnip#anonymous"](args.body)
+    end,
+  },
+  window = {
+    -- completion = cmp.config.window.bordered(),
+    -- documentation = cmp.config.window.bordered(),
+  },
+  mapping = cmp.mapping.preset.insert({
+    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+    ['<C-f>'] = cmp.mapping.scroll_docs(4),
+    ['<C-Space>'] = cmp.mapping.complete(),
+    ['<C-e>'] = cmp.mapping.abort(),
+    ['<C-j>'] = cmp.mapping.select_next_item(),
+    ['<C-k>'] = cmp.mapping.select_prev_item(),
+    ['<CR>'] = cmp.mapping.confirm({ select = false }),
+    ['<Tab>'] = function(fallback)
+      if cmp.visible() then
+        cmp.select_next_item()
+      else
+        fallback()
       end
-    }),
-    sources = cmp.config.sources({
-      { name = 'nvim_lsp' },
-      { name = 'vsnip' },
-      {
-        name = 'buffer',
-        option = {
-          keyword_pattern = [[\k\+]],
-          get_bufnrs = function()
-            return vim.api.nvim_list_bufs()
-          end
-        }
-      },
-      { name = 'emoji' },
-      { name = 'path' },
-    }, {
-      {
-        name = 'look',
-        keyword_length = 2,
-        option = {
-          convert_case = true,
-          loud = true
-        }
+    end
+  }),
+  sources = cmp.config.sources({
+    { name = 'nvim_lsp' },
+    { name = 'vsnip' },
+    {
+      name = 'buffer',
+      option = {
+        keyword_pattern = [[\k\+]],
+        get_bufnrs = function()
+          return vim.api.nvim_list_bufs()
+        end
       }
-    })
-  })
-
-  cmp.setup.cmdline('/', {
-    mapping = cmp.mapping.preset.cmdline(),
-    sources = {
-      { name = 'buffer' }
+    },
+    { name = 'emoji' },
+    { name = 'path' },
+  }, {
+    {
+      name = 'look',
+      keyword_length = 2,
+      option = {
+        convert_case = true,
+        loud = true
+      }
     }
   })
+})
 
-  cmp.setup.cmdline(':', {
-    mapping = cmp.mapping.preset.cmdline(),
-    sources = cmp.config.sources({
-      { name = 'path' }
-    }, {
-      { name = 'cmdline' }
-    })
+cmp.setup.cmdline('/', {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = {
+    { name = 'buffer' }
+  }
+})
+
+cmp.setup.cmdline(':', {
+  mapping = cmp.mapping.preset.cmdline(),
+  sources = cmp.config.sources({
+    { name = 'path' }
+  }, {
+    { name = 'cmdline' }
   })
+})
 
-  require('nvim-autopairs').setup{}
-  local cmp_autopairs = require('nvim-autopairs.completion.cmp')
-  cmp.event:on( 'confirm_done', cmp_autopairs.on_confirm_done({  map_char = { tex = '' } }))
-EOF
+require('nvim-autopairs').setup{}
+local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+cmp.event:on( 'confirm_done', cmp_autopairs.on_confirm_done({  map_char = { tex = '' } }))
 
-" toggleterm
+-- toggleterm
 
-lua << EOF
 require("toggleterm").setup{
   open_mapping = [[<c-\>]],
   shade_terminals = false,
@@ -501,18 +432,15 @@ function _G.set_terminal_keymaps()
 end
 
 vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
-EOF
 
-lua << EOF
-  -- sort.nvim
-  require("sort").setup({})
+-- sort.nvim
+require("sort").setup({})
 
-  -- gitsigns
-  require('gitsigns').setup()
-EOF
+-- gitsigns
+require('gitsigns').setup()
 
-" lualine
-lua <<EOF
+-- lualine
+
 require('lualine').setup{
   options = {
     theme = 'solarized_light'
@@ -539,10 +467,7 @@ require('lualine').setup{
   },
 }
 
-EOF
-
-" Telescope
-lua <<EOF
+-- Telescope
 local actions = require("telescope.actions")
 
 require("telescope").setup({
@@ -560,9 +485,27 @@ require("telescope").setup({
 
 require('telescope').load_extension('fzf')
 
-EOF
+require'colorizer'.setup()
 
-lua require'colorizer'.setup()
+-- neotest
+require("neotest").setup({
+  adapters = {
+    require("neotest-vim-test")({
+      ignore_file_types = { "vim", "lua" },
+    }),
+  },
+  diagnostic = {
+    enabled = true
+  },
+  highlights = {
+    test = "NeotestTest"
+  },
+  icons = {
+    running = "●",
+  },
+})
+
+EOF
 
 " My todo files
 au BufRead,BufNewFile *.todo        setlocal filetype=todo
@@ -584,50 +527,6 @@ endfunction
 :cnoreabbrev <expr> gd (getcmdtype() == ':' && getcmdline() ==# 'gd') ? 'Gdiffsplit' : 'gd'
 :cnoreabbrev <expr> gb (getcmdtype() == ':' && getcmdline() ==# 'gb') ? 'Git blame' : 'gb'
 
-" gitgutter
-let g:gitgutter_map_keys = 0
-
-function! OpenURLUnderCursor()
-  let s:uri = expand('<cWORD>')
-  let s:uri = matchstr(s:uri, '[a-z]*:\/\/[^ >,;()]*')
-  let s:uri = substitute(s:uri, '?', '\\?', '')
-  let s:uri = shellescape(s:uri, 1)
-  if s:uri != ''
-    if has('macunix')
-      silent exec "!open '".s:uri."'"
-    else
-      silent exec "!xdg-open '".s:uri."'"
-    endif
-    :redraw!
-  endif
-endfunction
-nnoremap gx :call OpenURLUnderCursor()<CR>
-
-" vim-ultest
-
-lua <<EOF
-require("neotest").setup({
-  adapters = {
-    require("neotest-vim-test")({
-      ignore_file_types = { "vim", "lua" },
-    }),
-  },
-  diagnostic = {
-    enabled = true
-  },
-  highlights = {
-    test = "NeotestTest"
-  },
-  icons = {
-    running = "●",
-  },
-})
-EOF
-
-hi NeotestPassed ctermfg=Green guifg=#40AA40
-hi NeotestFailed ctermfg=Red guifg=#CC6060
-hi NeotestRunning ctermfg=Yellow guifg=#FFEC63
-hi NeotestBorder ctermfg=Red guifg=#CC6060
 
 let g:test#runner_commands = ['VSpec', 'Jest', 'Playwright']
 
@@ -701,3 +600,50 @@ function! RenameAll()
 endfunction
 
 command RenameAll call RenameAll()
+
+function! FormatJSON()
+  exe '%!python3 -m json.tool'
+  set filetype=json
+endfunction
+
+command FormatJSON call FormatJSON()
+
+function! FormatSHTOUT()
+  exe ':%!node ~/bin/sht.js'
+  set filetype=json
+endfunction
+
+command FormatSHTOUT call FormatSHTOUT()
+
+function! UnformatSHTOUT()
+  exe ':%!node ~/bin/usht.js'
+  set filetype=json
+endfunction
+
+command UnformatSHTOUT call UnformatSHTOUT()
+
+function! UnformatJSON()
+  exe ':%!node ~/bin/unjson.js'
+  set filetype=
+endfunction
+
+command UnformatJSON call UnformatJSON()
+
+command FormatHtml execute "%!tidy -q -i --show-errors 0"
+command FormatXml execute "%!tidy -q -i --show-errors 0 -xml"
+
+" Use TSHighlightCaptureUnderCursor to find good group
+hi TSKeyword gui=italic cterm=italic
+hi TSKeywordFunction gui=italic cterm=italic
+hi TSInclude gui=italic cterm=italic
+hi TSRepeat gui=italic cterm=italic
+hi TSConditional gui=italic cterm=italic
+hi TSType gui=italic cterm=italic
+hi TSConstMacro gui=italic cterm=italic
+
+hi NeoTreeTitleBar guifg=#ffffff guibg=#586e75
+
+hi NeotestPassed ctermfg=Green guifg=#40AA40
+hi NeotestFailed ctermfg=Red guifg=#CC6060
+hi NeotestRunning ctermfg=Yellow guifg=#FFEC63
+hi NeotestBorder ctermfg=Red guifg=#CC6060
