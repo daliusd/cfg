@@ -260,6 +260,36 @@ require("neo-tree").setup({
 
 -- nvim-lspconfig
 
+vim.lsp.handlers['textDocument/references'] = vim.lsp.with(
+    vim.lsp.handlers['textDocument/references'], {
+        no_qf_window = true,
+    }
+)
+
+vim.lsp.handlers['textDocument/declaration'] = vim.lsp.with(
+    vim.lsp.handlers['textDocument/declaration'], {
+        no_qf_window = true,
+    }
+)
+
+vim.lsp.handlers['textDocument/definition'] = vim.lsp.with(
+    vim.lsp.handlers['textDocument/definition'], {
+        no_qf_window = true,
+    }
+)
+
+vim.lsp.handlers['textDocument/typeDefinition'] = vim.lsp.with(
+    vim.lsp.handlers['textDocument/typeDefinition'], {
+        no_qf_window = true,
+    }
+)
+
+vim.lsp.handlers['textDocument/implementation'] = vim.lsp.with(
+    vim.lsp.handlers['textDocument/implementation'], {
+        no_qf_window = true,
+    }
+)
+
 local opts = { noremap=true, silent=true }
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, opts)
 vim.keymap.set('n', '<leader>ak', vim.diagnostic.goto_prev, opts)
