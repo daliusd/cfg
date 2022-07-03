@@ -505,6 +505,22 @@ require("neotest").setup({
   },
 })
 
+-- Use TSHighlightCaptureUnderCursor to find good group
+vim.cmd('hi TSKeyword gui=italic cterm=italic')
+vim.cmd('hi TSKeywordFunction gui=italic cterm=italic')
+vim.cmd('hi TSInclude gui=italic cterm=italic')
+vim.cmd('hi TSRepeat gui=italic cterm=italic')
+vim.cmd('hi TSConditional gui=italic cterm=italic')
+vim.cmd('hi TSType gui=italic cterm=italic')
+vim.cmd('hi TSConstMacro gui=italic cterm=italic')
+
+vim.cmd('hi NeoTreeTitleBar guifg=#ffffff guibg=#586e75')
+
+vim.cmd('hi NeotestPassed ctermfg=Green guifg=#40AA40')
+vim.cmd('hi NeotestFailed ctermfg=Red guifg=#CC6060')
+vim.cmd('hi NeotestRunning ctermfg=Yellow guifg=#FFEC63')
+vim.cmd('hi NeotestBorder ctermfg=Red guifg=#CC6060')
+
 EOF
 
 " My todo files
@@ -631,19 +647,3 @@ command UnformatJSON call UnformatJSON()
 
 command FormatHtml execute "%!tidy -q -i --show-errors 0"
 command FormatXml execute "%!tidy -q -i --show-errors 0 -xml"
-
-" Use TSHighlightCaptureUnderCursor to find good group
-hi TSKeyword gui=italic cterm=italic
-hi TSKeywordFunction gui=italic cterm=italic
-hi TSInclude gui=italic cterm=italic
-hi TSRepeat gui=italic cterm=italic
-hi TSConditional gui=italic cterm=italic
-hi TSType gui=italic cterm=italic
-hi TSConstMacro gui=italic cterm=italic
-
-hi NeoTreeTitleBar guifg=#ffffff guibg=#586e75
-
-hi NeotestPassed ctermfg=Green guifg=#40AA40
-hi NeotestFailed ctermfg=Red guifg=#CC6060
-hi NeotestRunning ctermfg=Yellow guifg=#FFEC63
-hi NeotestBorder ctermfg=Red guifg=#CC6060
