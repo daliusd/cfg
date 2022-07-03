@@ -602,9 +602,6 @@ command YoshiTest call YoshiTest()
 " vimrc file
 nnoremap <leader>v :e ~/.vimrc<cr>
 
-" terminal
-tnoremap <leader>e <C-\><C-n>
-
 " Misc
 
 function! RenameAll()
