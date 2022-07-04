@@ -315,11 +315,11 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', '<leader>ap', vim.lsp.buf.formatting, bufopts)
 
   if client.name ~= 'null-ls' then
-    client.resolved_capabilities.document_formatting = false
-    client.resolved_capabilities.document_range_formatting = false
+    client.server_capabilities.document_formatting = false
+    client.server_capabilities.document_range_formatting = false
   end
 
-  if client.resolved_capabilities.document_formatting then
+  if client.server_capabilities.document_formatting then
     vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()")
   end
 end
