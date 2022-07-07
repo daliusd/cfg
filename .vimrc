@@ -260,35 +260,10 @@ require("neo-tree").setup({
 
 -- nvim-lspconfig
 
-vim.lsp.handlers['textDocument/references'] = vim.lsp.with(
-    vim.lsp.handlers['textDocument/references'], {
-        no_qf_window = true,
-    }
-)
-
-vim.lsp.handlers['textDocument/declaration'] = vim.lsp.with(
-    vim.lsp.handlers['textDocument/declaration'], {
-        no_qf_window = true,
-    }
-)
-
-vim.lsp.handlers['textDocument/definition'] = vim.lsp.with(
-    vim.lsp.handlers['textDocument/definition'], {
-        no_qf_window = true,
-    }
-)
-
-vim.lsp.handlers['textDocument/typeDefinition'] = vim.lsp.with(
-    vim.lsp.handlers['textDocument/typeDefinition'], {
-        no_qf_window = true,
-    }
-)
-
-vim.lsp.handlers['textDocument/implementation'] = vim.lsp.with(
-    vim.lsp.handlers['textDocument/implementation'], {
-        no_qf_window = true,
-    }
-)
+local function on_list(options)
+  vim.fn.setqflist({}, ' ', options)
+  vim.api.nvim_command('cfirst')
+end
 
 local opts = { noremap=true, silent=true }
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, opts)
@@ -300,18 +275,18 @@ local on_attach = function(client, bufnr)
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
   local bufopts = { noremap=true, silent=true, buffer=bufnr }
-  vim.keymap.set('n', '<leader>ad', vim.lsp.buf.declaration, bufopts)
-  vim.keymap.set('n', '<leader>d', vim.lsp.buf.definition, bufopts)
+  vim.keymap.set('n', '<leader>ad', function() vim.lsp.buf.declaration{on_list=on_list} end, bufopts)
+  vim.keymap.set('n', '<leader>d', function() vim.lsp.buf.definition{on_list=on_list} end, bufopts)
   vim.keymap.set('n', '<leader>k', vim.lsp.buf.hover, bufopts)
 
-  vim.keymap.set('n', '<leader>ai', vim.lsp.buf.implementation, bufopts)
+  vim.keymap.set('n', '<leader>ai', function() vim.lsp.buf.implementation{on_list=on_list} end, bufopts)
   vim.keymap.set('n', '<leader>ah', vim.lsp.buf.signature_help, bufopts)
 
-  vim.keymap.set('n', '<leader>at', vim.lsp.buf.type_definition, bufopts)
+  vim.keymap.set('n', '<leader>at', function() vim.lsp.buf.type_definition{on_list=on_list} end, bufopts)
   vim.keymap.set('n', '<leader>ar', vim.lsp.buf.rename, bufopts)
   vim.keymap.set('n', '<leader>ac', vim.lsp.buf.code_action, bufopts)
   vim.keymap.set('v', '<leader>ac', vim.lsp.buf.range_code_action, bufopts)
-  vim.keymap.set('n', '<leader>af', vim.lsp.buf.references, bufopts)
+  vim.keymap.set('n', '<leader>af', function() vim.lsp.buf.references(nil, {on_list=on_list}) end, bufopts)
   vim.keymap.set('n', '<leader>ap', vim.lsp.buf.formatting, bufopts)
 
   if client.name ~= 'null-ls' then
