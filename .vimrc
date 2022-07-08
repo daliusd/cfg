@@ -155,6 +155,8 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'jose-elias-alvarez/null-ls.nvim'
 Plug 'jose-elias-alvarez/typescript.nvim'
 
+Plug 'ThePrimeagen/refactoring.nvim'
+
 Plug 'folke/trouble.nvim'
 
 Plug 'hrsh7th/cmp-buffer'
@@ -241,6 +243,8 @@ require'nvim-treesitter.configs'.setup {
 }
 
 require('spellsitter').setup()
+
+require('refactoring').setup({})
 
 -- neotree
 
@@ -336,6 +340,7 @@ null_ls.setup({
         null_ls.builtins.code_actions.eslint_d,
         null_ls.builtins.diagnostics.write_good,
         null_ls.builtins.code_actions.gitsigns,
+        null_ls.builtins.code_actions.refactoring,
     },
     on_attach = on_attach
     -- debug = true,
