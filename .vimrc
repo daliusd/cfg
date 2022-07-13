@@ -329,9 +329,6 @@ null_ls.setup({
         null_ls.builtins.diagnostics.trail_space,
         null_ls.builtins.formatting.trim_newlines,
         null_ls.builtins.formatting.trim_whitespace,
-        null_ls.builtins.diagnostics.tsc.with({
-          dynamic_command = dynamic_command,
-        }),
         null_ls.builtins.diagnostics.eslint_d,
         null_ls.builtins.formatting.prettier.with({
           dynamic_command = dynamic_command,
