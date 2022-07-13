@@ -341,6 +341,7 @@ null_ls.setup({
         null_ls.builtins.diagnostics.write_good,
         null_ls.builtins.code_actions.gitsigns,
         null_ls.builtins.code_actions.refactoring,
+        null_ls.builtins.hover.dictionary,
     },
     on_attach = on_attach
     -- debug = true,
@@ -608,6 +609,13 @@ function! YoshiTest()
 endfunction
 
 command YoshiTest call YoshiTest()
+
+function! YoshiLibraryTest()
+  let g:test#javascript#runner = 'jest'
+  let g:test#javascript#jest#executable='yarn yoshi-library test'
+endfunction
+
+command YoshiLibraryTest call YoshiLibraryTest()
 
 " vimrc file
 nnoremap <leader>v :e ~/.vimrc<cr>
