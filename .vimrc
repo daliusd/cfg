@@ -505,6 +505,10 @@ require("neotest").setup({
   diagnostic = {
     enabled = true
   },
+  floating = {
+    max_height = 0.9,
+    max_width = 0.9
+  },
   highlights = {
     test = "NeotestTest"
   },
