@@ -264,8 +264,33 @@ require("neo-tree").setup({
 
 -- nvim-lspconfig
 
+local function filter(arr, fn)
+  if type(arr) ~= "table" then
+    return arr
+  end
+
+  local filtered = {}
+  for k, v in pairs(arr) do
+    if fn(v, k, arr) then
+      table.insert(filtered, v)
+    end
+  end
+
+  return filtered
+end
+
+local function filterReactDTS(value)
+  return string.match(value.filename, 'react/index.d.ts') == nil
+end
+
 local function on_list(options)
-  vim.fn.setqflist({}, ' ', options)
+  -- https://github.com/typescript-language-server/typescript-language-server/issues/216
+  local items = options.items
+  if #items > 1 then
+    items = filter(items, filterReactDTS)
+  end
+
+  vim.fn.setqflist({}, ' ', { title = options.title, items = items, context = options.context })
   vim.api.nvim_command('cfirst')
 end
 
@@ -291,7 +316,6 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', '<leader>ac', vim.lsp.buf.code_action, bufopts)
   vim.keymap.set('v', '<leader>ac', vim.lsp.buf.range_code_action, bufopts)
   vim.keymap.set('n', '<leader>af', function() vim.lsp.buf.references(nil, {on_list=on_list}) end, bufopts)
-  vim.keymap.set('n', '<leader>ap', vim.lsp.buf.formatting, bufopts)
 
   if client.name ~= 'null-ls' then
     client.server_capabilities.documentFormattingProvider = false
@@ -299,7 +323,7 @@ local on_attach = function(client, bufnr)
   end
 
   if client.server_capabilities.documentFormattingProvider then
-    vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.formatting_sync()")
+    vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.format()")
   end
 end
 
