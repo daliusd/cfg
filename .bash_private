@@ -6,7 +6,7 @@ PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
 
 eval "$(starship init bash)"
 
-export PATH=~/bin:~/.local/bin:~/Library/Python/3.7/bin:$PATH
+export PATH=~/bin:~/.npm-global/bin:~/.local/bin:~/Library/Python/3.7/bin:$PATH
 # export PYTHONPATH=/home/dalius/.local/lib/python3.6/site-packages
 
 if [[ "$OSTYPE" == "linux"* ]]; then
