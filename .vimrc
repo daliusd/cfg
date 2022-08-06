@@ -129,8 +129,6 @@ vnoremap <silent> gh <Esc><Cmd>Sort<CR>
 call plug#begin('~/.vim/plugged')
 
 " Generic programming plugins
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
-
 Plug 'akinsho/toggleterm.nvim'
 
 Plug 'nvim-lua/plenary.nvim'
