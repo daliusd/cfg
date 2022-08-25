@@ -601,7 +601,7 @@ nnoremap <leader>l :call GetLastMessage()<cr>
 nnoremap <leader>s :update<cr>
 nnoremap <leader>x :TroubleToggle<cr>
 nnoremap <leader>b :Neotree left filesystem reveal toggle<cr>
-nnoremap - :Neotree float filesystem reveal reveal_force_cwd<cr>
+nnoremap - :Neotree float filesystem reveal<cr>
 
 " window commands
 nnoremap <leader>ww <c-w>w
