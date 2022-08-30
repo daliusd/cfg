@@ -56,7 +56,11 @@ set sw=2        " Spaces per indent
 
 set tabstop=8   " Number of spaces per tab. People usually use 4, but they shouldn't use tab in the first place.
 
-set foldmethod=indent " syntax folding method makes prettier fixer slower
+set foldmethod=expr
+set foldexpr=nvim_treesitter#foldexpr()
+
+" fold fix https://github.com/nvim-telescope/telescope.nvim/issues/559
+autocmd BufRead * autocmd BufWinEnter * ++once normal! zx
 
 set foldlevelstart=99
 filetype plugin indent on
@@ -187,6 +191,7 @@ Plug 'tpope/vim-rhubarb'
 Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
 Plug 'nvim-treesitter/playground'
 Plug 'lewis6991/spellsitter.nvim'
+Plug 'anuvyklack/pretty-fold.nvim'
 
 " Status line
 Plug 'hoob3rt/lualine.nvim'
@@ -241,6 +246,8 @@ require'nvim-treesitter.configs'.setup {
 }
 
 require('spellsitter').setup()
+
+require('pretty-fold').setup()
 
 require('refactoring').setup({})
 
