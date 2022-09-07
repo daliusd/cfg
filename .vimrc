@@ -319,7 +319,7 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', '<leader>at', function() vim.lsp.buf.type_definition{on_list=on_list} end, bufopts)
   vim.keymap.set('n', '<leader>ar', vim.lsp.buf.rename, bufopts)
   vim.keymap.set('n', '<leader>ac', vim.lsp.buf.code_action, bufopts)
-  vim.keymap.set('v', '<leader>ac', vim.lsp.buf.range_code_action, bufopts)
+  vim.keymap.set('v', '<leader>ac', vim.lsp.buf.code_action, bufopts)
   vim.keymap.set('n', '<leader>af', function() vim.lsp.buf.references(nil, {on_list=on_list}) end, bufopts)
 
   if client.name ~= 'null-ls' then
@@ -348,20 +348,13 @@ require("typescript").setup({
 local null_ls = require("null-ls")
 local command_resolver = require("null-ls.helpers.command_resolver")
 
-local dynamic_command = function(params)
-  return command_resolver.from_node_modules(params)
-    or vim.fn.executable(params.command) == 1 and params.command
-end
-
 null_ls.setup({
     sources = {
         null_ls.builtins.diagnostics.trail_space,
         null_ls.builtins.formatting.trim_newlines,
         null_ls.builtins.formatting.trim_whitespace,
         null_ls.builtins.diagnostics.eslint_d,
-        null_ls.builtins.formatting.prettier.with({
-          dynamic_command = dynamic_command,
-        }),
+        null_ls.builtins.formatting.prettier,
         null_ls.builtins.formatting.eslint_d,
         null_ls.builtins.code_actions.eslint_d,
         null_ls.builtins.diagnostics.write_good,
