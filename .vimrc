@@ -390,6 +390,7 @@ cmp.setup({
     ['<C-j>'] = cmp.mapping.select_next_item(),
     ['<C-k>'] = cmp.mapping.select_prev_item(),
     ['<CR>'] = cmp.mapping.confirm({ select = false }),
+    ['<S-Tab>'] = cmp.mapping.select_prev_item(),
     ['<Tab>'] = function(fallback)
       if cmp.visible() then
         cmp.select_next_item()
