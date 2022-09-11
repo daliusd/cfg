@@ -146,6 +146,8 @@ Plug 'will133/vim-dirdiff'
 
 Plug 'machakann/vim-sandwich'
 
+Plug 'justinmk/vim-sneak'
+
 Plug 'numToStr/Comment.nvim'
 
 Plug 'vim-test/vim-test'
@@ -537,6 +539,11 @@ require("neotest").setup({
   },
   icons = {
     running = "●",
+    passed = "✔",
+    running = "🗘",
+    failed = "✖",
+    skipped = "ﰸ",
+    unknown = "?",
   },
 })
 
@@ -580,6 +587,12 @@ endfunction
 
 
 let g:test#runner_commands = ['VSpec', 'Jest', 'Playwright']
+
+" Sneak
+map f <Plug>Sneak_f
+map F <Plug>Sneak_F
+map t <Plug>Sneak_t
+map T <Plug>Sneak_T
 
 " Leader config
 
