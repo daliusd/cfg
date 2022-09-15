@@ -94,8 +94,8 @@ cnoremap <c-j> <down>
 nnoremap <C-n> :cn<cr>
 nnoremap <C-p> :cp<cr>
 
-nnoremap ; :
-vnoremap ; :
+"nnoremap ; :
+"vnoremap ; :
 
 " Leader commands
 let mapleader = " "
@@ -265,6 +265,7 @@ require("neo-tree").setup({
           },
           mappings = {
             ["i"] = { "toggle_node" },
+            ["<esc>"] = "close_window",
           }
         },
       })
