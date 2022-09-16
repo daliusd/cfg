@@ -539,9 +539,8 @@ require("neotest").setup({
     test = "NeotestTest"
   },
   icons = {
-    running = "●",
     passed = "✔",
-    running = "🗘",
+    running = "🏃",
     failed = "✖",
     skipped = "ﰸ",
     unknown = "?",
