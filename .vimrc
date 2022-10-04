@@ -91,8 +91,8 @@ cnoremap <c-k> <up>
 cnoremap <c-j> <down>
 
 " Next/Previous result
-nnoremap <C-n> :cn<cr>
-nnoremap <C-p> :cp<cr>
+nnoremap <silent> <C-n> :cn<cr>
+nnoremap <silent> <C-p> :cp<cr>
 
 "nnoremap ; :
 "vnoremap ; :
@@ -106,21 +106,21 @@ au BufRead,BufNewFile *.md     setlocal textwidth=66
 au BufRead,BufNewFile *.rst     setlocal textwidth=66
 
 " Tab navigation
-nnoremap <c-j> :tabnext<CR>
-nnoremap <c-k> :tabprev<CR>
-inoremap <c-j> <c-o>:tabnext<CR>
-inoremap <c-k> <c-o>:tabprev<CR>
-nnoremap <c-l> :tabm +1<CR>
-nnoremap <c-h> :tabm -1<CR>
-nnoremap <c-down> :tabnext<CR>
-nnoremap <c-up> :tabprev<CR>
-nnoremap <c-right> :tabm +1<CR>
-nnoremap <c-left> :tabm -1<CR>
+nnoremap <silent> <c-j> :tabnext<CR>
+nnoremap <silent> <c-k> :tabprev<CR>
+inoremap <silent> <c-j> <c-o>:tabnext<CR>
+inoremap <silent> <c-k> <c-o>:tabprev<CR>
+nnoremap <silent> <c-l> :tabm +1<CR>
+nnoremap <silent> <c-h> :tabm -1<CR>
+nnoremap <silent> <c-down> :tabnext<CR>
+nnoremap <silent> <c-up> :tabprev<CR>
+nnoremap <silent> <c-right> :tabm +1<CR>
+nnoremap <silent> <c-left> :tabm -1<CR>
 
-nnoremap gd :tabclose<CR>
-nnoremap ga :tabnew<CR>
-nnoremap gs :tab split<CR>
-nnoremap go :tabonly<CR>
+nnoremap <silent> gd :tabclose<CR>
+nnoremap <silent> ga :tabnew<CR>
+nnoremap <silent> gs :tab split<CR>
+nnoremap <silent> go :tabonly<CR>
 
 nnoremap <silent> gh <Cmd>Sort<CR>
 vnoremap <silent> gh <Esc><Cmd>Sort<CR>
@@ -141,6 +141,9 @@ Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 
 Plug 'MunifTanjim/nui.nvim'
 Plug 'nvim-neo-tree/neo-tree.nvim', { 'branch': 'v2.x' }
+
+Plug 'rcarriga/nvim-notify'
+Plug 'folke/noice.nvim'
 
 Plug 'will133/vim-dirdiff'
 
@@ -211,6 +214,8 @@ call plug#end()
 colorscheme solarized
 
 lua <<EOF
+
+require("noice").setup()
 
 -- nvim-treesitter
 
@@ -597,25 +602,25 @@ map T <Plug>Sneak_T
 " Leader config
 
 nnoremap <silent> <leader>n :silent noh<CR>
-nnoremap <leader>q :qa<CR>
+nnoremap <silent> <leader>q :qa<CR>
 
-nnoremap <leader>i :let @+ = expand('%:t')<cr>
-nnoremap <leader>o :let @+ = expand('%')<cr>
-nnoremap <leader>p :let @+ = expand('%:p')<cr>
+nnoremap <silent> <leader>i :let @+ = expand('%:t')<cr>
+nnoremap <silent> <leader>o :let @+ = expand('%')<cr>
+nnoremap <silent> <leader>p :let @+ = expand('%:p')<cr>
 
-nnoremap <leader>h :Telescope oldfiles theme=ivy<cr>
-nnoremap <leader>f :Telescope find_files theme=ivy<cr>
-nnoremap <leader>r :Telescope grep_string theme=ivy<cr>
-nnoremap <leader>g :silent gr <cword><cr>
-nnoremap <leader>t :Telescope live_grep theme=ivy<cr>
-nnoremap <leader>c :Telescope commands theme=ivy<cr>
+nnoremap <silent> <leader>h :Telescope oldfiles theme=ivy<cr>
+nnoremap <silent> <leader>f :Telescope find_files theme=ivy<cr>
+nnoremap <silent> <leader>r :Telescope grep_string theme=ivy<cr>
+nnoremap <silent> <leader>g :silent gr <cword><cr>
+nnoremap <silent> <leader>t :Telescope live_grep theme=ivy<cr>
+nnoremap <silent> <leader>c :Telescope commands theme=ivy<cr>
 
-nnoremap <leader>l :call GetLastMessage()<cr>
+nnoremap <silent> <leader>l :call GetLastMessage()<cr>
 
-nnoremap <leader>s :update<cr>
-nnoremap <leader>x :TroubleToggle<cr>
-nnoremap <leader>b :Neotree left filesystem reveal toggle<cr>
-nnoremap - :Neotree float filesystem reveal reveal_force_cwd<cr>
+nnoremap <silent> <leader>s :update<cr>
+nnoremap <silent> <leader>x :TroubleToggle<cr>
+nnoremap <silent> <leader>b :Neotree left filesystem reveal toggle<cr>
+nnoremap <silent> - :Neotree float filesystem reveal reveal_force_cwd<cr>
 
 " window commands
 nnoremap <leader>ww <c-w>w
@@ -626,12 +631,12 @@ nnoremap <leader>wj <c-w>j
 nnoremap <leader>wk <c-w>k
 nnoremap <leader>wl <c-w>l
 
-nnoremap <leader>uf :lua require("neotest").run.run(vim.fn.expand("%"))<cr>
-nnoremap <leader>un :lua require("neotest").run.run()<cr>
-nnoremap <leader>us :lua require("neotest").summary.toggle()<cr>
-nnoremap <leader>uj :lua require("neotest").jump.next({ status = "failed" })<cr>
-nnoremap <leader>uk :lua require("neotest").jump.prev({ status = "failed" })<cr>
-nnoremap <leader>uo :lua require("neotest").output.open({ enter = true })<cr>
+nnoremap <silent> <leader>uf :lua require("neotest").run.run(vim.fn.expand("%"))<cr>
+nnoremap <silent> <leader>un :lua require("neotest").run.run()<cr>
+nnoremap <silent> <leader>us :lua require("neotest").summary.toggle()<cr>
+nnoremap <silent> <leader>uj :lua require("neotest").jump.next({ status = "failed" })<cr>
+nnoremap <silent> <leader>uk :lua require("neotest").jump.prev({ status = "failed" })<cr>
+nnoremap <silent> <leader>uo :lua require("neotest").output.open({ enter = true })<cr>
 
 " date
 iabbrev <expr> ,d strftime('%Y-%m-%d')
@@ -655,7 +660,7 @@ endfunction
 command YoshiLibraryTest call YoshiLibraryTest()
 
 " vimrc file
-nnoremap <leader>v :e ~/.vimrc<cr>
+nnoremap <silent> <leader>v :e ~/.vimrc<cr>
 
 " Misc
 
