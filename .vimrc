@@ -374,6 +374,13 @@ null_ls.setup({
     -- debug = true,
 })
 
+-- Use internal formatting for bindings like gq.
+vim.api.nvim_create_autocmd('LspAttach', {
+  callback = function(args)
+    vim.bo[args.buf].formatexpr = nil
+  end,
+})
+
 require('Comment').setup()
 
 -- nvim-cmp
@@ -640,6 +647,7 @@ nnoremap <silent> <leader>uo :lua require("neotest").output.open({ enter = true 
 
 " date
 iabbrev <expr> ,d strftime('%Y-%m-%d')
+iabbrev <expr> ,t strftime('%Y-%m-%d %T')
 
 command! -bang -nargs=1 Rg execute "Telescope live_grep theme=ivy default_text=" . fnameescape("<args>")
 
