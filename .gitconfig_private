@@ -1,5 +1,6 @@
 [core]
     pager = delta
+    attributesfile = ~/.gitattributes
 [push]
     followTags = true
 [pull]
@@ -29,3 +30,6 @@
 
 [diff]
     colorMoved = default
+
+[diff "gpg"]
+    textconv = gpg --no-tty --decrypt
