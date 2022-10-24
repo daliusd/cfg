@@ -182,6 +182,7 @@ Plug 'junegunn/vader.vim'
 Plug 'jamessan/vim-gnupg'
 
 Plug 'editorconfig/editorconfig-vim'
+Plug 'airblade/vim-rooter'
 
 Plug 'sQVe/sort.nvim'
 Plug 'windwp/nvim-autopairs'
@@ -617,7 +618,6 @@ nnoremap <silent> <leader>p :let @+ = expand('%:p')<cr>
 
 function! WorkTodo()
     execute ':e ~/projects/todolists/work.todo.gpg'
-    execute ':cd ~/projects/todolists'
 endfunction
 
 nnoremap <silent> <leader>h :call WorkTodo()<cr>
