@@ -616,11 +616,7 @@ nnoremap <silent> <leader>i :let @+ = expand('%:t')<cr>
 nnoremap <silent> <leader>o :let @+ = expand('%')<cr>
 nnoremap <silent> <leader>p :let @+ = expand('%:p')<cr>
 
-function! WorkTodo()
-    execute ':e ~/projects/todolists/work.todo.gpg'
-endfunction
-
-nnoremap <silent> <leader>h :call WorkTodo()<cr>
+nnoremap <silent> <leader>h :Telescope oldfiles theme=ivy<cr>
 nnoremap <silent> <leader>f :Telescope find_files theme=ivy<cr>
 nnoremap <silent> <leader>r :Telescope grep_string theme=ivy<cr>
 nnoremap <silent> <leader>g :silent gr <cword><cr>
