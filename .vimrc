@@ -525,6 +525,8 @@ require("telescope").setup({
                 ["<c-c>"] = false,
                 ["<c-j>"] = actions.move_selection_next,
                 ["<c-k>"] = actions.move_selection_previous,
+                ["<C-u>"] = actions.results_scrolling_up,
+                ["<C-d>"] = actions.results_scrolling_down,
             },
         },
     },
