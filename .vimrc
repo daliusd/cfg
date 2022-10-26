@@ -206,13 +206,14 @@ Plug 'sangdol/mintabline.vim'
 
 " Other
 
-Plug 'ishan9299/nvim-solarized-lua'
+Plug 'mcchrish/zenbones.nvim'
+Plug 'rktjmp/lush.nvim'
 Plug 'norcalli/nvim-colorizer.lua'
 
 call plug#end()
 
 " Colors
-colorscheme solarized
+colorscheme zenbones
 
 lua <<EOF
 
@@ -490,7 +491,7 @@ require('gitsigns').setup()
 
 require('lualine').setup{
   options = {
-    theme = 'solarized_light'
+    theme = 'zenbones'
   },
   sections = {
     lualine_a = {'mode'},
@@ -561,13 +562,6 @@ require("neotest").setup({
 })
 
 -- Use TSHighlightCaptureUnderCursor to find good group
-vim.cmd('hi TSKeyword gui=italic cterm=italic')
-vim.cmd('hi TSKeywordFunction gui=italic cterm=italic')
-vim.cmd('hi TSInclude gui=italic cterm=italic')
-vim.cmd('hi TSRepeat gui=italic cterm=italic')
-vim.cmd('hi TSConditional gui=italic cterm=italic')
-vim.cmd('hi TSType gui=italic cterm=italic')
-vim.cmd('hi TSConstMacro gui=italic cterm=italic')
 
 vim.cmd('hi NeoTreeTitleBar guifg=#ffffff guibg=#586e75')
 
