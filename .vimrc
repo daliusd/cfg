@@ -182,7 +182,6 @@ Plug 'junegunn/vader.vim'
 Plug 'jamessan/vim-gnupg'
 
 Plug 'editorconfig/editorconfig-vim'
-Plug 'airblade/vim-rooter'
 
 Plug 'sQVe/sort.nvim'
 Plug 'windwp/nvim-autopairs'
