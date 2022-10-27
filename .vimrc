@@ -216,7 +216,11 @@ colorscheme zenbones
 
 lua <<EOF
 
-require("noice").setup()
+require("noice").setup({
+  messages = {
+    view_search = "mini",
+  }
+})
 
 -- nvim-treesitter
 
