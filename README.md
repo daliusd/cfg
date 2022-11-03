@@ -17,6 +17,10 @@ cfg checkout
 ./init.sh
 ```
 
+## Git
+
+Check for instructions: https://github.com/ewanmellor/git-diff-image
+
 ## Vim notes
 
 You will need to run ":set spell" to download spell files.

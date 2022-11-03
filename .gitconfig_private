@@ -14,6 +14,8 @@
     lgt = "!cd -- \"${GIT_PREFIX:-.}\" && f() { git log --pretty=format:'%C(yellow)%h%Creset%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)%an <%ae> %G?%Creset' --abbrev-commit --date=short --color $@; }; f"
     root = rev-parse --show-toplevel
     cc = "!cd -- \"${GIT_PREFIX:-.}\" && f() { git log --format=format: --name-only $@ | egrep -v '^$' | sort | uniq -c | sort -rg | head -15; }; f"
+    diff-image = "!f() { cd -- \"${GIT_PREFIX:-.}\"; GIT_DIFF_IMAGE_ENABLED=1 git diff \"$@\"; }; f"
+
 [commit]
     gpgsign = true
 
@@ -33,3 +35,6 @@
 
 [diff "gpg"]
     textconv = gpg --no-tty --decrypt
+
+[diff "image"]
+    command = ~/projects/rare/git-diff-image/git_diff_image

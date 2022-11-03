@@ -1,1 +1,7 @@
 *.gpg filter=gpg diff=gpg
+*.bmp diff=image
+*.gif diff=image
+*.jpeg diff=image
+*.jpg diff=image
+*.png diff=image
+*.svg diff=image
