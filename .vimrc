@@ -147,7 +147,7 @@ Plug 'folke/noice.nvim'
 
 Plug 'will133/vim-dirdiff'
 
-Plug 'machakann/vim-sandwich'
+Plug 'tpope/vim-surround'
 
 Plug 'justinmk/vim-sneak'
 
