@@ -571,6 +571,10 @@ vim.cmd('hi NeotestFailed ctermfg=Red guifg=#CC6060')
 vim.cmd('hi NeotestRunning ctermfg=Yellow guifg=#FFEC63')
 vim.cmd('hi NeotestBorder ctermfg=Red guifg=#CC6060')
 
+vim.cmd('hi NotifyERRORTitle guifg=#8a1f1f')
+vim.cmd('hi NotifyINFOIcon guifg=#4f6752')
+vim.cmd('hi NotifyINFOTitle guifg=#4f6752')
+
 EOF
 
 " My todo files
