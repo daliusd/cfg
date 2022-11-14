@@ -138,6 +138,7 @@ Plug 'akinsho/toggleterm.nvim'
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
+Plug 'nvim-telescope/telescope-live-grep-args.nvim'
 
 Plug 'MunifTanjim/nui.nvim'
 Plug 'nvim-neo-tree/neo-tree.nvim', { 'branch': 'v2.x' }
@@ -516,6 +517,7 @@ require('lualine').setup{
 
 -- Telescope
 local actions = require("telescope.actions")
+local lga_actions = require("telescope-live-grep-args.actions")
 
 require("telescope").setup({
     defaults = {
@@ -530,9 +532,19 @@ require("telescope").setup({
             },
         },
     },
+    extensions = {
+      live_grep_args = {
+          mappings = {
+              i = {
+                ["<C-q>"] = lga_actions.quote_prompt(),
+              },
+          },
+      },
+    },
 })
 
 require('telescope').load_extension('fzf')
+require("telescope").load_extension('live_grep_args')
 
 require'colorizer'.setup()
 
@@ -617,10 +629,10 @@ nnoremap <silent> <leader>p :let @+ = expand('%:p')<cr>
 
 nnoremap <silent> <leader>h :Telescope oldfiles theme=ivy<cr>
 nnoremap <silent> <leader>f :Telescope find_files theme=ivy<cr>
-nnoremap <silent> <leader>r :Telescope grep_string theme=ivy<cr>
-vnoremap <silent> <leader>r "zy:Telescope grep_string theme=ivy search=<C-r>z<cr>
+nnoremap <silent> <leader>r :execute ":Telescope live_grep_args theme=ivy default_text=\"\\b" . expand("<cword>") . "\\b\""<cr>
+vnoremap <silent> <leader>r "zy:Telescope live_grep_args theme=ivy default_text="<C-r>z"<cr>
 nnoremap <silent> <leader>g :silent gr <cword><cr>
-nnoremap <silent> <leader>t :Telescope live_grep theme=ivy<cr>
+nnoremap <silent> <leader>t :Telescope live_grep_args theme=ivy<cr>
 nnoremap <silent> <leader>c :Telescope commands theme=ivy<cr>
 
 nnoremap <silent> <leader>l :call GetLastMessage()<cr>
@@ -650,7 +662,7 @@ nnoremap <silent> <leader>uo :lua require("neotest").output.open({ enter = true 
 iabbrev <expr> ,d strftime('%Y-%m-%d')
 iabbrev <expr> ,t strftime('%Y-%m-%d %T')
 
-command! -bang -nargs=1 Rg execute "Telescope live_grep theme=ivy default_text=" . fnameescape("<args>")
+command! -bang -nargs=1 Rg execute "Telescope live_grep_args theme=ivy default_text=" . fnameescape("<args>")
 
 :cnoreabbrev <expr> rg (getcmdtype() == ':' && getcmdline() ==# 'rg') ? 'Rg' : 'rg'
 
