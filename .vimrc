@@ -609,6 +609,7 @@ endfunction
 :cnoreabbrev <expr> gd (getcmdtype() == ':' && getcmdline() ==# 'gd') ? 'Gdiffsplit' : 'gd'
 :cnoreabbrev <expr> gb (getcmdtype() == ':' && getcmdline() ==# 'gb') ? 'Git blame' : 'gb'
 
+let g:fugitive_legacy_commands = 1
 
 let g:test#runner_commands = ['VSpec', 'Jest', 'Playwright']
 
