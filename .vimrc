@@ -630,7 +630,7 @@ nnoremap <silent> <leader>p :let @+ = expand('%:p')<cr>
 
 nnoremap <silent> <leader>h :Telescope oldfiles theme=ivy<cr>
 nnoremap <silent> <leader>f :Telescope find_files theme=ivy<cr>
-nnoremap <silent> <leader>r :execute ":Telescope live_grep_args theme=ivy default_text=\"\\b" . expand("<cword>") . "\\b\""<cr>
+nnoremap <silent> <leader>r :execute ":Telescope live_grep_args theme=ivy default_text=\"" . expand("<cword>") . "\""<cr>
 vnoremap <silent> <leader>r "zy:Telescope live_grep_args theme=ivy default_text="<C-r>z"<cr>
 nnoremap <silent> <leader>g :silent gr <cword><cr>
 nnoremap <silent> <leader>t :Telescope live_grep_args theme=ivy<cr>
