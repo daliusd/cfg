@@ -217,7 +217,11 @@ colorscheme zenbones
 
 lua <<EOF
 
-require("noice").setup({})
+require("noice").setup({
+  messages = {
+    view_search = "mini",
+  }
+})
 
 -- nvim-treesitter
 
@@ -546,6 +550,53 @@ require("telescope").setup({
 require('telescope').load_extension('fzf')
 require("telescope").load_extension('live_grep_args')
 
+function vim.getVisualSelection()
+  vim.cmd('noau normal! "vy"')
+  local text = vim.fn.getreg('v')
+  vim.fn.setreg('v', {})
+
+  text = string.gsub(text, "\n", "")
+  if #text > 0 then
+    return text
+  else
+    return ''
+  end
+end
+
+local keymap = vim.keymap.set
+local tb = require('telescope')
+local opts = { noremap = true, silent = true }
+
+keymap('n', '<leader>h', ':Telescope oldfiles theme=ivy<cr>', ops)
+keymap('n', '<leader>f', ':Telescope find_files theme=ivy<cr>', ops)
+
+keymap('n', '<leader>r', function()
+  local text = vim.fn.expand("<cword>")
+  vim.fn.histadd(':', 'Rg ' .. text)
+  tb.extensions.live_grep_args.live_grep_args({ default_text = text, theme = 'ivy' })
+end, opts)
+
+keymap('v', '<leader>r', function()
+  local text = vim.getVisualSelection()
+  vim.fn.histadd(':', 'Rg ' .. text)
+  tb.extensions.live_grep_args.live_grep_args({ default_text = text, theme = 'ivy' })
+end, opts)
+
+keymap('n', '<leader>g', function()
+  local text = vim.fn.expand("<cword>")
+  vim.fn.histadd(':', 'gr ' .. text)
+  vim.cmd('silent gr ' .. text)
+end, opts)
+
+keymap('v', '<leader>g', function()
+  local text = vim.getVisualSelection()
+  vim.fn.histadd(':', 'gr ' .. text)
+  vim.cmd('silent gr ' .. text)
+end, opts)
+
+keymap('n', '<leader>t', ':Telescope live_grep_args theme=ivy<cr>', ops)
+keymap('n', '<leader>c', ':Telescope commands theme=ivy<cr>', ops)
+
 require'colorizer'.setup()
 
 -- neotest
@@ -603,12 +654,6 @@ function! GetLastMessage()
 endfunction
 
 " Fugitive
-:cnoreabbrev <expr> gps (getcmdtype() == ':' && getcmdline() ==# 'gps') ? 'Git push' : 'gps'
-:cnoreabbrev <expr> gpl (getcmdtype() == ':' && getcmdline() ==# 'gpl') ? 'Git pull' : 'gpl'
-:cnoreabbrev <expr> gs (getcmdtype() == ':' && getcmdline() ==# 'gs') ? 'Git' : 'gs'
-:cnoreabbrev <expr> gd (getcmdtype() == ':' && getcmdline() ==# 'gd') ? 'Gdiffsplit' : 'gd'
-:cnoreabbrev <expr> gb (getcmdtype() == ':' && getcmdline() ==# 'gb') ? 'Git blame' : 'gb'
-
 let g:fugitive_legacy_commands = 1
 
 let g:test#runner_commands = ['VSpec', 'Jest', 'Playwright']
@@ -627,14 +672,6 @@ nnoremap <silent> <leader>q :qa<CR>
 nnoremap <silent> <leader>i :let @+ = expand('%:t')<cr>
 nnoremap <silent> <leader>o :let @+ = expand('%')<cr>
 nnoremap <silent> <leader>p :let @+ = expand('%:p')<cr>
-
-nnoremap <silent> <leader>h :Telescope oldfiles theme=ivy<cr>
-nnoremap <silent> <leader>f :Telescope find_files theme=ivy<cr>
-nnoremap <silent> <leader>r :execute ":Telescope live_grep_args theme=ivy default_text=\"" . expand("<cword>") . "\""<cr>
-vnoremap <silent> <leader>r "zy:Telescope live_grep_args theme=ivy default_text="<C-r>z"<cr>
-nnoremap <silent> <leader>g :silent gr <cword><cr>
-nnoremap <silent> <leader>t :Telescope live_grep_args theme=ivy<cr>
-nnoremap <silent> <leader>c :Telescope commands theme=ivy<cr>
 
 nnoremap <silent> <leader>l :call GetLastMessage()<cr>
 
@@ -664,8 +701,6 @@ iabbrev <expr> ,d strftime('%Y-%m-%d')
 iabbrev <expr> ,t strftime('%Y-%m-%d %T')
 
 command! -bang -nargs=1 Rg execute "Telescope live_grep_args theme=ivy default_text=\"" . escape(<q-args>, ' \') . '"'
-
-:cnoreabbrev <expr> rg (getcmdtype() == ':' && getcmdline() ==# 'rg') ? 'Rg' : 'rg'
 
 function! YoshiTest()
   let g:test#javascript#runner = 'jest'
