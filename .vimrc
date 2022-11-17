@@ -147,6 +147,7 @@ Plug 'rcarriga/nvim-notify'
 Plug 'folke/noice.nvim'
 
 Plug 'will133/vim-dirdiff'
+Plug 'sindrets/diffview.nvim'
 
 Plug 'tpope/vim-surround'
 
