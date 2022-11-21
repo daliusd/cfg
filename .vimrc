@@ -707,7 +707,7 @@ nnoremap <silent> <leader>p :let @+ = expand('%:p')<cr>
 
 nnoremap <silent> <leader>l :call GetLastMessage()<cr>
 
-nnoremap <silent> <leader>s :update<cr>
+nnoremap <silent> <leader>s :w<cr>
 nnoremap <silent> <leader>x :TroubleToggle<cr>
 nnoremap <silent> <leader>b :Neotree left filesystem reveal toggle<cr>
 nnoremap <silent> - :Neotree float filesystem reveal reveal_force_cwd<cr>
