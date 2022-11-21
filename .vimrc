@@ -211,6 +211,8 @@ Plug 'mcchrish/zenbones.nvim'
 Plug 'rktjmp/lush.nvim'
 Plug 'norcalli/nvim-colorizer.lua'
 
+Plug 'uga-rosa/translate.nvim'
+
 call plug#end()
 
 " Colors
@@ -653,6 +655,14 @@ vim.cmd('hi NeotestBorder ctermfg=Red guifg=#CC6060')
 vim.cmd('hi NotifyERRORTitle guifg=#8a1f1f')
 vim.cmd('hi NotifyINFOIcon guifg=#4f6752')
 vim.cmd('hi NotifyINFOTitle guifg=#4f6752')
+
+-- translate.nvim
+
+require("translate").setup({
+  default = {
+    output = "replace",
+  },
+})
 
 EOF
 
