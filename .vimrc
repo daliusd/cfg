@@ -685,6 +685,7 @@ endfunction
 :cnoreabbrev <expr> gs (getcmdtype() == ':' && getcmdline() ==# 'gs') ? 'Git' : 'gs'
 :cnoreabbrev <expr> gd (getcmdtype() == ':' && getcmdline() ==# 'gd') ? 'Gdiffsplit' : 'gd'
 :cnoreabbrev <expr> gb (getcmdtype() == ':' && getcmdline() ==# 'gb') ? 'Git blame' : 'gb'
+:cnoreabbrev <expr> go (getcmdtype() == ':' && getcmdline() ==# 'go') ? 'GBrowse' : 'go'
 
 let g:fugitive_legacy_commands = 1
 
