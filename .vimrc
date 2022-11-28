@@ -203,7 +203,6 @@ Plug 'anuvyklack/pretty-fold.nvim'
 " Status line
 Plug 'hoob3rt/lualine.nvim'
 Plug 'kyazdani42/nvim-web-devicons'
-Plug 'sangdol/mintabline.vim'
 
 " Other
 
@@ -534,6 +533,16 @@ require('lualine').setup{
     },
     lualine_y = {'progress'},
     lualine_z = {'location'}
+  },
+  tabline = {
+    lualine_a = {
+      {
+          'tabs',
+          max_length = vim.o.columns,
+          mode = 2,
+      },
+    },
+    lualine_z = {'filesize'}
   },
 }
 
