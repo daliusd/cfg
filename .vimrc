@@ -341,7 +341,8 @@ local on_attach = function(client, bufnr)
 
   local bufopts = { noremap=true, silent=true, buffer=bufnr }
   vim.keymap.set('n', '<leader>ad', function() vim.lsp.buf.declaration{on_list=on_list} end, bufopts)
-  vim.keymap.set('n', '<leader>d', function() vim.lsp.buf.definition{on_list=on_list} end, bufopts)
+  -- vim.keymap.set('n', '<leader>d', function() vim.lsp.buf.definition{on_list=on_list} end, bufopts)
+  vim.keymap.set('n', '<leader>d', '<c-]>', bufopts)
   vim.keymap.set('n', '<leader>k', vim.lsp.buf.hover, bufopts)
 
   vim.keymap.set('n', '<leader>ai', function() vim.lsp.buf.implementation{on_list=on_list} end, bufopts)
@@ -695,7 +696,8 @@ endfunction
 :cnoreabbrev <expr> gs (getcmdtype() == ':' && getcmdline() ==# 'gs') ? 'Git' : 'gs'
 :cnoreabbrev <expr> gd (getcmdtype() == ':' && getcmdline() ==# 'gd') ? 'Gdiffsplit' : 'gd'
 :cnoreabbrev <expr> gb (getcmdtype() == ':' && getcmdline() ==# 'gb') ? 'Git blame' : 'gb'
-:cnoreabbrev <expr> go (getcmdtype() == ':' && getcmdline() ==# 'go') ? 'GBrowse' : 'go'
+:cnoreabbrev <expr> gbr (getcmdtype() == ':' && getcmdline() ==# 'gbr') ? 'GBrowse' : 'gbr'
+
 
 let g:fugitive_legacy_commands = 1
 
@@ -744,6 +746,8 @@ iabbrev <expr> ,d strftime('%Y-%m-%d')
 iabbrev <expr> ,t strftime('%Y-%m-%d %T')
 
 command! -bang -nargs=1 Rg execute "Telescope live_grep_args theme=ivy default_text=\"" . escape(<q-args>, ' \') . '"'
+
+:cnoreabbrev <expr> rg (getcmdtype() == ':' && getcmdline() ==# 'rg') ? 'Rg' : 'rg'
 
 function! YoshiTest()
   let g:test#javascript#runner = 'jest'
