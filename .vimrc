@@ -150,6 +150,7 @@ Plug 'will133/vim-dirdiff'
 Plug 'sindrets/diffview.nvim'
 
 Plug 'tpope/vim-surround'
+Plug 'tpope/vim-abolish'
 
 Plug 'justinmk/vim-sneak'
 
@@ -568,7 +569,7 @@ require("telescope").setup({
       live_grep_args = {
           mappings = {
               i = {
-                ["<C-f>"] = lga_actions.quote_prompt(),
+                ["<C-f>"] = lga_actions.quote_prompt({ postfix = " -g *" }),
                 ["<C-l>"] = lga_actions.quote_prompt({ postfix = " -g *en*" }),
               },
           },
