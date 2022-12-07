@@ -379,7 +379,6 @@ require("typescript").setup({
 })
 
 local null_ls = require("null-ls")
-local command_resolver = require("null-ls.helpers.command_resolver")
 
 null_ls.setup({
     sources = {
@@ -746,7 +745,7 @@ nnoremap <silent> <leader>uo :lua require("neotest").output.open({ enter = true 
 iabbrev <expr> ,d strftime('%Y-%m-%d')
 iabbrev <expr> ,t strftime('%Y-%m-%d %T')
 
-command! -bang -nargs=1 Rg execute "Telescope live_grep_args theme=ivy default_text=\"" . escape(<q-args>, ' \') . '"'
+command! -bang -nargs=1 Rg execute "Telescope live_grep_args theme=ivy default_text=" . escape(<q-args>, ' \')
 
 :cnoreabbrev <expr> rg (getcmdtype() == ':' && getcmdline() ==# 'rg') ? 'Rg' : 'rg'
 
