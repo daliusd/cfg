@@ -1,130 +1,116 @@
-let g:python3_host_prog = expand('~').'/projects/soft/py3nvim/bin/python'
+lua <<EOF
+vim.g.python3_host_prog = vim.fn.expand('~') .. '/projects/soft/py3nvim/bin/python'
 
-" UI part
+-- UI part
 
-if has('nvim')
-  set clipboard+=unnamedplus
+vim.opt.clipboard = 'unnamedplus'
+vim.opt.termguicolors = true
 
-  set autoread
-  au FocusGained * :checktime
-endif
+vim.api.nvim_create_autocmd("FocusGained", { command = "checktime" })
 
-syntax spell
-syntax on
-set termguicolors
-set background=light
-set hidden " Allow opening new buffer without saving or opening it in new tab
-set noshowmode " This is shown by line plugin already so I don't need NORMAL/INSERT/... in command line
+vim.opt.background = 'light'
+vim.opt.hidden = true -- Allow opening new buffer without saving or opening it in new tab
+vim.opt.showmode = false -- This is shown by line plugin already so I don't need NORMAL/INSERT/... in command line
 
-set wildmenu    " better command-line completion
-set list listchars=trail:.,tab:▷▷⋮ " Show trailing dots and tabs
+vim.opt.listchars:append({ trail = '.', tab = ':▷⋮' }) -- Show trailing dots and tabs
 
-set scrolloff=3     " Keep 3 lines below and above the cursor
-set number          " Show line numbering
-set numberwidth=1   " Use 1 col + 1 space for numbers
+vim.opt.scrolloff = 3   -- Keep 3 lines below and above the cursor
+vim.opt.number = true   -- Show line numbering
+vim.opt.numberwidth = 1 -- Use 1 col + 1 space for numbers
 
-" Vim stuff
-set nofixeol    " Let's not fix end-of-line
+-- Vim stuff
+vim.opt.fixeol = false -- Let's not fix end-of-line
 
-set nobackup
-set noswapfile
-set nowritebackup
-set directory=/tmp
-set undofile
-set undodir=/tmp
+vim.opt.backup = false
+vim.opt.swapfile = false
+vim.opt.writebackup = false
+vim.opt.directory = '/tmp'
+vim.opt.undofile = true
+vim.opt.undodir = '/tmp'
 
-" Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
-" delays and poor user experience.
-set updatetime=300
-set completeopt=menu,menuone,noselect " nvim-cmp suggestion
-set signcolumn=number " merge signcolumn and number column into one
-set showtabline=2
+-- Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+-- delays and poor user experience.
+vim.opt.updatetime = 300
+vim.opt.completeopt = 'menu,menuone,noselect' -- nvim-cmp suggestion
+vim.opt.signcolumn = 'number' -- merge signcolumn and number column into one
+vim.opt.showtabline = 2
 
-set diffopt+=vertical " Vertical diff
+vim.opt.diffopt:append('vertical') -- Vertical diff
 
-" We want string-like-this to be treated as word. That however means that proper spacing must
-" be used in arithmetic operations.
-set iskeyword+=-
+-- We want string-like-this to be treated as word. That however means that proper spacing must
+-- be used in arithmetic operations.
+vim.opt.iskeyword:append('-')
 
-" Indentation and Tab
-set autoindent
-set expandtab
-set smarttab
-set sw=2        " Spaces per indent
+-- Indentation and Tab
+vim.opt.autoindent = true
+vim.opt.expandtab = true
+vim.opt.smarttab = true
+vim.opt.sw = 2 -- Spaces per indent
 
-set tabstop=8   " Number of spaces per tab. People usually use 4, but they shouldn't use tab in the first place.
+vim.opt.tabstop = 8 -- Number of spaces per tab. People usually use 4, but they shouldn't use tab in the first place.
 
-set foldmethod=expr
-set foldexpr=nvim_treesitter#foldexpr()
+vim.opt.foldmethod = 'expr'
+vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
 
-" fold fix https://github.com/nvim-telescope/telescope.nvim/issues/559
-autocmd BufRead * autocmd BufWinEnter * ++once normal! zx
+-- fold fix https://github.com/nvim-telescope/telescope.nvim/issues/559
+-- autocmd BufRead * autocmd BufWinEnter * ++once normal! zx
 
-set foldlevelstart=99
-filetype plugin indent on
+vim.opt.foldlevelstart = 99
 
-" Encodings and spelling
-set fileencodings=utf-8,ucs-bom,latin1
-set encoding=utf-8
-set spell
-set spelllang=en,lt
+-- Encodings and spelling
+vim.opt.fileencodings = 'utf-8,ucs-bom,latin1'
+vim.opt.encoding = 'utf-8'
+vim.opt.spell = true
+vim.opt.spelllang = 'en,lt'
 
-" Search
-set hlsearch    " Highlight search
-set incsearch   " Show search as you type
-set ignorecase  " Ignore case when searching using lowercase
-set smartcase   " Ignore ignorecase if search contains upper case letters
+-- Search
+vim.opt.ignorecase = true  -- Ignore case when searching using lowercase
+vim.opt.smartcase = true   -- Ignore ignorecase if search contains upper case letters
 
+vim.opt.grepprg = 'rg --vimgrep -M 160 -S'
 
-" Better navigation for wrapped lines.
-nnoremap j gj
-nnoremap k gk
-nnoremap <silent> <up> gk
-inoremap <silent> <up> <C-o>gk
-nnoremap <silent> <down> gj
-inoremap <silent> <down> <C-o>gj
+-- Keymaps
+vim.g.mapleader = ' '
 
-" Command mode up/down remap
-cnoremap <c-k> <up>
-cnoremap <c-j> <down>
+local opts = { noremap=true, silent=true }
 
-" Next/Previous result
-nnoremap <silent> <C-n> :cn<cr>
-nnoremap <silent> <C-p> :cp<cr>
+-- Better navigation for wrapped lines.
+vim.keymap.set('n', 'j', 'gj', opts)
+vim.keymap.set('n', 'k', 'gk', opts)
+vim.keymap.set('n', '<down>', 'gj', opts)
+vim.keymap.set('i', '<down>', '<c-o>gj', opts)
+vim.keymap.set('n', '<up>', 'gk', opts)
+vim.keymap.set('i', '<up>', '<c-o>gk', opts)
 
-"nnoremap ; :
-"vnoremap ; :
+-- Command mode up/down remap
+vim.keymap.set('c', '<c-k>', '<up>', opts)
+vim.keymap.set('c', '<c-j>', '<down>', opts)
 
-" Leader commands
-let mapleader = " "
+-- Next/Previous result
+vim.keymap.set('n', '<c-n>', ':cn<cr>', opts)
+vim.keymap.set('n', '<c-p>', ':cp<cr>', opts)
 
-" The 66-character line (counting both letters and spaces) is widely regarded as ideal.
-" http://webtypography.net/Rhythm_and_Proportion/Horizontal_Motion/2.1.2/
-au BufRead,BufNewFile *.md     setlocal textwidth=66
-au BufRead,BufNewFile *.rst     setlocal textwidth=66
+-- Tab navigation
+vim.keymap.set('n', '<c-j>', ':tabnext<cr>', opts)
+vim.keymap.set('n', '<c-k>', ':tabprev<cr>', opts)
+vim.keymap.set('i', '<c-j>', '<c-o>:tabnext<cr>', opts)
+vim.keymap.set('i', '<c-k>', '<c-o>:tabprev<cr>', opts)
+vim.keymap.set('n', '<c-l>', ':tabm +1<cr>', opts)
+vim.keymap.set('n', '<c-h>', ':tabm -1<cr>', opts)
+vim.keymap.set('n', 'gd', ':tabclose<cr>', opts)
+vim.keymap.set('n', 'ga', ':tabnew<cr>', opts)
+vim.keymap.set('n', 'gs', ':tab split<cr>', opts)
+vim.keymap.set('n', 'go', ':tabonly<cr>', opts)
 
-" Tab navigation
-nnoremap <silent> <c-j> :tabnext<CR>
-nnoremap <silent> <c-k> :tabprev<CR>
-inoremap <silent> <c-j> <c-o>:tabnext<CR>
-inoremap <silent> <c-k> <c-o>:tabprev<CR>
-nnoremap <silent> <c-l> :tabm +1<CR>
-nnoremap <silent> <c-h> :tabm -1<CR>
-nnoremap <silent> <c-down> :tabnext<CR>
-nnoremap <silent> <c-up> :tabprev<CR>
-nnoremap <silent> <c-right> :tabm +1<CR>
-nnoremap <silent> <c-left> :tabm -1<CR>
+-- Sort
+vim.keymap.set('n', 'gh', ':Sort<cr>', opts)
+vim.keymap.set('v', 'gh', '<esc>:Sort<cr>', opts)
 
-nnoremap <silent> gd :tabclose<CR>
-nnoremap <silent> ga :tabnew<CR>
-nnoremap <silent> gs :tab split<CR>
-nnoremap <silent> go :tabonly<CR>
+-- The 66-character line (counting both letters and spaces) is widely regarded as ideal.
+-- http://webtypography.net/Rhythm_and_Proportion/Horizontal_Motion/2.1.2/
+vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, { pattern = '*.md', command = "setlocal textwidth=66" })
 
-nnoremap <silent> gh <Cmd>Sort<CR>
-vnoremap <silent> gh <Esc><Cmd>Sort<CR>
-
-" Faster navigation through code
-:set grepprg=rg\ --vimgrep\ -M\ 160\ -S
+EOF
 
 " Plugins
 
@@ -214,10 +200,9 @@ Plug 'uga-rosa/translate.nvim'
 
 call plug#end()
 
-" Colors
-colorscheme zenbones
-
 lua <<EOF
+
+vim.cmd('colorscheme zenbones')
 
 local ag = vim.api.nvim_create_augroup
 local au = vim.api.nvim_create_autocmd
@@ -686,123 +671,149 @@ require("translate").setup({
   },
 })
 
+-- My todo files
+vim.api.nvim_create_autocmd(
+  { 'BufRead', 'BufNewFile' },
+  { pattern = '*.todo', command = 'setlocal filetype=todo' }
+)
+
+vim.api.nvim_create_autocmd(
+  { 'BufRead', 'BufNewFile' },
+  { pattern = '*.todo', command = 'setlocal foldmethod=indent' }
+)
+
+-- editorconfig-vim
+vim.g.EditorConfig_exclude_patterns = {'fugitive://.*'}
+
+-- Fugitive
+vim.cmd(":cnoreabbrev <expr> gps (getcmdtype() == ':' && getcmdline() ==# 'gps') ? 'Git push' : 'gps'")
+vim.cmd(":cnoreabbrev <expr> gpl (getcmdtype() == ':' && getcmdline() ==# 'gpl') ? 'Git pull' : 'gpl'")
+vim.cmd(":cnoreabbrev <expr> gs (getcmdtype() == ':' && getcmdline() ==# 'gs') ? 'Git' : 'gs'")
+vim.cmd(":cnoreabbrev <expr> gd (getcmdtype() == ':' && getcmdline() ==# 'gd') ? 'Gdiffsplit' : 'gd'")
+vim.cmd(":cnoreabbrev <expr> gb (getcmdtype() == ':' && getcmdline() ==# 'gb') ? 'Git blame' : 'gb'")
+vim.cmd(":cnoreabbrev <expr> gbr (getcmdtype() == ':' && getcmdline() ==# 'gbr') ? 'GBrowse' : 'gbr'")
+
+
+vim.g.fugitive_legacy_commands = 1
+
+-- Test runner
+vim.g['test#runner_commands'] = {'VSpec', 'Jest', 'Playwright'}
+
+-- Leader config
+
+keymap('n', '<leader>n', ':silent noh<cr>', ops)
+keymap('n', '<leader>q', ':qa<cr>', ops)
+
+keymap('n', '<leader>i', ":let @+ = expand('%:t')<cr>", ops)
+keymap('n', '<leader>o', ":let @+ = expand('%')<cr>", ops)
+keymap('n', '<leader>p', ":let @+ = expand('%:p')<cr>", ops)
+
+keymap('n', '<leader>s', ':w<cr>', ops)
+keymap('n', '<leader>x', ':TroubleToggle<cr>', ops)
+keymap('n', '<leader>b', ':Neotree left filesystem reveal toggle<cr>', ops)
+keymap('n', '-', ':Neotree float filesystem reveal reveal_force_cwd<cr>', ops)
+
+-- window commands
+
+keymap('n', '<leader>ww', '<c-w>w', ops)
+keymap('n', '<leader>wc', '<c-w>c', ops)
+keymap('n', '<leader>wo', '<c-w>o', ops)
+keymap('n', '<leader>wh', '<c-w>h', ops)
+keymap('n', '<leader>wj', '<c-w>j', ops)
+keymap('n', '<leader>wk', '<c-w>k', ops)
+keymap('n', '<leader>wl', '<c-w>l', ops)
+
+-- neotest
+keymap('n', '<leader>uf', function() require("neotest").run.run(vim.fn.expand("%")) end, ops)
+keymap('n', '<leader>un', function() require("neotest").run.run() end, ops)
+keymap('n', '<leader>us', function() require("neotest").summary.toggle() end, ops)
+keymap('n', '<leader>uj', function() require("neotest").jump.next({ status = "failed" }) end, ops)
+keymap('n', '<leader>uk', function() require("neotest").jump.prev({ status = "failed" }) end, ops)
+keymap('n', '<leader>uo', function() require("neotest").output.open({ enter = true }) end, ops)
+
+-- vimrc file
+keymap('n', '<leader>v', ':e ~/.vimrc<cr>', ops)
+
+-- date
+vim.cmd("iabbrev <expr> ,d strftime('%Y-%m-%d')")
+vim.cmd("iabbrev <expr> ,t strftime('%Y-%m-%d %T')")
+
+vim.cmd('command! -bang -nargs=1 Rg execute "Telescope live_grep_args theme=ivy default_text=" . escape(<q-args>, \' \\\')')
+
+vim.cmd(":cnoreabbrev <expr> rg (getcmdtype() == ':' && getcmdline() ==# 'rg') ? 'Rg' : 'rg'")
+
+-- Commands
+
+vim.api.nvim_create_user_command(
+  'YoshiTest',
+  function()
+    vim.g['test#javascript#runner'] = 'jest'
+    vim.g['test#javascript#jest#executable'] = 'yarn yoshi test'
+  end,
+  {}
+)
+
+vim.api.nvim_create_user_command(
+  'YoshiLibraryTest',
+  function()
+    vim.g['test#javascript#runner'] = 'jest'
+    vim.g['test#javascript#jest#executable'] = 'yarn yoshi-library test'
+  end,
+  {}
+)
+
+-- format/unformat
+
+vim.api.nvim_create_user_command(
+  'FormatJSON',
+  function()
+    vim.cmd('%!python3 -m json.tool')
+    vim.bo.filetype = 'json'
+  end,
+  {}
+)
+
+vim.api.nvim_create_user_command(
+  'UnformatJSON',
+  function()
+    vim.cmd(':%!node ~/bin/unjson.js')
+    vim.bo.filetype = 'json'
+  end,
+  {}
+)
+
+vim.api.nvim_create_user_command(
+  'FormatSHTOUT',
+  function()
+    vim.cmd(":%!node ~/bin/sht.js")
+    vim.bo.filetype = 'json'
+  end,
+  {}
+)
+
+vim.api.nvim_create_user_command(
+  'UnformatSHTOUT',
+  function()
+    vim.cmd(":%!node ~/bin/usht.js")
+    vim.bo.filetype = 'json'
+  end,
+  {}
+)
+
+vim.api.nvim_create_user_command(
+  'FormatHtml',
+  function()
+    vim.cmd("%!tidy -q -i --show-errors 0")
+  end,
+  {}
+)
+
+vim.api.nvim_create_user_command(
+  'FormatXml',
+  function()
+    vim.cmd("%!tidy -q -i --show-errors 0 -xml")
+  end,
+  {}
+)
+
 EOF
-
-" My todo files
-au BufRead,BufNewFile *.todo        setlocal filetype=todo
-au BufRead,BufNewFile *.todo        setlocal foldmethod=indent
-
-" editorconfig-vim
-let g:EditorConfig_exclude_patterns = ['fugitive://.*']
-
-" Fugitive
-:cnoreabbrev <expr> gps (getcmdtype() == ':' && getcmdline() ==# 'gps') ? 'Git push' : 'gps'
-:cnoreabbrev <expr> gpl (getcmdtype() == ':' && getcmdline() ==# 'gpl') ? 'Git pull' : 'gpl'
-:cnoreabbrev <expr> gs (getcmdtype() == ':' && getcmdline() ==# 'gs') ? 'Git' : 'gs'
-:cnoreabbrev <expr> gd (getcmdtype() == ':' && getcmdline() ==# 'gd') ? 'Gdiffsplit' : 'gd'
-:cnoreabbrev <expr> gb (getcmdtype() == ':' && getcmdline() ==# 'gb') ? 'Git blame' : 'gb'
-:cnoreabbrev <expr> gbr (getcmdtype() == ':' && getcmdline() ==# 'gbr') ? 'GBrowse' : 'gbr'
-
-
-let g:fugitive_legacy_commands = 1
-
-let g:test#runner_commands = ['VSpec', 'Jest', 'Playwright']
-
-" Leader config
-
-nnoremap <silent> <leader>n :silent noh<CR>
-nnoremap <silent> <leader>q :qa<CR>
-
-nnoremap <silent> <leader>i :let @+ = expand('%:t')<cr>
-nnoremap <silent> <leader>o :let @+ = expand('%')<cr>
-nnoremap <silent> <leader>p :let @+ = expand('%:p')<cr>
-
-
-nnoremap <silent> <leader>s :w<cr>
-nnoremap <silent> <leader>x :TroubleToggle<cr>
-nnoremap <silent> <leader>b :Neotree left filesystem reveal toggle<cr>
-nnoremap <silent> - :Neotree float filesystem reveal reveal_force_cwd<cr>
-
-" window commands
-nnoremap <leader>ww <c-w>w
-nnoremap <leader>wc <c-w>c
-nnoremap <leader>wo <c-w>o
-nnoremap <leader>wh <c-w>h
-nnoremap <leader>wj <c-w>j
-nnoremap <leader>wk <c-w>k
-nnoremap <leader>wl <c-w>l
-
-nnoremap <silent> <leader>uf :lua require("neotest").run.run(vim.fn.expand("%"))<cr>
-nnoremap <silent> <leader>un :lua require("neotest").run.run()<cr>
-nnoremap <silent> <leader>us :lua require("neotest").summary.toggle()<cr>
-nnoremap <silent> <leader>uj :lua require("neotest").jump.next({ status = "failed" })<cr>
-nnoremap <silent> <leader>uk :lua require("neotest").jump.prev({ status = "failed" })<cr>
-nnoremap <silent> <leader>uo :lua require("neotest").output.open({ enter = true })<cr>
-
-" date
-iabbrev <expr> ,d strftime('%Y-%m-%d')
-iabbrev <expr> ,t strftime('%Y-%m-%d %T')
-
-command! -bang -nargs=1 Rg execute "Telescope live_grep_args theme=ivy default_text=" . escape(<q-args>, ' \')
-
-:cnoreabbrev <expr> rg (getcmdtype() == ':' && getcmdline() ==# 'rg') ? 'Rg' : 'rg'
-
-function! YoshiTest()
-  let g:test#javascript#runner = 'jest'
-  let g:test#javascript#jest#executable='yarn yoshi test'
-endfunction
-
-command YoshiTest call YoshiTest()
-
-function! YoshiLibraryTest()
-  let g:test#javascript#runner = 'jest'
-  let g:test#javascript#jest#executable='yarn yoshi-library test'
-endfunction
-
-command YoshiLibraryTest call YoshiLibraryTest()
-
-" vimrc file
-nnoremap <silent> <leader>v :e ~/.vimrc<cr>
-
-" Misc
-
-function! RenameAll()
-    let l:frompart = input("Rename from: ", expand("<cword>"))
-    let l:topart = input("Rename to: " , l:frompart)
-    execute ':gr ' . frompart
-    execute ':cfdo %s/' . frompart . '/' . topart . '/g'
-    execute ':wa'
-endfunction
-
-command RenameAll call RenameAll()
-
-function! FormatJSON()
-  exe '%!python3 -m json.tool'
-  set filetype=json
-endfunction
-
-command FormatJSON call FormatJSON()
-
-function! FormatSHTOUT()
-  exe ':%!node ~/bin/sht.js'
-  set filetype=json
-endfunction
-
-command FormatSHTOUT call FormatSHTOUT()
-
-function! UnformatSHTOUT()
-  exe ':%!node ~/bin/usht.js'
-  set filetype=json
-endfunction
-
-command UnformatSHTOUT call UnformatSHTOUT()
-
-function! UnformatJSON()
-  exe ':%!node ~/bin/unjson.js'
-  set filetype=
-endfunction
-
-command UnformatJSON call UnformatJSON()
-
-command FormatHtml execute "%!tidy -q -i --show-errors 0"
-command FormatXml execute "%!tidy -q -i --show-errors 0 -xml"
