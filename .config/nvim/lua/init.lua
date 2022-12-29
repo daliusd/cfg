@@ -1,4 +1,113 @@
-lua <<EOF
+local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system({
+    "git",
+    "clone",
+    "--filter=blob:none",
+    "--single-branch",
+    "https://github.com/folke/lazy.nvim.git",
+    lazypath,
+  })
+end
+vim.opt.runtimepath:prepend(lazypath)
+
+vim.g.mapleader = ' ' -- we need to setup this before plugins
+
+require("lazy").setup({
+  {
+    "mcchrish/zenbones.nvim",
+    lazy = false,
+    priority = 1000,
+    config = function()
+      vim.g['zenbones_compat'] = 1
+      vim.cmd([[colorscheme zenbones]])
+    end,
+  },
+
+  -- Generic plugins
+
+  'kyazdani42/nvim-web-devicons',
+  "hoob3rt/lualine.nvim",
+  {
+    'nvim-telescope/telescope-fzf-native.nvim',
+    build = 'make',
+  },
+  'nvim-lua/plenary.nvim',
+  'nvim-telescope/telescope-fzf-native.nvim',
+  'nvim-telescope/telescope-live-grep-args.nvim',
+  'marcuscaisey/olddirs.nvim',
+  'nvim-telescope/telescope.nvim',
+  'nvim-lua/plenary.nvim',
+  "MunifTanjim/nui.nvim",
+  {
+    'nvim-neo-tree/neo-tree.nvim',
+    branch = 'v2.x',
+  },
+  'akinsho/toggleterm.nvim',
+  'rcarriga/nvim-notify',
+  'folke/noice.nvim',
+  'sindrets/diffview.nvim',
+  'tpope/vim-surround',
+  'tpope/vim-abolish',
+
+  'justinmk/vim-sneak',
+  'numToStr/Comment.nvim',
+
+  'vim-test/vim-test',
+  'antoinemadec/FixCursorHold.nvim', -- Required by neotest
+  'nvim-neotest/neotest',
+  'nvim-neotest/neotest-vim-test',
+
+  'neovim/nvim-lspconfig',
+  'jose-elias-alvarez/null-ls.nvim',
+  'jose-elias-alvarez/typescript.nvim',
+
+  'ThePrimeagen/refactoring.nvim',
+
+  'folke/trouble.nvim',
+
+  'hrsh7th/cmp-buffer',
+  'hrsh7th/cmp-path',
+  'hrsh7th/cmp-cmdline',
+  'hrsh7th/cmp-emoji',
+  'hrsh7th/cmp-nvim-lsp',
+  'octaltree/cmp-look',
+  'hrsh7th/nvim-cmp',
+
+  'hrsh7th/cmp-vsnip',
+  'hrsh7th/vim-vsnip',
+  'rafamadriz/friendly-snippets',
+
+  'junegunn/vader.vim',
+  'jamessan/vim-gnupg',
+
+  'editorconfig/editorconfig-vim',
+
+  'sQVe/sort.nvim',
+  'windwp/nvim-autopairs',
+  'windwp/nvim-ts-autotag',
+
+  -- Git
+  'lewis6991/gitsigns.nvim',
+  'tpope/vim-fugitive',
+  'tpope/vim-rhubarb',
+
+  -- Tree-sitter
+  {
+    'nvim-treesitter/nvim-treesitter',
+    build = ':TSUpdate'
+  },
+  'nvim-treesitter/playground',
+  'lewis6991/spellsitter.nvim',
+  'anuvyklack/pretty-fold.nvim',
+
+  -- Other
+  'norcalli/nvim-colorizer.lua',
+  'uga-rosa/translate.nvim',
+})
+
+--
+
 vim.g.python3_host_prog = vim.fn.expand('~') .. '/projects/soft/py3nvim/bin/python'
 
 -- UI part
@@ -70,139 +179,45 @@ vim.opt.smartcase = true   -- Ignore ignorecase if search contains upper case le
 vim.opt.grepprg = 'rg --vimgrep -M 160 -S'
 
 -- Keymaps
-vim.g.mapleader = ' '
 
+local keymap = vim.keymap.set
 local opts = { noremap=true, silent=true }
 
 -- Better navigation for wrapped lines.
-vim.keymap.set('n', 'j', 'gj', opts)
-vim.keymap.set('n', 'k', 'gk', opts)
-vim.keymap.set('n', '<down>', 'gj', opts)
-vim.keymap.set('i', '<down>', '<c-o>gj', opts)
-vim.keymap.set('n', '<up>', 'gk', opts)
-vim.keymap.set('i', '<up>', '<c-o>gk', opts)
+keymap('n', 'j', 'gj', opts)
+keymap('n', 'k', 'gk', opts)
+keymap('n', '<down>', 'gj', opts)
+keymap('i', '<down>', '<c-o>gj', opts)
+keymap('n', '<up>', 'gk', opts)
+keymap('i', '<up>', '<c-o>gk', opts)
 
 -- Command mode up/down remap
-vim.keymap.set('c', '<c-k>', '<up>', opts)
-vim.keymap.set('c', '<c-j>', '<down>', opts)
+keymap('c', '<c-k>', '<up>', opts)
+keymap('c', '<c-j>', '<down>', opts)
 
 -- Next/Previous result
-vim.keymap.set('n', '<c-n>', ':cn<cr>', opts)
-vim.keymap.set('n', '<c-p>', ':cp<cr>', opts)
+keymap('n', '<c-n>', ':cn<cr>', opts)
+keymap('n', '<c-p>', ':cp<cr>', opts)
 
 -- Tab navigation
-vim.keymap.set('n', '<c-j>', ':tabnext<cr>', opts)
-vim.keymap.set('n', '<c-k>', ':tabprev<cr>', opts)
-vim.keymap.set('i', '<c-j>', '<c-o>:tabnext<cr>', opts)
-vim.keymap.set('i', '<c-k>', '<c-o>:tabprev<cr>', opts)
-vim.keymap.set('n', '<c-l>', ':tabm +1<cr>', opts)
-vim.keymap.set('n', '<c-h>', ':tabm -1<cr>', opts)
-vim.keymap.set('n', 'gd', ':tabclose<cr>', opts)
-vim.keymap.set('n', 'ga', ':tabnew<cr>', opts)
-vim.keymap.set('n', 'gs', ':tab split<cr>', opts)
-vim.keymap.set('n', 'go', ':tabonly<cr>', opts)
+keymap('n', '<c-j>', ':tabnext<cr>', opts)
+keymap('n', '<c-k>', ':tabprev<cr>', opts)
+keymap('i', '<c-j>', '<c-o>:tabnext<cr>', opts)
+keymap('i', '<c-k>', '<c-o>:tabprev<cr>', opts)
+keymap('n', '<c-l>', ':tabm +1<cr>', opts)
+keymap('n', '<c-h>', ':tabm -1<cr>', opts)
+keymap('n', 'gd', ':tabclose<cr>', opts)
+keymap('n', 'ga', ':tabnew<cr>', opts)
+keymap('n', 'gs', ':tab split<cr>', opts)
+keymap('n', 'go', ':tabonly<cr>', opts)
 
 -- Sort
-vim.keymap.set('n', 'gh', ':Sort<cr>', opts)
-vim.keymap.set('v', 'gh', '<esc>:Sort<cr>', opts)
+keymap('n', 'gh', ':Sort<cr>', opts)
+keymap('v', 'gh', '<esc>:Sort<cr>', opts)
 
 -- The 66-character line (counting both letters and spaces) is widely regarded as ideal.
 -- http://webtypography.net/Rhythm_and_Proportion/Horizontal_Motion/2.1.2/
 vim.api.nvim_create_autocmd({ 'BufRead', 'BufNewFile' }, { pattern = '*.md', command = "setlocal textwidth=66" })
-
-EOF
-
-" Plugins
-
-call plug#begin('~/.vim/plugged')
-
-" Generic programming plugins
-Plug 'akinsho/toggleterm.nvim'
-
-Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim'
-Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
-Plug 'nvim-telescope/telescope-live-grep-args.nvim'
-Plug 'marcuscaisey/olddirs.nvim'
-
-Plug 'MunifTanjim/nui.nvim'
-Plug 'nvim-neo-tree/neo-tree.nvim', { 'branch': 'v2.x' }
-
-Plug 'rcarriga/nvim-notify'
-Plug 'folke/noice.nvim'
-
-Plug 'will133/vim-dirdiff'
-Plug 'sindrets/diffview.nvim'
-
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-abolish'
-
-Plug 'justinmk/vim-sneak'
-
-Plug 'numToStr/Comment.nvim'
-
-Plug 'vim-test/vim-test'
-Plug 'antoinemadec/FixCursorHold.nvim' " Required by neotest
-Plug 'nvim-neotest/neotest'
-Plug 'nvim-neotest/neotest-vim-test'
-
-Plug 'neovim/nvim-lspconfig'
-Plug 'jose-elias-alvarez/null-ls.nvim'
-Plug 'jose-elias-alvarez/typescript.nvim'
-
-Plug 'ThePrimeagen/refactoring.nvim'
-
-Plug 'folke/trouble.nvim'
-
-Plug 'hrsh7th/cmp-buffer'
-Plug 'hrsh7th/cmp-path'
-Plug 'hrsh7th/cmp-cmdline'
-Plug 'hrsh7th/cmp-emoji'
-Plug 'hrsh7th/cmp-nvim-lsp'
-Plug 'octaltree/cmp-look'
-Plug 'hrsh7th/nvim-cmp'
-
-Plug 'hrsh7th/cmp-vsnip'
-Plug 'hrsh7th/vim-vsnip'
-Plug 'rafamadriz/friendly-snippets'
-
-Plug 'junegunn/vader.vim'
-Plug 'jamessan/vim-gnupg'
-
-Plug 'editorconfig/editorconfig-vim'
-
-Plug 'sQVe/sort.nvim'
-Plug 'windwp/nvim-autopairs'
-Plug 'windwp/nvim-ts-autotag'
-
-" Git
-Plug 'lewis6991/gitsigns.nvim'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-rhubarb'
-
-" Tree-sitter
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'nvim-treesitter/playground'
-Plug 'lewis6991/spellsitter.nvim'
-Plug 'anuvyklack/pretty-fold.nvim'
-
-" Status line
-Plug 'hoob3rt/lualine.nvim'
-Plug 'kyazdani42/nvim-web-devicons'
-
-" Other
-
-Plug 'mcchrish/zenbones.nvim'
-Plug 'rktjmp/lush.nvim'
-Plug 'norcalli/nvim-colorizer.lua'
-
-Plug 'uga-rosa/translate.nvim'
-
-call plug#end()
-
-lua <<EOF
-
-vim.cmd('colorscheme zenbones')
 
 local ag = vim.api.nvim_create_augroup
 local au = vim.api.nvim_create_autocmd
@@ -468,7 +483,7 @@ require('nvim-autopairs').setup{}
 local cmp_autopairs = require('nvim-autopairs.completion.cmp')
 cmp.event:on( 'confirm_done', cmp_autopairs.on_confirm_done({  map_char = { tex = '' } }))
 
--- toggleterm
+-- -- toggleterm
 
 require("toggleterm").setup{
   open_mapping = [[<c-\>]],
@@ -587,7 +602,6 @@ function vim.getVisualSelection()
   end
 end
 
-local keymap = vim.keymap.set
 local telescope = require('telescope')
 local opts = { noremap = true, silent = true }
 
@@ -683,7 +697,7 @@ vim.api.nvim_create_autocmd(
 )
 
 -- editorconfig-vim
-vim.g.EditorConfig_exclude_patterns = {'fugitive://.*'}
+vim.g['EditorConfig_exclude_patterns'] = {'fugitive://.*'}
 
 -- Fugitive
 vim.cmd(":cnoreabbrev <expr> gps (getcmdtype() == ':' && getcmdline() ==# 'gps') ? 'Git push' : 'gps'")
@@ -732,7 +746,7 @@ keymap('n', '<leader>uk', function() require("neotest").jump.prev({ status = "fa
 keymap('n', '<leader>uo', function() require("neotest").output.open({ enter = true }) end, ops)
 
 -- vimrc file
-keymap('n', '<leader>v', ':e ~/.vimrc<cr>', ops)
+keymap('n', '<leader>v', ':e ~/.config/nvim/lua/init.lua<cr>', ops)
 
 -- date
 vim.cmd("iabbrev <expr> ,d strftime('%Y-%m-%d')")
@@ -815,5 +829,3 @@ vim.api.nvim_create_user_command(
   end,
   {}
 )
-
-EOF
