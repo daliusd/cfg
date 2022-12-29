@@ -9,8 +9,6 @@ if has('nvim')
   au FocusGained * :checktime
 endif
 
-set mouse=a     " Enable mouse for everything
-
 syntax spell
 syntax on
 set termguicolors
@@ -697,12 +695,6 @@ au BufRead,BufNewFile *.todo        setlocal foldmethod=indent
 " editorconfig-vim
 let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 
-function! GetLastMessage()
-  execute ":redir @+"
-  execute ":1messages"
-  execute ":redir END"
-endfunction
-
 " Fugitive
 :cnoreabbrev <expr> gps (getcmdtype() == ':' && getcmdline() ==# 'gps') ? 'Git push' : 'gps'
 :cnoreabbrev <expr> gpl (getcmdtype() == ':' && getcmdline() ==# 'gpl') ? 'Git pull' : 'gpl'
@@ -716,12 +708,6 @@ let g:fugitive_legacy_commands = 1
 
 let g:test#runner_commands = ['VSpec', 'Jest', 'Playwright']
 
-" Sneak
-map f <Plug>Sneak_f
-map F <Plug>Sneak_F
-map t <Plug>Sneak_t
-map T <Plug>Sneak_T
-
 " Leader config
 
 nnoremap <silent> <leader>n :silent noh<CR>
@@ -731,7 +717,6 @@ nnoremap <silent> <leader>i :let @+ = expand('%:t')<cr>
 nnoremap <silent> <leader>o :let @+ = expand('%')<cr>
 nnoremap <silent> <leader>p :let @+ = expand('%:p')<cr>
 
-nnoremap <silent> <leader>l :call GetLastMessage()<cr>
 
 nnoremap <silent> <leader>s :w<cr>
 nnoremap <silent> <leader>x :TroubleToggle<cr>
