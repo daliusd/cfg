@@ -139,6 +139,7 @@ Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
 Plug 'nvim-telescope/telescope-fzf-native.nvim', { 'do': 'make' }
 Plug 'nvim-telescope/telescope-live-grep-args.nvim'
+Plug 'marcuscaisey/olddirs.nvim'
 
 Plug 'MunifTanjim/nui.nvim'
 Plug 'nvim-neo-tree/neo-tree.nvim', { 'branch': 'v2.x' }
@@ -588,6 +589,7 @@ require("telescope").setup({
 
 require('telescope').load_extension('fzf')
 require("telescope").load_extension('live_grep_args')
+require("telescope").load_extension('olddirs')
 
 function vim.getVisualSelection()
   vim.cmd('noau normal! "vy"')
@@ -603,22 +605,23 @@ function vim.getVisualSelection()
 end
 
 local keymap = vim.keymap.set
-local tb = require('telescope')
+local telescope = require('telescope')
 local opts = { noremap = true, silent = true }
 
 keymap('n', '<leader>h', ':Telescope oldfiles theme=ivy<cr>', ops)
 keymap('n', '<leader>f', ':Telescope find_files theme=ivy<cr>', ops)
+keymap('n', '<leader>y', telescope.extensions.olddirs.picker, ops)
 
 keymap('n', '<leader>r', function()
   local text = vim.fn.expand("<cword>")
   vim.fn.histadd(':', 'Rg ' .. text)
-  tb.extensions.live_grep_args.live_grep_args({ default_text = text, theme = 'ivy' })
+  telescope.extensions.live_grep_args.live_grep_args({ default_text = text, theme = 'ivy' })
 end, opts)
 
 keymap('v', '<leader>r', function()
   local text = vim.getVisualSelection()
   vim.fn.histadd(':', 'Rg ' .. text)
-  tb.extensions.live_grep_args.live_grep_args({ default_text = text, theme = 'ivy' })
+  telescope.extensions.live_grep_args.live_grep_args({ default_text = text, theme = 'ivy' })
 end, opts)
 
 keymap('n', '<leader>g', function()
