@@ -104,6 +104,13 @@ require("lazy").setup({
   -- Other
   'norcalli/nvim-colorizer.lua',
   'uga-rosa/translate.nvim',
+}, {
+  checker = {
+    -- automatically check for plugin updates
+    enabled = true,
+    notify = true,
+    frequency = 7200,
+  },
 })
 
 --
