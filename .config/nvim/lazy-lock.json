@@ -31,7 +31,6 @@
   "playground": { "branch": "master", "commit": "8a887bcf66017bd775a0fb19c9d8b7a4d6759c48" },
   "plenary.nvim": { "branch": "master", "commit": "4b7e52044bbb84242158d977a50c4cbcd85070c7" },
   "pretty-fold.nvim": { "branch": "master", "commit": "a7d8b424abe0eedf50116c460fbe6dfd5783b1d5" },
-  "refactoring.nvim": { "branch": "master", "commit": "2c72385b627e46bb66f23b8a11da40b4bb127506" },
   "sort.nvim": { "branch": "main", "commit": "9e4065625317128f6a1c826f4a36f9b47600417a" },
   "spellsitter.nvim": { "branch": "master", "commit": "4af8640d9d706447e78c13150ef7475ea2c16b30" },
   "telescope-fzf-native.nvim": { "branch": "main", "commit": "fab3e2212e206f4f8b3bbaa656e129443c9b802e" },

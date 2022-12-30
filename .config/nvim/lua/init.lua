@@ -201,11 +201,6 @@ require("lazy").setup({
   'neovim/nvim-lspconfig',
   'jose-elias-alvarez/null-ls.nvim',
   'jose-elias-alvarez/typescript.nvim',
-
-  {
-    'ThePrimeagen/refactoring.nvim',
-    config = true,
-  },
   {
   'hrsh7th/nvim-cmp',
   event = "InsertEnter",
@@ -617,7 +612,6 @@ null_ls.setup({
         null_ls.builtins.code_actions.eslint_d,
         null_ls.builtins.diagnostics.write_good,
         null_ls.builtins.code_actions.gitsigns,
-        null_ls.builtins.code_actions.refactoring,
         null_ls.builtins.hover.dictionary,
     },
     on_attach = on_attach
