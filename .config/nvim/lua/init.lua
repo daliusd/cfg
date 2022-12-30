@@ -13,6 +13,23 @@ vim.opt.runtimepath:prepend(lazypath)
 
 vim.g.mapleader = ' ' -- we need to setup this before plugins
 
+function vim.getVisualSelection()
+  vim.cmd('noau normal! "vy"')
+  local text = vim.fn.getreg('v')
+  vim.fn.setreg('v', {})
+
+  text = string.gsub(text, "\n", "")
+  if #text > 0 then
+    return text
+  else
+    return ''
+  end
+end
+
+local keymap = vim.keymap.set
+local opts = { noremap=true, silent=true }
+
+
 require("lazy").setup({
   {
     "mcchrish/zenbones.nvim",
@@ -33,17 +50,94 @@ require("lazy").setup({
     build = 'make',
   },
   'nvim-lua/plenary.nvim',
-  'nvim-telescope/telescope-fzf-native.nvim',
-  'nvim-telescope/telescope-live-grep-args.nvim',
-  'marcuscaisey/olddirs.nvim',
+  {
   'nvim-telescope/telescope.nvim',
-  'nvim-lua/plenary.nvim',
+  dependencies = {
+    'nvim-telescope/telescope-fzf-native.nvim',
+    'nvim-telescope/telescope-live-grep-args.nvim',
+    'marcuscaisey/olddirs.nvim',
+  },
+
+  config = function()
+    local actions = require("telescope.actions")
+    local lga_actions = require("telescope-live-grep-args.actions")
+
+    require("telescope").setup({
+        defaults = {
+            mappings = {
+                i = {
+                    ["<esc>"] = actions.close,
+                    ["<c-c>"] = false,
+                    ["<c-j>"] = actions.move_selection_next,
+                    ["<c-k>"] = actions.move_selection_previous,
+                    ["<C-u>"] = actions.results_scrolling_up,
+                    ["<C-d>"] = actions.results_scrolling_down,
+                },
+            },
+        },
+        extensions = {
+          live_grep_args = {
+              mappings = {
+                  i = {
+                    ["<C-f>"] = lga_actions.quote_prompt({ postfix = " -g *" }),
+                    ["<C-l>"] = lga_actions.quote_prompt({ postfix = " -g *en*" }),
+                  },
+              },
+          },
+        },
+    })
+
+    local telescope = require('telescope')
+    telescope.load_extension('fzf')
+    telescope.load_extension('live_grep_args')
+    telescope.load_extension('olddirs')
+  end,
+  keys = {
+    {'<leader>h', ':Telescope oldfiles theme=ivy<cr>'},
+    {'<leader>f', ':Telescope find_files theme=ivy<cr>'},
+    {'<leader>y', function() require('telescope').extensions.olddirs.picker() end},
+    {'<leader>r', function()
+      local text = vim.fn.expand("<cword>")
+      vim.fn.histadd(':', 'Rg ' .. text)
+      require('telescope').extensions.live_grep_args.live_grep_args({ default_text = text, theme = 'ivy' })
+    end
+    },
+    {'<leader>r', function()
+      local text = vim.getVisualSelection()
+      vim.fn.histadd(':', 'Rg ' .. text)
+      require('telescope').extensions.live_grep_args.live_grep_args({ default_text = text, theme = 'ivy' })
+    end,
+    mode = 'v'
+    },
+    {'<leader>t', ':Telescope live_grep_args theme=ivy<cr>'},
+    {'<leader>c', ':Telescope commands theme=ivy<cr>'},
+    }
+  },
   "MunifTanjim/nui.nvim",
   {
     'nvim-neo-tree/neo-tree.nvim',
     branch = 'v2.x',
+    keys = {
+      { "<leader>b", ":Neotree left filesystem reveal toggle<cr>", desc = "NeoTree" },
+      { "-", ":Neotree float filesystem reveal reveal_force_cwd<cr>", desc = "NeoTree CWD" },
+    },
+    config = function()
+      vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]])
+
+      require("neo-tree").setup({
+        window = {
+          mapping_options = {
+            noremap = true,
+            nowait = true,
+          },
+          mappings = {
+            ["i"] = { "toggle_node" },
+            ["<esc>"] = "close_window",
+          }
+        },
+      })
+    end,
   },
-  'akinsho/toggleterm.nvim',
   'rcarriga/nvim-notify',
   'folke/noice.nvim',
   'sindrets/diffview.nvim',
@@ -51,8 +145,10 @@ require("lazy").setup({
   'tpope/vim-abolish',
 
   'justinmk/vim-sneak',
-  'numToStr/Comment.nvim',
-
+  {
+    'numToStr/Comment.nvim',
+    config = true,
+  },
   'vim-test/vim-test',
   'antoinemadec/FixCursorHold.nvim', -- Required by neotest
   'nvim-neotest/neotest',
@@ -62,9 +158,10 @@ require("lazy").setup({
   'jose-elias-alvarez/null-ls.nvim',
   'jose-elias-alvarez/typescript.nvim',
 
-  'ThePrimeagen/refactoring.nvim',
-
-  'folke/trouble.nvim',
+  {
+    'ThePrimeagen/refactoring.nvim',
+    config = true,
+  },
 
   'hrsh7th/cmp-buffer',
   'hrsh7th/cmp-path',
@@ -83,12 +180,18 @@ require("lazy").setup({
 
   'editorconfig/editorconfig-vim',
 
-  'sQVe/sort.nvim',
+  {
+    'sQVe/sort.nvim',
+    config = true,
+  },
   'windwp/nvim-autopairs',
   'windwp/nvim-ts-autotag',
 
   -- Git
-  'lewis6991/gitsigns.nvim',
+  {
+    'lewis6991/gitsigns.nvim',
+    config = true,
+  },
   'tpope/vim-fugitive',
   'tpope/vim-rhubarb',
 
@@ -98,11 +201,18 @@ require("lazy").setup({
     build = ':TSUpdate'
   },
   'nvim-treesitter/playground',
-  'lewis6991/spellsitter.nvim',
-  'anuvyklack/pretty-fold.nvim',
-
+  {
+    'lewis6991/spellsitter.nvim',
+    config = true,
+  },
+  {
+    'anuvyklack/pretty-fold.nvim',
+    config = true,
+  },
   -- Other
-  'norcalli/nvim-colorizer.lua',
+  {
+    'norcalli/nvim-colorizer.lua',
+  },
   'uga-rosa/translate.nvim',
 }, {
   checker = {
@@ -165,8 +275,9 @@ vim.opt.sw = 2 -- Spaces per indent
 
 vim.opt.tabstop = 8 -- Number of spaces per tab. People usually use 4, but they shouldn't use tab in the first place.
 
-vim.opt.foldmethod = 'expr'
-vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
+vim.opt.foldmethod = 'indent'
+-- vim.opt.foldmethod = 'expr'
+-- vim.opt.foldexpr = 'nvim_treesitter#foldexpr()'
 
 -- fold fix https://github.com/nvim-telescope/telescope.nvim/issues/559
 -- autocmd BufRead * autocmd BufWinEnter * ++once normal! zx
@@ -186,9 +297,6 @@ vim.opt.smartcase = true   -- Ignore ignorecase if search contains upper case le
 vim.opt.grepprg = 'rg --vimgrep -M 160 -S'
 
 -- Keymaps
-
-local keymap = vim.keymap.set
-local opts = { noremap=true, silent=true }
 
 -- Better navigation for wrapped lines.
 keymap('n', 'j', 'gj', opts)
@@ -239,6 +347,8 @@ au('TextYankPost', {
   end,
 })
 
+require'colorizer'.setup()
+
 -- noice
 
 require("noice").setup({
@@ -281,29 +391,6 @@ require'nvim-treesitter.configs'.setup {
     },
   }
 }
-
-require('spellsitter').setup()
-
-require('pretty-fold').setup()
-
-require('refactoring').setup({})
-
--- neotree
-
-vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]])
-
-require("neo-tree").setup({
-        window = {
-          mapping_options = {
-            noremap = true,
-            nowait = true,
-          },
-          mappings = {
-            ["i"] = { "toggle_node" },
-            ["<esc>"] = "close_window",
-          }
-        },
-      })
 
 -- nvim-lspconfig
 
@@ -411,8 +498,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
   end,
 })
 
-require('Comment').setup()
-
 -- nvim-cmp
 
 local cmp = require'cmp'
@@ -490,31 +575,6 @@ require('nvim-autopairs').setup{}
 local cmp_autopairs = require('nvim-autopairs.completion.cmp')
 cmp.event:on( 'confirm_done', cmp_autopairs.on_confirm_done({  map_char = { tex = '' } }))
 
--- -- toggleterm
-
-require("toggleterm").setup{
-  open_mapping = [[<c-\>]],
-  shade_terminals = false,
-}
-
-function _G.set_terminal_keymaps()
-  local opts = {noremap = true}
-  vim.api.nvim_buf_set_keymap(0, 't', '<esc>', [[<C-\><C-n>]], opts)
-  vim.api.nvim_buf_set_keymap(0, 't', 'jk', [[<C-\><C-n>]], opts)
-  vim.api.nvim_buf_set_keymap(0, 't', '<C-h>', [[<C-\><C-n><C-W>h]], opts)
-  vim.api.nvim_buf_set_keymap(0, 't', '<C-j>', [[<C-\><C-n><C-W>j]], opts)
-  vim.api.nvim_buf_set_keymap(0, 't', '<C-k>', [[<C-\><C-n><C-W>k]], opts)
-  vim.api.nvim_buf_set_keymap(0, 't', '<C-l>', [[<C-\><C-n><C-W>l]], opts)
-end
-
-vim.cmd('autocmd! TermOpen term://* lua set_terminal_keymaps()')
-
--- sort.nvim
-require("sort").setup({})
-
--- gitsigns
-require('gitsigns').setup()
-
 -- lualine
 
 require('lualine').setup{
@@ -564,69 +624,8 @@ require('lualine').setup{
 }
 
 -- Telescope
-local actions = require("telescope.actions")
-local lga_actions = require("telescope-live-grep-args.actions")
 
-require("telescope").setup({
-    defaults = {
-        mappings = {
-            i = {
-                ["<esc>"] = actions.close,
-                ["<c-c>"] = false,
-                ["<c-j>"] = actions.move_selection_next,
-                ["<c-k>"] = actions.move_selection_previous,
-                ["<C-u>"] = actions.results_scrolling_up,
-                ["<C-d>"] = actions.results_scrolling_down,
-            },
-        },
-    },
-    extensions = {
-      live_grep_args = {
-          mappings = {
-              i = {
-                ["<C-f>"] = lga_actions.quote_prompt({ postfix = " -g *" }),
-                ["<C-l>"] = lga_actions.quote_prompt({ postfix = " -g *en*" }),
-              },
-          },
-      },
-    },
-})
-
-require('telescope').load_extension('fzf')
-require("telescope").load_extension('live_grep_args')
-require("telescope").load_extension('olddirs')
-
-function vim.getVisualSelection()
-  vim.cmd('noau normal! "vy"')
-  local text = vim.fn.getreg('v')
-  vim.fn.setreg('v', {})
-
-  text = string.gsub(text, "\n", "")
-  if #text > 0 then
-    return text
-  else
-    return ''
-  end
-end
-
-local telescope = require('telescope')
 local opts = { noremap = true, silent = true }
-
-keymap('n', '<leader>h', ':Telescope oldfiles theme=ivy<cr>', ops)
-keymap('n', '<leader>f', ':Telescope find_files theme=ivy<cr>', ops)
-keymap('n', '<leader>y', telescope.extensions.olddirs.picker, ops)
-
-keymap('n', '<leader>r', function()
-  local text = vim.fn.expand("<cword>")
-  vim.fn.histadd(':', 'Rg ' .. text)
-  telescope.extensions.live_grep_args.live_grep_args({ default_text = text, theme = 'ivy' })
-end, opts)
-
-keymap('v', '<leader>r', function()
-  local text = vim.getVisualSelection()
-  vim.fn.histadd(':', 'Rg ' .. text)
-  telescope.extensions.live_grep_args.live_grep_args({ default_text = text, theme = 'ivy' })
-end, opts)
 
 keymap('n', '<leader>g', function()
   local text = vim.fn.expand("<cword>")
@@ -640,10 +639,6 @@ keymap('v', '<leader>g', function()
   vim.cmd('silent gr ' .. text)
 end, opts)
 
-keymap('n', '<leader>t', ':Telescope live_grep_args theme=ivy<cr>', ops)
-keymap('n', '<leader>c', ':Telescope commands theme=ivy<cr>', ops)
-
-require'colorizer'.setup()
 
 -- neotest
 require("neotest").setup({
@@ -730,9 +725,6 @@ keymap('n', '<leader>o', ":let @+ = expand('%')<cr>", ops)
 keymap('n', '<leader>p', ":let @+ = expand('%:p')<cr>", ops)
 
 keymap('n', '<leader>s', ':w<cr>', ops)
-keymap('n', '<leader>x', ':TroubleToggle<cr>', ops)
-keymap('n', '<leader>b', ':Neotree left filesystem reveal toggle<cr>', ops)
-keymap('n', '-', ':Neotree float filesystem reveal reveal_force_cwd<cr>', ops)
 
 -- window commands
 
