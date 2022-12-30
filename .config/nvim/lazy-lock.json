@@ -38,7 +38,6 @@
   "telescope.nvim": { "branch": "master", "commit": "a606bd10c79ec5989c76c49cc6f736e88b63f0da" },
   "translate.nvim": { "branch": "main", "commit": "7b2fd50c21ecfe536d572d62dcd3fa83acad3743" },
   "typescript.nvim": { "branch": "main", "commit": "b96b3f8db2c0e156a6f8734bf794cc7803454e21" },
-  "vader.vim": { "branch": "master", "commit": "6fff477431ac3191c69a3a5e5f187925466e275a" },
   "vim-abolish": { "branch": "master", "commit": "3f0c8faadf0c5b68bcf40785c1c42e3731bfa522" },
   "vim-fugitive": { "branch": "master", "commit": "99cdb88bc64063dc4656ae53496f06fb2a394cd4" },
   "vim-gnupg": { "branch": "main", "commit": "f9b608f29003dfde6450931dc0f495a912973a88" },
