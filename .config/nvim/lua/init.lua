@@ -40,6 +40,11 @@ require("lazy").setup({
       vim.cmd([[colorscheme zenbones]])
     end,
   },
+  {
+    "dstein64/vim-startuptime",
+    -- lazy-load on a command
+    cmd = "StartupTime",
+  },
 
   -- Generic plugins
 
@@ -140,7 +145,10 @@ require("lazy").setup({
   },
   'rcarriga/nvim-notify',
   'folke/noice.nvim',
-  'sindrets/diffview.nvim',
+  {
+    'sindrets/diffview.nvim',
+    cmd = {'DiffviewOpen', 'DiffviewFileHistory'},
+  },
   'tpope/vim-surround',
   'tpope/vim-abolish',
 
@@ -150,10 +158,46 @@ require("lazy").setup({
     config = true,
   },
   'vim-test/vim-test',
-  'antoinemadec/FixCursorHold.nvim', -- Required by neotest
-  'nvim-neotest/neotest',
-  'nvim-neotest/neotest-vim-test',
-
+  {
+    'nvim-neotest/neotest',
+    dependencies = {
+      'nvim-neotest/neotest-vim-test',
+    },
+    config = function()
+      require("neotest").setup({
+        adapters = {
+          require("neotest-vim-test")({
+            ignore_file_types = { "vim", "lua" },
+          }),
+        },
+        diagnostic = {
+          enabled = true
+        },
+        floating = {
+          max_height = 0.9,
+          max_width = 0.9
+        },
+        highlights = {
+          test = "NeotestTest"
+        },
+        icons = {
+          passed = "✔",
+          running = "🏃",
+          failed = "✖",
+          skipped = "ﰸ",
+          unknown = "?",
+        },
+      })
+    end,
+    keys = {
+      {'<leader>uf', function() require("neotest").run.run(vim.fn.expand("%")) end},
+      {'<leader>un', function() require("neotest").run.run() end},
+      {'<leader>us', function() require("neotest").summary.toggle() end},
+      {'<leader>uj', function() require("neotest").jump.next({ status = "failed" }) end},
+      {'<leader>uk', function() require("neotest").jump.prev({ status = "failed" }) end},
+      {'<leader>uo', function() require("neotest").output.open({ enter = true }) end},
+    },
+  },
   'neovim/nvim-lspconfig',
   'jose-elias-alvarez/null-ls.nvim',
   'jose-elias-alvarez/typescript.nvim',
@@ -162,19 +206,97 @@ require("lazy").setup({
     'ThePrimeagen/refactoring.nvim',
     config = true,
   },
-
-  'hrsh7th/cmp-buffer',
-  'hrsh7th/cmp-path',
-  'hrsh7th/cmp-cmdline',
-  'hrsh7th/cmp-emoji',
-  'hrsh7th/cmp-nvim-lsp',
-  'octaltree/cmp-look',
+  {
   'hrsh7th/nvim-cmp',
+  event = "InsertEnter",
+  dependencies = {
+    'hrsh7th/cmp-buffer',
+    'hrsh7th/cmp-path',
+    'hrsh7th/cmp-cmdline',
+    'hrsh7th/cmp-emoji',
+    'hrsh7th/cmp-nvim-lsp',
+    'octaltree/cmp-look',
+    'hrsh7th/cmp-vsnip',
+    'hrsh7th/vim-vsnip',
+    'rafamadriz/friendly-snippets',
+    },
+  config = function()
+    local cmp = require'cmp'
 
-  'hrsh7th/cmp-vsnip',
-  'hrsh7th/vim-vsnip',
-  'rafamadriz/friendly-snippets',
+    cmp.setup({
+      snippet = {
+        expand = function(args)
+          vim.fn["vsnip#anonymous"](args.body)
+        end,
+      },
+      window = {
+        -- completion = cmp.config.window.bordered(),
+        -- documentation = cmp.config.window.bordered(),
+      },
+      mapping = cmp.mapping.preset.insert({
+        ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+        ['<C-f>'] = cmp.mapping.scroll_docs(4),
+        ['<C-Space>'] = cmp.mapping.complete(),
+        ['<C-e>'] = cmp.mapping.abort(),
+        ['<C-j>'] = cmp.mapping.select_next_item(),
+        ['<C-k>'] = cmp.mapping.select_prev_item(),
+        ['<CR>'] = cmp.mapping.confirm({ select = false }),
+        ['<S-Tab>'] = cmp.mapping.select_prev_item(),
+        ['<Tab>'] = function(fallback)
+          if cmp.visible() then
+            cmp.select_next_item()
+          else
+            fallback()
+          end
+        end
+      }),
+      sources = cmp.config.sources({
+        { name = 'nvim_lsp' },
+        { name = 'vsnip' },
+        {
+          name = 'buffer',
+          option = {
+            keyword_pattern = [[\k\+]],
+            get_bufnrs = function()
+              return vim.api.nvim_list_bufs()
+            end
+          }
+        },
+        { name = 'emoji' },
+        { name = 'path' },
+      }, {
+        {
+          name = 'look',
+          keyword_length = 2,
+          option = {
+            convert_case = true,
+            loud = true
+          }
+        }
+      })
+    })
 
+    cmp.setup.cmdline('/', {
+      mapping = cmp.mapping.preset.cmdline(),
+      sources = {
+        { name = 'buffer' }
+      }
+    })
+
+    cmp.setup.cmdline(':', {
+      mapping = cmp.mapping.preset.cmdline(),
+      sources = cmp.config.sources({
+        { name = 'path' }
+      }, {
+        { name = 'cmdline' }
+      })
+    })
+
+    require('nvim-autopairs').setup{}
+    local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+    cmp.event:on( 'confirm_done', cmp_autopairs.on_confirm_done({  map_char = { tex = '' } }))
+  end,
+  },
   'junegunn/vader.vim',
   'jamessan/vim-gnupg',
 
@@ -213,7 +335,17 @@ require("lazy").setup({
   {
     'norcalli/nvim-colorizer.lua',
   },
-  'uga-rosa/translate.nvim',
+  {
+    'uga-rosa/translate.nvim',
+    cmd = 'Translate',
+    config = function()
+      require("translate").setup({
+        default = {
+          output = "replace",
+        },
+      })
+    end
+  },
 }, {
   checker = {
     -- automatically check for plugin updates
@@ -238,7 +370,8 @@ vim.opt.background = 'light'
 vim.opt.hidden = true -- Allow opening new buffer without saving or opening it in new tab
 vim.opt.showmode = false -- This is shown by line plugin already so I don't need NORMAL/INSERT/... in command line
 
-vim.opt.listchars:append({ trail = '.', tab = ':▷⋮' }) -- Show trailing dots and tabs
+vim.opt.list = true
+vim.opt.listchars = ({ trail = '.', tab = ':▷⋮' }) -- Show trailing dots and tabs
 
 vim.opt.scrolloff = 3   -- Keep 3 lines below and above the cursor
 vim.opt.number = true   -- Show line numbering
@@ -498,83 +631,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
   end,
 })
 
--- nvim-cmp
-
-local cmp = require'cmp'
-
-cmp.setup({
-  snippet = {
-    expand = function(args)
-      vim.fn["vsnip#anonymous"](args.body)
-    end,
-  },
-  window = {
-    -- completion = cmp.config.window.bordered(),
-    -- documentation = cmp.config.window.bordered(),
-  },
-  mapping = cmp.mapping.preset.insert({
-    ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-    ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<C-Space>'] = cmp.mapping.complete(),
-    ['<C-e>'] = cmp.mapping.abort(),
-    ['<C-j>'] = cmp.mapping.select_next_item(),
-    ['<C-k>'] = cmp.mapping.select_prev_item(),
-    ['<CR>'] = cmp.mapping.confirm({ select = false }),
-    ['<S-Tab>'] = cmp.mapping.select_prev_item(),
-    ['<Tab>'] = function(fallback)
-      if cmp.visible() then
-        cmp.select_next_item()
-      else
-        fallback()
-      end
-    end
-  }),
-  sources = cmp.config.sources({
-    { name = 'nvim_lsp' },
-    { name = 'vsnip' },
-    {
-      name = 'buffer',
-      option = {
-        keyword_pattern = [[\k\+]],
-        get_bufnrs = function()
-          return vim.api.nvim_list_bufs()
-        end
-      }
-    },
-    { name = 'emoji' },
-    { name = 'path' },
-  }, {
-    {
-      name = 'look',
-      keyword_length = 2,
-      option = {
-        convert_case = true,
-        loud = true
-      }
-    }
-  })
-})
-
-cmp.setup.cmdline('/', {
-  mapping = cmp.mapping.preset.cmdline(),
-  sources = {
-    { name = 'buffer' }
-  }
-})
-
-cmp.setup.cmdline(':', {
-  mapping = cmp.mapping.preset.cmdline(),
-  sources = cmp.config.sources({
-    { name = 'path' }
-  }, {
-    { name = 'cmdline' }
-  })
-})
-
-require('nvim-autopairs').setup{}
-local cmp_autopairs = require('nvim-autopairs.completion.cmp')
-cmp.event:on( 'confirm_done', cmp_autopairs.on_confirm_done({  map_char = { tex = '' } }))
-
 -- lualine
 
 require('lualine').setup{
@@ -639,33 +695,6 @@ keymap('v', '<leader>g', function()
   vim.cmd('silent gr ' .. text)
 end, opts)
 
-
--- neotest
-require("neotest").setup({
-  adapters = {
-    require("neotest-vim-test")({
-      ignore_file_types = { "vim", "lua" },
-    }),
-  },
-  diagnostic = {
-    enabled = true
-  },
-  floating = {
-    max_height = 0.9,
-    max_width = 0.9
-  },
-  highlights = {
-    test = "NeotestTest"
-  },
-  icons = {
-    passed = "✔",
-    running = "🏃",
-    failed = "✖",
-    skipped = "ﰸ",
-    unknown = "?",
-  },
-})
-
 -- Use TSHighlightCaptureUnderCursor to find good group
 
 vim.cmd('hi NeoTreeTitleBar guifg=#ffffff guibg=#586e75')
@@ -678,14 +707,6 @@ vim.cmd('hi NeotestBorder ctermfg=Red guifg=#CC6060')
 vim.cmd('hi NotifyERRORTitle guifg=#8a1f1f')
 vim.cmd('hi NotifyINFOIcon guifg=#4f6752')
 vim.cmd('hi NotifyINFOTitle guifg=#4f6752')
-
--- translate.nvim
-
-require("translate").setup({
-  default = {
-    output = "replace",
-  },
-})
 
 -- My todo files
 vim.api.nvim_create_autocmd(
@@ -736,13 +757,6 @@ keymap('n', '<leader>wj', '<c-w>j', ops)
 keymap('n', '<leader>wk', '<c-w>k', ops)
 keymap('n', '<leader>wl', '<c-w>l', ops)
 
--- neotest
-keymap('n', '<leader>uf', function() require("neotest").run.run(vim.fn.expand("%")) end, ops)
-keymap('n', '<leader>un', function() require("neotest").run.run() end, ops)
-keymap('n', '<leader>us', function() require("neotest").summary.toggle() end, ops)
-keymap('n', '<leader>uj', function() require("neotest").jump.next({ status = "failed" }) end, ops)
-keymap('n', '<leader>uk', function() require("neotest").jump.prev({ status = "failed" }) end, ops)
-keymap('n', '<leader>uo', function() require("neotest").output.open({ enter = true }) end, ops)
 
 -- vimrc file
 keymap('n', '<leader>v', ':e ~/.config/nvim/lua/init.lua<cr>', ops)
