@@ -97,6 +97,7 @@ require("lazy").setup({
     telescope.load_extension('live_grep_args')
     telescope.load_extension('olddirs')
   end,
+  cmd = { 'Telescope' },
   keys = {
     {'<leader>h', ':Telescope oldfiles theme=ivy<cr>'},
     {'<leader>f', ':Telescope find_files theme=ivy<cr>'},
@@ -758,7 +759,7 @@ keymap('n', '<leader>v', ':e ~/.config/nvim/lua/init.lua<cr>', ops)
 vim.cmd("iabbrev <expr> ,d strftime('%Y-%m-%d')")
 vim.cmd("iabbrev <expr> ,t strftime('%Y-%m-%d %T')")
 
-vim.cmd('command! -bang -nargs=1 Rg execute "Telescope live_grep_args theme=ivy default_text=" . escape(<q-args>, \' \\\')')
+vim.cmd('command! -bang -nargs=1 Rg execute ":Telescope live_grep_args theme=ivy default_text=" . escape(<q-args>, \' \\\')')
 
 vim.cmd(":cnoreabbrev <expr> rg (getcmdtype() == ':' && getcmdline() ==# 'rg') ? 'Rg' : 'rg'")
 
