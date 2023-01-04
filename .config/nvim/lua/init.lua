@@ -732,6 +732,8 @@ vim.g['test#runner_commands'] = {'VSpec', 'Jest', 'Playwright'}
 
 -- Leader config
 
+keymap('n', '<leader>l', ':Lazy<cr>', ops)
+
 keymap('n', '<leader>n', ':silent noh<cr>', ops)
 keymap('n', '<leader>q', ':qa<cr>', ops)
 
