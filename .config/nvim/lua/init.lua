@@ -302,8 +302,10 @@ require("lazy").setup({
     config = true,
   },
   'windwp/nvim-autopairs',
-  'windwp/nvim-ts-autotag',
-
+  {
+    'windwp/nvim-ts-autotag',
+    config = true,
+  },
   -- Git
   {
     'lewis6991/gitsigns.nvim',
