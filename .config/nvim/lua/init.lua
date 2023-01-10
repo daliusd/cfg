@@ -84,7 +84,7 @@ require("lazy").setup({
           live_grep_args = {
               mappings = {
                   i = {
-                    ["<C-f>"] = lga_actions.quote_prompt({ postfix = " -g *" }),
+                    ["<C-f>"] = lga_actions.quote_prompt({ postfix = " -g *{js,jsx,ts,tsx}" }),
                     ["<C-l>"] = lga_actions.quote_prompt({ postfix = " -g *en*" }),
                   },
               },
