@@ -761,7 +761,7 @@ keymap('n', '<leader>v', ':e ~/.config/nvim/lua/init.lua<cr>', ops)
 
 -- date
 vim.cmd("iabbrev <expr> ,d strftime('%Y-%m-%d')")
-vim.cmd("iabbrev <expr> ,t strftime('%Y-%m-%d %T')")
+vim.cmd("iabbrev <expr> ,t strftime('%Y-%m-%dT%TZ')")
 
 vim.cmd('command! -bang -nargs=1 Rg execute ":Telescope live_grep_args theme=ivy default_text=" . escape(<q-args>, \' \\\')')
 
