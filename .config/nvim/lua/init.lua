@@ -593,6 +593,16 @@ capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
 require('lspconfig')['tsserver'].setup({})
 
+require('lspconfig').yamlls.setup {
+  settings = {
+    yaml = {
+      schemas = {
+        ["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*"
+      },
+    },
+  }
+}
+
 require("typescript").setup({
   server = {
     on_attach = on_attach,
