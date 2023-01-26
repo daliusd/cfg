@@ -27,8 +27,7 @@ function vim.getVisualSelection()
 end
 
 local keymap = vim.keymap.set
-local opts = { noremap=true, silent=true }
-
+local opts = { noremap = true, silent = true }
 
 require("lazy").setup({
   {
@@ -56,67 +55,67 @@ require("lazy").setup({
   },
   'nvim-lua/plenary.nvim',
   {
-  'nvim-telescope/telescope.nvim',
-  dependencies = {
-    'nvim-telescope/telescope-fzf-native.nvim',
-    'nvim-telescope/telescope-live-grep-args.nvim',
-    'marcuscaisey/olddirs.nvim',
-  },
+    'nvim-telescope/telescope.nvim',
+    dependencies = {
+      'nvim-telescope/telescope-fzf-native.nvim',
+      'nvim-telescope/telescope-live-grep-args.nvim',
+      'marcuscaisey/olddirs.nvim',
+    },
 
-  config = function()
-    local actions = require("telescope.actions")
-    local lga_actions = require("telescope-live-grep-args.actions")
+    config = function()
+      local actions = require("telescope.actions")
+      local lga_actions = require("telescope-live-grep-args.actions")
 
-    require("telescope").setup({
+      require("telescope").setup({
         defaults = {
-            mappings = {
-                i = {
-                    ["<esc>"] = actions.close,
-                    ["<c-c>"] = false,
-                    ["<c-j>"] = actions.move_selection_next,
-                    ["<c-k>"] = actions.move_selection_previous,
-                    ["<C-u>"] = actions.results_scrolling_up,
-                    ["<C-d>"] = actions.results_scrolling_down,
-                },
+          mappings = {
+            i = {
+              ["<esc>"] = actions.close,
+              ["<c-c>"] = false,
+              ["<c-j>"] = actions.move_selection_next,
+              ["<c-k>"] = actions.move_selection_previous,
+              ["<C-u>"] = actions.results_scrolling_up,
+              ["<C-d>"] = actions.results_scrolling_down,
             },
+          },
         },
         extensions = {
           live_grep_args = {
-              mappings = {
-                  i = {
-                    ["<C-f>"] = lga_actions.quote_prompt({ postfix = " -g *{js,jsx,ts,tsx}" }),
-                    ["<C-l>"] = lga_actions.quote_prompt({ postfix = " -g *en*" }),
-                  },
+            mappings = {
+              i = {
+                ["<C-f>"] = lga_actions.quote_prompt({ postfix = " -g *{js,jsx,ts,tsx}" }),
+                ["<C-l>"] = lga_actions.quote_prompt({ postfix = " -g *en*" }),
               },
+            },
           },
         },
-    })
+      })
 
-    local telescope = require('telescope')
-    telescope.load_extension('fzf')
-    telescope.load_extension('live_grep_args')
-    telescope.load_extension('olddirs')
-  end,
-  cmd = { 'Telescope' },
-  keys = {
-    {'<leader>h', ':Telescope oldfiles theme=ivy<cr>'},
-    {'<leader>f', ':Telescope find_files theme=ivy<cr>'},
-    {'<leader>y', function() require('telescope').extensions.olddirs.picker() end},
-    {'<leader>r', function()
-      local text = vim.fn.expand("<cword>")
-      vim.fn.histadd(':', 'Rg ' .. text)
-      require('telescope').extensions.live_grep_args.live_grep_args({ default_text = text, theme = 'ivy' })
-    end
-    },
-    {'<leader>r', function()
-      local text = vim.getVisualSelection()
-      vim.fn.histadd(':', 'Rg ' .. text)
-      require('telescope').extensions.live_grep_args.live_grep_args({ default_text = text, theme = 'ivy' })
+      local telescope = require('telescope')
+      telescope.load_extension('fzf')
+      telescope.load_extension('live_grep_args')
+      telescope.load_extension('olddirs')
     end,
-    mode = 'v'
-    },
-    {'<leader>t', ':Telescope live_grep_args theme=ivy<cr>'},
-    {'<leader>c', ':Telescope commands theme=ivy<cr>'},
+    cmd = { 'Telescope' },
+    keys = {
+      { '<leader>h', ':Telescope oldfiles theme=ivy<cr>' },
+      { '<leader>f', ':Telescope find_files theme=ivy<cr>' },
+      { '<leader>y', function() require('telescope').extensions.olddirs.picker() end },
+      { '<leader>r', function()
+        local text = vim.fn.expand("<cword>")
+        vim.fn.histadd(':', 'Rg ' .. text)
+        require('telescope').extensions.live_grep_args.live_grep_args({ default_text = text, theme = 'ivy' })
+      end
+      },
+      { '<leader>r', function()
+        local text = vim.getVisualSelection()
+        vim.fn.histadd(':', 'Rg ' .. text)
+        require('telescope').extensions.live_grep_args.live_grep_args({ default_text = text, theme = 'ivy' })
+      end,
+        mode = 'v'
+      },
+      { '<leader>t', ':Telescope live_grep_args theme=ivy<cr>' },
+      { '<leader>c', ':Telescope commands theme=ivy<cr>' },
     }
   },
   "MunifTanjim/nui.nvim",
@@ -148,7 +147,7 @@ require("lazy").setup({
   'folke/noice.nvim',
   {
     'sindrets/diffview.nvim',
-    cmd = {'DiffviewOpen', 'DiffviewFileHistory'},
+    cmd = { 'DiffviewOpen', 'DiffviewFileHistory' },
   },
   'tpope/vim-surround',
   'tpope/vim-abolish',
@@ -191,107 +190,107 @@ require("lazy").setup({
       })
     end,
     keys = {
-      {'<leader>uf', function() require("neotest").run.run(vim.fn.expand("%")) end},
-      {'<leader>un', function() require("neotest").run.run() end},
-      {'<leader>us', function() require("neotest").summary.toggle() end},
-      {'<leader>uj', function() require("neotest").jump.next({ status = "failed" }) end},
-      {'<leader>uk', function() require("neotest").jump.prev({ status = "failed" }) end},
-      {'<leader>uo', function() require("neotest").output.open({ enter = true }) end},
+      { '<leader>uf', function() require("neotest").run.run(vim.fn.expand("%")) end },
+      { '<leader>un', function() require("neotest").run.run() end },
+      { '<leader>us', function() require("neotest").summary.toggle() end },
+      { '<leader>uj', function() require("neotest").jump.next({ status = "failed" }) end },
+      { '<leader>uk', function() require("neotest").jump.prev({ status = "failed" }) end },
+      { '<leader>uo', function() require("neotest").output.open({ enter = true }) end },
     },
   },
   'neovim/nvim-lspconfig',
   'jose-elias-alvarez/null-ls.nvim',
   'jose-elias-alvarez/typescript.nvim',
   {
-  'hrsh7th/nvim-cmp',
-  event = "InsertEnter",
-  dependencies = {
-    'hrsh7th/cmp-buffer',
-    'hrsh7th/cmp-path',
-    'hrsh7th/cmp-cmdline',
-    'hrsh7th/cmp-emoji',
-    'hrsh7th/cmp-nvim-lsp',
-    'octaltree/cmp-look',
-    'hrsh7th/cmp-vsnip',
-    'hrsh7th/vim-vsnip',
-    'rafamadriz/friendly-snippets',
+    'hrsh7th/nvim-cmp',
+    event = "InsertEnter",
+    dependencies = {
+      'hrsh7th/cmp-buffer',
+      'hrsh7th/cmp-path',
+      'hrsh7th/cmp-cmdline',
+      'hrsh7th/cmp-emoji',
+      'hrsh7th/cmp-nvim-lsp',
+      'octaltree/cmp-look',
+      'hrsh7th/cmp-vsnip',
+      'hrsh7th/vim-vsnip',
+      'rafamadriz/friendly-snippets',
     },
-  config = function()
-    local cmp = require'cmp'
+    config = function()
+      local cmp = require 'cmp'
 
-    cmp.setup({
-      snippet = {
-        expand = function(args)
-          vim.fn["vsnip#anonymous"](args.body)
-        end,
-      },
-      window = {
-        -- completion = cmp.config.window.bordered(),
-        -- documentation = cmp.config.window.bordered(),
-      },
-      mapping = cmp.mapping.preset.insert({
-        ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-        ['<C-f>'] = cmp.mapping.scroll_docs(4),
-        ['<C-Space>'] = cmp.mapping.complete(),
-        ['<C-e>'] = cmp.mapping.abort(),
-        ['<C-j>'] = cmp.mapping.select_next_item(),
-        ['<C-k>'] = cmp.mapping.select_prev_item(),
-        ['<CR>'] = cmp.mapping.confirm({ select = false }),
-        ['<S-Tab>'] = cmp.mapping.select_prev_item(),
-        ['<Tab>'] = function(fallback)
-          if cmp.visible() then
-            cmp.select_next_item()
-          else
-            fallback()
-          end
-        end
-      }),
-      sources = cmp.config.sources({
-        { name = 'nvim_lsp' },
-        { name = 'vsnip' },
-        {
-          name = 'buffer',
-          option = {
-            keyword_pattern = [[\k\+]],
-            get_bufnrs = function()
-              return vim.api.nvim_list_bufs()
-            end
-          }
+      cmp.setup({
+        snippet = {
+          expand = function(args)
+            vim.fn["vsnip#anonymous"](args.body)
+          end,
         },
-        { name = 'emoji' },
-        { name = 'path' },
-      }, {
-        {
-          name = 'look',
-          keyword_length = 2,
-          option = {
-            convert_case = true,
-            loud = true
+        window = {
+          -- completion = cmp.config.window.bordered(),
+          -- documentation = cmp.config.window.bordered(),
+        },
+        mapping = cmp.mapping.preset.insert({
+          ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+          ['<C-f>'] = cmp.mapping.scroll_docs(4),
+          ['<C-Space>'] = cmp.mapping.complete(),
+          ['<C-e>'] = cmp.mapping.abort(),
+          ['<C-j>'] = cmp.mapping.select_next_item(),
+          ['<C-k>'] = cmp.mapping.select_prev_item(),
+          ['<CR>'] = cmp.mapping.confirm({ select = false }),
+          ['<S-Tab>'] = cmp.mapping.select_prev_item(),
+          ['<Tab>'] = function(fallback)
+            if cmp.visible() then
+              cmp.select_next_item()
+            else
+              fallback()
+            end
+          end
+        }),
+        sources = cmp.config.sources({
+          { name = 'nvim_lsp' },
+          { name = 'vsnip' },
+          {
+            name = 'buffer',
+            option = {
+              keyword_pattern = [[\k\+]],
+              get_bufnrs = function()
+                return vim.api.nvim_list_bufs()
+              end
+            }
+          },
+          { name = 'emoji' },
+          { name = 'path' },
+        }, {
+          {
+            name = 'look',
+            keyword_length = 2,
+            option = {
+              convert_case = true,
+              loud = true
+            }
           }
+        })
+      })
+
+      cmp.setup.cmdline('/', {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = {
+          { name = 'buffer' }
         }
       })
-    })
 
-    cmp.setup.cmdline('/', {
-      mapping = cmp.mapping.preset.cmdline(),
-      sources = {
-        { name = 'buffer' }
-      }
-    })
-
-    cmp.setup.cmdline(':', {
-      mapping = cmp.mapping.preset.cmdline(),
-      sources = cmp.config.sources({
-        { name = 'path' }
-      }, {
-        { name = 'cmdline' }
+      cmp.setup.cmdline(':', {
+        mapping = cmp.mapping.preset.cmdline(),
+        sources = cmp.config.sources({
+          { name = 'path' }
+        }, {
+          { name = 'cmdline' }
+        })
       })
-    })
 
-    require('nvim-autopairs').setup{}
-    local cmp_autopairs = require('nvim-autopairs.completion.cmp')
-    cmp.event:on( 'confirm_done', cmp_autopairs.on_confirm_done({  map_char = { tex = '' } }))
-  end,
+      require('nvim-autopairs').setup {}
+      local cmp_autopairs = require('nvim-autopairs.completion.cmp')
+      cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done({ map_char = { tex = '' } }))
+    end,
   },
   'jamessan/vim-gnupg',
 
@@ -370,8 +369,8 @@ vim.opt.showmode = false -- This is shown by line plugin already so I don't need
 vim.opt.list = true
 vim.opt.listchars = ({ trail = '.', tab = ':▷⋮' }) -- Show trailing dots and tabs
 
-vim.opt.scrolloff = 3   -- Keep 3 lines below and above the cursor
-vim.opt.number = true   -- Show line numbering
+vim.opt.scrolloff = 3 -- Keep 3 lines below and above the cursor
+vim.opt.number = true -- Show line numbering
 vim.opt.numberwidth = 1 -- Use 1 col + 1 space for numbers
 
 -- Vim stuff
@@ -421,8 +420,8 @@ vim.opt.spell = true
 vim.opt.spelllang = 'en,lt'
 
 -- Search
-vim.opt.ignorecase = true  -- Ignore case when searching using lowercase
-vim.opt.smartcase = true   -- Ignore ignorecase if search contains upper case letters
+vim.opt.ignorecase = true -- Ignore case when searching using lowercase
+vim.opt.smartcase = true -- Ignore ignorecase if search contains upper case letters
 
 vim.opt.grepprg = 'rg --vimgrep -M 160 -S'
 
@@ -473,11 +472,11 @@ au('TextYankPost', {
   group = ag('yank_highlight', {}),
   pattern = '*',
   callback = function()
-    vim.highlight.on_yank { higroup='IncSearch', timeout=300 }
+    vim.highlight.on_yank { higroup = 'IncSearch', timeout = 300 }
   end,
 })
 
-require'colorizer'.setup()
+require 'colorizer'.setup()
 
 -- noice
 
@@ -489,7 +488,7 @@ require("noice").setup({
 
 -- nvim-treesitter
 
-require'nvim-treesitter.configs'.setup {
+require 'nvim-treesitter.configs'.setup {
   highlight = {
     enable = true,
     disable = {},
@@ -554,7 +553,6 @@ local function on_list(options)
   vim.api.nvim_command('cfirst')
 end
 
-local opts = { noremap=true, silent=true }
 vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, opts)
 vim.keymap.set('n', '<leader>ak', vim.diagnostic.goto_prev, opts)
 vim.keymap.set('n', '<leader>aj', vim.diagnostic.goto_next, opts)
@@ -563,20 +561,20 @@ vim.keymap.set('n', '<leader>aq', vim.diagnostic.setloclist, opts)
 local on_attach = function(client, bufnr)
   vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
-  local bufopts = { noremap=true, silent=true, buffer=bufnr }
-  vim.keymap.set('n', '<leader>ad', function() vim.lsp.buf.declaration{on_list=on_list} end, bufopts)
+  local bufopts = { noremap = true, silent = true, buffer = bufnr }
+  vim.keymap.set('n', '<leader>ad', function() vim.lsp.buf.declaration { on_list = on_list } end, bufopts)
   -- vim.keymap.set('n', '<leader>d', function() vim.lsp.buf.definition{on_list=on_list} end, bufopts)
   vim.keymap.set('n', '<leader>d', '<c-]>', bufopts)
   vim.keymap.set('n', '<leader>k', vim.lsp.buf.hover, bufopts)
 
-  vim.keymap.set('n', '<leader>ai', function() vim.lsp.buf.implementation{on_list=on_list} end, bufopts)
+  vim.keymap.set('n', '<leader>ai', function() vim.lsp.buf.implementation { on_list = on_list } end, bufopts)
   vim.keymap.set('n', '<leader>ah', vim.lsp.buf.signature_help, bufopts)
 
-  vim.keymap.set('n', '<leader>at', function() vim.lsp.buf.type_definition{on_list=on_list} end, bufopts)
+  vim.keymap.set('n', '<leader>at', function() vim.lsp.buf.type_definition { on_list = on_list } end, bufopts)
   vim.keymap.set('n', '<leader>ar', vim.lsp.buf.rename, bufopts)
   vim.keymap.set('n', '<leader>ac', vim.lsp.buf.code_action, bufopts)
   vim.keymap.set('v', '<leader>ac', vim.lsp.buf.code_action, bufopts)
-  vim.keymap.set('n', '<leader>af', function() vim.lsp.buf.references(nil, {on_list=on_list}) end, bufopts)
+  vim.keymap.set('n', '<leader>af', function() vim.lsp.buf.references(nil, { on_list = on_list }) end, bufopts)
 
   if client.name ~= 'null-ls' then
     client.server_capabilities.documentFormattingProvider = false
@@ -603,6 +601,45 @@ require('lspconfig').yamlls.setup {
   }
 }
 
+require 'lspconfig'.ansiblels.setup {}
+require 'lspconfig'.astro.setup {}
+require 'lspconfig'.bashls.setup {}
+require 'lspconfig'.cssls.setup {
+  capabilities = capabilities
+}
+require 'lspconfig'.cssmodules_ls.setup {}
+require 'lspconfig'.eslint.setup {}
+require 'lspconfig'.html.setup {
+  capabilities = capabilities,
+}
+require 'lspconfig'.pyright.setup {}
+require 'lspconfig'.quick_lint_js.setup {}
+require 'lspconfig'.remark_ls.setup {}
+require 'lspconfig'.sqlls.setup {}
+require 'lspconfig'.sumneko_lua.setup {
+  settings = {
+    Lua = {
+      runtime = {
+        -- Tell the language server which version of Lua you're using (most likely LuaJIT in the case of Neovim)
+        version = 'LuaJIT',
+      },
+      diagnostics = {
+        -- Get the language server to recognize the `vim` global
+        globals = { 'vim' },
+      },
+      workspace = {
+        -- Make the server aware of Neovim runtime files
+        library = vim.api.nvim_get_runtime_file("", true),
+      },
+      -- Do not send telemetry data containing a randomized but unique identifier
+      telemetry = {
+        enable = false,
+      },
+    },
+  },
+}
+require 'lspconfig'.vimls.setup {}
+
 require("typescript").setup({
   server = {
     on_attach = on_attach,
@@ -614,20 +651,20 @@ require("typescript").setup({
 local null_ls = require("null-ls")
 
 null_ls.setup({
-    sources = {
-        null_ls.builtins.diagnostics.trail_space,
-        null_ls.builtins.formatting.trim_newlines,
-        null_ls.builtins.formatting.trim_whitespace,
-        null_ls.builtins.diagnostics.eslint_d,
-        null_ls.builtins.formatting.prettier,
-        null_ls.builtins.formatting.eslint_d,
-        null_ls.builtins.code_actions.eslint_d,
-        null_ls.builtins.diagnostics.write_good,
-        null_ls.builtins.code_actions.gitsigns,
-        null_ls.builtins.hover.dictionary,
-    },
-    on_attach = on_attach
-    -- debug = true,
+  sources = {
+    null_ls.builtins.diagnostics.trail_space,
+    null_ls.builtins.formatting.trim_newlines,
+    null_ls.builtins.formatting.trim_whitespace,
+    null_ls.builtins.diagnostics.eslint_d,
+    null_ls.builtins.formatting.prettier,
+    null_ls.builtins.formatting.eslint_d,
+    null_ls.builtins.code_actions.eslint_d,
+    null_ls.builtins.diagnostics.write_good,
+    null_ls.builtins.code_actions.gitsigns,
+    null_ls.builtins.hover.dictionary,
+  },
+  on_attach = on_attach
+  -- debug = true,
 })
 
 -- Use internal formatting for bindings like gq.
@@ -639,55 +676,53 @@ vim.api.nvim_create_autocmd('LspAttach', {
 
 -- lualine
 
-require('lualine').setup{
+require('lualine').setup {
   options = {
     theme = 'zenbones'
   },
   sections = {
-    lualine_a = {'mode'},
-    lualine_b = {'branch'},
+    lualine_a = { 'mode' },
+    lualine_b = { 'branch' },
     lualine_c = {
       {
         'filename',
         path = 1
       }
     },
-    lualine_x = {'encoding', 'fileformat', 'filetype',
+    lualine_x = { 'encoding', 'fileformat', 'filetype',
       {
         'diagnostics',
         sources = { 'nvim_diagnostic' },
-        sections = {'error', 'warn', 'info', 'hint'},
-        symbols = {error = 'E', warn = 'W', info = 'I', hint = 'H'}
+        sections = { 'error', 'warn', 'info', 'hint' },
+        symbols = { error = 'E', warn = 'W', info = 'I', hint = 'H' }
       }
     },
-    lualine_y = {'progress'},
-    lualine_z = {'location'}
+    lualine_y = { 'progress' },
+    lualine_z = { 'location' }
   },
   tabline = {
     lualine_a = {
       {
-          'tabs',
-          max_length = vim.o.columns,
-          mode = 2,
-          tabs_color = { active = 'lualine_a_normal', inactive = 'lualine_c_normal' },
-          fmt = function(name, context)
-            local buflist = vim.fn.tabpagebuflist(context.tabnr)
-            local winnr = vim.fn.tabpagewinnr(context.tabnr)
-            local bufnr = buflist[winnr]
-            local mod = vim.fn.getbufvar(bufnr, '&mod')
+        'tabs',
+        max_length = vim.o.columns,
+        mode = 2,
+        tabs_color = { active = 'lualine_a_normal', inactive = 'lualine_c_normal' },
+        fmt = function(name, context)
+          local buflist = vim.fn.tabpagebuflist(context.tabnr)
+          local winnr = vim.fn.tabpagewinnr(context.tabnr)
+          local bufnr = buflist[winnr]
+          local mod = vim.fn.getbufvar(bufnr, '&mod')
 
-            return name .. (mod == 1 and ' +' or '')
-          end
+          return name .. (mod == 1 and ' +' or '')
+        end
 
       },
     },
-    lualine_z = {'filesize'}
+    lualine_z = { 'filesize' }
   },
 }
 
 -- Telescope
-
-local opts = { noremap = true, silent = true }
 
 keymap('n', '<leader>g', function()
   local text = vim.fn.expand("<cword>")
@@ -726,7 +761,7 @@ vim.api.nvim_create_autocmd(
 )
 
 -- editorconfig-vim
-vim.g['EditorConfig_exclude_patterns'] = {'fugitive://.*'}
+vim.g['EditorConfig_exclude_patterns'] = { 'fugitive://.*' }
 
 -- Fugitive
 vim.cmd(":cnoreabbrev <expr> gps (getcmdtype() == ':' && getcmdline() ==# 'gps') ? 'Git push' : 'gps'")
@@ -740,34 +775,34 @@ vim.cmd(":cnoreabbrev <expr> gbr (getcmdtype() == ':' && getcmdline() ==# 'gbr')
 vim.g.fugitive_legacy_commands = 1
 
 -- Test runner
-vim.g['test#runner_commands'] = {'VSpec', 'Jest', 'Playwright'}
+vim.g['test#runner_commands'] = { 'VSpec', 'Jest', 'Playwright' }
 
 -- Leader config
 
-keymap('n', '<leader>l', ':Lazy<cr>', ops)
+keymap('n', '<leader>l', ':Lazy<cr>', opts)
 
-keymap('n', '<leader>n', ':silent noh<cr>', ops)
-keymap('n', '<leader>q', ':qa<cr>', ops)
+keymap('n', '<leader>n', ':silent noh<cr>', opts)
+keymap('n', '<leader>q', ':qa<cr>', opts)
 
-keymap('n', '<leader>i', ":let @+ = expand('%:t')<cr>", ops)
-keymap('n', '<leader>o', ":let @+ = expand('%')<cr>", ops)
-keymap('n', '<leader>p', ":let @+ = expand('%:p')<cr>", ops)
+keymap('n', '<leader>i', ":let @+ = expand('%:t')<cr>", opts)
+keymap('n', '<leader>o', ":let @+ = expand('%')<cr>", opts)
+keymap('n', '<leader>p', ":let @+ = expand('%:p')<cr>", opts)
 
-keymap('n', '<leader>s', ':w<cr>', ops)
+keymap('n', '<leader>s', ':w<cr>', opts)
 
 -- window commands
 
-keymap('n', '<leader>ww', '<c-w>w', ops)
-keymap('n', '<leader>wc', '<c-w>c', ops)
-keymap('n', '<leader>wo', '<c-w>o', ops)
-keymap('n', '<leader>wh', '<c-w>h', ops)
-keymap('n', '<leader>wj', '<c-w>j', ops)
-keymap('n', '<leader>wk', '<c-w>k', ops)
-keymap('n', '<leader>wl', '<c-w>l', ops)
+keymap('n', '<leader>ww', '<c-w>w', opts)
+keymap('n', '<leader>wc', '<c-w>c', opts)
+keymap('n', '<leader>wo', '<c-w>o', opts)
+keymap('n', '<leader>wh', '<c-w>h', opts)
+keymap('n', '<leader>wj', '<c-w>j', opts)
+keymap('n', '<leader>wk', '<c-w>k', opts)
+keymap('n', '<leader>wl', '<c-w>l', opts)
 
 
 -- vimrc file
-keymap('n', '<leader>v', ':e ~/.config/nvim/lua/init.lua<cr>', ops)
+keymap('n', '<leader>v', ':e ~/.config/nvim/lua/init.lua<cr>', opts)
 
 -- date
 vim.cmd("iabbrev <expr> ,d strftime('%Y-%m-%d')")

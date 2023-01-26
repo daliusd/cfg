@@ -6,3 +6,11 @@ npm install -g vscode-langservers-extracted
 npm install -g typescript-language-server
 npm install -g yaml-language-server
 npm install -g eslint_d
+npm install -g @ansible/ansible-language-server
+npm install -g @astrojs/language-server
+npm install -g bash-language-server
+npm install -g cssmodules-language-server
+npm install -g pyright
+npm install -g quick-lint-js
+npm install -g remark-language-server
+npm install -g sql-language-server

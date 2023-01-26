@@ -39,6 +39,7 @@ sudo apt install gnome-shell-extension-pixelsaver
 brew tap homebrew/cask-fonts
 brew cask install font-iosevka-nerd-font
 brew install git-delta
+brew install lua-language-server
 
 " Debian https://github.com/dandavison/delta/releases/download/0.4.4/git-delta_0.4.4_amd64.deb
 
