@@ -800,6 +800,10 @@ keymap('n', '<leader>wj', '<c-w>j', opts)
 keymap('n', '<leader>wk', '<c-w>k', opts)
 keymap('n', '<leader>wl', '<c-w>l', opts)
 
+keymap('n', '<c-left>', '<c-w>h', opts)
+keymap('n', '<c-down>', '<c-w>j', opts)
+keymap('n', '<c-up>', '<c-w>k', opts)
+keymap('n', '<c-right>', '<c-w>l', opts)
 
 -- vimrc file
 keymap('n', '<leader>v', ':e ~/.config/nvim/lua/init.lua<cr>', opts)
