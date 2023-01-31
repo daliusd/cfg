@@ -582,7 +582,7 @@ local on_attach = function(client, bufnr)
   end
 
   if client.server_capabilities.documentFormattingProvider then
-    vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.format({ timeout = 4000 })")
+    vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.format({ timeout_ms = 4000 })")
   end
 end
 
@@ -655,10 +655,10 @@ null_ls.setup({
     null_ls.builtins.diagnostics.trail_space,
     null_ls.builtins.formatting.trim_newlines,
     null_ls.builtins.formatting.trim_whitespace,
-    null_ls.builtins.diagnostics.eslint_d,
+    null_ls.builtins.diagnostics.eslint,
     null_ls.builtins.formatting.prettier,
-    null_ls.builtins.formatting.eslint_d,
-    null_ls.builtins.code_actions.eslint_d,
+    null_ls.builtins.formatting.eslint,
+    null_ls.builtins.code_actions.eslint,
     null_ls.builtins.diagnostics.write_good,
     null_ls.builtins.code_actions.gitsigns,
     null_ls.builtins.hover.dictionary,

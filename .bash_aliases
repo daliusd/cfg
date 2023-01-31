@@ -8,6 +8,8 @@ else
     alias open='xdg-open'
 fi
 
+alias gr=rg
+
 alias snc='sync.sh'
 
 username='Dalius Dobravolskas'
