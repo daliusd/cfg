@@ -213,6 +213,7 @@ require("lazy").setup({
       'octaltree/cmp-look',
       'hrsh7th/cmp-vsnip',
       'hrsh7th/vim-vsnip',
+      'hrsh7th/vim-vsnip-integ',
       'rafamadriz/friendly-snippets',
     },
     config = function()
@@ -653,7 +654,9 @@ null_ls.setup({
   sources = {
     null_ls.builtins.diagnostics.trail_space,
     null_ls.builtins.diagnostics.eslint_d,
-    null_ls.builtins.diagnostics.write_good,
+    null_ls.builtins.diagnostics.tsc,
+
+    null_ls.builtins.completion.vsnip,
 
     null_ls.builtins.formatting.trim_newlines,
     null_ls.builtins.formatting.trim_whitespace,

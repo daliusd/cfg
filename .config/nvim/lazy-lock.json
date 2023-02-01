@@ -47,5 +47,6 @@
   "vim-surround": { "branch": "master", "commit": "3d188ed2113431cf8dac77be61b842acb64433d9" },
   "vim-test": { "branch": "master", "commit": "048f15403d9edfa513a50fafd7b107306c5512e4" },
   "vim-vsnip": { "branch": "master", "commit": "8dde8c0ef10bb1afdbb301e2bd7eb1c153dd558e" },
+  "vim-vsnip-integ": { "branch": "master", "commit": "1cf89903f12777b90dd79eb4b3d7fbc0b9a254a1" },
   "zenbones.nvim": { "branch": "main", "commit": "910b8c240c6aaf5263db038db81c538602c766c3" }
 }
