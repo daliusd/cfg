@@ -12,5 +12,5 @@ npm install -g bash-language-server
 npm install -g cssmodules-language-server
 npm install -g pyright
 npm install -g quick-lint-js
-npm install -g remark-language-server
+npm install -g markdownlint-cli2
 npm install -g sql-language-server
