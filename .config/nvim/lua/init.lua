@@ -218,6 +218,7 @@ require("lazy").setup({
     },
     config = function()
       local cmp = require 'cmp'
+      local compare = require('cmp.config.compare')
 
       cmp.setup({
         snippet = {
@@ -247,10 +248,10 @@ require("lazy").setup({
           end
         }),
         sources = cmp.config.sources({
-          { name = 'nvim_lsp' },
-          { name = 'vsnip' },
+          { name = 'nvim_lsp', priority = 10 },
           {
             name = 'buffer',
+            priority = 9,
             option = {
               keyword_pattern = [[\k\+]],
               get_bufnrs = function()
@@ -258,18 +259,29 @@ require("lazy").setup({
               end
             }
           },
-          { name = 'emoji' },
-          { name = 'path' },
-        }, {
+          { name = 'path', priority = 8 },
+          { name = 'emoji', priority = 7 },
           {
             name = 'look',
+            priority = 1,
             keyword_length = 2,
             option = {
               convert_case = true,
               loud = true
             }
-          }
-        })
+          },
+          { name = 'vsnip' },
+        }),
+        sorting = {
+          priority_weight = 2.0,
+          comparators = {
+            compare.locality,
+            compare.recently_used,
+            compare.score,
+            compare.offset,
+            compare.order,
+          },
+        },
       })
 
       cmp.setup.cmdline('/', {
@@ -587,8 +599,7 @@ local on_attach = function(client, bufnr)
   end
 end
 
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
+local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
 require('lspconfig')['tsserver'].setup({})
 
@@ -655,8 +666,6 @@ null_ls.setup({
   sources = {
     null_ls.builtins.diagnostics.trail_space,
     null_ls.builtins.diagnostics.eslint_d,
-
-    null_ls.builtins.completion.vsnip,
 
     null_ls.builtins.formatting.trim_newlines,
     null_ls.builtins.formatting.trim_whitespace,
