@@ -149,7 +149,10 @@ require("lazy").setup({
     'sindrets/diffview.nvim',
     cmd = { 'DiffviewOpen', 'DiffviewFileHistory' },
   },
-  'tpope/vim-surround',
+  {
+    "kylechui/nvim-surround",
+    config = true,
+  },
   'tpope/vim-abolish',
 
   'justinmk/vim-sneak',
