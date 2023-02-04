@@ -601,8 +601,6 @@ end
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
-require('lspconfig')['tsserver'].setup({})
-
 require('lspconfig').yamlls.setup {
   settings = {
     yaml = {
@@ -620,7 +618,6 @@ require 'lspconfig'.cssls.setup {
   capabilities = capabilities
 }
 require 'lspconfig'.cssmodules_ls.setup {}
-require 'lspconfig'.eslint.setup {}
 require 'lspconfig'.html.setup {
   capabilities = capabilities,
 }
@@ -676,6 +673,7 @@ null_ls.setup({
     null_ls.builtins.code_actions.gitsigns,
 
     null_ls.builtins.hover.dictionary,
+    require("typescript.extensions.null-ls.code-actions"),
   },
   on_attach = on_attach
   -- debug = true,
