@@ -214,6 +214,13 @@ require("lazy").setup({
     'jose-elias-alvarez/null-ls.nvim',
     'jose-elias-alvarez/typescript.nvim',
     {
+        'petertriho/cmp-git',
+        dependencies = {
+            "nvim-lua/plenary.nvim"
+        },
+        config = true,
+    },
+    {
         'hrsh7th/nvim-cmp',
         event = "InsertEnter",
         dependencies = {
@@ -273,6 +280,7 @@ require("lazy").setup({
                   },
                   { name = 'path',     priority = 8 },
                   { name = 'emoji',    priority = 7 },
+                  { name = 'git',      priority = 6 },
                   {
                       name = 'look',
                       priority = 1,
@@ -336,7 +344,17 @@ require("lazy").setup({
         config = true,
     },
     'tpope/vim-fugitive',
-    'tpope/vim-rhubarb',
+    {
+        'ruifm/gitlinker.nvim',
+        dependencies = {
+            'nvim-lua/plenary.nvim'
+        },
+        config = function()
+          require "gitlinker".setup({
+              mappings = "<leader>x"
+          })
+        end
+    },
 
     -- Tree-sitter
     {
@@ -784,8 +802,6 @@ vim.cmd(":cnoreabbrev <expr> gpl (getcmdtype() == ':' && getcmdline() ==# 'gpl')
 vim.cmd(":cnoreabbrev <expr> gs (getcmdtype() == ':' && getcmdline() ==# 'gs') ? 'Git' : 'gs'")
 vim.cmd(":cnoreabbrev <expr> gd (getcmdtype() == ':' && getcmdline() ==# 'gd') ? 'Gdiffsplit' : 'gd'")
 vim.cmd(":cnoreabbrev <expr> gb (getcmdtype() == ':' && getcmdline() ==# 'gb') ? 'Git blame' : 'gb'")
-vim.cmd(":cnoreabbrev <expr> gbr (getcmdtype() == ':' && getcmdline() ==# 'gbr') ? 'GBrowse' : 'gbr'")
-
 
 vim.g.fugitive_legacy_commands = 1
 
