@@ -144,7 +144,16 @@ require("lazy").setup({
         end,
     },
     'rcarriga/nvim-notify',
-    'folke/noice.nvim',
+    {
+        'folke/noice.nvim',
+        config = function()
+          require("noice").setup({
+              messages = {
+                  view_search = "mini",
+              }
+          })
+        end
+    },
     {
         'sindrets/diffview.nvim',
         cmd = { 'DiffviewOpen', 'DiffviewFileHistory' },
@@ -267,7 +276,7 @@ require("lazy").setup({
                   {
                       name = 'look',
                       priority = 1,
-                      keyword_length = 2,
+                      keyword_length = 3,
                       option = {
                           convert_case = true,
                           loud = true
@@ -493,14 +502,6 @@ au('TextYankPost', {
 })
 
 require 'colorizer'.setup()
-
--- noice
-
-require("noice").setup({
-    messages = {
-        view_search = "mini",
-    }
-})
 
 -- nvim-treesitter
 
