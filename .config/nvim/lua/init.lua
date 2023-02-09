@@ -53,10 +53,10 @@ require("lazy").setup({
         'nvim-telescope/telescope-fzf-native.nvim',
         build = 'make',
     },
-    'nvim-lua/plenary.nvim',
     {
         'nvim-telescope/telescope.nvim',
         dependencies = {
+            'nvim-lua/plenary.nvim',
             'nvim-telescope/telescope-fzf-native.nvim',
             'nvim-telescope/telescope-live-grep-args.nvim',
             'marcuscaisey/olddirs.nvim',
@@ -118,10 +118,13 @@ require("lazy").setup({
             { '<leader>c', ':Telescope commands theme=ivy<cr>' },
         }
     },
-    "MunifTanjim/nui.nvim",
     {
         'nvim-neo-tree/neo-tree.nvim',
         branch = 'v2.x',
+        dependencies = {
+            "MunifTanjim/nui.nvim",
+            'nvim-lua/plenary.nvim',
+        },
         keys = {
             { "<leader>b", ":Neotree left filesystem reveal toggle<cr>",            desc = "NeoTree" },
             { "-",         ":Neotree float filesystem reveal reveal_force_cwd<cr>", desc = "NeoTree CWD" },
@@ -143,9 +146,12 @@ require("lazy").setup({
           })
         end,
     },
-    'rcarriga/nvim-notify',
     {
         'folke/noice.nvim',
+        dependencies = {
+            "MunifTanjim/nui.nvim",
+            -- 'rcarriga/nvim-notify',
+        },
         config = function()
           require("noice").setup({
               messages = {
@@ -220,6 +226,7 @@ require("lazy").setup({
         },
         config = true,
     },
+    'windwp/nvim-autopairs',
     {
         'hrsh7th/nvim-cmp',
         event = "InsertEnter",
@@ -229,7 +236,7 @@ require("lazy").setup({
             'hrsh7th/cmp-cmdline',
             'hrsh7th/cmp-emoji',
             'hrsh7th/cmp-nvim-lsp',
-            'octaltree/cmp-look',
+            -- 'octaltree/cmp-look',
             'hrsh7th/cmp-vsnip',
             'hrsh7th/vim-vsnip',
             'hrsh7th/vim-vsnip-integ',
@@ -281,16 +288,15 @@ require("lazy").setup({
                   { name = 'path',     priority = 8 },
                   { name = 'emoji',    priority = 7 },
                   { name = 'git',      priority = 6 },
-                  {
-                      name = 'look',
-                      priority = 1,
-                      keyword_length = 3,
-                      option = {
-                          convert_case = true,
-                          loud = true
-                      }
-                  },
-                  { name = 'vsnip' },
+                  -- {
+                  --     name = 'look',
+                  --     priority = 1,
+                  --     keyword_length = 6,
+                  --     option = {
+                  --         convert_case = true,
+                  --         loud = true
+                  --     }
+                  -- },
               }),
               sorting = {
                   priority_weight = 2.0,
@@ -333,7 +339,6 @@ require("lazy").setup({
         'sQVe/sort.nvim',
         config = true,
     },
-    'windwp/nvim-autopairs',
     {
         'windwp/nvim-ts-autotag',
         config = true,
