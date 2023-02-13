@@ -98,24 +98,24 @@ require("lazy").setup({
         end,
         cmd = { 'Telescope' },
         keys = {
-            { '<leader>h', ':Telescope oldfiles theme=ivy<cr>' },
-            { '<leader>f', ':Telescope find_files theme=ivy<cr>' },
-            { '<leader>y', function() require('telescope').extensions.olddirs.picker() end },
+            { '<leader>h', ':Telescope oldfiles theme=ivy<cr>',                             silent = true },
+            { '<leader>f', ':Telescope find_files theme=ivy<cr>',                           silent = true },
+            { '<leader>y', function() require('telescope').extensions.olddirs.picker() end, silent = true },
             { '<leader>r', function()
               local text = vim.fn.expand("<cword>")
               vim.fn.histadd(':', 'Rg ' .. text)
               require('telescope').extensions.live_grep_args.live_grep_args({ default_text = text, theme = 'ivy' })
-            end
+            end, silent = true
             },
             { '<leader>r', function()
               local text = vim.getVisualSelection()
               vim.fn.histadd(':', 'Rg ' .. text)
               require('telescope').extensions.live_grep_args.live_grep_args({ default_text = text, theme = 'ivy' })
             end,
-                mode = 'v'
+                mode = 'v', silent = true
             },
-            { '<leader>t', ':Telescope live_grep_args theme=ivy<cr>' },
-            { '<leader>c', ':Telescope commands theme=ivy<cr>' },
+            { '<leader>t', ':Telescope live_grep_args theme=ivy<cr>', silent = true },
+            { '<leader>c', ':Telescope commands theme=ivy<cr>',       silent = true },
         }
     },
     {
@@ -126,8 +126,8 @@ require("lazy").setup({
             'nvim-lua/plenary.nvim',
         },
         keys = {
-            { "<leader>b", ":Neotree left filesystem reveal toggle<cr>",            desc = "NeoTree" },
-            { "-",         ":Neotree float filesystem reveal reveal_force_cwd<cr>", desc = "NeoTree CWD" },
+            { "<leader>b", ":Neotree left filesystem reveal toggle<cr>",            desc = "NeoTree",     silent = true },
+            { "-",         ":Neotree float filesystem reveal reveal_force_cwd<cr>", desc = "NeoTree CWD", silent = true },
         },
         config = function()
           vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]])
