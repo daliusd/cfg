@@ -621,11 +621,6 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('v', '<leader>ac', vim.lsp.buf.code_action, bufopts)
   vim.keymap.set('n', '<leader>af', function() vim.lsp.buf.references(nil, { on_list = on_list }) end, bufopts)
 
-  if client.name ~= 'null-ls' then
-    client.server_capabilities.documentFormattingProvider = false
-    client.server_capabilities.documentRangeFormattingProvider = false
-  end
-
   if client.server_capabilities.documentFormattingProvider then
     vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.format({ timeout_ms = 4000 })")
   end
@@ -650,13 +645,26 @@ require 'lspconfig'.cssls.setup {
     capabilities = capabilities
 }
 require 'lspconfig'.cssmodules_ls.setup {}
+
+require 'lspconfig'.eslint.setup({
+    settings = {
+        packageManager = 'yarn'
+    },
+    on_attach = function(client, bufnr)
+      vim.api.nvim_create_autocmd("BufWritePre", {
+          buffer = bufnr,
+          command = "EslintFixAll",
+      })
+    end,
+})
+
 require 'lspconfig'.html.setup {
     capabilities = capabilities,
 }
 require 'lspconfig'.pyright.setup {}
 require 'lspconfig'.quick_lint_js.setup {}
 require 'lspconfig'.sqlls.setup {}
-require 'lspconfig'.sumneko_lua.setup {
+require 'lspconfig'.lua_ls.setup {
     settings = {
         Lua = {
             runtime = {
@@ -693,21 +701,20 @@ local null_ls = require("null-ls")
 null_ls.setup({
     sources = {
         null_ls.builtins.diagnostics.trail_space,
-        null_ls.builtins.diagnostics.eslint_d,
 
         null_ls.builtins.formatting.trim_newlines,
         null_ls.builtins.formatting.trim_whitespace,
-        null_ls.builtins.formatting.prettier,
-        null_ls.builtins.formatting.eslint_d,
+        null_ls.builtins.formatting.prettierd.with({
+            condition = function(utils)
+              return utils.root_has_file({ ".prettierrc.js" })
+            end,
+        }),
 
-        null_ls.builtins.code_actions.eslint_d,
         null_ls.builtins.code_actions.gitsigns,
 
-        null_ls.builtins.hover.dictionary,
         require("typescript.extensions.null-ls.code-actions"),
     },
     on_attach = on_attach
-    -- debug = true,
 })
 
 -- Use internal formatting for bindings like gq.
