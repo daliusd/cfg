@@ -146,7 +146,8 @@ require("lazy").setup({
               filesystem = {
                   filtered_items = {
                       visible = true,
-                  }
+                  },
+                  follow_current_file = true,
               }
           })
         end,
@@ -620,6 +621,11 @@ local on_attach = function(client, bufnr)
   vim.keymap.set('n', '<leader>ac', vim.lsp.buf.code_action, bufopts)
   vim.keymap.set('v', '<leader>ac', vim.lsp.buf.code_action, bufopts)
   vim.keymap.set('n', '<leader>af', function() vim.lsp.buf.references(nil, { on_list = on_list }) end, bufopts)
+
+  if client.name == 'tsserver' then
+    client.server_capabilities.documentFormattingProvider = false
+    client.server_capabilities.documentRangeFormattingProvider = false
+  end
 
   if client.server_capabilities.documentFormattingProvider then
     vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.format({ timeout_ms = 4000 })")
