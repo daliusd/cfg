@@ -712,7 +712,7 @@ null_ls.setup({
         null_ls.builtins.formatting.trim_whitespace,
         null_ls.builtins.formatting.prettierd.with({
             condition = function(utils)
-              return utils.root_has_file({ ".prettierrc.js" })
+              return utils.has_file({ ".prettierrc.js" })
             end,
         }),
 
