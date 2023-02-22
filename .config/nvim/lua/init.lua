@@ -599,38 +599,20 @@ local function on_list(options)
   vim.api.nvim_command('cfirst')
 end
 
-vim.keymap.set('n', '<leader>e', vim.diagnostic.open_float, opts)
-vim.keymap.set('n', '<leader>ak', vim.diagnostic.goto_prev, opts)
-vim.keymap.set('n', '<leader>aj', vim.diagnostic.goto_next, opts)
-vim.keymap.set('n', '<leader>aq', vim.diagnostic.setloclist, opts)
-
-local on_attach = function(client, bufnr)
-  vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-
-  local bufopts = { noremap = true, silent = true, buffer = bufnr }
-  vim.keymap.set('n', '<leader>ad', function() vim.lsp.buf.declaration { on_list = on_list } end, bufopts)
-  -- vim.keymap.set('n', '<leader>d', function() vim.lsp.buf.definition{on_list=on_list} end, bufopts)
-  vim.keymap.set('n', '<leader>d', '<c-]>', bufopts)
-  vim.keymap.set('n', '<leader>k', vim.lsp.buf.hover, bufopts)
-
-  vim.keymap.set('n', '<leader>ai', function() vim.lsp.buf.implementation { on_list = on_list } end, bufopts)
-  vim.keymap.set('n', '<leader>ah', vim.lsp.buf.signature_help, bufopts)
-
-  vim.keymap.set('n', '<leader>at', function() vim.lsp.buf.type_definition { on_list = on_list } end, bufopts)
-  vim.keymap.set('n', '<leader>ar', vim.lsp.buf.rename, bufopts)
-  vim.keymap.set('n', '<leader>ac', vim.lsp.buf.code_action, bufopts)
-  vim.keymap.set('v', '<leader>ac', vim.lsp.buf.code_action, bufopts)
-  vim.keymap.set('n', '<leader>af', function() vim.lsp.buf.references(nil, { on_list = on_list }) end, bufopts)
-
-  if client.name == 'tsserver' then
-    client.server_capabilities.documentFormattingProvider = false
-    client.server_capabilities.documentRangeFormattingProvider = false
-  end
-
-  if client.server_capabilities.documentFormattingProvider then
-    vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.format({ timeout_ms = 4000 })")
-  end
-end
+keymap('n', '<leader>e', vim.diagnostic.open_float, opts)
+keymap('n', '<leader>ak', vim.diagnostic.goto_prev, opts)
+keymap('n', '<leader>ap', function()
+  vim.diagnostic.goto_prev({
+    severity = vim.diagnostic.severity.ERROR,
+  })
+end, opts)
+keymap('n', '<leader>aj', vim.diagnostic.goto_next, opts)
+keymap('n', '<leader>an', function()
+  vim.diagnostic.goto_next({
+    severity = vim.diagnostic.severity.ERROR,
+  })
+end, opts)
+keymap('n', '<leader>aq', vim.diagnostic.setloclist, opts)
 
 local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
@@ -697,7 +679,27 @@ require 'lspconfig'.vimls.setup {}
 
 require("typescript").setup({
   server = {
-    on_attach = on_attach,
+    on_attach = function(client, bufnr)
+      vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
+
+      local bufopts = { noremap = true, silent = true, buffer = bufnr }
+      keymap('n', '<leader>ad', function() vim.lsp.buf.declaration { on_list = on_list } end, bufopts)
+      -- keymap('n', '<leader>d', function() vim.lsp.buf.definition{on_list=on_list} end, bufopts)
+      keymap('n', '<leader>d', '<c-]>', bufopts)
+      keymap('n', '<leader>k', vim.lsp.buf.hover, bufopts)
+
+      keymap('n', '<leader>ai', function() vim.lsp.buf.implementation { on_list = on_list } end, bufopts)
+      keymap('n', '<leader>ah', vim.lsp.buf.signature_help, bufopts)
+
+      keymap('n', '<leader>at', function() vim.lsp.buf.type_definition { on_list = on_list } end, bufopts)
+      keymap('n', '<leader>ar', vim.lsp.buf.rename, bufopts)
+      keymap('n', '<leader>ac', vim.lsp.buf.code_action, bufopts)
+      keymap('v', '<leader>ac', vim.lsp.buf.code_action, bufopts)
+      keymap('n', '<leader>af', function() vim.lsp.buf.references(nil, { on_list = on_list }) end, bufopts)
+
+      client.server_capabilities.documentFormattingProvider = false
+      client.server_capabilities.documentRangeFormattingProvider = false
+    end,
     capabilities = capabilities
   }
 })
@@ -720,7 +722,11 @@ null_ls.setup({
 
     require("typescript.extensions.null-ls.code-actions"),
   },
-  on_attach = on_attach
+  on_attach = function(client)
+    if client.server_capabilities.documentFormattingProvider then
+      vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.format({ timeout_ms = 4000 })")
+    end
+  end
 })
 
 -- Use internal formatting for bindings like gq.
