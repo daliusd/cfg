@@ -61,7 +61,6 @@ require("lazy").setup({
       'nvim-telescope/telescope-live-grep-args.nvim',
       'marcuscaisey/olddirs.nvim',
     },
-
     config = function()
       local actions = require("telescope.actions")
       local lga_actions = require("telescope-live-grep-args.actions")
@@ -70,12 +69,12 @@ require("lazy").setup({
         defaults = {
           mappings = {
             i = {
-              ["<esc>"] = actions.close,
-              ["<c-c>"] = false,
-              ["<c-j>"] = actions.move_selection_next,
-              ["<c-k>"] = actions.move_selection_previous,
-              ["<C-u>"] = actions.results_scrolling_up,
-              ["<C-d>"] = actions.results_scrolling_down,
+                  ["<esc>"] = actions.close,
+                  ["<c-c>"] = false,
+                  ["<c-j>"] = actions.move_selection_next,
+                  ["<c-k>"] = actions.move_selection_previous,
+                  ["<C-u>"] = actions.results_scrolling_up,
+                  ["<C-d>"] = actions.results_scrolling_down,
             },
           },
         },
@@ -83,8 +82,8 @@ require("lazy").setup({
           live_grep_args = {
             mappings = {
               i = {
-                ["<C-f>"] = lga_actions.quote_prompt({ postfix = " -g *{js,jsx,ts,tsx}" }),
-                ["<C-l>"] = lga_actions.quote_prompt({ postfix = " -g *en*" }),
+                    ["<C-f>"] = lga_actions.quote_prompt({ postfix = " -g *{js,jsx,ts,tsx}" }),
+                    ["<C-l>"] = lga_actions.quote_prompt({ postfix = " -g *en*" }),
               },
             },
           },
@@ -101,18 +100,24 @@ require("lazy").setup({
       { '<leader>h', ':Telescope oldfiles theme=ivy<cr>',                             silent = true },
       { '<leader>f', ':Telescope find_files theme=ivy<cr>',                           silent = true },
       { '<leader>y', function() require('telescope').extensions.olddirs.picker() end, silent = true },
-      { '<leader>r', function()
-        local text = vim.fn.expand("<cword>")
-        vim.fn.histadd(':', 'Rg ' .. text)
-        require('telescope').extensions.live_grep_args.live_grep_args({ default_text = text, theme = 'ivy' })
-      end, silent = true
+      {
+        '<leader>r',
+        function()
+          local text = vim.fn.expand("<cword>")
+          vim.fn.histadd(':', 'Rg ' .. text)
+          require('telescope').extensions.live_grep_args.live_grep_args({ default_text = text, theme = 'ivy' })
+        end,
+        silent = true
       },
-      { '<leader>r', function()
-        local text = vim.getVisualSelection()
-        vim.fn.histadd(':', 'Rg ' .. text)
-        require('telescope').extensions.live_grep_args.live_grep_args({ default_text = text, theme = 'ivy' })
-      end,
-        mode = 'v', silent = true
+      {
+        '<leader>r',
+        function()
+          local text = vim.getVisualSelection()
+          vim.fn.histadd(':', 'Rg ' .. text)
+          require('telescope').extensions.live_grep_args.live_grep_args({ default_text = text, theme = 'ivy' })
+        end,
+        mode = 'v',
+        silent = true
       },
       { '<leader>t', ':Telescope live_grep_args theme=ivy<cr>', silent = true },
       { '<leader>c', ':Telescope commands theme=ivy<cr>',       silent = true },
@@ -139,8 +144,8 @@ require("lazy").setup({
             nowait = true,
           },
           mappings = {
-            ["i"] = { "toggle_node" },
-            ["<esc>"] = "close_window",
+                ["i"] = { "toggle_node" },
+                ["<esc>"] = "close_window",
           }
         },
         filesystem = {
@@ -242,7 +247,6 @@ require("lazy").setup({
       'hrsh7th/cmp-cmdline',
       'hrsh7th/cmp-emoji',
       'hrsh7th/cmp-nvim-lsp',
-      -- 'octaltree/cmp-look',
       'hrsh7th/cmp-vsnip',
       'hrsh7th/vim-vsnip',
       'hrsh7th/vim-vsnip-integ',
@@ -263,15 +267,15 @@ require("lazy").setup({
           -- documentation = cmp.config.window.bordered(),
         },
         mapping = cmp.mapping.preset.insert({
-          ['<C-b>'] = cmp.mapping.scroll_docs( -4),
-          ['<C-f>'] = cmp.mapping.scroll_docs(4),
-          ['<C-Space>'] = cmp.mapping.complete(),
-          ['<C-e>'] = cmp.mapping.abort(),
-          ['<C-j>'] = cmp.mapping.select_next_item(),
-          ['<C-k>'] = cmp.mapping.select_prev_item(),
-          ['<CR>'] = cmp.mapping.confirm({ select = false }),
-          ['<S-Tab>'] = cmp.mapping.select_prev_item(),
-          ['<Tab>'] = function(fallback)
+              ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+              ['<C-f>'] = cmp.mapping.scroll_docs(4),
+              ['<C-Space>'] = cmp.mapping.complete(),
+              ['<C-e>'] = cmp.mapping.abort(),
+              ['<C-j>'] = cmp.mapping.select_next_item(),
+              ['<C-k>'] = cmp.mapping.select_prev_item(),
+              ['<CR>'] = cmp.mapping.confirm({ select = false }),
+              ['<S-Tab>'] = cmp.mapping.select_prev_item(),
+              ['<Tab>'] = function(fallback)
             if cmp.visible() then
               cmp.select_next_item()
             else
@@ -280,7 +284,7 @@ require("lazy").setup({
           end
         }),
         sources = cmp.config.sources({
-          { name = 'nvim_lsp', priority = 10 },
+          { name = 'nvim_lsp', priority = 20 },
           {
             name = 'buffer',
             priority = 9,
@@ -294,26 +298,17 @@ require("lazy").setup({
           { name = 'path',     priority = 8 },
           { name = 'emoji',    priority = 7 },
           { name = 'git',      priority = 6 },
-          -- {
-          --     name = 'look',
-          --     priority = 1,
-          --     keyword_length = 6,
-          --     option = {
-          --         convert_case = true,
-          --         loud = true
-          --     }
-          -- },
         }),
-        sorting = {
-          priority_weight = 2.0,
-          comparators = {
-            compare.locality,
-            compare.recently_used,
-            compare.score,
-            compare.offset,
-            compare.order,
-          },
-        },
+        -- sorting = {
+        --   priority_weight = 2.0,
+        --   comparators = {
+        --     compare.locality,
+        --     compare.recently_used,
+        --     compare.score,
+        --     compare.offset,
+        --     compare.order,
+        --   },
+        -- },
       })
 
       cmp.setup.cmdline('/', {
@@ -417,15 +412,15 @@ vim.opt.termguicolors = true
 vim.api.nvim_create_autocmd("FocusGained", { command = "checktime" })
 
 vim.opt.background = 'light'
-vim.opt.hidden = true -- Allow opening new buffer without saving or opening it in new tab
+vim.opt.hidden = true    -- Allow opening new buffer without saving or opening it in new tab
 vim.opt.showmode = false -- This is shown by line plugin already so I don't need NORMAL/INSERT/... in command line
 
 vim.opt.list = true
 vim.opt.listchars = ({ trail = '.', tab = ':▷⋮' }) -- Show trailing dots and tabs
 
-vim.opt.scrolloff = 3 -- Keep 3 lines below and above the cursor
-vim.opt.number = true -- Show line numbering
-vim.opt.numberwidth = 1 -- Use 1 col + 1 space for numbers
+vim.opt.scrolloff = 3                              -- Keep 3 lines below and above the cursor
+vim.opt.number = true                              -- Show line numbering
+vim.opt.numberwidth = 1                            -- Use 1 col + 1 space for numbers
 
 -- Vim stuff
 vim.opt.fixeol = false -- Let's not fix end-of-line
@@ -441,7 +436,7 @@ vim.opt.undodir = '/tmp'
 -- delays and poor user experience.
 vim.opt.updatetime = 300
 vim.opt.completeopt = 'menu,menuone,noselect' -- nvim-cmp suggestion
-vim.opt.signcolumn = 'number' -- merge signcolumn and number column into one
+vim.opt.signcolumn = 'number'                 -- merge signcolumn and number column into one
 vim.opt.showtabline = 2
 
 vim.opt.diffopt:append('vertical') -- Vertical diff
@@ -454,7 +449,7 @@ vim.opt.iskeyword:append('-')
 vim.opt.autoindent = true
 vim.opt.expandtab = true
 vim.opt.smarttab = true
-vim.opt.sw = 2 -- Spaces per indent
+vim.opt.sw = 2      -- Spaces per indent
 
 vim.opt.tabstop = 8 -- Number of spaces per tab. People usually use 4, but they shouldn't use tab in the first place.
 
@@ -475,7 +470,7 @@ vim.opt.spelllang = 'en,lt'
 
 -- Search
 vim.opt.ignorecase = true -- Ignore case when searching using lowercase
-vim.opt.smartcase = true -- Ignore ignorecase if search contains upper case letters
+vim.opt.smartcase = true  -- Ignore ignorecase if search contains upper case letters
 
 vim.opt.grepprg = 'rg --vimgrep -M 160 -S'
 
@@ -550,7 +545,7 @@ require 'nvim-treesitter.configs'.setup {
   playground = {
     enable = true,
     disable = {},
-    updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
+    updatetime = 25,         -- Debounced time for highlighting nodes in the playground from source code
     persist_queries = false, -- Whether the query persists across vim sessions
     keybindings = {
       toggle_query_editor = 'o',
@@ -620,7 +615,7 @@ require('lspconfig').yamlls.setup {
   settings = {
     yaml = {
       schemas = {
-        ["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*"
+            ["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*"
       },
     },
   }
@@ -650,7 +645,8 @@ require 'lspconfig'.html.setup {
   capabilities = capabilities,
 }
 require 'lspconfig'.pyright.setup {}
-require 'lspconfig'.quick_lint_js.setup {}
+-- NOTE: I am not sure if I need this one.
+-- require 'lspconfig'.quick_lint_js.setup {}
 require 'lspconfig'.sqlls.setup {}
 require 'lspconfig'.lua_ls.setup {
   settings = {
@@ -777,7 +773,6 @@ require('lualine').setup {
 
           return name .. (mod == 1 and ' +' or '')
         end
-
       },
     },
     lualine_z = { 'filesize' }
