@@ -772,6 +772,9 @@ vim.g.fugitive_legacy_commands = 1
 
 -- Test runner
 vim.g['test#runner_commands'] = { 'VSpec', 'Jest', 'Playwright' }
+vim.g['test#strategy'] = "neovim"
+
+keymap('t', '<esc>', '<c-\\><c-n>', opts)
 
 -- Leader config
 
