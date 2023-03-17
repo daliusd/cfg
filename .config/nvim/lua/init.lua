@@ -346,6 +346,10 @@ require("lazy").setup({
       })
     end
   },
+  {
+    'itchyny/calendar.vim',
+    cmd = { 'Calendar' }
+  }
 }, {
   checker = {
     -- automatically check for plugin updates
