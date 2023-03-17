@@ -313,7 +313,10 @@ require("lazy").setup({
     'nvim-treesitter/nvim-treesitter',
     build = ':TSUpdate'
   },
-  'nvim-treesitter/playground',
+  {
+    'nvim-treesitter/playground',
+    cmd = { 'TSPlaygroundToggle' },
+  },
   {
     'lewis6991/spellsitter.nvim',
     config = true,
