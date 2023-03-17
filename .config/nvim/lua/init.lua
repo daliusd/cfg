@@ -190,6 +190,13 @@ require("lazy").setup({
   'neovim/nvim-lspconfig',
   'jose-elias-alvarez/null-ls.nvim',
   'jose-elias-alvarez/typescript.nvim',
+  {
+    'petertriho/cmp-git',
+    dependencies = {
+      'nvim-lua/plenary.nvim'
+    },
+    config = true,
+  },
   'windwp/nvim-autopairs',
   {
     'hrsh7th/nvim-cmp',
@@ -203,7 +210,6 @@ require("lazy").setup({
       'hrsh7th/cmp-vsnip',
       'hrsh7th/vim-vsnip',
       'hrsh7th/vim-vsnip-integ',
-      'petertriho/cmp-git',
       'rafamadriz/friendly-snippets',
     },
     config = function()
