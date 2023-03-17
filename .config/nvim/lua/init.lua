@@ -39,11 +39,6 @@ require("lazy").setup({
       vim.cmd([[colorscheme zenbones]])
     end,
   },
-  {
-    "dstein64/vim-startuptime",
-    -- lazy-load on a command
-    cmd = "StartupTime",
-  },
 
   -- Generic plugins
 
@@ -59,7 +54,6 @@ require("lazy").setup({
       'nvim-lua/plenary.nvim',
       'nvim-telescope/telescope-fzf-native.nvim',
       'nvim-telescope/telescope-live-grep-args.nvim',
-      'marcuscaisey/olddirs.nvim',
     },
     config = function()
       local actions = require("telescope.actions")
@@ -67,14 +61,16 @@ require("lazy").setup({
 
       require("telescope").setup({
         defaults = {
+          layout_strategy = 'vertical',
+          layout_config = { height = 0.95, preview_cutoff = 30 },
           mappings = {
             i = {
-                  ["<esc>"] = actions.close,
-                  ["<c-c>"] = false,
-                  ["<c-j>"] = actions.move_selection_next,
-                  ["<c-k>"] = actions.move_selection_previous,
-                  ["<C-u>"] = actions.results_scrolling_up,
-                  ["<C-d>"] = actions.results_scrolling_down,
+              ["<esc>"] = actions.close,
+              ["<c-c>"] = false,
+              ["<c-j>"] = actions.move_selection_next,
+              ["<c-k>"] = actions.move_selection_previous,
+              ["<C-u>"] = actions.results_scrolling_up,
+              ["<C-d>"] = actions.results_scrolling_down,
             },
           },
         },
@@ -82,8 +78,8 @@ require("lazy").setup({
           live_grep_args = {
             mappings = {
               i = {
-                    ["<C-f>"] = lga_actions.quote_prompt({ postfix = " -g *{js,jsx,ts,tsx}" }),
-                    ["<C-l>"] = lga_actions.quote_prompt({ postfix = " -g *en*" }),
+                ["<C-f>"] = lga_actions.quote_prompt({ postfix = " -g *{js,jsx,ts,tsx}" }),
+                ["<C-l>"] = lga_actions.quote_prompt({ postfix = " -g *en*" }),
               },
             },
           },
@@ -93,19 +89,17 @@ require("lazy").setup({
       local telescope = require('telescope')
       telescope.load_extension('fzf')
       telescope.load_extension('live_grep_args')
-      telescope.load_extension('olddirs')
     end,
     cmd = { 'Telescope' },
     keys = {
-      { '<leader>h', ':Telescope oldfiles theme=ivy<cr>',                             silent = true },
-      { '<leader>f', ':Telescope find_files theme=ivy<cr>',                           silent = true },
-      { '<leader>y', function() require('telescope').extensions.olddirs.picker() end, silent = true },
+      { '<leader>h', ':Telescope oldfiles<cr>',   silent = true },
+      { '<leader>f', ':Telescope find_files<cr>', silent = true },
       {
         '<leader>r',
         function()
           local text = vim.fn.expand("<cword>")
           vim.fn.histadd(':', 'Rg ' .. text)
-          require('telescope').extensions.live_grep_args.live_grep_args({ default_text = text, theme = 'ivy' })
+          require('telescope').extensions.live_grep_args.live_grep_args({ default_text = text })
         end,
         silent = true
       },
@@ -114,13 +108,13 @@ require("lazy").setup({
         function()
           local text = vim.getVisualSelection()
           vim.fn.histadd(':', 'Rg ' .. text)
-          require('telescope').extensions.live_grep_args.live_grep_args({ default_text = text, theme = 'ivy' })
+          require('telescope').extensions.live_grep_args.live_grep_args({ default_text = text })
         end,
         mode = 'v',
         silent = true
       },
-      { '<leader>t', ':Telescope live_grep_args theme=ivy<cr>', silent = true },
-      { '<leader>c', ':Telescope commands theme=ivy<cr>',       silent = true },
+      { '<leader>R', ':Telescope live_grep_args<cr>', silent = true },
+      { '<leader>c', ':Telescope commands<cr>',       silent = true },
     }
   },
   {
@@ -144,8 +138,8 @@ require("lazy").setup({
             nowait = true,
           },
           mappings = {
-                ["i"] = { "toggle_node" },
-                ["<esc>"] = "close_window",
+            ["i"] = { "toggle_node" },
+            ["<esc>"] = "close_window",
           }
         },
         filesystem = {
@@ -161,7 +155,7 @@ require("lazy").setup({
     'folke/noice.nvim',
     dependencies = {
       "MunifTanjim/nui.nvim",
-      -- 'rcarriga/nvim-notify',
+      'rcarriga/nvim-notify',
     },
     config = function()
       require("noice").setup({
@@ -186,57 +180,16 @@ require("lazy").setup({
     'numToStr/Comment.nvim',
     config = true,
   },
-  'vim-test/vim-test',
   {
-    'nvim-neotest/neotest',
-    dependencies = {
-      'nvim-neotest/neotest-vim-test',
-    },
-    config = function()
-      require("neotest").setup({
-        adapters = {
-          require("neotest-vim-test")({
-            ignore_file_types = { "vim", "lua" },
-          }),
-        },
-        diagnostic = {
-          enabled = true
-        },
-        floating = {
-          max_height = 0.9,
-          max_width = 0.9
-        },
-        highlights = {
-          test = "NeotestTest"
-        },
-        icons = {
-          passed = "✔",
-          running = "🏃",
-          failed = "✖",
-          skipped = "ﰸ",
-          unknown = "?",
-        },
-      })
-    end,
+    'vim-test/vim-test',
     keys = {
-      { '<leader>uf', function() require("neotest").run.run(vim.fn.expand("%")) end },
-      { '<leader>un', function() require("neotest").run.run() end },
-      { '<leader>us', function() require("neotest").summary.toggle() end },
-      { '<leader>uj', function() require("neotest").jump.next({ status = "failed" }) end },
-      { '<leader>uk', function() require("neotest").jump.prev({ status = "failed" }) end },
-      { '<leader>uo', function() require("neotest").output.open({ enter = true }) end },
-    },
+      { '<leader>t', ':TestNearest<cr>', silent = true },
+      { '<leader>T', ':TestFile<cr>',    silent = true },
+    }
   },
   'neovim/nvim-lspconfig',
   'jose-elias-alvarez/null-ls.nvim',
   'jose-elias-alvarez/typescript.nvim',
-  {
-    'petertriho/cmp-git',
-    dependencies = {
-      "nvim-lua/plenary.nvim"
-    },
-    config = true,
-  },
   'windwp/nvim-autopairs',
   {
     'hrsh7th/nvim-cmp',
@@ -250,6 +203,7 @@ require("lazy").setup({
       'hrsh7th/cmp-vsnip',
       'hrsh7th/vim-vsnip',
       'hrsh7th/vim-vsnip-integ',
+      'petertriho/cmp-git',
       'rafamadriz/friendly-snippets',
     },
     config = function()
@@ -267,15 +221,15 @@ require("lazy").setup({
           -- documentation = cmp.config.window.bordered(),
         },
         mapping = cmp.mapping.preset.insert({
-              ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-              ['<C-f>'] = cmp.mapping.scroll_docs(4),
-              ['<C-Space>'] = cmp.mapping.complete(),
-              ['<C-e>'] = cmp.mapping.abort(),
-              ['<C-j>'] = cmp.mapping.select_next_item(),
-              ['<C-k>'] = cmp.mapping.select_prev_item(),
-              ['<CR>'] = cmp.mapping.confirm({ select = false }),
-              ['<S-Tab>'] = cmp.mapping.select_prev_item(),
-              ['<Tab>'] = function(fallback)
+          ['<C-b>'] = cmp.mapping.scroll_docs(-4),
+          ['<C-f>'] = cmp.mapping.scroll_docs(4),
+          ['<C-Space>'] = cmp.mapping.complete(),
+          ['<C-e>'] = cmp.mapping.abort(),
+          ['<C-j>'] = cmp.mapping.select_next_item(),
+          ['<C-k>'] = cmp.mapping.select_prev_item(),
+          ['<CR>'] = cmp.mapping.confirm({ select = false }),
+          ['<S-Tab>'] = cmp.mapping.select_prev_item(),
+          ['<Tab>'] = function(fallback)
             if cmp.visible() then
               cmp.select_next_item()
             else
@@ -289,7 +243,9 @@ require("lazy").setup({
             name = 'buffer',
             priority = 9,
             option = {
-              keyword_pattern = [[\k\+]],
+              -- keyword_pattern = [[\k\+]],
+              indexing_interval = 1000,
+              max_indexed_line_length = 1024 * 2,
               get_bufnrs = function()
                 return vim.api.nvim_list_bufs()
               end
@@ -299,16 +255,6 @@ require("lazy").setup({
           { name = 'emoji',    priority = 7 },
           { name = 'git',      priority = 6 },
         }),
-        -- sorting = {
-        --   priority_weight = 2.0,
-        --   comparators = {
-        --     compare.locality,
-        --     compare.recently_used,
-        --     compare.score,
-        --     compare.offset,
-        --     compare.order,
-        --   },
-        -- },
       })
 
       cmp.setup.cmdline('/', {
@@ -615,7 +561,7 @@ require('lspconfig').yamlls.setup {
   settings = {
     yaml = {
       schemas = {
-            ["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*"
+        ["https://json.schemastore.org/github-workflow.json"] = "/.github/workflows/*"
       },
     },
   }
@@ -797,11 +743,6 @@ end, opts)
 
 vim.cmd('hi NeoTreeTitleBar guifg=#ffffff guibg=#586e75')
 
-vim.cmd('hi NeotestPassed ctermfg=Green guifg=#40AA40')
-vim.cmd('hi NeotestFailed ctermfg=Red guifg=#CC6060')
-vim.cmd('hi NeotestRunning ctermfg=Yellow guifg=#FFEC63')
-vim.cmd('hi NeotestBorder ctermfg=Red guifg=#CC6060')
-
 vim.cmd('hi NotifyERRORTitle guifg=#8a1f1f')
 vim.cmd('hi NotifyINFOIcon guifg=#4f6752')
 vim.cmd('hi NotifyINFOTitle guifg=#4f6752')
@@ -869,7 +810,7 @@ vim.cmd("iabbrev <expr> ,t strftime('%Y-%m-%dT%TZ')")
 vim.cmd("inoreabbrev <expr> ,u system('uuidgen')->trim()->tolower()")
 
 vim.cmd(
-  'command! -bang -nargs=1 Rg execute ":Telescope live_grep_args theme=ivy default_text=" . escape(<q-args>, \' \\\')')
+  'command! -bang -nargs=1 Rg execute ":Telescope live_grep_args default_text=" . escape(<q-args>, \' \\\')')
 
 vim.cmd(":cnoreabbrev <expr> rg (getcmdtype() == ':' && getcmdline() ==# 'rg') ? 'Rg' : 'rg'")
 
