@@ -9,6 +9,6 @@ npm install -g @astrojs/language-server
 npm install -g bash-language-server
 npm install -g cssmodules-language-server
 npm install -g pyright
-npm install -g quick-lint-js
 npm install -g sql-language-server
 npm install -g @fsouza/prettierd
+npm install -g odiff-bin

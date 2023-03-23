@@ -37,4 +37,4 @@
     textconv = gpg --no-tty --decrypt
 
 [diff "image"]
-    command = ~/projects/rare/git-diff-image/git_diff_image
+    command = ~/bin/image-diff.sh
