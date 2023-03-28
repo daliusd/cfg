@@ -689,6 +689,32 @@ null_ls.setup({
   end
 })
 
+local helpers = require("null-ls.helpers")
+
+local l10n = {
+  method = null_ls.methods.DIAGNOSTICS,
+  filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
+  generator = null_ls.generator({
+    command = "l10n.js",
+    args = { vim.fn.getcwd() },
+    to_stdin = true,
+    format = "line",
+    on_output = helpers.diagnostics.from_patterns({
+      {
+        pattern = [[(%d+):(%d+):(%d+) (.*)]],
+        groups = { "row", "col", "end_col", "message" },
+        overrides = {
+          diagnostic = {
+            severity = helpers.diagnostics.severities.information,
+          },
+        },
+      },
+    }),
+  }),
+}
+
+null_ls.register(l10n)
+
 -- Use internal formatting for bindings like gq.
 vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(args)
