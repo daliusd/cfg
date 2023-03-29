@@ -20,7 +20,7 @@ for (const [lineNo, line] of content.split("\n").entries()) {
 
     if (msg[key]) {
       console.log(
-        `${lineNo + 1}:${m.index + 1}:${m.index + key.length + 1} en: ${msg[key]}`
+        `${lineNo + 1}:${m.index + 2}:${m.index + key.length + 2} en: ${msg[key]}`
       );
     }
   }
