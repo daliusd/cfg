@@ -51,3 +51,5 @@ alias tildeswap=$'hidutil property --set \'{"UserKeyMapping":[{"HIDKeyboardModif
 alias tilderestore=$'hidutil property --set \'{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0x700000064,"HIDKeyboardModifierMappingDst":0x700000064}]}\''
 
 alias fix-spotlight='fd -t d -I node_modules -x touch "{}/.metadata_never_index"'
+
+alias h='history -r'
