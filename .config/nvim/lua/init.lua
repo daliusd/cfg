@@ -691,11 +691,11 @@ null_ls.setup({
 
 local helpers = require("null-ls.helpers")
 
-local l10n = {
+local langd = {
   method = null_ls.methods.DIAGNOSTICS,
   filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
   generator = null_ls.generator({
-    command = "l10n.js",
+    command = "langd",
     args = { vim.fn.getcwd() },
     to_stdin = true,
     format = "line",
@@ -713,7 +713,7 @@ local l10n = {
   }),
 }
 
-null_ls.register(l10n)
+null_ls.register(langd)
 
 -- Use internal formatting for bindings like gq.
 vim.api.nvim_create_autocmd('LspAttach', {
