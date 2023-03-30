@@ -1,3 +1,7 @@
+if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
+    tmux attach -t O || tmux new -s O
+fi
+
 HISTSIZE=100000
 HISTFILESIZE=200000
 shopt -s histappend
