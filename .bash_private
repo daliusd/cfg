@@ -32,12 +32,6 @@ fi
 
 complete -o bashdefault -o default -o nospace -F __git_wrap__git_main cfg
 
-# show_node_version() {
-#     node -v
-# }
-#
-# PS1='[N:$(show_node_version)]$(__git_ps1) '$PS1
-
 ulimit -n 4096 # Recommendation from https://github.com/carlitux/deoplete-ternjs
 
 # FZF should use fd command
