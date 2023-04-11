@@ -324,10 +324,6 @@ require("lazy").setup({
     cmd = { 'TSPlaygroundToggle' },
   },
   {
-    'lewis6991/spellsitter.nvim',
-    config = true,
-  },
-  {
     'anuvyklack/pretty-fold.nvim',
     config = true,
   },
