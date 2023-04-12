@@ -288,10 +288,6 @@ require("lazy").setup({
   'editorconfig/editorconfig-vim',
 
   {
-    'sQVe/sort.nvim',
-    config = true,
-  },
-  {
     'windwp/nvim-ts-autotag',
     config = true,
   },
@@ -341,10 +337,6 @@ require("lazy").setup({
       })
     end
   },
-  {
-    'itchyny/calendar.vim',
-    cmd = { 'Calendar' }
-  }
 }, {
   checker = {
     -- automatically check for plugin updates
@@ -457,10 +449,6 @@ keymap('n', 'gd', ':tabclose<cr>', opts)
 keymap('n', 'ga', ':tabnew<cr>', opts)
 keymap('n', 'gs', ':tab split<cr>', opts)
 keymap('n', 'go', ':tabonly<cr>', opts)
-
--- Sort
-keymap('n', 'gh', ':Sort<cr>', opts)
-keymap('v', 'gh', '<esc>:Sort<cr>', opts)
 
 -- The 66-character line (counting both letters and spaces) is widely regarded as ideal.
 -- http://webtypography.net/Rhythm_and_Proportion/Horizontal_Motion/2.1.2/
