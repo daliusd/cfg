@@ -175,7 +175,6 @@ require("lazy").setup({
   },
   'tpope/vim-abolish',
 
-  'justinmk/vim-sneak',
   {
     'numToStr/Comment.nvim',
     config = true,
