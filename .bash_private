@@ -1,11 +1,3 @@
-if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
-  if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
-    echo "You are in SSH session"
-  else
-    tmux attach -t O || tmux new -s O
-  fi
-fi
-
 HISTSIZE=100000
 HISTFILESIZE=200000
 shopt -s histappend
@@ -198,3 +190,12 @@ expand-package-script() {
 bind -m emacs-standard -x '"\C-e": expand-package-script'
 bind -m vi-command -x '"\C-e": expand-package-script'
 bind -m vi-insert -x '"\C-e": expand-package-script'
+
+
+if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
+  if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
+    echo "You are in SSH session"
+  else
+    tmux attach -t O || tmux new -s O
+  fi
+fi
