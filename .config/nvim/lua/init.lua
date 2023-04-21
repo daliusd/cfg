@@ -719,13 +719,14 @@ require('lualine').setup {
   options = {
     theme = 'zenbones'
   },
+  extensions = { 'neo-tree' },
   sections = {
     lualine_a = { 'mode' },
     lualine_b = { 'branch' },
     lualine_c = {
       {
         'filename',
-        path = 1
+        path = 3,
       }
     },
     lualine_x = { 'encoding', 'fileformat', 'filetype',
@@ -841,6 +842,7 @@ keymap('n', '<c-right>', '<c-w>l', opts)
 
 -- vimrc file
 keymap('n', '<leader>v', ':e ~/.config/nvim/lua/init.lua<cr>', opts)
+keymap('n', '<leader>V', ':source $MYVIMRC<cr>', opts)
 
 -- date
 vim.cmd("iabbrev <expr> ,d strftime('%Y-%m-%d')")
