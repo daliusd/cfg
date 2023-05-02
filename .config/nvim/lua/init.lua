@@ -165,6 +165,7 @@ require("lazy").setup({
       })
     end
   },
+  'kosayoda/nvim-lightbulb',
   {
     'sindrets/diffview.nvim',
     cmd = { 'DiffviewOpen', 'DiffviewFileHistory' },
