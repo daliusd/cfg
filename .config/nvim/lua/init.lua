@@ -165,7 +165,12 @@ require("lazy").setup({
       })
     end
   },
-  'kosayoda/nvim-lightbulb',
+  {
+    'kosayoda/nvim-lightbulb',
+    config = function()
+      require('nvim-lightbulb').setup({ autocmd = { enabled = true } })
+    end
+  },
   {
     'sindrets/diffview.nvim',
     cmd = { 'DiffviewOpen', 'DiffviewFileHistory' },
@@ -214,7 +219,6 @@ require("lazy").setup({
     },
     config = function()
       local cmp = require 'cmp'
-      local compare = require('cmp.config.compare')
 
       cmp.setup({
         snippet = {
