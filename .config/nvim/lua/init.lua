@@ -160,8 +160,8 @@ require("lazy").setup({
     config = function()
       require("noice").setup({
         messages = {
-          view_search = "mini",
-        }
+          enabled = false,
+        },
       })
     end
   },
@@ -660,21 +660,6 @@ require("typescript").setup({
     on_attach = function(client, bufnr)
       vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
 
-      local bufopts = { noremap = true, silent = true, buffer = bufnr }
-      keymap('n', '<leader>ad', function() vim.lsp.buf.declaration { on_list = on_list } end, bufopts)
-      -- keymap('n', '<leader>d', function() vim.lsp.buf.definition{on_list=on_list} end, bufopts)
-      keymap('n', '<leader>d', '<c-]>', bufopts)
-      keymap('n', '<leader>k', vim.lsp.buf.hover, bufopts)
-
-      keymap('n', '<leader>ai', function() vim.lsp.buf.implementation { on_list = on_list } end, bufopts)
-      keymap('n', '<leader>ah', vim.lsp.buf.signature_help, bufopts)
-
-      keymap('n', '<leader>at', function() vim.lsp.buf.type_definition { on_list = on_list } end, bufopts)
-      keymap('n', '<leader>ar', vim.lsp.buf.rename, bufopts)
-      keymap('n', '<leader>ac', vim.lsp.buf.code_action, bufopts)
-      keymap('v', '<leader>ac', vim.lsp.buf.code_action, bufopts)
-      keymap('n', '<leader>af', function() vim.lsp.buf.references(nil, { on_list = on_list }) end, bufopts)
-
       client.server_capabilities.documentFormattingProvider = false
       client.server_capabilities.documentRangeFormattingProvider = false
     end,
@@ -695,10 +680,6 @@ null_ls.setup({
         return utils.has_file({ ".prettierrc.js" })
       end,
     }),
-
-    null_ls.builtins.code_actions.gitsigns,
-
-    require("typescript.extensions.null-ls.code-actions"),
   },
   on_attach = function(client)
     if client.server_capabilities.documentFormattingProvider then
@@ -866,6 +847,22 @@ keymap('n', '<c-left>', '<c-w>h', opts)
 keymap('n', '<c-down>', '<c-w>j', opts)
 keymap('n', '<c-up>', '<c-w>k', opts)
 keymap('n', '<c-right>', '<c-w>l', opts)
+
+-- LSP
+
+keymap('n', '<leader>ad', function() vim.lsp.buf.declaration { on_list = on_list } end, opts)
+-- keymap('n', '<leader>d', function() vim.lsp.buf.definition{on_list=on_list} end, opts)
+keymap('n', '<leader>d', '<c-]>', opts)
+keymap('n', '<leader>k', vim.lsp.buf.hover, opts)
+
+keymap('n', '<leader>ai', function() vim.lsp.buf.implementation { on_list = on_list } end, opts)
+keymap('n', '<leader>ah', vim.lsp.buf.signature_help, opts)
+
+keymap('n', '<leader>at', function() vim.lsp.buf.type_definition { on_list = on_list } end, opts)
+keymap('n', '<leader>ar', vim.lsp.buf.rename, opts)
+keymap('n', '<leader>ac', vim.lsp.buf.code_action, opts)
+keymap('v', '<leader>ac', vim.lsp.buf.code_action, opts)
+keymap('n', '<leader>af', function() vim.lsp.buf.references(nil, { on_list = on_list }) end, opts)
 
 -- vimrc file
 keymap('n', '<leader>v', ':e ~/.config/nvim/lua/init.lua<cr>', opts)
