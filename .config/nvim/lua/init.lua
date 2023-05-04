@@ -835,6 +835,7 @@ keymap('n', '<leader>o', ":let @+ = expand('%')<cr>", opts)
 keymap('n', '<leader>p', ":let @+ = expand('%:p')<cr>", opts)
 
 keymap('n', '<leader>s', ':w<cr>', opts)
+keymap('n', '<leader>S', ':wa<cr>', opts)
 
 -- window commands
 
