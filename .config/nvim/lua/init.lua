@@ -162,6 +162,9 @@ require("lazy").setup({
         messages = {
           enabled = false,
         },
+        popupmenu = {
+          backend = "cmp",
+        },
       })
     end
   },
