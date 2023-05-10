@@ -172,7 +172,7 @@ expand-package-script() {
 
       if [[ -n $scripts ]]; then
           script_name=$(echo "$scripts" | awk -F '\t' '{print $2}')
-          READLINE_LINE="npx $script_name"
+          READLINE_LINE="yarn $script_name"
           if [[ -z "$READLINE_POINT" ]]; then
             echo "$READLINE_LINE"
           else
@@ -187,9 +187,9 @@ expand-package-script() {
 }
 
 
-bind -m emacs-standard -x '"\C-e": expand-package-script'
-bind -m vi-command -x '"\C-e": expand-package-script'
-bind -m vi-insert -x '"\C-e": expand-package-script'
+bind -m emacs-standard -x '"\C-y": expand-package-script'
+bind -m vi-command -x '"\C-y": expand-package-script'
+bind -m vi-insert -x '"\C-y": expand-package-script'
 
 
 if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
