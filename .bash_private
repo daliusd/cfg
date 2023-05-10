@@ -138,9 +138,8 @@ r() {
 
       if [[ -n $scripts ]]; then
           script_name=$(echo "$scripts" | awk -F '\t' '{print $1}')
-          echo "npm run "$script_name;
-          history -s npm run $script_name
-          npm run $script_name
+          read -e -p "❯ " -i "yarn $script_name"  cmd
+          $cmd
       else
           echo "Exit: You haven't selected any script"
       fi
@@ -155,9 +154,8 @@ y() {
 
       if [[ -n $scripts ]]; then
           script_name=$(echo "$scripts" | awk -F '\t' '{print $1}')
-          echo "yarn "$script_name;
-          history -s yarn $script_name
-          yarn $script_name
+          read -e -p "❯ " -i "yarn $script_name"  cmd
+          $cmd
       else
           echo "Exit: You haven't selected any script"
       fi
