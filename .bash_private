@@ -185,9 +185,9 @@ expand-package-script() {
 }
 
 
-bind -m emacs-standard -x '"\C-y": expand-package-script'
-bind -m vi-command -x '"\C-y": expand-package-script'
-bind -m vi-insert -x '"\C-y": expand-package-script'
+bind -m emacs-standard -x '"\C-e": expand-package-script'
+bind -m vi-command -x '"\C-e": expand-package-script'
+bind -m vi-insert -x '"\C-e": expand-package-script'
 
 
 if command -v tmux &> /dev/null && [ -z "$TMUX" ]; then
