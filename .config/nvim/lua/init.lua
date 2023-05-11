@@ -258,7 +258,7 @@ require("lazy").setup({
             option = {
               -- keyword_pattern = [[\k\+]],
               indexing_interval = 1000,
-              max_indexed_line_length = 1024 * 2,
+              max_indexed_line_length = 512,
               get_bufnrs = function()
                 return vim.api.nvim_list_bufs()
               end

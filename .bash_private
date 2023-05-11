@@ -139,6 +139,7 @@ r() {
       if [[ -n $scripts ]]; then
           script_name=$(echo "$scripts" | awk -F '\t' '{print $1}')
           read -e -p "❯ " -i "yarn $script_name"  cmd
+          history -s $cmd
           $cmd
       else
           echo "Exit: You haven't selected any script"
@@ -155,6 +156,7 @@ y() {
       if [[ -n $scripts ]]; then
           script_name=$(echo "$scripts" | awk -F '\t' '{print $1}')
           read -e -p "❯ " -i "yarn $script_name"  cmd
+          history -s $cmd
           $cmd
       else
           echo "Exit: You haven't selected any script"
