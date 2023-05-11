@@ -8,7 +8,10 @@ if [[ -z "$GIT_DIFF_IMAGE_ENABLED" ]]; then
   echo "Diffing disabled for \"$bn\". Use 'git diff-image' to see image diffs."
 else
   echo "Diffing ${bn}"
-  destfile="$(mktemp -t "$bn").png"
-  odiff "$1" "$2" "$destfile"
-  open "$destfile"
+  diff="$(mktemp -t "$bn").png"
+  final="$(mktemp -t "$bn").png"
+  gm compare -highlight-style assign -highlight-color red -file "$diff" "$1" "$2"
+  gm convert "$2" "$1" +append "$final"
+  gm convert "$final" "$diff" -append "$final"
+  open "$final"
 fi
