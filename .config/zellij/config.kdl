@@ -150,9 +150,9 @@ keybinds clear-defaults=true {
     shared_except "normal" "locked" {
         bind "Enter" "Esc" { SwitchToMode "Normal"; }
     }
-    shared_except "pane" "locked" {
-        bind "Ctrl p" { SwitchToMode "Pane"; }
-    }
+    // shared_except "pane" "locked" {
+    //     bind "Ctrl p" { SwitchToMode "Pane"; }
+    // }
     // shared_except "resize" "locked" {
     //     bind "Ctrl n" { SwitchToMode "Resize"; }
     // }
@@ -221,8 +221,8 @@ pane_frames false
 themes {
     solarized-light{
         fg      "#2C363C"
-        bg      "#F0EDEC"
-        black   "#F0EDEC"
+        bg      "#D0CDCC"
+        black   "#D0CDCC"
         red     "#A8334C"
         green   "#4F6C31"
         yellow  "#944927"
