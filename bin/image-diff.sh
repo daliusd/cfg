@@ -21,6 +21,6 @@ else
     gm convert "$2" "$diff" "$1" +append "$final"
   fi
 
-  open "$final"
+  img2sixel "$final"
 
 fi

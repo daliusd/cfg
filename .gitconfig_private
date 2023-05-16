@@ -15,6 +15,8 @@
     root = rev-parse --show-toplevel
     cc = "!cd -- \"${GIT_PREFIX:-.}\" && f() { git log --format=format: --name-only $@ | egrep -v '^$' | sort | uniq -c | sort -rg | head -15; }; f"
     diff-image = "!f() { cd -- \"${GIT_PREFIX:-.}\"; GIT_DIFF_IMAGE_ENABLED=1 git diff \"$@\"; }; f"
+[pager]
+    diff-image = cat
 
 [commit]
     gpgsign = true
