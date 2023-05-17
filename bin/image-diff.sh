@@ -20,6 +20,8 @@ else
   else
     gm convert "$2" "$diff" "$1" +append "$final"
   fi
+  # resize large diffs
+  gm mogrify -resize 2800x\> "$final"
 
   img2sixel "$final"
 
