@@ -62,7 +62,7 @@ require("lazy").setup({
       require("telescope").setup({
         defaults = {
           layout_strategy = 'vertical',
-          layout_config = { height = 0.95, preview_cutoff = 30 },
+          layout_config = { height = 0.95, preview_cutoff = 20 },
           mappings = {
             i = {
               ["<esc>"] = actions.close,
