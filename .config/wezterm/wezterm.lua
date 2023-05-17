@@ -115,6 +115,18 @@ config.keys = {
       end),
     },
   },
+  {
+    key = 'g',
+    mods = 'CMD',
+    action = wezterm.action.QuickSelectArgs {
+      label = 'select hash',
+      patterns = { '[a-f0-9]{6,}' },
+      action = wezterm.action_callback(function(window, pane)
+        local hash = window:get_selection_text_for_pane(pane)
+        pane:send_text(hash)
+      end),
+    },
+  },
 }
 
 return config
