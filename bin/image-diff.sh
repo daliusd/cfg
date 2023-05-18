@@ -13,7 +13,7 @@ else
   gm compare -highlight-style assign -highlight-color red -file "$diff" "$1" "$2"
 
   w=$(gm identify -format "%w" "$2")
-  h=$(gm identify -format "%w" "$2")
+  h=$(gm identify -format "%h" "$2")
   if ((w > h)); then
     gm convert "$2" "$1" +append "$final"
     gm convert "$final" "$diff" -append "$final"
