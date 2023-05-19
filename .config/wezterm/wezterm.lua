@@ -136,4 +136,13 @@ wezterm.on("gui-startup", function()
   window:gui_window():maximize()
 end)
 
+wezterm.on('update-right-status', function(window, pane)
+  local date = wezterm.strftime '%Y-%m-%d %H:%M:%S'
+
+  -- Make it italic and underlined
+  window:set_right_status(wezterm.format {
+    { Text = date .. ' ' },
+  })
+end)
+
 return config
