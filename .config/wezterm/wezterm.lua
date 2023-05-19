@@ -6,6 +6,8 @@ if wezterm.config_builder then
   config = wezterm.config_builder()
 end
 
+config.scrollback_lines = 10000
+
 config.color_scheme = 'zenbones'
 config.font = wezterm.font { family = 'VictorMono Nerd Font Mono', weight = 'Bold' }
 config.font_size = 17
