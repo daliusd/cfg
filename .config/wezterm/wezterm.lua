@@ -10,12 +10,22 @@ config.scrollback_lines = 10000
 
 config.color_scheme = 'zenbones'
 config.font = wezterm.font { family = 'VictorMono Nerd Font Mono', weight = 'Bold' }
-config.font_size = 17
+
+local f = io.popen("uname")
+local s = f:read("*a")
+s = s:gsub("%s+", "")
+f:close()
+
+if (s == "Linux") then
+  config.font_size = 13
+else
+  config.font_size = 17
+end
 
 config.window_frame = {
   font = wezterm.font { family = 'VictorMono Nerd Font Mono', weight = 'Bold' },
 
-  font_size = 17.0,
+  font_size = s == "Linux" and 13.0 or 17.0,
   active_titlebar_bg = '#2c363c',
   inactive_titlebar_bg = '#2c363c',
 }
