@@ -157,4 +157,11 @@ wezterm.on('update-right-status', function(window, pane)
   })
 end)
 
+config.window_padding = {
+  left = '0.5cell',
+  right = '0.5cell',
+  top = '0.25cell',
+  bottom = 0,
+}
+
 return config
