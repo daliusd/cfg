@@ -165,6 +165,14 @@ require("lazy").setup({
         popupmenu = {
           backend = "cmp",
         },
+        views = {
+          mini = {
+            position = {
+              row = -2,
+              col = "100%",
+            },
+          }
+        }
       })
     end
   },
