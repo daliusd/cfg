@@ -464,6 +464,9 @@ vim.opt.grepprg = 'rg --vimgrep -M 160 -S'
 
 -- Keymaps
 
+keymap('n', ';', ':', { noremap = true })
+keymap('v', ';', ':', { noremap = true })
+
 -- Better navigation for wrapped lines.
 keymap('n', 'j', 'gj', opts)
 keymap('n', 'k', 'gk', opts)
