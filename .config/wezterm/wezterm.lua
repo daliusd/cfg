@@ -56,6 +56,24 @@ config.keys = {
     action = wezterm.action.SplitHorizontal { domain = "CurrentPaneDomain" },
   },
   {
+    key = 't',
+    mods = 'CMD',
+    action = wezterm.action_callback(function(window, pane)
+      local tabs = window:mux_window():tabs_with_info()
+
+      local current_index = 0
+      for _, tab_info in ipairs(tabs) do
+        if tab_info.is_active then
+          current_index = tab_info.index
+          break
+        end
+      end
+
+      window:mux_window():spawn_tab {}
+      window:perform_action(wezterm.action.MoveTab(current_index + 1), pane)
+    end),
+  },
+  {
     key = 'k',
     mods = 'CMD',
     action = wezterm.action.ActivateTabRelative(-1),
