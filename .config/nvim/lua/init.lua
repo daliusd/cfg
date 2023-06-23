@@ -205,7 +205,11 @@ require("lazy").setup({
   },
   'neovim/nvim-lspconfig',
   'jose-elias-alvarez/null-ls.nvim',
-  'jose-elias-alvarez/typescript.nvim',
+  {
+    "pmizio/typescript-tools.nvim",
+    dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+    opts = {},
+  },
   {
     'petertriho/cmp-git',
     dependencies = {
@@ -570,18 +574,8 @@ local function filter(arr, fn)
   return filtered
 end
 
-local function filterReactDTS(value)
-  return string.match(value.filename, 'react/index.d.ts') == nil
-end
-
 local function on_list(options)
-  -- https://github.com/typescript-language-server/typescript-language-server/issues/216
-  local items = options.items
-  if #items > 1 then
-    items = filter(items, filterReactDTS)
-  end
-
-  vim.fn.setqflist({}, ' ', { title = options.title, items = items, context = options.context })
+  vim.fn.setqflist({}, ' ', options)
   vim.api.nvim_command('cfirst')
 end
 
@@ -668,18 +662,6 @@ require 'lspconfig'.lua_ls.setup {
   },
 }
 require 'lspconfig'.vimls.setup {}
-
-require("typescript").setup({
-  server = {
-    on_attach = function(client, bufnr)
-      vim.api.nvim_buf_set_option(bufnr, 'omnifunc', 'v:lua.vim.lsp.omnifunc')
-
-      client.server_capabilities.documentFormattingProvider = false
-      client.server_capabilities.documentRangeFormattingProvider = false
-    end,
-    capabilities = capabilities
-  }
-})
 
 local null_ls = require("null-ls")
 
