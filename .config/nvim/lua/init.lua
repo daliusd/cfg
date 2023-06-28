@@ -210,16 +210,6 @@ require("lazy").setup({
     },
   },
   {
-    'kosayoda/nvim-lightbulb',
-    config = function()
-      require('nvim-lightbulb').setup({ autocmd = { enabled = true } })
-    end
-  },
-  {
-    'sindrets/diffview.nvim',
-    cmd = { 'DiffviewOpen', 'DiffviewFileHistory' },
-  },
-  {
     "kylechui/nvim-surround",
     config = true,
   },
@@ -378,28 +368,6 @@ require("lazy").setup({
   {
     'anuvyklack/pretty-fold.nvim',
     config = true,
-  },
-  {
-    "napmn/react-extract.nvim",
-    config = true,
-    keys = {
-      {
-        '<leader>f',
-        function()
-          require("react-extract").extract_to_new_file()
-        end,
-        mode = 'v',
-        silent = true
-      },
-      {
-        '<leader>c',
-        function()
-          require("react-extract").extract_to_current_file()
-        end,
-        mode = 'v',
-        silent = true
-      },
-    },
   },
   -- Other
   {
