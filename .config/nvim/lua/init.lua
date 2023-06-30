@@ -42,7 +42,7 @@ require("lazy").setup({
 
   -- Generic plugins
 
-  'kyazdani42/nvim-web-devicons',
+  'nvim-tree/nvim-web-devicons',
   "hoob3rt/lualine.nvim",
   {
     'nvim-telescope/telescope-fzf-native.nvim',
@@ -193,7 +193,7 @@ require("lazy").setup({
       },
       {
         "S",
-        mode = { "n", "o", "x" },
+        mode = { "n" },
         function()
           require("flash").treesitter()
         end,
@@ -232,6 +232,15 @@ require("lazy").setup({
     "pmizio/typescript-tools.nvim",
     dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
     opts = {},
+    config = function()
+      require("typescript-tools").setup {
+        on_attach =
+            function(client, bufnr)
+              client.server_capabilities.documentFormattingProvider = false
+              client.server_capabilities.documentRangeFormattingProvider = false
+            end
+      }
+    end
   },
   {
     'petertriho/cmp-git',
@@ -355,7 +364,15 @@ require("lazy").setup({
       })
     end
   },
-
+  {
+    'pwntester/octo.nvim',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'nvim-telescope/telescope.nvim',
+      'nvim-tree/nvim-web-devicons',
+    },
+    config = true
+  },
   -- Tree-sitter
   {
     'nvim-treesitter/nvim-treesitter',
@@ -468,9 +485,6 @@ vim.opt.smartcase = true  -- Ignore ignorecase if search contains upper case let
 vim.opt.grepprg = 'rg --vimgrep -M 160 -S'
 
 -- Keymaps
-
-keymap('n', ';', ':', { noremap = true })
-keymap('v', ';', ':', { noremap = true })
 
 -- Better navigation for wrapped lines.
 keymap('n', 'j', 'gj', opts)
