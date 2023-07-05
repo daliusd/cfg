@@ -43,7 +43,56 @@ require("lazy").setup({
   -- Generic plugins
 
   'nvim-tree/nvim-web-devicons',
-  "hoob3rt/lualine.nvim",
+  {
+    'nvim-lualine/lualine.nvim',
+    config = function()
+      require('lualine').setup {
+        options = {
+          theme = 'zenbones'
+        },
+        extensions = { 'neo-tree' },
+        sections = {
+          lualine_a = { 'mode' },
+          lualine_b = { 'branch' },
+          lualine_c = {
+            {
+              'filename',
+              path = 3,
+            }
+          },
+          lualine_x = { 'encoding', 'fileformat', 'filetype',
+            {
+              'diagnostics',
+              sources = { 'nvim_diagnostic' },
+              sections = { 'error', 'warn', 'info', 'hint' },
+              symbols = { error = 'E', warn = 'W', info = 'I', hint = 'H' }
+            }
+          },
+          lualine_y = { 'progress' },
+          lualine_z = { 'location' }
+        },
+        tabline = {
+          lualine_a = {
+            {
+              'tabs',
+              max_length = vim.o.columns,
+              mode = 2,
+              tabs_color = { active = 'lualine_a_normal', inactive = 'lualine_c_normal' },
+              fmt = function(name, context)
+                local buflist = vim.fn.tabpagebuflist(context.tabnr)
+                local winnr = vim.fn.tabpagewinnr(context.tabnr)
+                local bufnr = buflist[winnr]
+                local mod = vim.fn.getbufvar(bufnr, '&mod')
+
+                return name .. (mod == 1 and ' +' or '')
+              end
+            },
+          },
+          lualine_z = { 'filesize' }
+        },
+      }
+    end
+  },
   {
     'nvim-telescope/telescope-fzf-native.nvim',
     build = 'make',
@@ -707,54 +756,6 @@ vim.api.nvim_create_autocmd('LspAttach', {
     vim.bo[args.buf].formatexpr = nil
   end,
 })
-
--- lualine
-
-require('lualine').setup {
-  options = {
-    theme = 'zenbones'
-  },
-  extensions = { 'neo-tree' },
-  sections = {
-    lualine_a = { 'mode' },
-    lualine_b = { 'branch' },
-    lualine_c = {
-      {
-        'filename',
-        path = 3,
-      }
-    },
-    lualine_x = { 'encoding', 'fileformat', 'filetype',
-      {
-        'diagnostics',
-        sources = { 'nvim_diagnostic' },
-        sections = { 'error', 'warn', 'info', 'hint' },
-        symbols = { error = 'E', warn = 'W', info = 'I', hint = 'H' }
-      }
-    },
-    lualine_y = { 'progress' },
-    lualine_z = { 'location' }
-  },
-  tabline = {
-    lualine_a = {
-      {
-        'tabs',
-        max_length = vim.o.columns,
-        mode = 2,
-        tabs_color = { active = 'lualine_a_normal', inactive = 'lualine_c_normal' },
-        fmt = function(name, context)
-          local buflist = vim.fn.tabpagebuflist(context.tabnr)
-          local winnr = vim.fn.tabpagewinnr(context.tabnr)
-          local bufnr = buflist[winnr]
-          local mod = vim.fn.getbufvar(bufnr, '&mod')
-
-          return name .. (mod == 1 and ' +' or '')
-        end
-      },
-    },
-    lualine_z = { 'filesize' }
-  },
-}
 
 -- Telescope
 
