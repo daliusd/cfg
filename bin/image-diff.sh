@@ -8,7 +8,7 @@ if [[ -z "$GIT_DIFF_IMAGE_ENABLED" ]]; then
   echo "Diffing disabled for \"$bn\". Use 'git diff-image' to see image diffs."
 else
   echo "Diffing ${bn}"
-  diff="$(mktemp -t "$bn").png"
+  diff="$(mktemp -t "$bn.XXXXXXX").png"
   gm compare -highlight-style assign -highlight-color red -file "$diff" "$1" "$2"
 
   # ALTERNATIVE WAY where we combine images
