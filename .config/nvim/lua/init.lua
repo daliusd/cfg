@@ -278,7 +278,6 @@ require("lazy").setup({
       'hrsh7th/cmp-vsnip',
       'hrsh7th/vim-vsnip',
       'hrsh7th/vim-vsnip-integ',
-      'rafamadriz/friendly-snippets',
     },
     config = function()
       local cmp = require 'cmp'
