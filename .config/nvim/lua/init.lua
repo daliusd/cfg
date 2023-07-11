@@ -265,6 +265,7 @@ require("lazy").setup({
     },
     config = true,
   },
+  'sindrets/diffview.nvim',
   'windwp/nvim-autopairs',
   {
     'hrsh7th/nvim-cmp',
