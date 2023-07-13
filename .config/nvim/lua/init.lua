@@ -13,6 +13,9 @@ vim.opt.runtimepath:prepend(lazypath)
 
 vim.g.mapleader = ' ' -- we need to setup this before plugins
 
+vim.cmd([[ let g:sneak#use_ic_scs = 1 ]])
+vim.cmd([[ let g:sneak#s_next = 1 ]])
+
 function vim.getVisualSelection()
   vim.cmd('noau normal! "vy"')
   local text = vim.fn.getreg('v')
@@ -232,7 +235,7 @@ require("lazy").setup({
     config = true,
   },
   'tpope/vim-abolish',
-
+  'justinmk/vim-sneak',
   {
     'numToStr/Comment.nvim',
     config = true,
