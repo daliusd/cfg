@@ -431,10 +431,6 @@ require("lazy").setup({
   },
 })
 
---
-
-vim.g.python3_host_prog = vim.fn.expand('~') .. '/projects/soft/py3nvim/bin/python'
-
 -- UI part
 
 vim.opt.clipboard = 'unnamedplus'
