@@ -15,6 +15,7 @@ vim.g.mapleader = ' ' -- we need to setup this before plugins
 
 vim.cmd([[ let g:sneak#use_ic_scs = 1 ]])
 vim.cmd([[ let g:sneak#s_next = 1 ]])
+vim.cmd([[ let g:sneak#label = 1 ]])
 
 function vim.getVisualSelection()
   vim.cmd('noau normal! "vy"')
