@@ -13,10 +13,6 @@ vim.opt.runtimepath:prepend(lazypath)
 
 vim.g.mapleader = ' ' -- we need to setup this before plugins
 
-vim.cmd([[ let g:sneak#use_ic_scs = 1 ]])
-vim.cmd([[ let g:sneak#s_next = 1 ]])
-vim.cmd([[ let g:sneak#label = 1 ]])
-
 function vim.getVisualSelection()
   vim.cmd('noau normal! "vy"')
   local text = vim.fn.getreg('v')
@@ -236,7 +232,6 @@ require("lazy").setup({
     config = true,
   },
   'tpope/vim-abolish',
-  'justinmk/vim-sneak',
   {
     'numToStr/Comment.nvim',
     config = true,
@@ -249,7 +244,69 @@ require("lazy").setup({
     }
   },
   'neovim/nvim-lspconfig',
-  'jose-elias-alvarez/null-ls.nvim',
+  {
+    "mfussenegger/nvim-lint",
+    config = function()
+      require('lint').linters_by_ft = {
+        javascript = { 'langd' },
+        javascriptreact = { 'langd' },
+        typescript = { 'langd' },
+        typescriptreact = { 'langd' },
+      }
+
+      vim.api.nvim_create_autocmd({ "BufRead", "InsertLeave" }, {
+        callback = function()
+          require("lint").try_lint()
+        end,
+      })
+
+      require('lint').linters.langd = {
+        cmd = 'langd',
+        stdin = true,
+        args = { vim.fn.getcwd() },
+        stream = 'stdout',
+        parser = require('lint.parser').from_pattern(
+          '(%d+):(%d+):(%d+) (.*)',
+          { "lnum", "col", "end_col", "message" },
+          nil,
+          {
+            ["source"] = "langd",
+            ["severity"] = vim.diagnostic.severity.INFO,
+          })
+      }
+    end
+  },
+  {
+    'mhartington/formatter.nvim',
+    config = function()
+      local prettierd = function()
+        if not vim.loop.fs_realpath(".prettierrc.js") then
+          return nil
+        end
+
+        return {
+          exe = "prettierd",
+          args = { vim.api.nvim_buf_get_name(0) },
+          stdin = true
+        }
+      end
+
+      require("formatter").setup {
+        logging = true,
+        log_level = vim.log.levels.WARN,
+
+        filetype = {
+          javascript = { prettierd },
+          javascriptreact = { prettierd },
+          typescript = { prettierd },
+          typescriptreact = { prettierd },
+          html = { prettierd },
+          markdown = { prettierd },
+          ["*"] = { require("formatter.filetypes.any").remove_trailing_whitespace }
+        }
+      }
+    end
+  },
   {
     "pmizio/typescript-tools.nvim",
     dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
@@ -601,21 +658,6 @@ require 'nvim-treesitter.configs'.setup {
 
 -- nvim-lspconfig
 
-local function filter(arr, fn)
-  if type(arr) ~= "table" then
-    return arr
-  end
-
-  local filtered = {}
-  for k, v in pairs(arr) do
-    if fn(v, k, arr) then
-      table.insert(filtered, v)
-    end
-  end
-
-  return filtered
-end
-
 local function on_list(options)
   vim.fn.setqflist({}, ' ', options)
   vim.api.nvim_command('cfirst')
@@ -705,58 +747,24 @@ require 'lspconfig'.lua_ls.setup {
 }
 require 'lspconfig'.vimls.setup {}
 
-local null_ls = require("null-ls")
-
-null_ls.setup({
-  sources = {
-    null_ls.builtins.diagnostics.trail_space,
-
-    null_ls.builtins.formatting.trim_newlines,
-    null_ls.builtins.formatting.trim_whitespace,
-    null_ls.builtins.formatting.prettierd.with({
-      condition = function(utils)
-        return utils.has_file({ ".prettierrc.js" })
-      end,
-    }),
-  },
-  on_attach = function(client)
-    if client.server_capabilities.documentFormattingProvider then
-      vim.cmd("autocmd BufWritePre <buffer> lua vim.lsp.buf.format({ timeout_ms = 4000 })")
-    end
-  end
-})
-
-local helpers = require("null-ls.helpers")
-
-local langd = {
-  method = null_ls.methods.DIAGNOSTICS,
-  filetypes = { "javascript", "javascriptreact", "typescript", "typescriptreact" },
-  generator = null_ls.generator({
-    command = "langd",
-    args = { vim.fn.getcwd() },
-    to_stdin = true,
-    format = "line",
-    on_output = helpers.diagnostics.from_patterns({
-      {
-        pattern = [[(%d+):(%d+):(%d+) (.*)]],
-        groups = { "row", "col", "end_col", "message" },
-        overrides = {
-          diagnostic = {
-            severity = helpers.diagnostics.severities.information,
-          },
-        },
-      },
-    }),
-  }),
-}
-
-null_ls.register(langd)
-
 -- Use internal formatting for bindings like gq.
 vim.api.nvim_create_autocmd('LspAttach', {
   callback = function(args)
     vim.bo[args.buf].formatexpr = nil
   end,
+})
+
+-- Format on write
+vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+  callback = function()
+    if #vim.lsp.buf_get_clients() > 0 then
+      vim.lsp.buf.format()
+    end
+  end,
+})
+
+vim.api.nvim_create_autocmd("BufWritePost", {
+  command = "FormatWrite",
 })
 
 -- Telescope
