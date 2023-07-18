@@ -167,6 +167,7 @@ require("lazy").setup({
       },
       { '<leader>R', ':Telescope live_grep_args<cr>', silent = true },
       { '<leader>c', ':Telescope commands<cr>',       silent = true },
+      { '<leader>z', ':Telescope spell_suggest<cr>',  silent = true },
     }
   },
   {
@@ -575,8 +576,13 @@ require("lazy").setup({
       require 'nvim-treesitter.configs'.setup {
         highlight = {
           enable = true,
-          disable = {},
           additional_vim_regex_highlighting = false,
+          disable = function(_, bufnr)
+            -- Treesitter is slow on large files. Disable if files is larger than 256kb
+            local buf_name = vim.api.nvim_buf_get_name(bufnr)
+            local file_size = vim.api.nvim_call_function("getfsize", { buf_name })
+            return file_size > 256 * 1024
+          end,
         },
         incremental_selection = {
           enable = true,
@@ -600,18 +606,6 @@ require("lazy").setup({
   {
     'anuvyklack/pretty-fold.nvim',
     config = true,
-  },
-  -- Other
-  {
-    'uga-rosa/translate.nvim',
-    cmd = 'Translate',
-    config = function()
-      require("translate").setup({
-        default = {
-          output = "replace",
-        },
-      })
-    end
   },
 }, {
   checker = {

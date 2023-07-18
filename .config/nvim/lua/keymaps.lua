@@ -53,18 +53,11 @@ keymap('n', '<leader>an', function()
     severity = vim.diagnostic.severity.ERROR,
   })
 end, opts)
-keymap('n', '<leader>aq', vim.diagnostic.setloclist, opts)
 
 -- Telescope
 
 keymap('n', '<leader>g', function()
   local text = vim.fn.expand("<cword>")
-  vim.fn.histadd(':', 'gr ' .. text)
-  vim.cmd('silent gr ' .. text)
-end, opts)
-
-keymap('v', '<leader>g', function()
-  local text = vim.getVisualSelection()
   vim.fn.histadd(':', 'gr ' .. text)
   vim.cmd('silent gr ' .. text)
 end, opts)
@@ -83,7 +76,6 @@ keymap('n', '<leader>o', ":let @+ = expand('%')<cr>", opts)
 keymap('n', '<leader>p', ":let @+ = expand('%:p')<cr>", opts)
 
 keymap('n', '<leader>s', ':w<cr>', opts)
-keymap('n', '<leader>S', ':wa<cr>', opts)
 
 -- window commands
 
@@ -104,11 +96,9 @@ keymap('n', '<c-right>', '<c-w>l', opts)
 
 keymap('n', '<leader>ad', function() vim.lsp.buf.declaration { on_list = on_list } end, opts)
 -- keymap('n', '<leader>d', function() vim.lsp.buf.definition{on_list=on_list} end, opts)
+-- Mapping to c-] because LSP go to definition then works with c-t
 keymap('n', '<leader>d', '<c-]>', opts)
 keymap('n', '<leader>k', vim.lsp.buf.hover, opts)
-
-keymap('n', '<leader>ai', function() vim.lsp.buf.implementation { on_list = on_list } end, opts)
-keymap('n', '<leader>ah', vim.lsp.buf.signature_help, opts)
 
 keymap('n', '<leader>at', function() vim.lsp.buf.type_definition { on_list = on_list } end, opts)
 keymap('n', '<leader>ar', vim.lsp.buf.rename, opts)
