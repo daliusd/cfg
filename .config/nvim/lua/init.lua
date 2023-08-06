@@ -480,11 +480,18 @@ require("lazy").setup({
             name = 'buffer',
             priority = 9,
             option = {
-              -- keyword_pattern = [[\k\+]],
               indexing_interval = 1000,
               max_indexed_line_length = 512,
               get_bufnrs = function()
-                return vim.api.nvim_list_bufs()
+                local bufs = vim.api.nvim_list_bufs()
+
+                result = {}
+                for _, v in ipairs(bufs) do
+                  local byte_size = vim.api.nvim_buf_get_offset(v, vim.api.nvim_buf_line_count(v))
+                  if byte_size < 1024 * 1024 then result[#result+1] = v end
+                end
+
+                return result
               end
             }
           },

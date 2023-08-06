@@ -71,9 +71,9 @@ keymap('n', '<leader>l', ':Lazy<cr>', opts)
 keymap('n', '<leader>n', ':silent noh<cr>', opts)
 keymap('n', '<leader>q', ':qa<cr>', opts)
 
-keymap('n', '<leader>i', ":let @+ = expand('%:t')<cr>", opts)
-keymap('n', '<leader>o', ":let @+ = expand('%')<cr>", opts)
-keymap('n', '<leader>p', ":let @+ = expand('%:p')<cr>", opts)
+keymap('n', '<leader>pp', ":let @+ = expand('%')<cr>", opts)
+keymap('n', '<leader>pn', ":let @+ = expand('%:t')<cr>", opts)
+keymap('n', '<leader>pf', ":let @+ = expand('%:p')<cr>", opts)
 
 keymap('n', '<leader>s', ':w<cr>', opts)
 
