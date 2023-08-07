@@ -109,3 +109,10 @@ keymap('n', '<leader>af', function() vim.lsp.buf.references(nil, { on_list = on_
 -- vimrc file
 keymap('n', '<leader>v', ':e ~/.config/nvim/lua/init.lua<cr>', opts)
 keymap('n', '<leader>V', ':source $MYVIMRC<cr>', opts)
+
+-- nvim-miniyank
+keymap('n', 'p', '<Plug>(miniyank-autoput)')
+keymap('n', 'P', '<Plug>(miniyank-autoPut)')
+
+keymap('n', '<leader>y', '<Plug>(miniyank-cycle)', opts)
+keymap('n', '<leader>Y', '<Plug>(miniyank-cycleback)', opts)

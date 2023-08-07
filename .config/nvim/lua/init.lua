@@ -250,6 +250,9 @@ require("lazy").setup({
     config = true,
   },
   {
+    'bfredl/nvim-miniyank',
+  },
+  {
     'vim-test/vim-test',
     keys = {
       { '<leader>t', ':TestNearest<cr>', silent = true },
