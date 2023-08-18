@@ -172,34 +172,29 @@ require("lazy").setup({
   },
   {
     'nvim-neo-tree/neo-tree.nvim',
-    branch = 'v2.x',
+    branch = 'v3.x',
     dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-tree/nvim-web-devicons",
       "MunifTanjim/nui.nvim",
-      'nvim-lua/plenary.nvim',
     },
     keys = {
       { "<leader>b", ":Neotree left filesystem reveal toggle<cr>",            desc = "NeoTree",     silent = true },
       { "-",         ":Neotree float filesystem reveal reveal_force_cwd<cr>", desc = "NeoTree CWD", silent = true },
     },
     config = function()
-      vim.cmd([[ let g:neo_tree_remove_legacy_commands = 1 ]])
-
       require("neo-tree").setup({
-        window = {
-          mapping_options = {
-            noremap = true,
-            nowait = true,
-          },
-          mappings = {
-            ["i"] = { "toggle_node" },
-            ["<esc>"] = "close_window",
-          }
-        },
         filesystem = {
-          filtered_items = {
-            visible = true,
-          },
-          follow_current_file = true,
+          find_by_full_path_words = true,
+
+          window = {
+            fuzzy_finder_mappings = {
+              ["<down>"] = "move_cursor_down",
+              ["<C-j>"] = "move_cursor_down",
+              ["<up>"] = "move_cursor_up",
+              ["<C-k>"] = "move_cursor_up",
+            },
+          }
         }
       })
     end,
