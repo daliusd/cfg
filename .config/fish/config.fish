@@ -5,16 +5,6 @@ end
 set -Ux EDITOR nvim
 set -Ux GPG_TTY tty
 
-# nvmrc
-
-function __nvmrc_check --on-variable PWD --description 'Check .nvmrc'
-  status --is-command-substitution; and return
-  echo '.nvmrc check running'
-  if test -e .nvmrc
-    fnm use
-  end
-end
-
 # Aliases
 
 alias e=nvim

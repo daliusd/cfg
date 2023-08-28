@@ -185,7 +185,13 @@ require("lazy").setup({
     config = function()
       require("neo-tree").setup({
         filesystem = {
-          find_by_full_path_words = true,
+          filtered_items = { -- show hidden files
+            visible = true,
+            hide_dotfiles = false,
+            hide_gitignored = true,
+          },
+
+          find_by_full_path_words = true, -- make filter work properly
 
           window = {
             fuzzy_finder_mappings = {
@@ -486,7 +492,7 @@ require("lazy").setup({
                 result = {}
                 for _, v in ipairs(bufs) do
                   local byte_size = vim.api.nvim_buf_get_offset(v, vim.api.nvim_buf_line_count(v))
-                  if byte_size < 1024 * 1024 then result[#result+1] = v end
+                  if byte_size < 1024 * 1024 then result[#result + 1] = v end
                 end
 
                 return result
@@ -534,7 +540,7 @@ require("lazy").setup({
   {
     'lewis6991/gitsigns.nvim',
     config = function()
-      require('gitsigns').setup{
+      require('gitsigns').setup {
         on_attach = function(bufnr)
           local gs = package.loaded.gitsigns
 
@@ -549,16 +555,15 @@ require("lazy").setup({
             if vim.wo.diff then return ']c' end
             vim.schedule(function() gs.next_hunk() end)
             return '<Ignore>'
-          end, {expr=true})
+          end, { expr = true })
 
           map('n', '[c', function()
             if vim.wo.diff then return '[c' end
             vim.schedule(function() gs.prev_hunk() end)
             return '<Ignore>'
-          end, {expr=true})
+          end, { expr = true })
         end
-       }
-
+      }
     end,
   },
   {
