@@ -1,10 +1,36 @@
+if status is-interactive
+    # Commands to run in interactive sessions can go here
+end
+
+set -Ux EDITOR nvim
+set -Ux GPG_TTY tty
+
+# nvmrc
+
+function __nvmrc_check --on-variable PWD --description 'Check .nvmrc'
+  status --is-command-substitution; and return
+  echo '.nvmrc check running'
+  if test -e .nvmrc
+    fnm use
+  end
+end
+
+# Aliases
+
 alias e=nvim
-if [[ "$OSTYPE" == "darwin"* ]]; then
-    alias cfg='git --git-dir=/Users/daliusd/.cfg/ --work-tree=/Users/daliusd'
-else
-    alias cfg='git --git-dir=/home/dalius/.cfg/ --work-tree=/home/dalius'
-    alias open='xdg-open'
-fi
+
+switch (uname)
+    case Linux
+        alias cfg='git --git-dir=/home/dalius/.cfg/ --work-tree=/home/dalius'
+        alias open='xdg-open'
+    case Darwin
+        alias cfg='git --git-dir=/Users/daliusd/.cfg/ --work-tree=/Users/daliusd'
+    case '*'
+        echo Open config.fish and review it!
+end
+
+fish_add_path -P ~/bin
+fish_add_path -P ~/.npm-global/bin
 
 alias ls='lsd'
 alias ll='ls -al'
@@ -14,9 +40,9 @@ alias gr=rg
 
 alias snc='sync.sh'
 
-username='Dalius Dobravolskas'
-private_email='dalius.dobravolskas@gmail.com'
-work_email='daliusd@wix.com'
+set username 'Dalius Dobravolskas'
+set private_email 'dalius.dobravolskas@gmail.com'
+set work_email 'daliusd@wix.com'
 
 alias gitprivate='git config user.email "$private_email" && git config user.name "$username"'
 alias gitwork='git config user.email "$work_email" && git config user.name "$username"'
@@ -25,9 +51,6 @@ alias gitprivateglobal='git config --global user.email "$private_email" && git c
 alias gitworkglobal='git config --global user.email "$work_email" && git config --global user.name "$username"'
 alias cdr='cd $(git root)'
 alias cdp='cd ~/projects'
-
-alias ~='cd ~'
-alias ..='cd ..'
 
 alias npmpublic='npm config set registry https://registry.npmjs.org/ && npm config get registry'
 alias npmprivate='npm config set registry http://npm.dev.wixpress.com && npm config get registry'
@@ -47,11 +70,15 @@ alias gl='git lg'
 alias glt='git lgt'
 alias gsu='git ci -m "temp" && git stash && git reset --soft HEAD~1'
 
-# Tilde commands for Mac
+alias h='history --merge'
 
-alias tildeswap=$'hidutil property --set \'{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0x700000064,"HIDKeyboardModifierMappingDst":0x700000035}]}\''
-alias tilderestore=$'hidutil property --set \'{"UserKeyMapping":[{"HIDKeyboardModifierMappingSrc":0x700000064,"HIDKeyboardModifierMappingDst":0x700000064}]}\''
+# FZF
 
-alias fix-spotlight='fd -t d -I node_modules -x touch "{}/.metadata_never_index"'
+set FZF_DEFAULT_COMMAND 'fd -t f'
+set FZF_CTRL_T_COMMAND "$FZF_DEFAULT_COMMAND"
+set FZF_ALT_C_COMMAND "fd -t d"
+set FZF_DEFAULT_OPTS '--bind ctrl-d:page-down,ctrl-u:page-up'
 
-alias h='history -r'
+# Starship
+
+starship init fish | source
