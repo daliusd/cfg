@@ -168,6 +168,48 @@ wezterm.on("gui-startup", function()
   window:gui_window():maximize()
 end)
 
+local function get_current_working_dir(tab)
+  local current_dir = tab.active_pane.current_working_dir
+  local HOME_DIR = string.format('file://%s', os.getenv('HOME'))
+
+  return current_dir == HOME_DIR and '.'
+      or string.gsub(current_dir, '(.*[/\\])(.*)', '%2')
+end
+
+local function get_process(tab)
+  local process_name = string.gsub(tab.active_pane.foreground_process_name, '(.*[/\\])(.*)', '%2')
+  return process_name
+end
+
+wezterm.on(
+  'format-tab-title',
+  function(tab)
+    local has_unseen_output = false
+    if not tab.is_active then
+      for _, pane in ipairs(tab.panes) do
+        if pane.has_unseen_output then
+          has_unseen_output = true
+          break
+        end
+      end
+    end
+
+    local title = string.format('%s', get_process(tab))
+
+    if has_unseen_output then
+      return {
+        { Foreground = { Color = 'Orange' } },
+        { Text = title },
+      }
+    end
+    return {
+      { Text = title },
+    }
+  end
+)
+
+
+
 wezterm.on('update-right-status', function(window, pane)
   local date = wezterm.strftime '%Y-%m-%d %H:%M:%S'
 
