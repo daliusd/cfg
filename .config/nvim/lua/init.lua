@@ -234,7 +234,7 @@ require("lazy").setup({
     "ggandor/leap.nvim",
     config = function()
       vim.keymap.set({ 'n', 'x', 'o' }, 's', '<Plug>(leap-forward-to)');
-      vim.keymap.set({ 'n', 'x', 'o' }, 'S', '<Plug>(leap-backward-to)');
+      vim.keymap.set({ 'n', 'x', 'o' }, 'cc', '<Plug>(leap-backward-to)');
       require('leap').add_repeat_mappings('<tab>', '<s-tab>', {
         relative_directions = true,
         modes = { 'n', 'x', 'o' },
@@ -532,10 +532,6 @@ require("lazy").setup({
     'sQVe/sort.nvim',
     config = true,
   },
-  {
-    'windwp/nvim-ts-autotag',
-    config = true,
-  },
   -- Git
   {
     'lewis6991/gitsigns.nvim',
@@ -631,9 +627,6 @@ require("lazy").setup({
           enable = false,
           disable = {},
         },
-        autotag = {
-          enable = true,
-        }
       }
     end
   },
