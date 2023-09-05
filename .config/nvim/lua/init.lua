@@ -251,9 +251,6 @@ require("lazy").setup({
     config = true,
   },
   {
-    'bfredl/nvim-miniyank',
-  },
-  {
     'vim-test/vim-test',
     keys = {
       { '<leader>t', ':TestNearest<cr>', silent = true },
@@ -588,15 +585,6 @@ require("lazy").setup({
         mappings = "<leader>x"
       })
     end
-  },
-  {
-    'pwntester/octo.nvim',
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-      'nvim-telescope/telescope.nvim',
-      'nvim-tree/nvim-web-devicons',
-    },
-    config = true
   },
   -- Tree-sitter
   {
