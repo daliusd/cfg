@@ -41,6 +41,13 @@ require("lazy").setup({
 
   'nvim-tree/nvim-web-devicons',
   {
+    'nvim-lua/lsp-status.nvim',
+    config = function()
+      local lsp_status = require('lsp-status')
+      lsp_status.register_progress()
+    end
+  },
+  {
     'nvim-lualine/lualine.nvim',
     config = function()
       require('lualine').setup {
@@ -55,7 +62,8 @@ require("lazy").setup({
             {
               'filename',
               path = 3,
-            }
+            },
+            "require'lsp-status'.status()"
           },
           lualine_x = { 'encoding', 'fileformat', 'filetype',
             {
@@ -206,31 +214,6 @@ require("lazy").setup({
     end,
   },
   {
-    'folke/noice.nvim',
-    dependencies = {
-      "MunifTanjim/nui.nvim",
-      'rcarriga/nvim-notify',
-    },
-    config = function()
-      require("noice").setup({
-        messages = {
-          enabled = false,
-        },
-        popupmenu = {
-          backend = "cmp",
-        },
-        views = {
-          mini = {
-            position = {
-              row = -2,
-              col = "100%",
-            },
-          }
-        }
-      })
-    end
-  },
-  {
     "ggandor/leap.nvim",
     config = function()
       vim.keymap.set({ 'n', 'x', 'o' }, 's', '<Plug>(leap-forward-to)');
@@ -287,6 +270,7 @@ require("lazy").setup({
         settings = {
           packageManager = 'yarn'
         },
+        ---@diagnostic disable-next-line: unused-local
         on_attach = function(client, bufnr)
           vim.api.nvim_create_autocmd("BufWritePre", {
             buffer = bufnr,
@@ -298,7 +282,7 @@ require("lazy").setup({
       require 'lspconfig'.html.setup {
         capabilities = capabilities,
         on_attach =
-            function(client, bufnr)
+            function(client)
               client.server_capabilities.documentFormattingProvider = false
               client.server_capabilities.documentRangeFormattingProvider = false
             end
@@ -419,7 +403,7 @@ require("lazy").setup({
     config = function()
       require("typescript-tools").setup {
         on_attach =
-            function(client, bufnr)
+            function(client)
               client.server_capabilities.documentFormattingProvider = false
               client.server_capabilities.documentRangeFormattingProvider = false
             end
@@ -489,7 +473,7 @@ require("lazy").setup({
               get_bufnrs = function()
                 local bufs = vim.api.nvim_list_bufs()
 
-                result = {}
+                local result = {}
                 for _, v in ipairs(bufs) do
                   local byte_size = vim.api.nvim_buf_get_offset(v, vim.api.nvim_buf_line_count(v))
                   if byte_size < 1024 * 1024 then result[#result + 1] = v end
@@ -595,6 +579,10 @@ require("lazy").setup({
     build = ':TSUpdate',
     config = function()
       require 'nvim-treesitter.configs'.setup {
+        ensure_installed = "all",
+        sync_install = false,
+        auto_install = true,
+        ignore_install = {},
         highlight = {
           enable = true,
           additional_vim_regex_highlighting = false,
@@ -618,6 +606,7 @@ require("lazy").setup({
           enable = false,
           disable = {},
         },
+        modules = {},
       }
     end
   },
