@@ -109,6 +109,7 @@ require("lazy").setup({
       'nvim-telescope/telescope-fzf-native.nvim',
       'nvim-telescope/telescope-live-grep-args.nvim',
       'nvim-telescope/telescope-ui-select.nvim',
+      'piersolenski/telescope-import.nvim',
     },
     config = function()
       local actions = require("telescope.actions")
@@ -138,6 +139,9 @@ require("lazy").setup({
               },
             },
           },
+          import = {
+            insert_at_top = false,
+          },
         },
       })
 
@@ -145,10 +149,7 @@ require("lazy").setup({
       telescope.load_extension('fzf')
       telescope.load_extension('live_grep_args')
       telescope.load_extension('ui-select')
-      vim.cmd(
-        'command! -bang -nargs=1 Rg execute ":Telescope live_grep_args default_text=" . escape(<q-args>, \' \\\')')
-
-      vim.cmd(":cnoreabbrev <expr> rg (getcmdtype() == ':' && getcmdline() ==# 'rg') ? 'Rg' : 'rg'")
+      telescope.load_extension('import')
     end,
     cmd = { 'Telescope' },
     keys = {
