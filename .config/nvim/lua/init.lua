@@ -26,6 +26,8 @@ function vim.getVisualSelection()
   end
 end
 
+require('opts')
+
 require("lazy").setup({
   {
     "mcchrish/zenbones.nvim",
@@ -43,7 +45,11 @@ require("lazy").setup({
   {
     'rcarriga/nvim-notify',
     config = function()
-      vim.notify = require("notify")
+      local notify = require("notify")
+      notify.setup({
+        stages = 'fade',
+      })
+      vim.notify = notify
     end
   },
   {
@@ -669,7 +675,6 @@ require("lazy").setup({
   },
 })
 
-require('opts')
 require('misc')
 require('highlights')
 require('todo')

@@ -12,9 +12,9 @@ vim.opt.showmode = false -- This is shown by status line plugin already so I don
 vim.opt.list = true
 vim.opt.listchars = ({ trail = '.', tab = ':▷⋮' }) -- Show trailing dots and tabs
 
-vim.opt.scrolloff = 3                              -- Keep 3 lines below and above the cursor
-vim.opt.number = true                              -- Show line numbering
-vim.opt.numberwidth = 1                            -- Use 1 col + 1 space for numbers
+vim.opt.scrolloff = 3 -- Keep 3 lines below and above the cursor
+vim.opt.number = true -- Show line numbering
+vim.opt.numberwidth = 1 -- Use 1 col + 1 space for numbers
 
 -- Vim stuff
 vim.opt.fixeol = false -- Let's not fix end-of-line
@@ -64,5 +64,3 @@ vim.opt.ignorecase = true -- Ignore case when searching using lowercase
 vim.opt.smartcase = true  -- Ignore ignorecase if search contains upper case letters
 
 vim.opt.grepprg = 'rg --vimgrep -M 160 -S'
-
-vim.opt.cmdheight = 0
