@@ -41,6 +41,12 @@ require("lazy").setup({
 
   'nvim-tree/nvim-web-devicons',
   {
+    'rcarriga/nvim-notify',
+    config = function()
+      vim.notify = require("notify")
+    end
+  },
+  {
     'nvim-lua/lsp-status.nvim',
     config = function()
       local lsp_status = require('lsp-status')
