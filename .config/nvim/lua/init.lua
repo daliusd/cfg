@@ -43,21 +43,10 @@ require("lazy").setup({
 
   'nvim-tree/nvim-web-devicons',
   {
-    'rcarriga/nvim-notify',
-    config = function()
-      local notify = require("notify")
-      notify.setup({
-        stages = 'fade',
-      })
-      vim.notify = notify
-    end
-  },
-  {
-    'nvim-lua/lsp-status.nvim',
-    config = function()
-      local lsp_status = require('lsp-status')
-      lsp_status.register_progress()
-    end
+    "j-hui/fidget.nvim",
+    tag = "legacy",
+    event = "LspAttach",
+    config = true,
   },
   {
     'nvim-lualine/lualine.nvim',
@@ -75,7 +64,6 @@ require("lazy").setup({
               'filename',
               path = 3,
             },
-            "require'lsp-status'.status()"
           },
           lualine_x = { 'encoding', 'fileformat', 'filetype',
             {
