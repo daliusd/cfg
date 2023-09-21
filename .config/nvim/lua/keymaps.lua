@@ -105,7 +105,12 @@ keymap('n', '<leader>ar', vim.lsp.buf.rename, opts)
 keymap('n', '<leader>ac', vim.lsp.buf.code_action, opts)
 keymap('v', '<leader>ac', vim.lsp.buf.code_action, opts)
 keymap('n', '<leader>af', function() vim.lsp.buf.references(nil, { on_list = on_list }) end, opts)
-keymap('n', '<leader>i', ':Telescope import<cr>', opts)
+
+if vim.lsp.inlay_hint then
+  vim.keymap.set('n', '<leader>ai', function()
+    vim.lsp.inlay_hint(0, nil)
+  end, { desc = 'Toggle Inlay Hints' })
+end
 
 -- vimrc file
 keymap('n', '<leader>v', ':e ~/.config/nvim/lua/init.lua<cr>', opts)

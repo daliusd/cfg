@@ -109,7 +109,6 @@ require("lazy").setup({
       'nvim-telescope/telescope-fzf-native.nvim',
       'nvim-telescope/telescope-live-grep-args.nvim',
       'nvim-telescope/telescope-ui-select.nvim',
-      'piersolenski/telescope-import.nvim',
     },
     config = function()
       local actions = require("telescope.actions")
@@ -139,9 +138,6 @@ require("lazy").setup({
               },
             },
           },
-          import = {
-            insert_at_top = false,
-          },
         },
       })
 
@@ -149,7 +145,6 @@ require("lazy").setup({
       telescope.load_extension('fzf')
       telescope.load_extension('live_grep_args')
       telescope.load_extension('ui-select')
-      telescope.load_extension('import')
     end,
     cmd = { 'Telescope' },
     keys = {
@@ -315,6 +310,7 @@ require("lazy").setup({
             telemetry = {
               enable = false,
             },
+            hint = { enable = true },
           },
         },
       }
@@ -404,10 +400,27 @@ require("lazy").setup({
     config = function()
       require("typescript-tools").setup {
         on_attach =
-            function(client)
+            function(client, bufnr)
               client.server_capabilities.documentFormattingProvider = false
               client.server_capabilities.documentRangeFormattingProvider = false
-            end
+
+              if vim.lsp.inlay_hint then
+                vim.lsp.inlay_hint(bufnr, true)
+              end
+            end,
+        settings = {
+          tsserver_file_preferences = {
+            -- Inlay Hints
+            includeInlayParameterNameHints = "all",
+            includeInlayParameterNameHintsWhenArgumentMatchesName = true,
+            includeInlayFunctionParameterTypeHints = true,
+            includeInlayVariableTypeHints = true,
+            includeInlayVariableTypeHintsWhenTypeMatchesName = true,
+            includeInlayPropertyDeclarationTypeHints = true,
+            includeInlayFunctionLikeReturnTypeHints = true,
+            includeInlayEnumMemberValueHints = true,
+          },
+        },
       }
     end
   },
