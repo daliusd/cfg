@@ -72,3 +72,26 @@ set FZF_DEFAULT_OPTS '--bind ctrl-d:page-down,ctrl-u:page-up'
 # Starship
 
 starship init fish | source
+
+# Volta
+
+set -gx VOLTA_HOME "$HOME/.volta"
+set -gx PATH "$VOLTA_HOME/bin" $PATH
+
+function __check_nvmrc --on-variable PWD --description 'check .nvmrc on pwd change and run volta install'
+  status --is-command-substitution; and return
+
+  set -l dir (pwd)
+
+  while not test "$dir" = ''
+    set nvmrc_file "$dir/.nvmrc"
+
+    if test -e "$nvmrc_file"
+      set nodeversion (cat $nvmrc_file)
+      volta install node@$nodeversion
+      break
+    end
+
+    set dir (string split -r -m1 / $dir)[1]
+  end
+end
