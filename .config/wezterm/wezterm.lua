@@ -48,6 +48,11 @@ config.keys = {
     action = wezterm.action.ActivateCopyMode,
   },
   {
+    key = 'f',
+    mods = 'CMD',
+    action = wezterm.action.ToggleFullScreen,
+  },
+  {
     key = '_',
     mods = 'CMD',
     action = wezterm.action.SplitVertical { domain = "CurrentPaneDomain" },
