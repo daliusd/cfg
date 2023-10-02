@@ -183,7 +183,7 @@ require("lazy").setup({
       "MunifTanjim/nui.nvim",
     },
     keys = {
-      { "<leader>b", ":Neotree left filesystem reveal toggle<cr>",            desc = "NeoTree",     silent = true },
+      { "<leader>b", ":Neotree left filesystem reveal toggle<cr>",     desc = "NeoTree",     silent = true },
       { "-",         ":Neotree float filesystem reveal dir=%:p:h<cr>", desc = "NeoTree CWD", silent = true },
     },
     config = function()
@@ -195,7 +195,7 @@ require("lazy").setup({
             hide_gitignored = true,
           },
 
-          bind_to_cwd = false, -- true creates a 2-way binding between vim's cwd and neo-tree's root
+          bind_to_cwd = false,            -- true creates a 2-way binding between vim's cwd and neo-tree's root
 
           find_by_full_path_words = true, -- make filter work properly
 
@@ -210,6 +210,16 @@ require("lazy").setup({
         }
       })
     end,
+  },
+  {
+    "antosha417/nvim-lsp-file-operations",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-neo-tree/neo-tree.nvim",
+    },
+    config = function()
+      require("lsp-file-operations").setup()
+    end
   },
   {
     "ggandor/leap.nvim",
