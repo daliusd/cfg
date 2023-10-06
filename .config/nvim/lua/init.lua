@@ -184,7 +184,7 @@ require("lazy").setup({
     },
     keys = {
       { "<leader>b", ":Neotree left filesystem reveal toggle<cr>",     desc = "NeoTree",     silent = true },
-      { "-",         ":Neotree float filesystem reveal dir=%:p:h<cr>", desc = "NeoTree CWD", silent = true },
+      { "-",         ":Neotree float filesystem reveal_force_cwd<cr>", desc = "NeoTree CWD", silent = true },
     },
     config = function()
       require("neo-tree").setup({
@@ -194,8 +194,6 @@ require("lazy").setup({
             hide_dotfiles = false,
             hide_gitignored = true,
           },
-
-          bind_to_cwd = false,            -- true creates a 2-way binding between vim's cwd and neo-tree's root
 
           find_by_full_path_words = true, -- make filter work properly
 
