@@ -30,7 +30,7 @@ vim.opt.undodir = '/tmp'
 -- delays and poor user experience.
 vim.opt.updatetime = 300
 vim.opt.completeopt = 'menu,menuone,noselect' -- nvim-cmp suggestion
-vim.opt.signcolumn = 'number'                 -- merge signcolumn and number column into one
+vim.opt.signcolumn = 'yes'                    -- merge signcolumn and number column into one
 vim.opt.showtabline = 2
 
 vim.opt.diffopt:append('vertical') -- Vertical diff
