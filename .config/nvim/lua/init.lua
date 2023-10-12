@@ -175,6 +175,15 @@ require("lazy").setup({
     }
   },
   {
+    'stevearc/oil.nvim',
+    opts = {},
+    keys = {
+      { "-", ":Oil<cr>", desc = "Open Parent directory", silent = true },
+    },
+    -- Optional dependencies
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+  },
+  {
     'nvim-neo-tree/neo-tree.nvim',
     branch = 'v3.x',
     dependencies = {
@@ -183,8 +192,8 @@ require("lazy").setup({
       "MunifTanjim/nui.nvim",
     },
     keys = {
-      { "<leader>b", ":Neotree left filesystem reveal toggle<cr>",     desc = "NeoTree",     silent = true },
-      { "-",         ":Neotree float filesystem reveal_force_cwd<cr>", desc = "NeoTree CWD", silent = true },
+      { "<leader>b", ":Neotree left filesystem reveal toggle<cr>", desc = "NeoTree", silent = true },
+      -- { "-",         ":Neotree float filesystem reveal_force_cwd<cr>", desc = "NeoTree CWD", silent = true },
     },
     config = function()
       require("neo-tree").setup({
