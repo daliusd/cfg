@@ -31,4 +31,4 @@ SETUVAR fish_pager_color_description:B3A06D\x1eyellow\x1e\x2di
 SETUVAR fish_pager_color_prefix:normal\x1e\x2d\x2dbold\x1e\x2d\x2dunderline
 SETUVAR fish_pager_color_progress:brwhite\x1e\x2d\x2dbackground\x3dcyan
 SETUVAR fish_pager_color_selected_background:\x2dr
-SETUVAR fish_user_paths:/usr/local/opt/fzf/bin
+SETUVAR fish_user_paths:/home/dalius/projects/ltex\x2dls\x2d16\x2e0\x2e0/bin/\x1e/usr/local/opt/fzf/bin
