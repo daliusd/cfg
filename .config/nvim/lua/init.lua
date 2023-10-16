@@ -683,6 +683,7 @@ require("lazy").setup({
       }
     end
   },
+  'jbyuki/venn.nvim',
   {
     'anuvyklack/pretty-fold.nvim',
     config = true,
