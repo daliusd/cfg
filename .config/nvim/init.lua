@@ -94,6 +94,7 @@ require("lazy").setup({
     'nvim-telescope/telescope-fzf-native.nvim',
     build = 'make',
   },
+  'marcuscaisey/olddirs.nvim',
   {
     'nvim-telescope/telescope.nvim',
     dependencies = {
@@ -137,6 +138,7 @@ require("lazy").setup({
       telescope.load_extension('fzf')
       telescope.load_extension('live_grep_args')
       telescope.load_extension('ui-select')
+      telescope.load_extension('olddirs')
     end,
     cmd = { 'Telescope' },
     keys = {
@@ -164,6 +166,13 @@ require("lazy").setup({
       { '<leader>R', ':Telescope live_grep_args<cr>', silent = true },
       { '<leader>c', ':Telescope commands<cr>',       silent = true },
       { '<leader>z', ':Telescope spell_suggest<cr>',  silent = true },
+      {
+        '<leader>ah',
+        function()
+          require('telescope').extensions.olddirs.picker()
+        end,
+        silent = true
+      },
     }
   },
   {
