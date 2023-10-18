@@ -83,14 +83,6 @@ require("lazy").setup({
               max_length = vim.o.columns,
               mode = 2,
               tabs_color = { active = 'lualine_a_normal', inactive = 'lualine_c_normal' },
-              fmt = function(name, context)
-                local buflist = vim.fn.tabpagebuflist(context.tabnr)
-                local winnr = vim.fn.tabpagewinnr(context.tabnr)
-                local bufnr = buflist[winnr]
-                local mod = vim.fn.getbufvar(bufnr, '&mod')
-
-                return name .. (mod == 1 and ' +' or '')
-              end
             },
           },
           lualine_z = { 'filesize' }
