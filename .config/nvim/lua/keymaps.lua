@@ -113,7 +113,7 @@ if vim.lsp.inlay_hint then
 end
 
 -- vimrc file
-keymap('n', '<leader>v', ':e ~/.config/nvim/lua/init.lua<cr>', opts)
+keymap('n', '<leader>v', ':e ~/.config/nvim/init.lua<cr>', opts)
 keymap('n', '<leader>V', ':source $MYVIMRC<cr>', opts)
 
 local function extract_message()
