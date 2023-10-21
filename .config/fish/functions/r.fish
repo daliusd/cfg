@@ -2,7 +2,7 @@ function r
   if test -e package.json
       set scripts (cat package.json | jq -r '.scripts | to_entries[] | [.key, .value] | @tsv' | fzf --height 40%)
 
-      if set -q scripts
+      if test -n "$scripts"
           set script_name (echo "$scripts" | awk -F '\t' '{print $1}')
           commandline -it -- 'npm run '
           commandline -it -- $script_name
