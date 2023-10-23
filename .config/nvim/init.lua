@@ -408,13 +408,6 @@ require("lazy").setup({
       }
     end
   },
-  {
-    'petertriho/cmp-git',
-    dependencies = {
-      'nvim-lua/plenary.nvim'
-    },
-    config = true,
-  },
   'sindrets/diffview.nvim',
   'windwp/nvim-autopairs',
   {
@@ -483,7 +476,6 @@ require("lazy").setup({
           },
           { name = 'path',     priority = 8 },
           { name = 'emoji',    priority = 7 },
-          { name = 'git',      priority = 6 },
         }),
       })
 
