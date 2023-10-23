@@ -55,7 +55,6 @@ require("lazy").setup({
         options = {
           theme = 'zenbones'
         },
-        extensions = { 'neo-tree' },
         sections = {
           lualine_a = { 'mode' },
           lualine_b = { 'branch' },
@@ -185,45 +184,9 @@ require("lazy").setup({
     dependencies = { "nvim-tree/nvim-web-devicons" },
   },
   {
-    'nvim-neo-tree/neo-tree.nvim',
-    branch = 'v3.x',
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-      "nvim-tree/nvim-web-devicons",
-      "MunifTanjim/nui.nvim",
-    },
-    keys = {
-      { "<leader>b", ":Neotree left filesystem reveal toggle<cr>", desc = "NeoTree", silent = true },
-      -- { "-",         ":Neotree float filesystem reveal_force_cwd<cr>", desc = "NeoTree CWD", silent = true },
-    },
-    config = function()
-      require("neo-tree").setup({
-        filesystem = {
-          filtered_items = { -- show hidden files
-            visible = true,
-            hide_dotfiles = false,
-            hide_gitignored = true,
-          },
-
-          find_by_full_path_words = true, -- make filter work properly
-
-          window = {
-            fuzzy_finder_mappings = {
-              ["<down>"] = "move_cursor_down",
-              ["<C-j>"] = "move_cursor_down",
-              ["<up>"] = "move_cursor_up",
-              ["<C-k>"] = "move_cursor_up",
-            },
-          }
-        }
-      })
-    end,
-  },
-  {
     "antosha417/nvim-lsp-file-operations",
     dependencies = {
       "nvim-lua/plenary.nvim",
-      "nvim-neo-tree/neo-tree.nvim",
     },
     config = function()
       require("lsp-file-operations").setup()
