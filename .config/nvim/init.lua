@@ -78,6 +78,9 @@ require("lazy").setup({
         tabline = {
           lualine_a = {
             {
+              '#vim.api.nvim_list_tabpages() < 2 and vim.loop.cwd() or ""'
+            },
+            {
               'tabs',
               max_length = vim.o.columns,
               mode = 2,
