@@ -104,7 +104,10 @@ keymap('n', '<leader>at', function() vim.lsp.buf.type_definition { on_list = on_
 keymap('n', '<leader>ar', vim.lsp.buf.rename, opts)
 keymap('n', '<leader>ac', vim.lsp.buf.code_action, opts)
 keymap('v', '<leader>ac', vim.lsp.buf.code_action, opts)
+keymap('n', '<leader>m', vim.lsp.buf.code_action, opts)
+keymap('v', '<leader>m', vim.lsp.buf.code_action, opts)
 keymap('n', '<leader>af', function() vim.lsp.buf.references(nil, { on_list = on_list }) end, opts)
+keymap('n', '<leader>/', function() vim.lsp.buf.references(nil, { on_list = on_list }) end, opts)
 
 -- vimrc file
 keymap('n', '<leader>v', ':e ~/.config/nvim/init.lua<cr>', opts)
