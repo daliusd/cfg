@@ -346,39 +346,31 @@ require("lazy").setup({
     end
   },
   {
-    'mhartington/formatter.nvim',
+    'stevearc/conform.nvim',
     config = function()
-      local prettierd = function()
-        if not vim.loop.fs_realpath(".prettierrc.js") then
-          return nil
-        end
-
-        return {
-          exe = "prettierd",
-          args = { vim.api.nvim_buf_get_name(0) },
-          stdin = true
-        }
-      end
-
-      require("formatter").setup {
-        logging = true,
-        log_level = vim.log.levels.WARN,
-
-        filetype = {
-          javascript = { prettierd },
-          javascriptreact = { prettierd },
-          typescript = { prettierd },
-          typescriptreact = { prettierd },
-          html = { prettierd },
-          markdown = { prettierd },
-          ["*"] = { require("formatter.filetypes.any").remove_trailing_whitespace }
-        }
-      }
-
-      vim.api.nvim_create_autocmd("BufWritePost", {
-        command = "FormatWrite",
+      require("conform").setup({
+        formatters_by_ft = {
+          html = { { "prettierd" } },
+          javascript = { { "prettierd" } },
+          javascriptreact = { { "prettierd" } },
+          markdown = { { "prettierd" } },
+          typescript = { { "prettierd" } },
+          typescriptreact = { { "prettierd" } },
+          ["*"] = { "trim_whitespace" },
+        },
+        format_on_save = {
+          timeout_ms = 500,
+          lsp_fallback = true,
+        },
+        formatters = {
+          prettierd = {
+            condition = function()
+              return vim.loop.fs_realpath(".prettierrc.js") ~= nil
+            end,
+          },
+        },
       })
-    end
+    end,
   },
   {
     "pmizio/typescript-tools.nvim",
