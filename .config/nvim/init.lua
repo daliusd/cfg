@@ -187,15 +187,6 @@ require("lazy").setup({
     dependencies = { "nvim-tree/nvim-web-devicons" },
   },
   {
-    "antosha417/nvim-lsp-file-operations",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-    },
-    config = function()
-      require("lsp-file-operations").setup()
-    end
-  },
-  {
     "ggandor/leap.nvim",
     config = function()
       vim.keymap.set({ 'n', 'x', 'o' }, 's', '<Plug>(leap-forward-to)');
