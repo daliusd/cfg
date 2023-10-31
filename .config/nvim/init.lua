@@ -43,10 +43,11 @@ require("lazy").setup({
 
   'nvim-tree/nvim-web-devicons',
   {
-    "j-hui/fidget.nvim",
-    tag = "legacy",
-    event = "LspAttach",
-    config = true,
+    "vigoux/notifier.nvim",
+    config = function()
+      require 'notifier'.setup {
+      }
+    end
   },
   {
     'nvim-lualine/lualine.nvim',
