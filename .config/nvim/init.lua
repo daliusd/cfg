@@ -131,6 +131,7 @@ require("lazy").setup({
               i = {
                 ["<C-f>"] = lga_actions.quote_prompt({ postfix = " -g *{js,jsx,ts,tsx}" }),
                 ["<C-l>"] = lga_actions.quote_prompt({ postfix = " -g *en*" }),
+                ["<C-i>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
               },
             },
           },
