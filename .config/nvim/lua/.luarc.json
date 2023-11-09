@@ -50,5 +50,6 @@
         "/Users/daliusd/.local/share/nvim/lazy/cmp-path/after",
         "/Users/daliusd/.local/share/nvim/lazy/cmp-buffer/after",
         "/usr/local/Cellar/lua-language-server/3.6.20/libexec/meta/035beca0"
-    ]
+    ],
+    "workspace.checkThirdParty": "Disable"
 }

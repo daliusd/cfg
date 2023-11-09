@@ -79,9 +79,6 @@ require("lazy").setup({
         tabline = {
           lualine_a = {
             {
-              '#vim.api.nvim_list_tabpages() < 2 and vim.loop.cwd() or ""'
-            },
-            {
               'tabs',
               max_length = vim.o.columns,
               mode = 2,
@@ -532,6 +529,17 @@ require("lazy").setup({
       require "gitlinker".setup({
         mappings = "<leader>x"
       })
+    end
+  },
+  {
+    'pwntester/octo.nvim',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      'nvim-telescope/telescope.nvim',
+      'nvim-tree/nvim-web-devicons',
+    },
+    config = function()
+      require "octo".setup()
     end
   },
   -- Tree-sitter
