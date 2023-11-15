@@ -633,13 +633,6 @@ require("lazy").setup({
     'anuvyklack/pretty-fold.nvim',
     config = true,
   },
-}, {
-  checker = {
-    -- automatically check for plugin updates
-    enabled = true,
-    notify = true,
-    frequency = 7200,
-  },
 })
 
 require('misc')
