@@ -26,11 +26,17 @@ else
     # gm mogrify -resize 2800x\> "$final"
 
     img2sixel "$diff"
-    echo "Old:"
-    img2sixel "$2"
+
+    if [[ "$GIT_DIFF_IMAGE_ENABLED" == "1" ]]; then
+      echo "Old:"
+      img2sixel "$2"
+      echo "New:"
+      img2sixel "$1"
+    fi
+  else
+    echo "New:"
+    img2sixel "$1"
   fi
 
-  echo "New:"
-  img2sixel "$1"
 
 fi
