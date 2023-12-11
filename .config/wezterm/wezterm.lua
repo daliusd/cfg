@@ -8,7 +8,7 @@ end
 
 config.scrollback_lines = 10000
 
-config.color_scheme = 'zenbones'
+config.color_scheme = 'tokyonight_day'
 config.font = wezterm.font { family = 'VictorMono Nerd Font Mono', weight = 'Bold' }
 
 config.window_decorations = "RESIZE"
