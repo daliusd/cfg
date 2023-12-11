@@ -31,18 +31,14 @@ require('opts')
 require("lazy").setup({
   {
     -- "mcchrish/zenbones.nvim",
-    "neanias/everforest-nvim",
+    "rose-pine/neovim",
+    name = 'rose-pine',
     lazy = false,
     priority = 1000,
     config = function()
       -- vim.g['zenbones_compat'] = 1
       -- vim.cmd([[colorscheme zenbones]])
-      require("everforest").setup({
-        background = "hard",
-        italics = true,
-      })
-
-      vim.cmd([[colorscheme everforest]])
+      vim.cmd([[colorscheme rose-pine]])
     end,
   },
 
