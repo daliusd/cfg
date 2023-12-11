@@ -31,14 +31,18 @@ require('opts')
 require("lazy").setup({
   {
     -- "mcchrish/zenbones.nvim",
-    "folke/tokyonight.nvim",
+    "neanias/everforest-nvim",
     lazy = false,
     priority = 1000,
     config = function()
       -- vim.g['zenbones_compat'] = 1
       -- vim.cmd([[colorscheme zenbones]])
+      require("everforest").setup({
+        background = "hard",
+        italics = true,
+      })
 
-      vim.cmd([[colorscheme tokyonight-day]])
+      vim.cmd([[colorscheme everforest]])
     end,
   },
 
@@ -57,8 +61,7 @@ require("lazy").setup({
     config = function()
       require('lualine').setup {
         options = {
-          -- theme = 'zenbones'
-          theme = 'tokyonight'
+          theme = 'auto'
         },
         sections = {
           lualine_a = { 'mode' },
