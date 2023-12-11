@@ -30,12 +30,15 @@ require('opts')
 
 require("lazy").setup({
   {
-    "mcchrish/zenbones.nvim",
+    -- "mcchrish/zenbones.nvim",
+    "folke/tokyonight.nvim",
     lazy = false,
     priority = 1000,
     config = function()
-      vim.g['zenbones_compat'] = 1
-      vim.cmd([[colorscheme zenbones]])
+      -- vim.g['zenbones_compat'] = 1
+      -- vim.cmd([[colorscheme zenbones]])
+
+      vim.cmd([[colorscheme tokyonight-day]])
     end,
   },
 
@@ -54,7 +57,8 @@ require("lazy").setup({
     config = function()
       require('lualine').setup {
         options = {
-          theme = 'zenbones'
+          -- theme = 'zenbones'
+          theme = 'tokyonight'
         },
         sections = {
           lualine_a = { 'mode' },
