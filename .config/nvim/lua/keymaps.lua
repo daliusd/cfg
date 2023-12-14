@@ -11,6 +11,10 @@ keymap('i', '<down>', '<c-o>gj', opts)
 keymap('n', '<up>', 'gk', opts)
 keymap('i', '<up>', '<c-o>gk', opts)
 
+--
+keymap('n', 'Q', 'q', opts)
+keymap('n', 'q', '<Nop>', opts)
+
 -- Command mode up/down remap
 keymap('c', '<c-k>', '<up>', opts)
 keymap('c', '<c-j>', '<down>', opts)
