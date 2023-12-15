@@ -163,6 +163,20 @@ config.keys = {
         pane:send_text(hash)
       end),
     },
+
+  },
+  {
+    key = 'p',
+    mods = 'CMD',
+    action = wezterm.action.QuickSelectArgs {
+      label = 'select path',
+      patterns = { '[a-zA-Z0-9]*\\/\\S+' },
+
+      action = wezterm.action_callback(function(window, pane)
+        local hash = window:get_selection_text_for_pane(pane)
+        pane:send_text(hash)
+      end),
+    },
   },
 }
 
