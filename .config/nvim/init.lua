@@ -131,7 +131,7 @@ require("lazy").setup({
               i = {
                 ["<C-f>"] = lga_actions.quote_prompt({ postfix = " -g *{js,jsx,ts,tsx}" }),
                 ["<C-l>"] = lga_actions.quote_prompt({ postfix = " -g *en*" }),
-                ["<C-i>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
+                ["<C-o>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
               },
             },
           },
@@ -168,6 +168,16 @@ require("lazy").setup({
         silent = true
       },
       { '<leader>R', ':Telescope live_grep_args<cr>', silent = true },
+      {
+        '<leader>f',
+        function()
+          local text = vim.getVisualSelection()
+          require("telescope.builtin").find_files { default_text = text }
+        end,
+        mode = 'v',
+        silent = true
+      },
+
       { '<leader>c', ':Telescope commands<cr>',       silent = true },
       { '<leader>z', ':Telescope spell_suggest<cr>',  silent = true },
       {
