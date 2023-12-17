@@ -197,7 +197,7 @@ end
 
 local function get_process(tab)
   local process_name = string.gsub(tab.active_pane.foreground_process_name, '(.*[/\\])(.*)', '%2')
-  return process_name
+  return process_name ~= '' and process_name or 'tab'
 end
 
 wezterm.on(

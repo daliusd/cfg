@@ -14,6 +14,8 @@ sudo update-alternatives --config editor
 sudo apt install ripgrep
 sudo apt install fd-find
 
+cargo instal lsd
+
 # bat
 # sudo dpkg -i bat....
 
