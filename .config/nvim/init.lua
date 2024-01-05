@@ -167,6 +167,16 @@ require("lazy").setup({
         mode = 'v',
         silent = true
       },
+      {
+        '<leader>g',
+        function()
+          local text = vim.getVisualSelection()
+          vim.fn.histadd(':', 'gr ' .. text)
+          vim.cmd('silent gr ' .. text)
+        end,
+        mode = 'v',
+        silent = true
+      },
       { '<leader>R', ':Telescope live_grep_args<cr>', silent = true },
       {
         '<leader>f',
