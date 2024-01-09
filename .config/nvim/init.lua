@@ -46,10 +46,10 @@ require("lazy").setup({
 
   'nvim-tree/nvim-web-devicons',
   {
-    "vigoux/notifier.nvim",
+    'echasnovski/mini.notify',
+    version = false,
     config = function()
-      require 'notifier'.setup {
-      }
+      require('mini.notify').setup()
     end
   },
   {
