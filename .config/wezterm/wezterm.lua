@@ -170,7 +170,7 @@ config.keys = {
     mods = 'CMD',
     action = wezterm.action.QuickSelectArgs {
       label = 'select path',
-      patterns = { '[a-zA-Z0-9]*\\/\\S+' },
+      patterns = { '[a-zA-Z0-9-]*\\/\\S+' },
 
       action = wezterm.action_callback(function(window, pane)
         local hash = window:get_selection_text_for_pane(pane)
