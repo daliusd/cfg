@@ -30,7 +30,6 @@ require('opts')
 
 require("lazy").setup({
   {
-    -- "mcchrish/zenbones.nvim",
     "rose-pine/neovim",
     name = 'rose-pine',
     lazy = false,
@@ -211,21 +210,6 @@ require("lazy").setup({
     },
     -- Optional dependencies
     dependencies = { "nvim-tree/nvim-web-devicons" },
-  },
-  {
-    "ggandor/leap.nvim",
-    config = function()
-      vim.keymap.set({ 'n', 'x', 'o' }, 's', '<Plug>(leap-forward-to)');
-      vim.keymap.set({ 'n', 'x', 'o' }, 'cc', '<Plug>(leap-backward-to)');
-      require('leap').add_repeat_mappings('<tab>', '<s-tab>', {
-        relative_directions = true,
-        modes = { 'n', 'x', 'o' },
-      })
-    end
-  },
-  {
-    "kylechui/nvim-surround",
-    config = true,
   },
   'tpope/vim-abolish',
   {
@@ -409,7 +393,6 @@ require("lazy").setup({
       }
     end
   },
-  'sindrets/diffview.nvim',
   'windwp/nvim-autopairs',
   {
     'hrsh7th/nvim-cmp',
@@ -422,7 +405,6 @@ require("lazy").setup({
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-vsnip',
       'hrsh7th/vim-vsnip',
-      'hrsh7th/vim-vsnip-integ',
       'onsails/lspkind.nvim',
     },
     config = function()
@@ -512,7 +494,6 @@ require("lazy").setup({
     end,
   },
   'jamessan/vim-gnupg',
-
   {
     'sQVe/sort.nvim',
     config = true,
