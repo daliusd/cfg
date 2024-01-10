@@ -81,6 +81,16 @@ keymap('n', '<leader>pf', ":let @+ = expand('%:p')<cr>", opts)
 
 keymap('n', '<leader>s', ':w<cr>', opts)
 
+keymap('n', '<leader>b',
+  function()
+    require "gitlinker".get_repo_url({
+      action_callback = function(url)
+        local commit = vim.fn.expand("<cword>")
+        require "gitlinker.actions".open_in_browser(url .. '/commit/' .. commit)
+      end
+    })
+  end,
+  opts)
 -- window commands
 
 keymap('n', '<leader>ww', '<c-w>w', opts)
