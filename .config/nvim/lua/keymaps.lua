@@ -11,7 +11,7 @@ keymap('i', '<down>', '<c-o>gj', opts)
 keymap('n', '<up>', 'gk', opts)
 keymap('i', '<up>', '<c-o>gk', opts)
 
---
+-- q remapped to Q to avoid accidental macro mode
 keymap('n', 'Q', 'q', opts)
 keymap('n', 'q', '<Nop>', opts)
 
@@ -58,13 +58,15 @@ keymap('n', '<leader>an', function()
   })
 end, opts)
 
--- Telescope
+-- Grep
 
 keymap('n', '<leader>g', function()
   local text = vim.fn.expand("<cword>")
   vim.fn.histadd(':', 'gr ' .. text)
   vim.cmd('silent gr ' .. text)
 end, opts)
+
+-- Terminal escape
 
 keymap('t', '<esc>', '<c-\\><c-n>', opts)
 
@@ -126,35 +128,6 @@ keymap('n', '<leader>/', function() vim.lsp.buf.references(nil, { on_list = on_l
 -- vimrc file
 keymap('n', '<leader>v', ':e ~/.config/nvim/init.lua<cr>', opts)
 keymap('n', '<leader>V', ':source $MYVIMRC<cr>', opts)
-
-local function extract_message()
-  local s_buf, s_row, s_col, _ = unpack(vim.fn.getpos("v"))
-  local _, e_row, e_col, _ = unpack(vim.fn.getpos("."))
-
-  local value = vim.api.nvim_buf_get_text(s_buf, s_row - 1, s_col - 1, e_row - 1, e_col, {})[1]
-  value = value:gsub('"', '\\"')
-
-  local key = vim.fn.input("Key: ", "")
-  if #key == 0 then
-    return
-  end
-
-  key = key:gsub('"', '\\"')
-  local tr_key = 't("' .. key .. '")'
-  vim.api.nvim_buf_set_text(s_buf, s_row - 1, s_col - 1, e_row - 1, e_col, { tr_key })
-
-  local out_file = vim.fn.system('fd messages_en.json')
-  out_file = out_file:gsub("[\n]", "")
-  local message_file_lines = vim.fn.readfile(out_file)
-  message_file_lines[#message_file_lines - 1] = message_file_lines[#message_file_lines - 1] .. ','
-  table.insert(message_file_lines, #message_file_lines, '  ' .. '"' .. key .. '": "' .. value .. '"')
-
-  vim.fn.writefile(message_file_lines, out_file)
-
-  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes('<esc>', true, false, true), 'x', false)
-end
-
-keymap('v', '<leader>z', extract_message, ops)
 
 -- venn.nvim: enable or disable keymappings
 function _G.Toggle_venn()
