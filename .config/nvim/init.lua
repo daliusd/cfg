@@ -93,66 +93,24 @@ require("lazy").setup({
     end
   },
   {
-    'nvim-telescope/telescope-fzf-native.nvim',
-    build = 'make',
-  },
-  'marcuscaisey/olddirs.nvim',
-  {
-    'nvim-telescope/telescope.nvim',
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-      'nvim-telescope/telescope-fzf-native.nvim',
-      'nvim-telescope/telescope-live-grep-args.nvim',
-      'nvim-telescope/telescope-ui-select.nvim',
-    },
+    "ibhagwan/fzf-lua",
+    dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
-      local actions = require("telescope.actions")
-      local lga_actions = require("telescope-live-grep-args.actions")
-
-      require("telescope").setup({
-        defaults = {
-          layout_strategy = 'vertical',
-          layout_config = { height = 0.95, preview_cutoff = 20 },
-          mappings = {
-            i = {
-              ["<esc>"] = actions.close,
-              ["<c-c>"] = false,
-              ["<c-j>"] = actions.move_selection_next,
-              ["<c-k>"] = actions.move_selection_previous,
-              ["<C-u>"] = actions.results_scrolling_up,
-              ["<C-d>"] = actions.results_scrolling_down,
-            },
-          },
-        },
-        extensions = {
-          live_grep_args = {
-            mappings = {
-              i = {
-                ["<C-f>"] = lga_actions.quote_prompt({ postfix = " -g *{js,jsx,ts,tsx}" }),
-                ["<C-l>"] = lga_actions.quote_prompt({ postfix = " -g *en*" }),
-                ["<C-o>"] = lga_actions.quote_prompt({ postfix = " --iglob " }),
-              },
-            },
-          },
-        },
+      require("fzf-lua").setup({
+        winopts = { height = 1, width = 1, preview = { border = 'noborder', layout = 'vertical' } }
       })
-
-      local telescope = require('telescope')
-      telescope.load_extension('fzf')
-      telescope.load_extension('live_grep_args')
-      telescope.load_extension('ui-select')
-      telescope.load_extension('olddirs')
+      vim.cmd('FzfLua register_ui_select')
     end,
-    cmd = { 'Telescope' },
+    cmd = { 'FzfLua' },
     keys = {
-      { '<leader>h', ':Telescope oldfiles<cr>',   silent = true },
-      { '<leader>f', ':Telescope find_files<cr>', silent = true },
+      { '<leader>h', ':FzfLua oldfiles<cr>', silent = true },
+      { '<leader>f', ':FzfLua files<cr>',    silent = true },
       {
         '<leader>r',
         function()
           local text = vim.fn.expand("<cword>")
           vim.fn.histadd(':', 'Rg ' .. text)
-          require('telescope').extensions.live_grep_args.live_grep_args({ default_text = text })
+          require("fzf-lua").live_grep_glob({ search = text })
         end,
         silent = true
       },
@@ -161,7 +119,7 @@ require("lazy").setup({
         function()
           local text = vim.getVisualSelection()
           vim.fn.histadd(':', 'Rg ' .. text)
-          require('telescope').extensions.live_grep_args.live_grep_args({ default_text = text })
+          require("fzf-lua").live_grep_glob({ search = text })
         end,
         mode = 'v',
         silent = true
@@ -176,26 +134,19 @@ require("lazy").setup({
         mode = 'v',
         silent = true
       },
-      { '<leader>R', ':Telescope live_grep_args<cr>', silent = true },
+      { '<leader>R', ':FzfLua live_grep_glob<cr>', silent = true },
       {
         '<leader>f',
         function()
           local text = vim.getVisualSelection()
-          require("telescope.builtin").find_files { default_text = text }
+          require("fzf-lua").files({ search = text })
         end,
         mode = 'v',
         silent = true
       },
 
-      { '<leader>c', ':Telescope commands<cr>',       silent = true },
-      { '<leader>z', ':Telescope spell_suggest<cr>',  silent = true },
-      {
-        '<leader>ah',
-        function()
-          require('telescope').extensions.olddirs.picker()
-        end,
-        silent = true
-      },
+      { '<leader>c', ':FzfLua commands<cr>',       silent = true },
+      { '<leader>z', ':FzfLua spell_suggest<cr>',  silent = true },
     }
   },
   {

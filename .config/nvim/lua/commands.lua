@@ -72,7 +72,12 @@ vim.api.nvim_create_user_command(
   {}
 )
 
-vim.cmd(
-  'command! -bang -nargs=1 Rg execute ":Telescope live_grep_args default_text=" . escape(<q-args>, \' \\\')')
+vim.api.nvim_create_user_command(
+  'Rg',
+  function(args)
+    require("fzf-lua").live_grep_glob({ search = args['args'] })
+  end,
+  { nargs = '*' }
+)
 
 vim.cmd(":cnoreabbrev <expr> rg (getcmdtype() == ':' && getcmdline() ==# 'rg') ? 'Rg' : 'rg'")
