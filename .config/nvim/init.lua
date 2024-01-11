@@ -97,7 +97,19 @@ require("lazy").setup({
     dependencies = { "nvim-tree/nvim-web-devicons" },
     config = function()
       require("fzf-lua").setup({
-        winopts = { height = 1, width = 1, preview = { border = 'noborder', layout = 'vertical' } }
+        winopts = { height = 1, width = 1, preview = { border = 'noborder', layout = 'vertical' } },
+        grep = {
+          actions = {
+            ["ctrl-l"] = function (_, opts)
+              local text = opts.search .. " -- *_en.json"
+              require("fzf-lua").live_grep_glob({ search = text, no_esc = true })
+            end,
+            ["ctrl-g"] = function (_, opts)
+              local text = opts.search .. " -- *.js *.jsx *.ts *.tsx"
+              require("fzf-lua").live_grep_glob({ search = text, no_esc = true })
+            end,
+          },
+        }
       })
       vim.cmd('FzfLua register_ui_select')
     end,
