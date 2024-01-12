@@ -100,14 +100,14 @@ require("lazy").setup({
         winopts = { height = 1, width = 1, preview = { border = 'noborder', layout = 'vertical' } },
         grep = {
           actions = {
-            ["ctrl-l"] = function (_, opts)
-              local text = opts.search .. " -- *_en.json"
+            ["ctrl-l"] = { function()
+              local text = require("fzf-lua").get_last_query() .. " -- *_en.json"
               require("fzf-lua").live_grep_glob({ search = text, no_esc = true })
-            end,
-            ["ctrl-g"] = function (_, opts)
-              local text = opts.search .. " -- *.js *.jsx *.ts *.tsx"
+            end },
+            ["ctrl-g"] = { function()
+              local text = require("fzf-lua").get_last_query() .. " -- *.js *.jsx *.ts *.tsx"
               require("fzf-lua").live_grep_glob({ search = text, no_esc = true })
-            end,
+            end },
           },
         }
       })
