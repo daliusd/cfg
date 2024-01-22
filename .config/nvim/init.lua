@@ -98,7 +98,11 @@ require("lazy").setup({
     config = function()
       require("fzf-lua").setup({
         winopts = { height = 1, width = 1, preview = { border = 'noborder', layout = 'vertical' } },
+        files = {
+          git_icons = false,
+        },
         grep = {
+          git_icons = false,
           actions = {
             ["ctrl-l"] = { function()
               local text = require("fzf-lua").get_last_query() .. " -- *_en.json"
