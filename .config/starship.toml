@@ -1,5 +1,5 @@
 format = """
-${custom.tztime}\
+$time\
 $username\
 $hostname\
 $shlvl\
@@ -15,7 +15,6 @@ $ruby\
 $rust\
 $scala\
 $env_var\
-$custom\
 $cmd_duration\
 $line_break\
 $lua\
@@ -24,7 +23,8 @@ $battery\
 $status\
 $character"""
 
-[custom.tztime]
-command = 'date +"🕙%H:%M:%S"'
-when = "true"
-format = '[\[$symbol($output)\] ](green)'
+[time]
+disabled = false
+format = '🐈[ $time ]($style)'
+time_format = '%T'
+utc_time_offset = 'local'
