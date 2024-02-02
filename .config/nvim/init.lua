@@ -348,7 +348,7 @@ require("lazy").setup({
         formatters = {
           prettierd = {
             condition = function()
-              return vim.loop.fs_realpath(".prettierrc.js") ~= nil
+              return vim.loop.fs_realpath(".prettierrc.js") ~= nil or vim.loop.fs_realpath(".prettierrc.mjs") ~= nil
             end,
           },
         },
