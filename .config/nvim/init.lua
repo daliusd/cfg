@@ -255,7 +255,6 @@ require("lazy").setup({
       require 'lspconfig'.jsonls.setup {
         capabilities = capabilities,
       }
-      require 'lspconfig'.ltex.setup {}
       require 'lspconfig'.pyright.setup {}
       -- NOTE: I am not sure if I need this one.
       -- require 'lspconfig'.quick_lint_js.setup {}
