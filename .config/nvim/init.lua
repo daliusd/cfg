@@ -173,7 +173,14 @@ require("lazy").setup({
       }
     },
     keys = {
-      { "-", ":Oil<cr>", desc = "Open Parent directory", silent = true },
+      {
+        "-",
+        function()
+          require("oil").open()
+        end,
+        desc = "Open Parent directory",
+        silent = true
+      },
     },
     -- Optional dependencies
     dependencies = { "nvim-tree/nvim-web-devicons" },
