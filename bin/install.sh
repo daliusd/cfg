@@ -42,6 +42,7 @@ git clone password-store-location ~/.password-store
 # Tools
 sudo apt install ripgrep
 sudo apt install fd-find
+ln -s $(which fdfind) ~/bin/fd
 sudo apt install bat
 sudo apt install git-delta
 
