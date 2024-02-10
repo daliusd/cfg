@@ -46,6 +46,8 @@ ln -s $(which fdfind) ~/bin/fd
 sudo apt install bat
 sudo apt install git-delta
 
+sudo apt install gnome-sushi # for space previews in nautilus
+
 # Fonts
 mkdir ~/.fonts
 cd .fonts/
