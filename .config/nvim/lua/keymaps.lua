@@ -3,6 +3,8 @@
 local keymap = vim.keymap.set
 local opts = { noremap = true, silent = true }
 
+keymap('n', ';', ':', { noremap = true })
+
 -- Better navigation for wrapped lines.
 keymap('n', 'j', 'gj', opts)
 keymap('n', 'k', 'gk', opts)
