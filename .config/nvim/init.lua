@@ -45,11 +45,10 @@ require("lazy").setup({
 
   'nvim-tree/nvim-web-devicons',
   {
-    'echasnovski/mini.notify',
-    version = false,
-    config = function()
-      require('mini.notify').setup()
-    end
+    'j-hui/fidget.nvim',
+    opts = {
+      -- options
+    },
   },
   {
     'nvim-lualine/lualine.nvim',
