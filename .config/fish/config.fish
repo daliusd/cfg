@@ -11,7 +11,7 @@ alias e=nvim
 
 switch (uname)
     case Linux
-        alias cfg='git --git-dir=/home/dalius/.cfg/ --work-tree=/home/dalius'
+        alias cfg='git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
         alias open='xdg-open'
     case Darwin
         alias cfg='git --git-dir=/Users/daliusd/.cfg/ --work-tree=/Users/daliusd'
@@ -40,7 +40,7 @@ alias gitwork='git config user.email "$work_email" && git config user.name "$use
 
 alias gitprivateglobal='git config --global user.email "$private_email" && git config --global user.name "$username"'
 alias gitworkglobal='git config --global user.email "$work_email" && git config --global user.name "$username"'
-alias cdr='cd $(git root)'
+alias cdr='cd (git root)'
 alias cdp='cd ~/projects'
 
 alias npmpublic='npm config set registry https://registry.npmjs.org/ && npm config get registry'
