@@ -44,27 +44,27 @@ config.harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' }
 config.keys = {
   {
     key = 's',
-    mods = 'CMD',
+    mods = 'ALT',
     action = wezterm.action.ActivateCopyMode,
   },
   {
     key = 'f',
-    mods = 'CMD',
+    mods = 'ALT',
     action = wezterm.action.ToggleFullScreen,
   },
   {
-    key = '_',
-    mods = 'CMD',
+    key = 'n',
+    mods = 'ALT',
     action = wezterm.action.SplitVertical { domain = "CurrentPaneDomain" },
   },
   {
-    key = '|',
-    mods = 'CMD',
+    key = 'm',
+    mods = 'ALT',
     action = wezterm.action.SplitHorizontal { domain = "CurrentPaneDomain" },
   },
   {
     key = 't',
-    mods = 'CMD',
+    mods = 'ALT',
     action = wezterm.action_callback(function(window, pane)
       local tabs = window:mux_window():tabs_with_info()
 
@@ -82,67 +82,67 @@ config.keys = {
   },
   {
     key = 'k',
-    mods = 'CMD',
+    mods = 'ALT',
     action = wezterm.action.ActivateTabRelative(-1),
   },
   {
     key = 'j',
-    mods = 'CMD',
+    mods = 'ALT',
     action = wezterm.action.ActivateTabRelative(1),
   },
   {
     key = 'h',
-    mods = 'CMD',
+    mods = 'ALT',
     action = wezterm.action.MoveTabRelative(-1),
   },
   {
     key = 'l',
-    mods = 'CMD',
+    mods = 'ALT',
     action = wezterm.action.MoveTabRelative(1),
   },
   {
     key = 'DownArrow',
-    mods = 'CMD',
+    mods = 'ALT',
     action = wezterm.action.ActivatePaneDirection "Down",
   },
   {
     key = 'UpArrow',
-    mods = 'CMD',
+    mods = 'ALT',
     action = wezterm.action.ActivatePaneDirection "Up",
   },
   {
     key = 'LeftArrow',
-    mods = 'CMD',
+    mods = 'ALT',
     action = wezterm.action.ActivatePaneDirection "Left",
   },
   {
     key = 'RightArrow',
-    mods = 'CMD',
+    mods = 'ALT',
     action = wezterm.action.ActivatePaneDirection "Right",
   },
   {
     key = 'DownArrow',
-    mods = 'CMD|SHIFT',
+    mods = 'ALT|SHIFT',
     action = wezterm.action.AdjustPaneSize { "Down", 1 },
   },
   {
     key = 'UpArrow',
-    mods = 'CMD|SHIFT',
+    mods = 'ALT|SHIFT',
     action = wezterm.action.AdjustPaneSize { "Up", 1 },
   },
   {
     key = 'LeftArrow',
-    mods = 'CMD|SHIFT',
+    mods = 'ALT|SHIFT',
     action = wezterm.action.AdjustPaneSize { "Left", 1 },
   },
   {
     key = 'RightArrow',
-    mods = 'CMD|SHIFT',
+    mods = 'ALT|SHIFT',
     action = wezterm.action.AdjustPaneSize { "Right", 1 },
   },
   {
     key = 'u',
-    mods = 'CMD',
+    mods = 'ALT',
     action = wezterm.action.QuickSelectArgs {
       label = 'open url',
       patterns = { 'https?://\\S+' },
@@ -154,7 +154,7 @@ config.keys = {
   },
   {
     key = 'g',
-    mods = 'CMD',
+    mods = 'ALT',
     action = wezterm.action.QuickSelectArgs {
       label = 'select hash',
       patterns = { '[a-f0-9]{6,}' },
@@ -167,10 +167,10 @@ config.keys = {
   },
   {
     key = 'p',
-    mods = 'CMD',
+    mods = 'ALT',
     action = wezterm.action.QuickSelectArgs {
       label = 'select path',
-      patterns = { '[a-zA-Z0-9-]*\\/\\S+' },
+      patterns = { '[a-zA-Z0-9-.]*\\/\\S+' },
 
       action = wezterm.action_callback(function(window, pane)
         local hash = window:get_selection_text_for_pane(pane)
