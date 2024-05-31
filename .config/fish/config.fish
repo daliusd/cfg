@@ -43,6 +43,9 @@ alias gitworkglobal='git config --global user.email "$work_email" && git config 
 alias cdr='cd (git root)'
 alias cdp='cd ~/projects'
 
+alias brfr='xdg-settings set default-web-browser firefox.desktop'
+alias brch='xdg-settings set default-web-browser google-chrome.desktop'
+
 alias npmpublic='npm config set registry https://registry.npmjs.org/ && npm config get registry'
 alias npmprivate='npm config set registry http://npm.dev.wixpress.com && npm config get registry'
 
