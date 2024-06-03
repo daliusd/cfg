@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 set - # "set -e" is default and if diff tools returns non 0 exit code then git produces "fatal: external diff died"
 
