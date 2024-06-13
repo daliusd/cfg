@@ -644,7 +644,9 @@ require("lazy").setup({
   {
     'rmagatti/gx-extended.nvim',
     config = function()
-      require('gx-extended').setup {}
+      require('gx-extended').setup ({
+        open_fn = require'lazy.util'.open,
+      })
     end
   },
   'jbyuki/venn.nvim',
