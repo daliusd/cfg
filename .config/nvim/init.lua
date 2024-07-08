@@ -191,6 +191,13 @@ require("lazy").setup({
     dependencies = { "nvim-tree/nvim-web-devicons" },
   },
   {
+    'adelarsq/image_preview.nvim',
+    event = 'VeryLazy',
+    config = function()
+      require("image_preview").setup()
+    end
+  },
+  {
     "ggandor/leap.nvim",
     config = function()
       vim.keymap.set({ 'n', 'x', 'o' }, 's', '<Plug>(leap-forward-to)');
