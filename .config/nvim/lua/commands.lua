@@ -115,45 +115,47 @@ vim.api.nvim_create_autocmd({ "CursorMoved", "ModeChanged" }, {
         if entry and not is_visual_mode then
           local full_path = oil.get_current_dir() .. entry.name
 
-          -- find focused pane
-          local listClientsResult = vim.system({'wezterm', 'cli', 'list-clients', '--format=json'}, { text = true}):wait()
-          local focused_pane_id = vim.json.decode(listClientsResult.stdout)[1].focused_pane_id
+          if full_path:match('.png$') or full_path:match('.svg$') then
+            -- find focused pane
+            local listClientsResult = vim.system({'wezterm', 'cli', 'list-clients', '--format=json'}, { text = true}):wait()
+            local focused_pane_id = vim.json.decode(listClientsResult.stdout)[1].focused_pane_id
 
-          local listResult = vim.system({'wezterm', 'cli', 'list', '--format=json'}, { text = true}):wait()
-          local panes = vim.json.decode(listResult.stdout)
+            local listResult = vim.system({'wezterm', 'cli', 'list', '--format=json'}, { text = true}):wait()
+            local panes = vim.json.decode(listResult.stdout)
 
-          -- find relevant tab
-          local tab_id = 0
-          for _, v in ipairs(panes) do
-            if v.pane_id == focused_pane_id then
-              tab_id = v.tab_id
-              break
+            -- find relevant tab
+            local tab_id = 0
+            for _, v in ipairs(panes) do
+              if v.pane_id == focused_pane_id then
+                tab_id = v.tab_id
+                break
+              end
             end
-          end
 
-          -- find pane for preview
-          local preview_pane_id = -1
-          for _, v in ipairs(panes) do
-            if v.tab_id == tab_id and v.pane_id ~= focused_pane_id then
-              preview_pane_id = v.pane_id
-              break
+            -- find pane for preview
+            local preview_pane_id = -1
+            for _, v in ipairs(panes) do
+              if v.tab_id == tab_id and v.pane_id ~= focused_pane_id then
+                preview_pane_id = v.pane_id
+                break
+              end
             end
-          end
 
-          -- create preview pane if we don't have one
-          if preview_pane_id == -1 then
-            local splitPaneResult = vim.system({'wezterm', 'cli', 'split-pane', '--right'}, { text = true}):wait()
-            preview_pane_id = splitPaneResult.stdout
+            -- create preview pane if we don't have one
+            if preview_pane_id == -1 then
+              local splitPaneResult = vim.system({'wezterm', 'cli', 'split-pane', '--right'}, { text = true}):wait()
+              preview_pane_id = splitPaneResult.stdout
 
-            os.execute('wezterm cli activate-pane --pane-id ' .. focused_pane_id)
-          end
+              os.execute('wezterm cli activate-pane --pane-id ' .. focused_pane_id)
+            end
 
-          if full_path:match('.png$') then
-            local command = 'wezterm cli send-text --no-paste --pane-id ' .. preview_pane_id .. ' "viu ' .. full_path .. '\r\n"'
-            os.execute(command)
-          elseif full_path:match('.svg$') then
-            local command = 'wezterm cli send-text --no-paste --pane-id ' .. preview_pane_id .. ' "gm convert ' .. full_path .. ' PNG:- | viu -\r\n"'
-            os.execute(command)
+            if full_path:match('.png$') then
+              local command = 'wezterm cli send-text --no-paste --pane-id ' .. preview_pane_id .. ' "img2sixel ' .. full_path .. '\r\n"'
+              os.execute(command)
+            elseif full_path:match('.svg$') then
+              local command = 'wezterm cli send-text --no-paste --pane-id ' .. preview_pane_id .. ' "gm convert ' .. full_path .. ' PNG:- | img2sixel\r\n"'
+              os.execute(command)
+            end
           end
         end
       end)
