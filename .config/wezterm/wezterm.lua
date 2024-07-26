@@ -19,7 +19,7 @@ s = s:gsub("%s+", "")
 f:close()
 
 if (s == "Linux") then
-  config.font_size = 13
+  config.font_size = 15
 else
   config.font_size = 17
 end
@@ -27,7 +27,7 @@ end
 config.window_frame = {
   font = wezterm.font { family = 'VictorMono Nerd Font Mono', weight = 'Bold' },
 
-  font_size = s == "Linux" and 13.0 or 17.0,
+  font_size = s == "Linux" and 15.0 or 17.0,
   active_titlebar_bg = '#2c363c',
   inactive_titlebar_bg = '#2c363c',
 }

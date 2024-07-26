@@ -97,7 +97,6 @@ require("lazy").setup({
     config = function()
       require("fzf-lua").setup({
         winopts = { height = 1, width = 1, preview = { border = 'noborder', layout = 'vertical' } },
-        defaults = { formatter = 'path.filename_first' },
         files = {
           git_icons = false,
         },
