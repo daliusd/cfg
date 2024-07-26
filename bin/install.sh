@@ -51,8 +51,10 @@ sudo apt install gnome-sushi # for space previews in nautilus
 # Fonts
 mkdir ~/.fonts
 cd .fonts/
-wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/VictorMono.zip
+wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/VictorMono.zip
 unzip VictorMono.zip
+https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/NerdFontsSymbolsOnly.zip
+unzip NerdFontsSymbolsOnly.zip
 fc-cache -fv
 # ??? gsettings set org.gnome.desktop.interface monospace-font-name 'Victor Mono'
 
