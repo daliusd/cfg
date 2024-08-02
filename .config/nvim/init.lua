@@ -313,9 +313,18 @@ require("lazy").setup({
       require 'lspconfig'.vimls.setup {}
 
       -- Format on write
-      vim.api.nvim_create_autocmd({ "BufWritePre" }, {
-        callback = function()
-          vim.lsp.buf.format()
+      vim.api.nvim_create_autocmd('LspAttach', {
+        callback = function(args)
+          local client = vim.lsp.get_client_by_id(args.data.client_id)
+
+          if client.supports_method('textDocument/formatting') then
+            vim.api.nvim_create_autocmd('BufWritePre', {
+              buffer = args.buf,
+              callback = function()
+                vim.lsp.buf.format({bufnr = args.buf, id = client.id})
+              end,
+            })
+	  end
         end,
       })
     end
@@ -479,7 +488,7 @@ require("lazy").setup({
                 local result = {}
                 for _, v in ipairs(bufs) do
                   local byte_size = vim.api.nvim_buf_get_offset(v, vim.api.nvim_buf_line_count(v))
-                  if byte_size < 1024 * 1024 then result[#result + 1] = v end
+                  if byte_size < 256 * 1024 then result[#result + 1] = v end
                 end
 
                 return result
