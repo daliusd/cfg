@@ -324,7 +324,7 @@ require("lazy").setup({
                 vim.lsp.buf.format({bufnr = args.buf, id = client.id})
               end,
             })
-	  end
+          end
         end,
       })
     end
@@ -675,6 +675,30 @@ require("lazy").setup({
     end
   },
   'jbyuki/venn.nvim',
+  {
+    "robitx/gp.nvim",
+    config = function()
+      local conf = {
+        -- For customization, refer to Install > Configuration in the Documentation/Readme
+        providers = {
+          ollama = {
+            endpoint = "http://localhost:11434/v1/chat/completions",
+          },
+        },
+        agents = {
+          {
+            name = "ManoLama",
+            provider = "ollama",
+            chat = true,
+            command = true,
+            model = { model = "llama3.1" },
+            system_prompt = "",
+          },
+        },
+      }
+      require("gp").setup(conf)
+    end,
+  }
 })
 
 require('misc')
