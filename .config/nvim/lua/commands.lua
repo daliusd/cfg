@@ -1,23 +1,5 @@
 -- Commands
 
-vim.api.nvim_create_user_command(
-  'YoshiTest',
-  function()
-    vim.g['test#javascript#runner'] = 'jest'
-    vim.g['test#javascript#jest#executable'] = 'yarn yoshi test'
-  end,
-  {}
-)
-
-vim.api.nvim_create_user_command(
-  'YoshiLibraryTest',
-  function()
-    vim.g['test#javascript#runner'] = 'jest'
-    vim.g['test#javascript#jest#executable'] = 'yarn yoshi-library test'
-  end,
-  {}
-)
-
 -- format/unformat
 
 vim.api.nvim_create_user_command(

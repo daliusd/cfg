@@ -200,13 +200,6 @@ require("lazy").setup({
     config = true,
   },
   {
-    'adelarsq/image_preview.nvim',
-    event = 'VeryLazy',
-    config = function()
-      require("image_preview").setup()
-    end
-  },
-  {
     "ggandor/leap.nvim",
     config = function()
       vim.keymap.set({ 'n', 'x', 'o' }, 's', '<Plug>(leap-forward-to)');
@@ -225,13 +218,6 @@ require("lazy").setup({
   {
     'numToStr/Comment.nvim',
     config = true,
-  },
-  {
-    'vim-test/vim-test',
-    keys = {
-      { '<leader>t', ':TestNearest<cr>', silent = true },
-      { '<leader>T', ':TestFile<cr>',    silent = true },
-    }
   },
   {
     'neovim/nvim-lspconfig',
