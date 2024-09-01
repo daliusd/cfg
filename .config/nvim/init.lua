@@ -352,12 +352,12 @@ require("lazy").setup({
     config = function()
       require("conform").setup({
         formatters_by_ft = {
-          html = { { "prettierd" } },
-          javascript = { { "prettierd" } },
-          javascriptreact = { { "prettierd" } },
-          markdown = { { "prettierd" } },
-          typescript = { { "prettierd" } },
-          typescriptreact = { { "prettierd" } },
+          html = { "prettierd" },
+          javascript = { "prettierd" },
+          javascriptreact = { "prettierd" },
+          markdown = { "prettierd" },
+          typescript = { "prettierd" },
+          typescriptreact = { "prettierd" },
           ["*"] = { "trim_whitespace" },
         },
         format_on_save = {
@@ -367,7 +367,7 @@ require("lazy").setup({
         formatters = {
           prettierd = {
             condition = function()
-              return vim.loop.fs_realpath(".prettierrc.js") ~= nil or vim.loop.fs_realpath(".prettierrc.mjs") ~= nil
+              return vim.loop.fs_realpath(".prettierrc.js") ~= nil or vim.loop.fs_realpath(".prettierrc.mjs") ~= nil or vim.loop.fs_realpath(".prettierrc.json")
             end,
           },
         },
