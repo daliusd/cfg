@@ -652,7 +652,6 @@ require("lazy").setup({
       }
     end
   },
-  'nvim-treesitter/nvim-treesitter-context',
   {
     'rmagatti/gx-extended.nvim',
     config = function()
