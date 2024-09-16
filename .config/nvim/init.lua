@@ -154,7 +154,7 @@ require("lazy").setup({
         '<leader>f',
         function()
           local text = vim.getVisualSelection()
-          require("fzf-lua").files({ search = text })
+          require("fzf-lua").files({ query = text })
         end,
         mode = 'v',
         silent = true
