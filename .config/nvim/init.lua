@@ -101,6 +101,7 @@ require("lazy").setup({
           git_icons = false,
         },
         grep = {
+          file_icons = false,
           git_icons = false,
           actions = {
             ["ctrl-l"] = { function()
