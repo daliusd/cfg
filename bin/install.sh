@@ -71,7 +71,7 @@ volta install node
 # npm config set prefix '~/.npm-global'
 
 # ??? Node stuff
-# echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
 
 # Mac OSX
 brew tap homebrew/cask-fonts
