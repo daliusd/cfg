@@ -97,11 +97,9 @@ require("lazy").setup({
       require("fzf-lua").setup({
         winopts = { height = 1, width = 1, preview = { border = 'noborder', layout = 'vertical' } },
         files = {
-          file_icons = false,
           git_icons = false,
         },
         grep = {
-          file_icons = false,
           git_icons = false,
           actions = {
             ["ctrl-l"] = { function()
