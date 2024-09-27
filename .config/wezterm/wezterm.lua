@@ -181,6 +181,11 @@ config.keys = {
       end),
     },
   },
+  {
+    key = '/',
+    mods = 'ALT',
+    action = wezterm.action.EmitEvent 'trigger-fzf-with-scrollback',
+  },
 }
 
 local mux = wezterm.mux
@@ -239,6 +244,23 @@ wezterm.on('update-right-status', function(window, pane)
   window:set_right_status(wezterm.format {
     { Text = date .. ' ' },
   })
+end)
+
+wezterm.on('trigger-fzf-with-scrollback', function(window, pane)
+  -- Retrieve the text from the pane
+  local text = pane:get_lines_as_text(pane:get_dimensions().scrollback_rows)
+
+  -- Create a temporary file to pass to vim
+  local name = os.tmpname()
+  local f = io.open(name, 'w+')
+  f:write(text)
+  f:flush()
+  f:close()
+
+  pane:send_text('commandline -r (tac ' .. name .. ' | fzf)\r\n')
+
+  wezterm.sleep_ms(1000)
+  os.remove(name)
 end)
 
 config.window_padding = {
