@@ -257,7 +257,7 @@ wezterm.on('trigger-fzf-with-scrollback', function(window, pane)
   f:flush()
   f:close()
 
-  pane:send_text('commandline -r (tac ' .. name .. ' | fzf)\r\n')
+  pane:send_text('commandline -r (tac ' .. name .. ' | sed \'s/^[ \\t]*//;s/[ \\t]*$//\' | fzf)\r\n')
 
   wezterm.sleep_ms(1000)
   os.remove(name)
