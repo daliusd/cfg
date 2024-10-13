@@ -22,6 +22,7 @@ end
 fish_add_path -P ~/bin
 fish_add_path -P ~/.npm-global/bin
 fish_add_path -P ~/.cargo/bin
+fish_add_path -P ~/projects/lua-language-server/bin
 
 alias ls='lsd'
 alias ll='ls -al'
