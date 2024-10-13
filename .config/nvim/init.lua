@@ -115,7 +115,7 @@ require("lazy").setup({
       })
       vim.cmd('FzfLua register_ui_select')
     end,
-    cmd = { 'FzfLua' },
+    lazy = false,
     keys = {
       { '<leader>h', ':FzfLua oldfiles<cr>', silent = true },
       { '<leader>f', ':FzfLua files<cr>',    silent = true },
@@ -306,7 +306,7 @@ require("lazy").setup({
             vim.api.nvim_create_autocmd('BufWritePre', {
               buffer = args.buf,
               callback = function()
-                vim.lsp.buf.format({bufnr = args.buf, id = client.id})
+                vim.lsp.buf.format({ bufnr = args.buf, id = client.id })
               end,
             })
           end
@@ -366,7 +366,8 @@ require("lazy").setup({
         formatters = {
           prettierd = {
             condition = function()
-              return vim.loop.fs_realpath(".prettierrc.js") ~= nil or vim.loop.fs_realpath(".prettierrc.mjs") ~= nil or vim.loop.fs_realpath(".prettierrc.json")
+              return vim.loop.fs_realpath(".prettierrc.js") ~= nil or vim.loop.fs_realpath(".prettierrc.mjs") ~= nil or
+                  vim.loop.fs_realpath(".prettierrc.json")
             end,
           },
         },
@@ -401,7 +402,6 @@ require("lazy").setup({
     dependencies = {
       'hrsh7th/cmp-buffer',
       'hrsh7th/cmp-path',
-      'hrsh7th/cmp-cmdline',
       'hrsh7th/cmp-emoji',
       'hrsh7th/cmp-nvim-lsp',
       'hrsh7th/cmp-vsnip',
@@ -492,22 +492,6 @@ require("lazy").setup({
           })
         }
 
-      })
-
-      cmp.setup.cmdline('/', {
-        mapping = cmp.mapping.preset.cmdline(),
-        sources = {
-          { name = 'buffer' }
-        }
-      })
-
-      cmp.setup.cmdline(':', {
-        mapping = cmp.mapping.preset.cmdline(),
-        sources = cmp.config.sources({
-          { name = 'path' }
-        }, {
-          { name = 'cmdline' }
-        })
       })
 
       require('nvim-autopairs').setup {}
@@ -654,12 +638,30 @@ require("lazy").setup({
   {
     'rmagatti/gx-extended.nvim',
     config = function()
-      require('gx-extended').setup ({
-        open_fn = require'lazy.util'.open,
+      require('gx-extended').setup({
+        open_fn = require 'lazy.util'.open,
       })
     end
   },
   'jbyuki/venn.nvim',
+  {
+    dir = "~/projects/ghlite.nvim",
+    config = function()
+      require('ghlite').setup({
+        debug = false,
+        diff_split = '',
+        comment_split = '',
+        open_command = 'open',
+      })
+    end,
+    keys = {
+      { '<leader>uo', ':GHLitePRCheckout<cr>',     silent = true },
+      { '<leader>uu', ':GHLitePRLoadComments<cr>', silent = true },
+      { '<leader>up', ':GHLitePRDiff<cr>',         silent = true },
+      { '<leader>ua', ':GHLitePRAddComment<cr>',   silent = true },
+      { '<leader>ug', ':GHLitePROpenComment<cr>',  silent = true },
+    }
+  }
 })
 
 require('misc')
