@@ -11,7 +11,7 @@ config.scrollback_lines = 10000
 config.color_scheme = 'zenbones'
 config.font = wezterm.font_with_fallback {
   { family = 'VictorMono Nerd Font Mono', weight = 'Bold' },
-  { family = 'Symbols Nerd Font Mono', weight = 'Regular' },
+  { family = 'Symbols Nerd Font Mono',    weight = 'Regular' },
 }
 
 config.window_decorations = "RESIZE"
@@ -185,6 +185,11 @@ config.keys = {
     key = '/',
     mods = 'ALT',
     action = wezterm.action.EmitEvent 'trigger-fzf-with-scrollback',
+  },
+  {
+    key = 'N',
+    mods = "CTRL|SHIFT",
+    action = wezterm.action.DisableDefaultAssignment
   },
 }
 
