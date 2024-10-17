@@ -48,6 +48,9 @@ require("lazy").setup({
     'j-hui/fidget.nvim',
     opts = {
       -- options
+      notification = {
+        override_vim_notify = true,
+      }
     },
   },
   {
@@ -649,6 +652,7 @@ require("lazy").setup({
     config = function()
       require('ghlite').setup({
         debug = false,
+        view_split = '',
         diff_split = '',
         comment_split = '',
         open_command = 'open',
@@ -656,6 +660,7 @@ require("lazy").setup({
     end,
     keys = {
       { '<leader>uo', ':GHLitePRCheckout<cr>',     silent = true },
+      { '<leader>uv', ':GHLitePRView<cr>',         silent = true },
       { '<leader>uu', ':GHLitePRLoadComments<cr>', silent = true },
       { '<leader>up', ':GHLitePRDiff<cr>',         silent = true },
       { '<leader>ua', ':GHLitePRAddComment<cr>',   silent = true },
