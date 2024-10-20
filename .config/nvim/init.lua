@@ -659,6 +659,7 @@ require("lazy").setup({
       })
     end,
     keys = {
+      { '<leader>us', ':GHLitePRSelect<cr>',       silent = true },
       { '<leader>uo', ':GHLitePRCheckout<cr>',     silent = true },
       { '<leader>uv', ':GHLitePRView<cr>',         silent = true },
       { '<leader>uu', ':GHLitePRLoadComments<cr>', silent = true },
