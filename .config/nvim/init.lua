@@ -305,7 +305,7 @@ require("lazy").setup({
         callback = function(args)
           local client = vim.lsp.get_client_by_id(args.data.client_id)
 
-          if client.supports_method('textDocument/formatting') then
+          if client ~= nil and client.supports_method('textDocument/formatting') then
             vim.api.nvim_create_autocmd('BufWritePre', {
               buffer = args.buf,
               callback = function()
@@ -384,7 +384,7 @@ require("lazy").setup({
     config = function()
       require("typescript-tools").setup {
         on_attach =
-            function(client, bufnr)
+            function(client, _)
               client.server_capabilities.documentFormattingProvider = false
               client.server_capabilities.documentRangeFormattingProvider = false
             end,

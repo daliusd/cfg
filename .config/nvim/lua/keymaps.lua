@@ -47,15 +47,19 @@ local function on_list(options)
 end
 
 keymap('n', '<leader>e', vim.diagnostic.open_float, opts)
-keymap('n', '<leader>ak', vim.diagnostic.goto_prev, opts)
+keymap('n', '<leader>ak', function() vim.diagnostic.jump({ count = -1, float = true }) end, opts)
 keymap('n', '<leader>ap', function()
-  vim.diagnostic.goto_prev({
+  vim.diagnostic.jump({
+    count = -1,
+    float = true,
     severity = vim.diagnostic.severity.ERROR,
   })
 end, opts)
-keymap('n', '<leader>aj', vim.diagnostic.goto_next, opts)
+keymap('n', '<leader>aj', function() vim.diagnostic.jump({ count = 1, float = true }) end, opts)
 keymap('n', '<leader>an', function()
-  vim.diagnostic.goto_next({
+  vim.diagnostic.jump({
+    count = 1,
+    float = true,
     severity = vim.diagnostic.severity.ERROR,
   })
 end, opts)
