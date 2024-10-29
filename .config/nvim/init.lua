@@ -655,8 +655,12 @@ require("lazy").setup({
         debug = false,
         view_split = '',
         diff_split = '',
-        -- comment_split = '',
         open_command = 'open',
+        keymaps = {
+          diff = {
+            open_file_split = 'gv',
+          },
+        },
       })
     end,
     keys = {
@@ -665,6 +669,7 @@ require("lazy").setup({
       { '<leader>uv', ':GHLitePRView<cr>',          silent = true },
       { '<leader>uu', ':GHLitePRLoadComments<cr>',  silent = true },
       { '<leader>up', ':GHLitePRDiff<cr>',          silent = true },
+      { '<leader>ul', ':GHLitePRDiffview<cr>',      silent = true },
       { '<leader>ua', ':GHLitePRAddComment<cr>',    silent = true },
       { '<leader>uc', ':GHLitePRUpdateComment<cr>', silent = true },
       { '<leader>ud', ':GHLitePRDeleteComment<cr>', silent = true },
