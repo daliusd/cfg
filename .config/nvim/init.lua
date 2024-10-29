@@ -658,7 +658,7 @@ require("lazy").setup({
         open_command = 'open',
         keymaps = {
           diff = {
-            open_file_split = 'gv',
+            open_file_split = 'gS',
           },
         },
       })
