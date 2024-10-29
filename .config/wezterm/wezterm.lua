@@ -190,7 +190,7 @@ config.keys = {
       local words = {}
       for line in string.gmatch(text, "([^\n]+)") do
         for word in line:gmatch("%S+") do
-          if #word > 3 then
+          if #word > 4 then
             table.insert(words, word)
           end
         end
