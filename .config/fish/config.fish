@@ -46,6 +46,8 @@ alias cdp='cd ~/projects'
 
 alias brfr='xdg-settings set default-web-browser firefox.desktop'
 alias brch='xdg-settings set default-web-browser google-chrome.desktop'
+alias kben='gsettings set org.gnome.desktop.input-sources sources "[(\'xkb\', \'us\')]"'
+alias kblt='gsettings set org.gnome.desktop.input-sources sources "[(\'xkb\', \'us\'), (\'xkb\', \'lt\')]"'
 
 alias npmpublic='npm config set registry https://registry.npmjs.org/ && npm config get registry'
 alias npmprivate='npm config set registry http://npm.dev.wixpress.com && npm config get registry'
