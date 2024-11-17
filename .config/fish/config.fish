@@ -14,7 +14,7 @@ switch (uname)
         alias cfg='git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
         alias open='xdg-open'
     case Darwin
-        alias cfg='git --git-dir=/Users/daliusd/.cfg/ --work-tree=/Users/daliusd'
+        alias cfg='git --git-dir=$HOME/.cfg/ --work-tree=$HOME'
     case '*'
         echo Open config.fish and review it!
 end

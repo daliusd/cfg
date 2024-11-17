@@ -74,8 +74,7 @@ volta install node
 echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
 
 # Mac OSX
-brew tap homebrew/cask-fonts
-brew cask install victor-mono-nerd-font
+brew install --cask font-victor-mono-nerd-font
 brew install git-delta
 brew install lua-language-server
 brew install pinentry-mac
