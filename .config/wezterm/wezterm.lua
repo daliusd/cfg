@@ -47,12 +47,12 @@ config.harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' }
 config.keys = {
   {
     key = 'c',
-    mods = 'ALT',
+    mods = 'CMD',
     action = wezterm.action.CopyTo 'Clipboard',
   },
   {
     key = 'v',
-    mods = 'ALT',
+    mods = 'CMD',
     action = wezterm.action.PasteFrom 'Clipboard',
   },
   {
