@@ -246,18 +246,18 @@ require("lazy").setup({
       }
       require 'lspconfig'.cssmodules_ls.setup {}
 
-      -- require 'lspconfig'.eslint.setup({
-      --   settings = {
-      --     packageManager = 'yarn'
-      --   },
-      --   ---@diagnostic disable-next-line: unused-local
-      --   on_attach = function(client, bufnr)
-      --     vim.api.nvim_create_autocmd("BufWritePre", {
-      --       buffer = bufnr,
-      --       command = "EslintFixAll",
-      --     })
-      --   end,
-      -- })
+      require 'lspconfig'.eslint.setup({
+        settings = {
+          packageManager = 'yarn'
+        },
+        ---@diagnostic disable-next-line: unused-local
+        on_attach = function(client, bufnr)
+          vim.api.nvim_create_autocmd("BufWritePre", {
+            buffer = bufnr,
+            command = "EslintFixAll",
+          })
+        end,
+      })
 
       require 'lspconfig'.html.setup {
         capabilities = capabilities,
@@ -321,13 +321,13 @@ require("lazy").setup({
     "mfussenegger/nvim-lint",
     config = function()
       require('lint').linters_by_ft = {
-        javascript = { 'langd', 'eslint_d' },
-        javascriptreact = { 'langd', 'eslint_d' },
-        typescript = { 'langd', 'eslint_d' },
-        typescriptreact = { 'langd', 'eslint_d' },
+        javascript = { 'langd' },
+        javascriptreact = { 'langd' },
+        typescript = { 'langd' },
+        typescriptreact = { 'langd' },
       }
 
-      vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+      vim.api.nvim_create_autocmd({ "BufRead", "InsertLeave", "BufWritePost" }, {
         callback = function()
           require("lint").try_lint()
         end,
@@ -355,11 +355,11 @@ require("lazy").setup({
       require("conform").setup({
         formatters_by_ft = {
           html = { "prettierd" },
-          javascript = { "prettierd", "eslint_d" },
-          javascriptreact = { "prettierd", "eslint_d" },
+          javascript = { "prettierd" },
+          javascriptreact = { "prettierd" },
           markdown = { "prettierd" },
-          typescript = { "prettierd", "eslint_d" },
-          typescriptreact = { "prettierd", "eslint_d" },
+          typescript = { "prettierd" },
+          typescriptreact = { "prettierd" },
           ["*"] = { "trim_whitespace" },
         },
         format_on_save = {
