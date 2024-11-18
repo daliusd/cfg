@@ -46,6 +46,16 @@ config.harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' }
 
 config.keys = {
   {
+    key = 'c',
+    mods = 'ALT',
+    action = wezterm.action.CopyTo 'Clipboard',
+  },
+  {
+    key = 'v',
+    mods = 'ALT',
+    action = wezterm.action.PasteFrom 'Clipboard',
+  },
+  {
     key = 's',
     mods = 'ALT',
     action = wezterm.action.ActivateCopyMode,
