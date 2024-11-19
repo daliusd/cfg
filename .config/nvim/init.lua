@@ -223,11 +223,9 @@ require("lazy").setup({
   },
   {
     'neovim/nvim-lspconfig',
-    dependencies = {
-      'hrsh7th/nvim-cmp',
-    },
+    dependencies = { 'saghen/blink.cmp' },
     config = function()
-      local capabilities = require('cmp_nvim_lsp').default_capabilities()
+      local capabilities = require('blink.cmp').get_lsp_capabilities()
 
       require('lspconfig').yamlls.setup {
         settings = {
@@ -398,109 +396,44 @@ require("lazy").setup({
     end
   },
   'windwp/nvim-autopairs',
-  { "rafamadriz/friendly-snippets" },
+  { 'saghen/blink.compat' },
   {
-    'hrsh7th/nvim-cmp',
-    event = "InsertEnter",
+    'saghen/blink.cmp',
+    lazy = false,
     dependencies = {
-      'hrsh7th/cmp-buffer',
-      'hrsh7th/cmp-path',
-      'hrsh7th/cmp-emoji',
-      'hrsh7th/cmp-nvim-lsp',
-      'hrsh7th/cmp-vsnip',
-      'hrsh7th/vim-vsnip',
-      'onsails/lspkind.nvim',
+      { 'rafamadriz/friendly-snippets' },
+      { 'hrsh7th/cmp-emoji' },
     },
-    config = function()
-      local has_words_before = function()
-        unpack = unpack or table.unpack
-        local line, col = unpack(vim.api.nvim_win_get_cursor(0))
-        return col ~= 0 and vim.api.nvim_buf_get_lines(0, line - 1, line, true)[1]:sub(col, col):match("%s") == nil
-      end
+    version = 'v0.*',
 
-      local feedkey = function(key, mode)
-        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(key, true, true, true), mode, true)
-      end
-
-      local cmp = require 'cmp'
-      local lspkind = require('lspkind')
-
-      cmp.setup({
-        snippet = {
-          expand = function(args)
-            vim.fn["vsnip#anonymous"](args.body)
-          end,
+    ---@module 'blink.cmp'
+    ---@type blink.cmp.Config
+    opts = {
+      sources = {
+        completion = {
+          enabled_providers = { 'lsp', 'path', 'snippets', 'buffer', 'emoji' }
         },
-        window = {
-          -- completion = cmp.config.window.bordered(),
-          -- documentation = cmp.config.window.bordered(),
-        },
-        mapping = cmp.mapping.preset.insert({
-          ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-          ['<C-f>'] = cmp.mapping.scroll_docs(4),
-          ['<C-Space>'] = cmp.mapping.complete(),
-          ['<C-e>'] = cmp.mapping.abort(),
-          ['<C-j>'] = cmp.mapping.select_next_item(),
-          ['<C-k>'] = cmp.mapping.select_prev_item(),
-          ['<CR>'] = cmp.mapping.confirm({ select = false }),
-          ["<S-Tab>"] = cmp.mapping(function()
-            if cmp.visible() then
-              cmp.select_prev_item()
-            elseif vim.fn["vsnip#jumpable"](-1) == 1 then
-              feedkey("<Plug>(vsnip-jump-prev)", "")
-            end
-          end, { "i", "s" }),
-          ['<Tab>'] = function(fallback)
-            if cmp.visible() then
-              cmp.select_next_item()
-            elseif vim.fn["vsnip#available"](1) == 1 then
-              feedkey("<Plug>(vsnip-expand-or-jump)", "")
-            elseif has_words_before() then
-              cmp.complete()
-            else
-              fallback()
-            end
-          end
-        }, { "i", "s" }),
-        sources = cmp.config.sources({
-          { name = 'nvim_lsp', priority = 20 },
-          {
-            name = 'buffer',
-            priority = 9,
-            option = {
-              indexing_interval = 1000,
-              max_indexed_line_length = 512,
-              get_bufnrs = function()
-                local bufs = vim.api.nvim_list_bufs()
 
-                local result = {}
-                for _, v in ipairs(bufs) do
-                  local byte_size = vim.api.nvim_buf_get_offset(v, vim.api.nvim_buf_line_count(v))
-                  if byte_size < 256 * 1024 then result[#result + 1] = v end
-                end
-
-                return result
-              end
-            }
-          },
-          { name = 'path',     priority = 8 },
-          { name = 'emoji',    priority = 7 },
-          { name = 'vsnip',    priority = 6 },
-        }),
-        formatting = {
-          format = lspkind.cmp_format({
-            mode = 'symbol_text',  -- show only symbol annotations
-            maxwidth = 50,         -- prevent the popup from showing more than provided characters (e.g 50 will not show more than 50 characters)
-            ellipsis_char = '...', -- when popup menu exceed maxwidth, the truncated part would show ellipsis_char instead (must define maxwidth first)
-          })
+        providers = {
+          emoji = {
+            name = 'emoji',
+            module = 'blink.compat.source',
+            score_offset = -3,
+          }
         }
+      },
 
-      })
+      keymap = {
+        preset = 'super-tab',
+        ['<C-i>'] = { 'show', 'show_documentation', 'hide_documentation' },
+      },
 
-      require('nvim-autopairs').setup {}
-      local cmp_autopairs = require('nvim-autopairs.completion.cmp')
-      cmp.event:on('confirm_done', cmp_autopairs.on_confirm_done({ map_char = { tex = '' } }))
-    end,
+      highlight = {
+        use_nvim_cmp_as_default = true,
+      },
+      nerd_font_variant = 'mono',
+    },
+    opts_extend = { "sources.completion.enabled_providers" }
   },
   'jamessan/vim-gnupg',
   {
