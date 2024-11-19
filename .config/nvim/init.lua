@@ -426,6 +426,8 @@ require("lazy").setup({
       keymap = {
         preset = 'super-tab',
         ['<C-i>'] = { 'show', 'show_documentation', 'hide_documentation' },
+        ['<C-k>'] = { 'select_prev', 'fallback' },
+        ['<C-j>'] = { 'select_next', 'fallback' },
       },
 
       highlight = {
