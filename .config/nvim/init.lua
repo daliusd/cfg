@@ -676,6 +676,28 @@ require("lazy").setup({
       { '<leader>ud', ':GHLitePRDeleteComment<cr>', silent = true },
       { '<leader>ug', ':GHLitePROpenComment<cr>',   silent = true },
     }
+  },
+  {
+    "robitx/gp.nvim",
+    config = function()
+      local conf = {
+        providers = {
+          openai = {},
+          googleai = {
+            endpoint =
+            "https://generativelanguage.googleapis.com/v1beta/models/{{model}}:streamGenerateContent?key={{secret}}",
+            secret = { 'pass', 'show', 'googleai' }
+          },
+        },
+        agents = {
+          {
+            name = "ChatGPT3-5",
+            disable = true,
+          },
+        }
+      }
+      require("gp").setup(conf)
+    end,
   }
 })
 
