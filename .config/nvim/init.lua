@@ -395,7 +395,11 @@ require("lazy").setup({
       }
     end
   },
-  'windwp/nvim-autopairs',
+  {
+    'windwp/nvim-autopairs',
+    event = "InsertEnter",
+    config = true
+  },
   { 'saghen/blink.compat' },
   {
     'saghen/blink.cmp',
@@ -424,16 +428,20 @@ require("lazy").setup({
       },
 
       keymap = {
-        preset = 'super-tab',
+        preset = 'enter',
         ['<C-i>'] = { 'show', 'show_documentation', 'hide_documentation' },
         ['<C-k>'] = { 'select_prev', 'fallback' },
         ['<C-j>'] = { 'select_next', 'fallback' },
+        ['<S-Tab>'] = { 'select_prev', 'fallback' },
+        ['<Tab>'] = { 'select_next', 'fallback' },
       },
 
       highlight = {
         use_nvim_cmp_as_default = true,
       },
       nerd_font_variant = 'mono',
+      accept = { auto_brackets = { enabled = true } },
+      trigger = { signature_help = { enabled = true } },
     },
     opts_extend = { "sources.completion.enabled_providers" }
   },
