@@ -442,6 +442,16 @@ require("lazy").setup({
       nerd_font_variant = 'mono',
       accept = { auto_brackets = { enabled = true } },
       trigger = { signature_help = { enabled = true } },
+
+      windows = {
+        autocomplete = {
+          selection = 'auto_insert',
+        },
+        documentation = {
+          auto_show = true,
+        }
+      },
+
     },
     opts_extend = { "sources.completion.enabled_providers" }
   },
