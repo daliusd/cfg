@@ -177,9 +177,9 @@ require("lazy").setup({
       view_options = {
         show_hidden = true,
       },
-      win_options = {
-        signcolumn = "yes:2",
-      },
+      -- win_options = {
+      --   signcolumn = "yes:2",
+      -- },
     },
     keys = {
       {
@@ -194,13 +194,13 @@ require("lazy").setup({
     -- Optional dependencies
     dependencies = { "nvim-tree/nvim-web-devicons" },
   },
-  {
-    "refractalize/oil-git-status.nvim",
-    dependencies = {
-      "stevearc/oil.nvim",
-    },
-    config = true,
-  },
+  -- {
+  --   "refractalize/oil-git-status.nvim",
+  --   dependencies = {
+  --     "stevearc/oil.nvim",
+  --   },
+  --   config = true,
+  -- },
   {
     "ggandor/leap.nvim",
     config = function()
@@ -400,31 +400,21 @@ require("lazy").setup({
     event = "InsertEnter",
     config = true
   },
-  { 'saghen/blink.compat' },
   {
     'saghen/blink.cmp',
     lazy = false,
-    dependencies = {
-      { 'rafamadriz/friendly-snippets' },
-      { 'hrsh7th/cmp-emoji' },
-    },
     version = 'v0.*',
+    -- dependencies = {
+    --   { 'rafamadriz/friendly-snippets' },
+    -- },
 
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
     opts = {
       sources = {
         completion = {
-          enabled_providers = { 'lsp', 'path', 'snippets', 'buffer', 'emoji' }
+          enabled_providers = { 'lsp', 'path', 'snippets', 'buffer' }
         },
-
-        providers = {
-          emoji = {
-            name = 'emoji',
-            module = 'blink.compat.source',
-            score_offset = -3,
-          }
-        }
       },
 
       keymap = {
@@ -591,16 +581,16 @@ require("lazy").setup({
       }
     end
   },
-  {
-    'rmagatti/gx-extended.nvim',
-    config = function()
-      require('gx-extended').setup({
-        open_fn = require 'lazy.util'.open,
-      })
-    end
-  },
-  'jbyuki/venn.nvim',
-  'sindrets/diffview.nvim',
+  -- {
+  --   'rmagatti/gx-extended.nvim',
+  --   config = function()
+  --     require('gx-extended').setup({
+  --       open_fn = require 'lazy.util'.open,
+  --     })
+  --   end
+  -- },
+  -- 'jbyuki/venn.nvim',
+  -- 'sindrets/diffview.nvim',
   {
     dir = "~/projects/ghlite.nvim",
     config = function()
@@ -611,7 +601,7 @@ require("lazy").setup({
         open_command = 'open',
         keymaps = {
           diff = {
-            open_file_split = 'gS',
+            open_file_tab = 'gt',
           },
         },
       })
@@ -630,28 +620,28 @@ require("lazy").setup({
       { '<leader>ug', ':GHLitePROpenComment<cr>',   silent = true },
     }
   },
-  {
-    "robitx/gp.nvim",
-    config = function()
-      local conf = {
-        providers = {
-          openai = {},
-          googleai = {
-            endpoint =
-            "https://generativelanguage.googleapis.com/v1beta/models/{{model}}:streamGenerateContent?key={{secret}}",
-            secret = { 'pass', 'show', 'googleai' }
-          },
-        },
-        agents = {
-          {
-            name = "ChatGPT3-5",
-            disable = true,
-          },
-        }
-      }
-      require("gp").setup(conf)
-    end,
-  }
+  -- {
+  --   "robitx/gp.nvim",
+  --   config = function()
+  --     local conf = {
+  --       providers = {
+  --         openai = {},
+  --         googleai = {
+  --           endpoint =
+  --           "https://generativelanguage.googleapis.com/v1beta/models/{{model}}:streamGenerateContent?key={{secret}}",
+  --           secret = { 'pass', 'show', 'googleai' }
+  --         },
+  --       },
+  --       agents = {
+  --         {
+  --           name = "ChatGPT3-5",
+  --           disable = true,
+  --         },
+  --       }
+  --     }
+  --     require("gp").setup(conf)
+  --   end,
+  -- }
 })
 
 require('misc')
