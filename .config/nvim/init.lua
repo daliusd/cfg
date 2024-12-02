@@ -177,6 +177,9 @@ require("lazy").setup({
       view_options = {
         show_hidden = true,
       },
+      keymaps = {
+        ['gs'] = false,
+      }
       -- win_options = {
       --   signcolumn = "yes:2",
       -- },
@@ -216,7 +219,6 @@ require("lazy").setup({
     "kylechui/nvim-surround",
     config = true,
   },
-  'tpope/vim-abolish',
   {
     'numToStr/Comment.nvim',
     config = true,
@@ -296,7 +298,6 @@ require("lazy").setup({
           },
         },
       }
-      require 'lspconfig'.vimls.setup {}
 
       -- Format on write
       vim.api.nvim_create_autocmd('LspAttach', {
@@ -446,10 +447,10 @@ require("lazy").setup({
     opts_extend = { "sources.completion.enabled_providers" }
   },
   'jamessan/vim-gnupg',
-  {
-    'sQVe/sort.nvim',
-    config = true,
-  },
+  -- {
+  --   'sQVe/sort.nvim',
+  --   config = true,
+  -- },
   -- Git
   {
     'lewis6991/gitsigns.nvim',
@@ -619,6 +620,10 @@ require("lazy").setup({
       { '<leader>ud', ':GHLitePRDeleteComment<cr>', silent = true },
       { '<leader>ug', ':GHLitePROpenComment<cr>',   silent = true },
     }
+  },
+  {
+    "gregorias/coerce.nvim",
+    config = true,
   },
   -- {
   --   "robitx/gp.nvim",

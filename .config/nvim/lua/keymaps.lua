@@ -37,10 +37,6 @@ keymap('n', 'ga', ':tabnew<cr>', opts)
 keymap('n', 'gs', ':tab split<cr>', opts)
 keymap('n', 'go', ':tabonly<cr>', opts)
 
--- Sort
-keymap('n', 'gh', ':Sort<cr>', opts)
-keymap('v', 'gh', '<esc>:Sort<cr>', opts)
-
 local function on_list(options)
   vim.fn.setqflist({}, ' ', options)
   vim.api.nvim_command('cfirst')
