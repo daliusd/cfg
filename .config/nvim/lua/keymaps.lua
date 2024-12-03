@@ -152,3 +152,21 @@ keymap('n', '<leader>V', ':source $MYVIMRC<cr>', opts)
 --
 -- -- toggle keymappings for venn using <leader>j
 -- vim.api.nvim_set_keymap('n', '<leader>j', ":lua Toggle_venn()<CR>", { noremap = true })
+
+local function search_with_two_chars(search_command)
+  return function()
+    local char1 = vim.fn.getchar()
+    local char2 = vim.fn.getchar()
+
+    char1 = vim.fn.nr2char(char1)
+    char2 = vim.fn.nr2char(char2)
+
+    local search_term = char1 .. char2
+    vim.api.nvim_feedkeys(search_command .. search_term .. "\n", "n", false)
+  end
+end
+
+vim.api.nvim_set_keymap('n', 's', '', { noremap = true, silent = true, callback = search_with_two_chars('/') })
+vim.api.nvim_set_keymap('v', 's', '', { noremap = true, silent = true, callback = search_with_two_chars('/') })
+vim.api.nvim_set_keymap('n', 'S', '', { noremap = true, silent = true, callback = search_with_two_chars('?') })
+vim.api.nvim_set_keymap('v', 'S', '', { noremap = true, silent = true, callback = search_with_two_chars('?') })
