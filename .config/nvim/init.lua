@@ -434,15 +434,14 @@ require("lazy").setup({
       accept = { auto_brackets = { enabled = true } },
       trigger = { signature_help = { enabled = true } },
 
-      windows = {
-        autocomplete = {
+      completion = {
+        list = {
           selection = 'auto_insert',
         },
         documentation = {
           auto_show = true,
         }
       },
-
     },
     opts_extend = { "sources.completion.enabled_providers" }
   },
