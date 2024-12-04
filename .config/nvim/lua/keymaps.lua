@@ -167,6 +167,6 @@ local function search_with_two_chars(search_command)
 end
 
 vim.api.nvim_set_keymap('n', 's', '', { noremap = true, silent = true, callback = search_with_two_chars('/') })
-vim.api.nvim_set_keymap('v', 's', '', { noremap = true, silent = true, callback = search_with_two_chars('/') })
+vim.api.nvim_set_keymap('x', 's', '', { noremap = true, silent = true, callback = search_with_two_chars('/') })
 vim.api.nvim_set_keymap('n', 'S', '', { noremap = true, silent = true, callback = search_with_two_chars('?') })
-vim.api.nvim_set_keymap('v', 'S', '', { noremap = true, silent = true, callback = search_with_two_chars('?') })
+vim.api.nvim_set_keymap('x', 'S', '', { noremap = true, silent = true, callback = search_with_two_chars('?') })

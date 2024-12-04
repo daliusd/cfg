@@ -603,7 +603,7 @@ require("lazy").setup({
       { '<leader>up', ':GHLitePRDiff<cr>',          silent = true },
       { '<leader>ul', ':GHLitePRDiffview<cr>',      silent = true },
       { '<leader>ua', ':GHLitePRAddComment<cr>',    silent = true },
-      { '<leader>ua', ':GHLitePRAddComment<cr>',    mode = 'v',   silent = true },
+      { '<leader>ua', ':GHLitePRAddComment<cr>',    mode = 'x',   silent = true },
       { '<leader>uc', ':GHLitePRUpdateComment<cr>', silent = true },
       { '<leader>ud', ':GHLitePRDeleteComment<cr>', silent = true },
       { '<leader>ug', ':GHLitePROpenComment<cr>',   silent = true },
