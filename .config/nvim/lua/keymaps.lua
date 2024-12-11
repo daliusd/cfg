@@ -162,7 +162,7 @@ local function search_with_two_chars(search_command)
     char2 = vim.fn.nr2char(char2)
 
     local search_term = char1 .. char2
-    vim.api.nvim_feedkeys(search_command .. search_term .. "\n", "n", false)
+    vim.api.nvim_feedkeys(search_command .. search_term .. "\n:noh\n", "n", false)
   end
 end
 
