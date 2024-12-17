@@ -35,14 +35,11 @@ require("lazy").setup({
     lazy = false,
     priority = 1000,
     config = function()
-      -- vim.g['zenbones_compat'] = 1
-      -- vim.cmd([[colorscheme zenbones]])
       vim.cmd([[colorscheme rose-pine]])
     end,
   },
 
   -- Generic plugins
-
   'nvim-tree/nvim-web-devicons',
   {
     'j-hui/fidget.nvim',
@@ -180,9 +177,6 @@ require("lazy").setup({
       keymaps = {
         ['gs'] = false,
       }
-      -- win_options = {
-      --   signcolumn = "yes:2",
-      -- },
     },
     keys = {
       {
@@ -197,13 +191,6 @@ require("lazy").setup({
     -- Optional dependencies
     dependencies = { "nvim-tree/nvim-web-devicons" },
   },
-  -- {
-  --   "refractalize/oil-git-status.nvim",
-  --   dependencies = {
-  --     "stevearc/oil.nvim",
-  --   },
-  --   config = true,
-  -- },
   {
     "kylechui/nvim-surround",
     config = true,
@@ -260,8 +247,6 @@ require("lazy").setup({
         capabilities = capabilities,
       }
       require 'lspconfig'.pyright.setup {}
-      -- NOTE: I am not sure if I need this one.
-      -- require 'lspconfig'.quick_lint_js.setup {}
       require 'lspconfig'.sqlls.setup {}
       require 'lspconfig'.lua_ls.setup {
         settings = {
@@ -394,10 +379,6 @@ require("lazy").setup({
     'saghen/blink.cmp',
     lazy = false,
     version = 'v0.*',
-    -- dependencies = {
-    --   { 'rafamadriz/friendly-snippets' },
-    -- },
-
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
     opts = {
@@ -432,10 +413,6 @@ require("lazy").setup({
     opts_extend = { "sources.completion.enabled_providers" }
   },
   'jamessan/vim-gnupg',
-  -- {
-  --   'sQVe/sort.nvim',
-  --   config = true,
-  -- },
   -- Git
   {
     'lewis6991/gitsigns.nvim',
@@ -567,16 +544,6 @@ require("lazy").setup({
       }
     end
   },
-  -- {
-  --   'rmagatti/gx-extended.nvim',
-  --   config = function()
-  --     require('gx-extended').setup({
-  --       open_fn = require 'lazy.util'.open,
-  --     })
-  --   end
-  -- },
-  -- 'jbyuki/venn.nvim',
-  -- 'sindrets/diffview.nvim',
   {
     dir = "~/projects/ghlite.nvim",
     config = function()
@@ -610,28 +577,15 @@ require("lazy").setup({
     "gregorias/coerce.nvim",
     config = true,
   },
-  -- {
-  --   "robitx/gp.nvim",
-  --   config = function()
-  --     local conf = {
-  --       providers = {
-  --         openai = {},
-  --         googleai = {
-  --           endpoint =
-  --           "https://generativelanguage.googleapis.com/v1beta/models/{{model}}:streamGenerateContent?key={{secret}}",
-  --           secret = { 'pass', 'show', 'googleai' }
-  --         },
-  --       },
-  --       agents = {
-  --         {
-  --           name = "ChatGPT3-5",
-  --           disable = true,
-  --         },
-  --       }
-  --     }
-  --     require("gp").setup(conf)
-  --   end,
-  -- }
+  {
+    "allaman/emoji.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+    config = function(_, opts)
+      require("emoji").setup(opts)
+    end,
+  }
 })
 
 require('misc')
