@@ -377,15 +377,12 @@ require("lazy").setup({
   },
   {
     'saghen/blink.cmp',
-    lazy = false,
-    version = 'v0.*',
+    version = '*',
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
     opts = {
       sources = {
-        completion = {
-          enabled_providers = { 'lsp', 'path', 'snippets', 'buffer' }
-        },
+        default = { 'lsp', 'path', 'snippets', 'buffer' },
       },
 
       keymap = {
@@ -397,9 +394,10 @@ require("lazy").setup({
         ['<Tab>'] = { 'select_next', 'fallback' },
       },
 
-      nerd_font_variant = 'mono',
-      accept = { auto_brackets = { enabled = true } },
-      trigger = { signature_help = { enabled = true } },
+      appearance = {
+        nerd_font_variant = 'mono',
+      },
+      signature = { enabled = true },
 
       completion = {
         list = {
