@@ -383,6 +383,11 @@ require("lazy").setup({
     opts = {
       sources = {
         default = { 'lsp', 'path', 'snippets', 'buffer' },
+        providers = {
+          buffer = {
+            min_keyword_length = 1,
+          }
+        }
       },
 
       keymap = {
