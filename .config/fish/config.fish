@@ -102,3 +102,5 @@ function __check_nvmrc --on-variable PWD --description 'check .nvmrc on pwd chan
     set dir (string split -r -m1 / $dir)[1]
   end
 end
+
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
