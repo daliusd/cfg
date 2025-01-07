@@ -391,8 +391,10 @@ require("lazy").setup({
       },
 
       keymap = {
-        preset = 'enter',
+        preset = 'none',
         ['<C-i>'] = { 'show', 'show_documentation', 'hide_documentation' },
+        ['<up>'] = { 'select_prev', 'fallback' },
+        ['<down>'] = { 'select_next', 'fallback' },
         ['<C-k>'] = { 'select_prev', 'fallback' },
         ['<C-j>'] = { 'select_next', 'fallback' },
         ['<S-Tab>'] = { 'select_prev', 'fallback' },
