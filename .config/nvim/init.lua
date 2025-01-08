@@ -409,7 +409,10 @@ require("lazy").setup({
 
       completion = {
         list = {
-          selection = 'auto_insert',
+          selection = {
+            preselect = true,
+            auto_insert = true,
+          },
         },
         documentation = {
           auto_show = true,
