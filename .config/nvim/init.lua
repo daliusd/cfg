@@ -410,13 +410,13 @@ require("lazy").setup({
       completion = {
         list = {
           selection = {
-            preselect = true,
+            preselect = false,
             auto_insert = true,
           },
         },
         documentation = {
           auto_show = true,
-        }
+        },
       },
     },
     opts_extend = { "sources.completion.enabled_providers" }
