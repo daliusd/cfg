@@ -582,10 +582,7 @@ require("lazy").setup({
       { '<leader>ug', ':GHLitePROpenComment<cr>',   silent = true },
     }
   },
-  {
-    "gregorias/coerce.nvim",
-    config = true,
-  },
+  "tpope/vim-abolish",
   {
     "allaman/emoji.nvim",
     dependencies = {
