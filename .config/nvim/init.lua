@@ -516,16 +516,13 @@ require("lazy").setup({
           buffer = {
             min_keyword_length = 1,
           }
-        }
+        },
+        cmdline = {},
       },
 
       keymap = {
         preset = 'none',
         ['<C-i>'] = { 'show', 'show_documentation', 'hide_documentation' },
-        ['<up>'] = { 'select_prev', 'fallback' },
-        ['<down>'] = { 'select_next', 'fallback' },
-        ['<C-k>'] = { 'select_prev', 'fallback' },
-        ['<C-j>'] = { 'select_next', 'fallback' },
         ['<S-Tab>'] = { 'select_prev', 'fallback' },
         ['<Tab>'] = { 'select_next', 'fallback' },
         ['<CR>'] = { 'accept', 'fallback' },
