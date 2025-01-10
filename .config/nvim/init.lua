@@ -54,6 +54,11 @@ require("lazy").setup({
     event = "VeryLazy",
     config = function()
       local wk = require("which-key")
+      wk.setup({
+        delay = function(ctx)
+          return ctx.plugin and 0 or 500
+        end,
+      })
       wk.add({
         { "<leader>a", group = "lsp" },
         { "<leader>w", group = "window" },
