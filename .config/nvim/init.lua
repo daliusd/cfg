@@ -454,17 +454,13 @@ require("lazy").setup({
   },
   {
     'tpope/vim-fugitive',
-    config = function()
-      -- editorconfig-vim
-      vim.g['EditorConfig_exclude_patterns'] = { 'fugitive://.*' }
-
-      -- Fugitive
-      vim.cmd(":cnoreabbrev <expr> gps (getcmdtype() == ':' && getcmdline() ==# 'gps') ? 'Git push' : 'gps'")
-      vim.cmd(":cnoreabbrev <expr> gpl (getcmdtype() == ':' && getcmdline() ==# 'gpl') ? 'Git pull' : 'gpl'")
-      vim.cmd(":cnoreabbrev <expr> gs (getcmdtype() == ':' && getcmdline() ==# 'gs') ? 'Git' : 'gs'")
-      vim.cmd(":cnoreabbrev <expr> gd (getcmdtype() == ':' && getcmdline() ==# 'gd') ? 'Gdiffsplit' : 'gd'")
-      vim.cmd(":cnoreabbrev <expr> gb (getcmdtype() == ':' && getcmdline() ==# 'gb') ? 'Git blame' : 'gb'")
-    end
+    keys = {
+      { '<leader>ig',  ':Git<cr>',        silent = true },
+      { '<leader>id',  ':Gdiffsplit<cr>', silent = true },
+      { '<leader>ib',  ':Git blame<cr>',  silent = true },
+      { '<leader>ips', ':Git push<cr>',   silent = true },
+      { '<leader>ipl', ':Git pull<cr>',   silent = true },
+    }
   },
   {
     'ruifm/gitlinker.nvim',
@@ -475,7 +471,22 @@ require("lazy").setup({
       require "gitlinker".setup({
         mappings = "<leader>x"
       })
-    end
+    end,
+    keys = {
+      {
+        '<leader>ic',
+        function()
+          require "gitlinker".get_repo_url({
+            action_callback = function(url)
+              local commit = vim.fn.expand("<cword>")
+              require "gitlinker.actions".open_in_browser(url .. '/commit/' .. commit)
+            end
+          })
+        end,
+        silent = true
+      },
+    }
+
   },
   -- Tree-sitter
   {
