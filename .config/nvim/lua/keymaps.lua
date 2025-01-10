@@ -37,88 +37,14 @@ keymap('n', 'ga', ':tabnew<cr>', opts)
 keymap('n', 'gs', ':tab split<cr>', opts)
 keymap('n', 'go', ':tabonly<cr>', opts)
 
-local function on_list(options)
-  vim.fn.setqflist({}, ' ', options)
-  vim.api.nvim_command('cfirst')
-end
-
-keymap('n', '<leader>e', vim.diagnostic.open_float, opts)
-keymap('n', '<leader>ak', function() vim.diagnostic.jump({ count = -1, float = true }) end, opts)
-keymap('n', '<leader>ap', function()
-  vim.diagnostic.jump({
-    count = -1,
-    float = true,
-    severity = vim.diagnostic.severity.ERROR,
-  })
-end, opts)
-keymap('n', '<leader>aj', function() vim.diagnostic.jump({ count = 1, float = true }) end, opts)
-keymap('n', '<leader>an', function()
-  vim.diagnostic.jump({
-    count = 1,
-    float = true,
-    severity = vim.diagnostic.severity.ERROR,
-  })
-end, opts)
-
--- Grep
-
-keymap('n', '<leader>g', function()
-  local text = vim.fn.expand("<cword>")
-  vim.fn.histadd(':', 'gr ' .. text)
-  vim.cmd('silent gr ' .. text)
-end, opts)
-
 -- Terminal escape
 
 keymap('t', '<esc>', '<c-\\><c-n>', opts)
-
--- Leader config
-
-keymap('n', '<leader>l', ':Lazy<cr>', opts)
-
-keymap('n', '<leader>n', ':silent noh<cr>', opts)
-keymap('n', '<leader>q', ':qa<cr>', opts)
-
-keymap('n', '<leader>p', ":let @+ = expand('%:p')<cr>", opts)
-keymap('n', '<leader>o', ":let @+ = expand('%:t')<cr>", opts)
-
-keymap('n', '<leader>s', ':w<cr>', opts)
-
--- window commands
-
-keymap('n', '<leader>ww', '<c-w>w', opts)
-keymap('n', '<leader>wc', '<c-w>c', opts)
-keymap('n', '<leader>wo', '<c-w>o', opts)
-keymap('n', '<leader>wh', '<c-w>h', opts)
-keymap('n', '<leader>wj', '<c-w>j', opts)
-keymap('n', '<leader>wk', '<c-w>k', opts)
-keymap('n', '<leader>wl', '<c-w>l', opts)
 
 keymap('n', '<c-left>', '<c-w>h', opts)
 keymap('n', '<c-down>', '<c-w>j', opts)
 keymap('n', '<c-up>', '<c-w>k', opts)
 keymap('n', '<c-right>', '<c-w>l', opts)
-
--- LSP
-
-keymap('n', '<leader>ad', function() vim.lsp.buf.declaration { on_list = on_list } end, opts)
--- keymap('n', '<leader>d', function() vim.lsp.buf.definition{on_list=on_list} end, opts)
--- Mapping to c-] because LSP go to definition then works with c-t
-keymap('n', '<leader>d', '<c-]>', opts)
-keymap('n', '<leader>k', vim.lsp.buf.hover, opts)
-
-keymap('n', '<leader>at', function() vim.lsp.buf.type_definition { on_list = on_list } end, opts)
-keymap('n', '<leader>ar', vim.lsp.buf.rename, opts)
-keymap('n', '<leader>ac', vim.lsp.buf.code_action, opts)
-keymap('v', '<leader>ac', vim.lsp.buf.code_action, opts)
-keymap('n', '<leader>m', vim.lsp.buf.code_action, opts)
-keymap('v', '<leader>m', vim.lsp.buf.code_action, opts)
-keymap('n', '<leader>af', function() vim.lsp.buf.references(nil, { on_list = on_list }) end, opts)
-keymap('n', '<leader>/', function() vim.lsp.buf.references(nil, { on_list = on_list }) end, opts)
-
--- vimrc file
-keymap('n', '<leader>v', ':e ~/.config/nvim/init.lua<cr>', opts)
-keymap('n', '<leader>V', ':source $MYVIMRC<cr>', opts)
 
 -- -- venn.nvim: enable or disable keymappings
 -- function _G.Toggle_venn()

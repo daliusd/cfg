@@ -28,6 +28,11 @@ end
 
 require('opts')
 
+local function on_list(options)
+  vim.fn.setqflist({}, ' ', options)
+  vim.api.nvim_command('cfirst')
+end
+
 require("lazy").setup({
   {
     "rose-pine/neovim",
@@ -37,10 +42,125 @@ require("lazy").setup({
     config = function()
       vim.cmd([[colorscheme rose-pine]])
     end,
+    keys = {
+      { '<leader>l', ':Lazy<cr>', silent = true, desc = 'Lazy' },
+    }
   },
 
   -- Generic plugins
   'nvim-tree/nvim-web-devicons',
+  {
+    "folke/which-key.nvim",
+    event = "VeryLazy",
+    config = function()
+      local wk = require("which-key")
+      wk.add({
+        { "<leader>a", group = "lsp" },
+        { "<leader>w", group = "window" },
+        { "<leader>i", group = "git" },
+        { "<leader>u", group = "ghlite" },
+      })
+    end,
+    keys = {
+      {
+        '<leader>e',
+        vim.diagnostic.open_float,
+        silent = true,
+        desc = 'Diagnostics float'
+      },
+      {
+        '<leader>ak',
+        function() vim.diagnostic.jump({ count = -1, float = true }) end,
+        silent = true,
+        desc = 'Diagnostics prev'
+      },
+      {
+        '<leader>ap',
+        function()
+          vim.diagnostic.jump({
+            count = -1,
+            float = true,
+            severity = vim.diagnostic.severity.ERROR,
+          })
+        end,
+        silent = true,
+        desc = 'Diagnostics Error prev'
+      },
+      {
+        '<leader>aj',
+        function() vim.diagnostic.jump({ count = 1, float = true }) end,
+        silent = true,
+        desc = 'Diagnostics next'
+      },
+      {
+        '<leader>an',
+        function()
+          vim.diagnostic.jump({
+            count = 1,
+            float = true,
+            severity = vim.diagnostic.severity.ERROR,
+          })
+        end,
+        silent = true,
+        desc = 'Diagnostics Error next'
+      },
+      -- Grep
+      {
+        '<leader>g',
+        function()
+          local text = vim.fn.expand("<cword>")
+          vim.fn.histadd(':', 'gr ' .. text)
+          vim.cmd('silent gr ' .. text)
+        end,
+        silent = true,
+        desc = 'Grep word'
+      },
+      -- Misc
+      { '<leader>n',  ':silent noh<cr>',             silent = true, desc = 'noh' },
+      { '<leader>q',  ':qa<cr>',                     silent = true, desc = 'quit' },
+      { '<leader>p',  ":let @+ = expand('%:p')<cr>", silent = true, desc = 'copy full path' },
+      { '<leader>o',  ":let @+ = expand('%:t')<cr>", silent = true, desc = 'copy file name' },
+      { '<leader>s',  ':w<cr>',                      silent = true, desc = 'write' },
+
+      -- window commands
+      { '<leader>ww', '<c-w>w',                      silent = true, desc = 'window switch' },
+      { '<leader>wc', '<c-w>c',                      silent = true, desc = 'window close' },
+      { '<leader>wo', '<c-w>o',                      silent = true, desc = 'window close other' },
+      { '<leader>wh', '<c-w>h',                      silent = true, desc = 'window k' },
+      { '<leader>wj', '<c-w>j',                      silent = true, desc = 'window j' },
+      { '<leader>wk', '<c-w>k',                      silent = true, desc = 'window k' },
+      { '<leader>wl', '<c-w>l',                      silent = true, desc = 'window l' },
+      -- LSP
+      -- Mapping to c-] because LSP go to definition then works with c-t
+      { '<leader>d',  '<c-]>',                       silent = true, desc = 'definition' },
+      {
+        '<leader>ad',
+        function() vim.lsp.buf.declaration { on_list = on_list } end,
+        silent = true,
+        desc = 'declaration'
+      },
+      { '<leader>k',  vim.lsp.buf.hover,       silent = true, desc = 'hover' },
+      {
+        '<leader>at',
+        function() vim.lsp.buf.type_definition { on_list = on_list } end,
+        silent = true,
+        desc = 'type definition'
+      },
+      { '<leader>ar', vim.lsp.buf.rename,      silent = true, desc = 'rename' },
+      { '<leader>m',  vim.lsp.buf.code_action, silent = true, desc = 'code actions' },
+      { '<leader>m',  vim.lsp.buf.code_action, silent = true, desc = 'code actions' },
+      {
+        '<leader>/',
+        function() vim.lsp.buf.references(nil, { on_list = on_list }) end,
+        silent = true,
+        desc = 'references'
+      },
+
+      -- vimrc file
+      { '<leader>v', ':e ~/.config/nvim/init.lua<cr>', silent = true, desc = 'load nvim init.lua' },
+      { '<leader>V', ':source $MYVIMRC<cr>',           silent = true, desc = 'source nvim init.lua' },
+    }
+  },
   {
     'j-hui/fidget.nvim',
     opts = {
@@ -117,8 +237,8 @@ require("lazy").setup({
     end,
     lazy = false,
     keys = {
-      { '<leader>h', ':FzfLua oldfiles<cr>', silent = true },
-      { '<leader>f', ':FzfLua files<cr>',    silent = true },
+      { '<leader>h', ':FzfLua oldfiles<cr>', silent = true, desc = 'Old files' },
+      { '<leader>f', ':FzfLua files<cr>',    silent = true, desc = 'Files' },
       {
         '<leader>r',
         function()
@@ -126,7 +246,8 @@ require("lazy").setup({
           vim.fn.histadd(':', 'Rg ' .. text)
           require("fzf-lua").live_grep_glob({ search = text })
         end,
-        silent = true
+        silent = true,
+        desc = 'Rg'
       },
       {
         '<leader>r',
@@ -136,7 +257,8 @@ require("lazy").setup({
           require("fzf-lua").live_grep_glob({ search = text })
         end,
         mode = 'v',
-        silent = true
+        silent = true,
+        desc = 'Rg'
       },
       {
         '<leader>g',
@@ -146,7 +268,8 @@ require("lazy").setup({
           vim.cmd('silent gr ' .. text)
         end,
         mode = 'v',
-        silent = true
+        silent = true,
+        desc = 'gr',
       },
       { '<leader>R', ':FzfLua live_grep_glob<cr>', silent = true },
       {
@@ -156,11 +279,12 @@ require("lazy").setup({
           require("fzf-lua").files({ query = text })
         end,
         mode = 'v',
-        silent = true
+        silent = true,
+        desc = 'Files',
       },
 
-      { '<leader>c', ':FzfLua commands<cr>',       silent = true },
-      { '<leader>z', ':FzfLua spell_suggest<cr>',  silent = true },
+      { '<leader>c', ':FzfLua commands<cr>',       silent = true, desc = 'Commands' },
+      { '<leader>z', ':FzfLua spell_suggest<cr>',  silent = true, desc = 'Spell suggest' },
     }
   },
   {
@@ -185,7 +309,7 @@ require("lazy").setup({
           require("oil").open()
         end,
         desc = "Open Parent directory",
-        silent = true
+        silent = true,
       },
     },
     -- Optional dependencies
@@ -455,11 +579,11 @@ require("lazy").setup({
   {
     'tpope/vim-fugitive',
     keys = {
-      { '<leader>ig',  ':Git<cr>',        silent = true },
-      { '<leader>id',  ':Gdiffsplit<cr>', silent = true },
-      { '<leader>ib',  ':Git blame<cr>',  silent = true },
-      { '<leader>ips', ':Git push<cr>',   silent = true },
-      { '<leader>ipl', ':Git pull<cr>',   silent = true },
+      { '<leader>ig',  ':Git<cr>',        silent = true, desc = 'Git' },
+      { '<leader>id',  ':Gdiffsplit<cr>', silent = true, desc = 'Git diff split' },
+      { '<leader>ib',  ':Git blame<cr>',  silent = true, desc = 'Git blame' },
+      { '<leader>ips', ':Git push<cr>',   silent = true, desc = 'Git push' },
+      { '<leader>ipl', ':Git pull<cr>',   silent = true, desc = 'Git pull' },
     }
   },
   {
@@ -483,7 +607,8 @@ require("lazy").setup({
             end
           })
         end,
-        silent = true
+        silent = true,
+        desc = 'Open commit in browser',
       },
     }
 
@@ -580,17 +705,17 @@ require("lazy").setup({
       })
     end,
     keys = {
-      { '<leader>us', ':GHLitePRSelect<cr>',        silent = true },
-      { '<leader>uo', ':GHLitePRCheckout<cr>',      silent = true },
-      { '<leader>uv', ':GHLitePRView<cr>',          silent = true },
-      { '<leader>uu', ':GHLitePRLoadComments<cr>',  silent = true },
-      { '<leader>up', ':GHLitePRDiff<cr>',          silent = true },
-      { '<leader>ul', ':GHLitePRDiffview<cr>',      silent = true },
-      { '<leader>ua', ':GHLitePRAddComment<cr>',    silent = true },
-      { '<leader>ua', ':GHLitePRAddComment<cr>',    mode = 'x',   silent = true },
-      { '<leader>uc', ':GHLitePRUpdateComment<cr>', silent = true },
-      { '<leader>ud', ':GHLitePRDeleteComment<cr>', silent = true },
-      { '<leader>ug', ':GHLitePROpenComment<cr>',   silent = true },
+      { '<leader>us', ':GHLitePRSelect<cr>',        silent = true, desc = 'PR Select' },
+      { '<leader>uo', ':GHLitePRCheckout<cr>',      silent = true, desc = 'PR Checkout' },
+      { '<leader>uv', ':GHLitePRView<cr>',          silent = true, desc = 'PR View' },
+      { '<leader>uu', ':GHLitePRLoadComments<cr>',  silent = true, desc = 'PR Load Comments' },
+      { '<leader>up', ':GHLitePRDiff<cr>',          silent = true, desc = 'PR Diff' },
+      { '<leader>ul', ':GHLitePRDiffview<cr>',      silent = true, desc = 'PR Diffview' },
+      { '<leader>ua', ':GHLitePRAddComment<cr>',    silent = true, desc = 'PR Add comment' },
+      { '<leader>ua', ':GHLitePRAddComment<cr>',    mode = 'x',    silent = true,             desc = 'PR Add comment' },
+      { '<leader>uc', ':GHLitePRUpdateComment<cr>', silent = true, desc = 'PR Update comment' },
+      { '<leader>ud', ':GHLitePRDeleteComment<cr>', silent = true, desc = 'PR Delete comment' },
+      { '<leader>ug', ':GHLitePROpenComment<cr>',   silent = true, desc = 'PR Open comment' },
     }
   },
   "tpope/vim-abolish",
