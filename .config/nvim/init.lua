@@ -377,6 +377,7 @@ require("lazy").setup({
       }
       require 'lspconfig'.pyright.setup {}
       require 'lspconfig'.sqlls.setup {}
+      require 'lspconfig'.typos_lsp.setup {}
       require 'lspconfig'.lua_ls.setup {
         settings = {
           Lua = {
