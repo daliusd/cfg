@@ -4,7 +4,11 @@ function y
 
       if test -n "$scripts"
           set script_name (echo "$scripts" | awk -F '\t' '{print $1}')
-          commandline -it -- 'yarn '
+          if test -e package-lock.json
+            commandline -it -- 'npm run '
+          else
+            commandline -it -- 'yarn '
+          end
           commandline -it -- $script_name
           commandline -it -- ' '
           commandline -f repaint
