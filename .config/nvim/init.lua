@@ -164,6 +164,19 @@ require("lazy").setup({
       -- vimrc file
       { '<leader>v', ':e ~/.config/nvim/init.lua<cr>', silent = true, desc = 'load nvim init.lua' },
       { '<leader>V', ':source $MYVIMRC<cr>',           silent = true, desc = 'source nvim init.lua' },
+      {
+        '<leader>ic',
+        function()
+          require "gitlinker".get_repo_url({
+            action_callback = function(url)
+              local commit = vim.fn.expand("<cword>")
+              require "gitlinker.actions".open_in_browser(url .. '/commit/' .. commit)
+            end
+          })
+        end,
+        silent = true,
+        desc = 'Open commit in browser',
+      },
     }
   },
   {
@@ -599,22 +612,6 @@ require("lazy").setup({
         mappings = "<leader>x"
       })
     end,
-    keys = {
-      {
-        '<leader>ic',
-        function()
-          require "gitlinker".get_repo_url({
-            action_callback = function(url)
-              local commit = vim.fn.expand("<cword>")
-              require "gitlinker.actions".open_in_browser(url .. '/commit/' .. commit)
-            end
-          })
-        end,
-        silent = true,
-        desc = 'Open commit in browser',
-      },
-    }
-
   },
   -- Tree-sitter
   {
