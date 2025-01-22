@@ -32,6 +32,7 @@ alias lt='ls --tree'
 alias gr=rg
 
 alias snc='sync.sh'
+alias uu='updateall.fish'
 
 set username 'Dalius Dobravolskas'
 set private_email 'dalius.dobravolskas@gmail.com'
