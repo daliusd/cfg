@@ -114,3 +114,5 @@ switch (uname)
         echo Open config.fish and review it!
 end
 
+
+set -gx OPENAI_API_KEY (pass show openai-secret-key)
