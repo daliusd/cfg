@@ -592,6 +592,7 @@ require("lazy").setup({
       }
     end,
   },
+  { "sindrets/diffview.nvim" },
   {
     'tpope/vim-fugitive',
     keys = {
