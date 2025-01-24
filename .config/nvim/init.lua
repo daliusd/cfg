@@ -62,7 +62,8 @@ require("lazy").setup({
       wk.add({
         { "<leader>a", group = "lsp" },
         { "<leader>w", group = "window" },
-        { "<leader>i", group = "git" },
+        { "<leader>g", group = "git" },
+        { "<leader>s", group = "search" },
         { "<leader>u", group = "ghlite" },
       })
     end,
@@ -111,7 +112,7 @@ require("lazy").setup({
       },
       -- Grep
       {
-        '<leader>g',
+        '<leader>sg',
         function()
           local text = vim.fn.expand("<cword>")
           vim.fn.histadd(':', 'gr ' .. text)
@@ -165,7 +166,7 @@ require("lazy").setup({
       { '<leader>v', ':e ~/.config/nvim/init.lua<cr>', silent = true, desc = 'load nvim init.lua' },
       { '<leader>V', ':source $MYVIMRC<cr>',           silent = true, desc = 'source nvim init.lua' },
       {
-        '<leader>ic',
+        '<leader>gc',
         function()
           require "gitlinker".get_repo_url({
             action_callback = function(url)
@@ -258,7 +259,7 @@ require("lazy").setup({
       { '<leader>h', ':FzfLua oldfiles<cr>', silent = true, desc = 'Old files' },
       { '<leader>f', ':FzfLua files<cr>',    silent = true, desc = 'Files' },
       {
-        '<leader>r',
+        '<leader>ss',
         function()
           local text = vim.fn.expand("<cword>")
           vim.fn.histadd(':', 'Rg ' .. text)
@@ -268,7 +269,7 @@ require("lazy").setup({
         desc = 'Rg'
       },
       {
-        '<leader>r',
+        '<leader>ss',
         function()
           local text = vim.getVisualSelection()
           vim.fn.histadd(':', 'Rg ' .. text)
@@ -279,7 +280,7 @@ require("lazy").setup({
         desc = 'Rg'
       },
       {
-        '<leader>g',
+        '<leader>sg',
         function()
           local text = vim.getVisualSelection()
           vim.fn.histadd(':', 'gr ' .. text)
@@ -289,7 +290,7 @@ require("lazy").setup({
         silent = true,
         desc = 'gr',
       },
-      { '<leader>R', ':FzfLua live_grep_glob<cr>', silent = true },
+      { '<leader>sr', ':FzfLua live_grep_glob<cr>', silent = true },
       {
         '<leader>f',
         function()
@@ -301,8 +302,8 @@ require("lazy").setup({
         desc = 'Files',
       },
 
-      { '<leader>c', ':FzfLua commands<cr>',       silent = true, desc = 'Commands' },
-      { '<leader>z', ':FzfLua spell_suggest<cr>',  silent = true, desc = 'Spell suggest' },
+      { '<leader>c',  ':FzfLua commands<cr>',       silent = true, desc = 'Commands' },
+      { '<leader>z',  ':FzfLua spell_suggest<cr>',  silent = true, desc = 'Spell suggest' },
     }
   },
   {
@@ -596,11 +597,11 @@ require("lazy").setup({
   {
     'tpope/vim-fugitive',
     keys = {
-      { '<leader>ig',  ':Git<cr>',        silent = true, desc = 'Git' },
-      { '<leader>id',  ':Gdiffsplit<cr>', silent = true, desc = 'Git diff split' },
-      { '<leader>ib',  ':Git blame<cr>',  silent = true, desc = 'Git blame' },
-      { '<leader>ips', ':Git push<cr>',   silent = true, desc = 'Git push' },
-      { '<leader>ipl', ':Git pull<cr>',   silent = true, desc = 'Git pull' },
+      { '<leader>gg',  ':Git<cr>',        silent = true, desc = 'Git' },
+      { '<leader>gd',  ':Gdiffsplit<cr>', silent = true, desc = 'Git diff split' },
+      { '<leader>gb',  ':Git blame<cr>',  silent = true, desc = 'Git blame' },
+      { '<leader>gps', ':Git push<cr>',   silent = true, desc = 'Git push' },
+      { '<leader>gpl', ':Git pull<cr>',   silent = true, desc = 'Git pull' },
     }
   },
   {
