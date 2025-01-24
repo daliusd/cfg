@@ -729,6 +729,16 @@ require("lazy").setup({
     config = function(_, opts)
       require("emoji").setup(opts)
     end,
+  },
+  {
+    "robitx/gp.nvim",
+    config = function()
+      local conf = {
+        default_command_agent = "CodeGPT4o-mini",
+        default_chat_agent = "ChatGPT4o-mini",
+      }
+      require("gp").setup(conf)
+    end,
   }
 })
 
