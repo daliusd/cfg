@@ -77,15 +77,7 @@ alias gsu='git ci -m "temp" && git stash && git reset --soft HEAD~1'
 
 alias h='history --merge'
 
-# switch (uname)
-#     case Linux
-#       alias kamal='docker run -it --rm -v "$PWD:/workdir" -v "$SSH_AUTH_SOCK:/ssh-agent" -v /var/run/docker.sock:/var/run/docker.sock -e "SSH_AUTH_SOCK=/ssh-agent" ghcr.io/basecamp/kamal:latest'
-#     case Darwin
-#       alias kamal='docker run -it --rm -v "$PWD:/workdir" -v "/run/host-services/ssh-auth.sock:/run/host-services/ssh-auth.sock" -e SSH_AUTH_SOCK="/run/host-services/ssh-auth.sock" -v /var/run/docker.sock:/var/run/docker.sock ghcr.io/basecamp/kamal:latest'
-#     case '*'
-#         echo Open config.fish and review it!
-# end
-
+alias dnsflush='sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder'
 
 # FZF
 
