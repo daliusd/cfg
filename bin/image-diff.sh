@@ -25,17 +25,17 @@ else
     # # resize large diffs
     # gm mogrify -resize 2800x\> "$final"
 
-    img2sixel "$diff"
+    wezterm imgcat "$diff"
 
     if [[ "$GIT_DIFF_IMAGE_ENABLED" == "1" ]]; then
       echo "Old:"
-      img2sixel "$2"
+      wezterm imgcat "$2"
       echo "New:"
-      img2sixel "$1"
+      wezterm imgcat "$1"
     fi
   else
     echo "New:"
-    img2sixel "$1"
+    wezterm imgcat "$1"
   fi
 
 
