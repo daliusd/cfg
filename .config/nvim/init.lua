@@ -734,12 +734,59 @@ require("lazy").setup({
     "robitx/gp.nvim",
     config = function()
       local conf = {
-        default_command_agent = "CodeGPT4o-mini",
-        default_chat_agent = "ChatGPT4o-mini",
+        -- default_command_agent = "CodeGPT4o-mini",
+        -- default_chat_agent = "ChatGPT4o-mini",
+        default_command_agent = "ChatCopilot",
+        default_chat_agent = "ChatCopilot",
+
+        providers = {
+          copilot = {
+            endpoint = "https://api.githubcopilot.com/chat/completions",
+            secret = {
+              "bash",
+              "-c",
+              "cat ~/.config/github-copilot/apps.json | sed -e 's/.*oauth_token...//;s/\".*//'",
+            },
+          },
+        },
       }
       require("gp").setup(conf)
     end,
-  }
+  },
+  {
+    "zbirenbaum/copilot.lua",
+    cmd = "Copilot",
+    event = "InsertEnter",
+    config = function()
+      require("copilot").setup({
+        panel = {
+          enabled = false,
+        },
+        suggestion = {
+          enabled = false,
+        },
+      })
+    end,
+  },
+  {
+    "olimorris/codecompanion.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      "nvim-treesitter/nvim-treesitter",
+    },
+    config = function()
+      require("codecompanion").setup({
+        strategies = {
+          chat = {
+            adapter = "copilot",
+          },
+          inline = {
+            adapter = "copilot",
+          },
+        },
+      })
+    end,
+  },
 })
 
 require('misc')
