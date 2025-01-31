@@ -122,23 +122,31 @@ require("lazy").setup({
         desc = 'Grep word'
       },
       -- Misc
-      { '<leader>n',  ':silent noh<cr>',             silent = true, desc = 'noh' },
-      { '<leader>q',  ':qa<cr>',                     silent = true, desc = 'quit' },
-      { '<leader>p',  ":let @+ = expand('%:p')<cr>", silent = true, desc = 'copy full path' },
-      { '<leader>o',  ":let @+ = expand('%:t')<cr>", silent = true, desc = 'copy file name' },
-      { '<leader>s',  ':w<cr>',                      silent = true, desc = 'write' },
+      { '<leader>n', ':silent noh<cr>',             silent = true, desc = 'noh' },
+      { '<leader>q', ':qa<cr>',                     silent = true, desc = 'quit' },
+      { '<leader>p', ":let @+ = expand('%:p')<cr>", silent = true, desc = 'copy full path' },
+      { '<leader>o', ":let @+ = expand('%:t')<cr>", silent = true, desc = 'copy file name' },
+      { '<leader>s', ':w<cr>',                      silent = true, desc = 'write' },
+
+      {
+        '<leader>b',
+        ':CodeCompanionChat Toggle<cr>',
+        mode = { 'n', 'v' },
+        silent = true,
+        desc = 'CodeCompanionChat'
+      },
 
       -- window commands
-      { '<leader>ww', '<c-w>w',                      silent = true, desc = 'window switch' },
-      { '<leader>wc', '<c-w>c',                      silent = true, desc = 'window close' },
-      { '<leader>wo', '<c-w>o',                      silent = true, desc = 'window close other' },
-      { '<leader>wh', '<c-w>h',                      silent = true, desc = 'window k' },
-      { '<leader>wj', '<c-w>j',                      silent = true, desc = 'window j' },
-      { '<leader>wk', '<c-w>k',                      silent = true, desc = 'window k' },
-      { '<leader>wl', '<c-w>l',                      silent = true, desc = 'window l' },
+      { '<leader>ww', '<c-w>w', silent = true, desc = 'window switch' },
+      { '<leader>wc', '<c-w>c', silent = true, desc = 'window close' },
+      { '<leader>wo', '<c-w>o', silent = true, desc = 'window close other' },
+      { '<leader>wh', '<c-w>h', silent = true, desc = 'window k' },
+      { '<leader>wj', '<c-w>j', silent = true, desc = 'window j' },
+      { '<leader>wk', '<c-w>k', silent = true, desc = 'window k' },
+      { '<leader>wl', '<c-w>l', silent = true, desc = 'window l' },
       -- LSP
       -- Mapping to c-] because LSP go to definition then works with c-t
-      { '<leader>d',  '<c-]>',                       silent = true, desc = 'definition' },
+      { '<leader>d',  '<c-]>',  silent = true, desc = 'definition' },
       {
         '<leader>ad',
         function() vim.lsp.buf.declaration { on_list = on_list } end,
@@ -784,7 +792,22 @@ require("lazy").setup({
             adapter = "copilot",
           },
         },
+        adapters = {
+          copilot = function()
+            return require("codecompanion.adapters").extend("copilot", {
+              schema = {
+                model = {
+                  default = "gpt-4o",
+                },
+              },
+            })
+          end,
+        },
       })
+
+      vim.api.nvim_set_keymap("n", "<C-a>", "<cmd>CodeCompanionActions<cr>", { noremap = true, silent = true })
+      vim.api.nvim_set_keymap("v", "<C-a>", "<cmd>CodeCompanionActions<cr>", { noremap = true, silent = true })
+      vim.api.nvim_set_keymap("v", "ga", "<cmd>CodeCompanionChat Add<cr>", { noremap = true, silent = true })
     end,
   },
 })
