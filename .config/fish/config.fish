@@ -79,6 +79,7 @@ alias h='history --merge'
 
 alias dnsflush='sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder'
 
+alias ai='gh models run o3-mini'
 # FZF
 
 set FZF_DEFAULT_COMMAND 'fd -t f'

@@ -129,7 +129,7 @@ require("lazy").setup({
       { '<leader>s', ':w<cr>',                      silent = true, desc = 'write' },
 
       {
-        '<leader>b',
+        '<leader>bb',
         ':CodeCompanionChat Toggle<cr>',
         mode = { 'n', 'v' },
         silent = true,
@@ -739,29 +739,6 @@ require("lazy").setup({
     end,
   },
   {
-    "robitx/gp.nvim",
-    config = function()
-      local conf = {
-        -- default_command_agent = "CodeGPT4o-mini",
-        -- default_chat_agent = "ChatGPT4o-mini",
-        default_command_agent = "ChatCopilot",
-        default_chat_agent = "ChatCopilot",
-
-        providers = {
-          copilot = {
-            endpoint = "https://api.githubcopilot.com/chat/completions",
-            secret = {
-              "bash",
-              "-c",
-              "cat ~/.config/github-copilot/apps.json | sed -e 's/.*oauth_token...//;s/\".*//'",
-            },
-          },
-        },
-      }
-      require("gp").setup(conf)
-    end,
-  },
-  {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
     event = "InsertEnter",
@@ -787,9 +764,18 @@ require("lazy").setup({
         strategies = {
           chat = {
             adapter = "copilot",
+            keymaps = {
+              change_adapter = { modes = { n = "ca" } },
+              debug = { modes = { n = "cd" } },
+              system_prompt = { modes = { n = "cs" } },
+            }
           },
           inline = {
             adapter = "copilot",
+            keymaps = {
+              accept_change = { modes = { n = "ca", }, },
+              reject_change = { modes = { n = "cr", }, },
+            },
           },
         },
         adapters = {
@@ -797,7 +783,8 @@ require("lazy").setup({
             return require("codecompanion.adapters").extend("copilot", {
               schema = {
                 model = {
-                  default = "gpt-4o",
+                  -- default = "gpt-4o",
+                  default = "o3-mini",
                 },
               },
             })
@@ -807,7 +794,9 @@ require("lazy").setup({
 
       vim.api.nvim_set_keymap("n", "<C-a>", "<cmd>CodeCompanionActions<cr>", { noremap = true, silent = true })
       vim.api.nvim_set_keymap("v", "<C-a>", "<cmd>CodeCompanionActions<cr>", { noremap = true, silent = true })
-      vim.api.nvim_set_keymap("v", "ga", "<cmd>CodeCompanionChat Add<cr>", { noremap = true, silent = true })
+      vim.api.nvim_set_keymap("v", "<leader>ba", "<cmd>CodeCompanionChat Add<cr>", { noremap = true, silent = true })
+
+      vim.cmd([[cab cc CodeCompanion]])
     end,
   },
 })
