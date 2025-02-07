@@ -784,7 +784,9 @@ require("lazy").setup({
               schema = {
                 model = {
                   -- default = "gpt-4o",
-                  default = "o3-mini",
+                  -- default = "o3-mini",
+                  default = "claude-3.5-sonnet",
+                  -- default = "gemini-2.0-flash-001",
                 },
               },
             })
