@@ -755,6 +755,7 @@ require("lazy").setup({
   },
   {
     "olimorris/codecompanion.nvim",
+    -- dir = "~/projects/rare/codecompanion.nvim",
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
@@ -763,7 +764,7 @@ require("lazy").setup({
       require("codecompanion").setup({
         strategies = {
           chat = {
-            adapter = "copilot",
+            adapter = "githubmodels",
             keymaps = {
               change_adapter = { modes = { n = "ca" } },
               debug = { modes = { n = "cd" } },
@@ -771,7 +772,7 @@ require("lazy").setup({
             }
           },
           inline = {
-            adapter = "copilot",
+            adapter = "githubmodels",
             keymaps = {
               accept_change = { modes = { n = "ca", }, },
               reject_change = { modes = { n = "cr", }, },
@@ -787,6 +788,15 @@ require("lazy").setup({
                   -- default = "o3-mini",
                   default = "claude-3.5-sonnet",
                   -- default = "gemini-2.0-flash-001",
+                },
+              },
+            })
+          end,
+          githubmodels = function()
+            return require("codecompanion.adapters").extend("githubmodels", {
+              schema = {
+                model = {
+                  default = "Codestral-2501",
                 },
               },
             })
