@@ -239,6 +239,16 @@ require("lazy").setup({
     end
   },
   {
+    "OXY2DEV/markview.nvim",
+    lazy = false,
+    opts = {
+      preview = {
+        filetypes = { "markdown", "codecompanion" },
+        ignore_buftypes = {},
+      },
+    },
+  },
+  {
     "ibhagwan/fzf-lua",
     config = function()
       require("fzf-lua").setup({
@@ -764,7 +774,7 @@ require("lazy").setup({
       require("codecompanion").setup({
         strategies = {
           chat = {
-            adapter = "githubmodels",
+            adapter = "copilot",
             keymaps = {
               change_adapter = { modes = { n = "ca" } },
               debug = { modes = { n = "cd" } },
@@ -772,7 +782,7 @@ require("lazy").setup({
             }
           },
           inline = {
-            adapter = "githubmodels",
+            adapter = "copilot",
             keymaps = {
               accept_change = { modes = { n = "ca", }, },
               reject_change = { modes = { n = "cr", }, },
