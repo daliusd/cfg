@@ -769,6 +769,7 @@ require("lazy").setup({
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
+      "j-hui/fidget.nvim"
     },
     config = function()
       require("codecompanion").setup({
@@ -813,6 +814,7 @@ require("lazy").setup({
           end,
         },
       })
+      require("fidget-spinner"):init()
 
       vim.api.nvim_set_keymap("n", "<C-a>", "<cmd>CodeCompanionActions<cr>", { noremap = true, silent = true })
       vim.api.nvim_set_keymap("v", "<C-a>", "<cmd>CodeCompanionActions<cr>", { noremap = true, silent = true })
