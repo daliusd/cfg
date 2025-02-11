@@ -795,10 +795,25 @@ require("lazy").setup({
             return require("codecompanion.adapters").extend("copilot", {
               schema = {
                 model = {
-                  -- default = "gpt-4o",
-                  -- default = "o3-mini",
                   default = "claude-3.5-sonnet",
-                  -- default = "gemini-2.0-flash-001",
+                },
+              },
+            })
+          end,
+          copilot_gemini_2_flash = function()
+            return require("codecompanion.adapters").extend("copilot", {
+              schema = {
+                model = {
+                  default = "gemini-2.0-flash-001",
+                },
+              },
+            })
+          end,
+          copilot_o3_mini = function()
+            return require("codecompanion.adapters").extend("copilot", {
+              schema = {
+                model = {
+                  default = "o3-mini",
                 },
               },
             })
@@ -808,6 +823,15 @@ require("lazy").setup({
               schema = {
                 model = {
                   default = "Codestral-2501",
+                },
+              },
+            })
+          end,
+          githubmodels_deepseek = function()
+            return require("codecompanion.adapters").extend("githubmodels", {
+              schema = {
+                model = {
+                  default = "DeepSeek-R1",
                 },
               },
             })
