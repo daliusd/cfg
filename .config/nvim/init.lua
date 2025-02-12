@@ -772,69 +772,49 @@ require("lazy").setup({
       "j-hui/fidget.nvim"
     },
     config = function()
+      local function create_adapter(adapter_name, default_model)
+        return require("codecompanion.adapters").extend(adapter_name, {
+          schema = {
+            model = {
+              default = default_model,
+            },
+          },
+        })
+      end
+
       require("codecompanion").setup({
         strategies = {
           chat = {
-            adapter = "copilot",
+            adapter = "copilot_o3_mini",
             keymaps = {
               change_adapter = { modes = { n = "ca" } },
               debug = { modes = { n = "cd" } },
               system_prompt = { modes = { n = "cs" } },
-            }
+            },
           },
           inline = {
-            adapter = "copilot",
+            adapter = "copilot_o3_mini",
             keymaps = {
-              accept_change = { modes = { n = "ca", }, },
-              reject_change = { modes = { n = "cr", }, },
+              accept_change = { modes = { n = "ca" } },
+              reject_change = { modes = { n = "cr" } },
             },
           },
         },
         adapters = {
-          copilot = function()
-            return require("codecompanion.adapters").extend("copilot", {
-              schema = {
-                model = {
-                  default = "claude-3.5-sonnet",
-                },
-              },
-            })
+          copilot_claude = function()
+            return create_adapter("copilot", "claude-3.5-sonnet")
           end,
           copilot_gemini_2_flash = function()
-            return require("codecompanion.adapters").extend("copilot", {
-              schema = {
-                model = {
-                  default = "gemini-2.0-flash-001",
-                },
-              },
-            })
+            return create_adapter("copilot", "gemini-2.0-flash-001")
           end,
           copilot_o3_mini = function()
-            return require("codecompanion.adapters").extend("copilot", {
-              schema = {
-                model = {
-                  default = "o3-mini",
-                },
-              },
-            })
+            return create_adapter("copilot", "o3-mini")
           end,
           githubmodels = function()
-            return require("codecompanion.adapters").extend("githubmodels", {
-              schema = {
-                model = {
-                  default = "Codestral-2501",
-                },
-              },
-            })
+            return create_adapter("githubmodels", "Codestral-2501")
           end,
           githubmodels_deepseek = function()
-            return require("codecompanion.adapters").extend("githubmodels", {
-              schema = {
-                model = {
-                  default = "DeepSeek-R1",
-                },
-              },
-            })
+            return create_adapter("githubmodels", "DeepSeek-R1")
           end,
         },
       })
