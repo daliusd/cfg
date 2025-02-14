@@ -714,8 +714,8 @@ require("lazy").setup({
     config = function()
       require('ghlite').setup({
         debug = false,
-        view_split = '',
-        diff_split = '',
+        view_split = 'tabnew',
+        diff_split = 'tabnew',
         open_command = 'open',
         keymaps = {
           diff = {
