@@ -124,3 +124,4 @@ end
 
 
 set -gx OPENAI_API_KEY (pass show openai-secret-key)
+set -gx GEMINI_API_KEY (pass show googleai)

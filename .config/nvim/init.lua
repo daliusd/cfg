@@ -550,7 +550,6 @@ require("lazy").setup({
             min_keyword_length = 1,
           }
         },
-        cmdline = {},
       },
 
       keymap = {
@@ -806,6 +805,9 @@ require("lazy").setup({
           end,
           copilot_gemini_2_flash = function()
             return create_adapter("copilot", "gemini-2.0-flash-001")
+          end,
+          google_gemini_2_flash = function()
+            return create_adapter("gemini", "gemini-2.0-flash")
           end,
           copilot_o3_mini = function()
             return create_adapter("copilot", "o3-mini")
