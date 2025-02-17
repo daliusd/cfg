@@ -13,5 +13,5 @@ switch (uname)
         echo Open updateall.fish and review it!
 end
 
-nvim --headless "+Lazy! sync" +qa
 snc
+nvim --headless "+Lazy! sync" +qa
