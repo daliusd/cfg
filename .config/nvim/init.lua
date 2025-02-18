@@ -545,18 +545,17 @@ require("lazy").setup({
     opts = {
       sources = {
         default = { 'lsp', 'path', 'snippets', 'buffer' },
-        providers = {
-          buffer = {
-            min_keyword_length = 1,
-          }
-        },
       },
 
       keymap = {
         preset = 'none',
         ['<C-i>'] = { 'show', 'show_documentation', 'hide_documentation' },
-        ['<S-Tab>'] = { 'select_prev', 'fallback' },
+        ['<Up>'] = { 'select_prev', 'fallback' },
         ['<Tab>'] = { 'select_next', 'fallback' },
+        ['<S-Tab>'] = { 'select_prev', 'fallback' },
+        ['<Down>'] = { 'select_next', 'fallback' },
+        ['<C-k>'] = { 'select_prev', 'fallback' },
+        ['<C-j>'] = { 'select_next', 'fallback' },
         ['<CR>'] = { 'accept', 'fallback' },
       },
 
@@ -566,6 +565,9 @@ require("lazy").setup({
       signature = { enabled = true },
 
       completion = {
+        trigger = {
+          show_on_blocked_trigger_characters = { ' ', '\n' }
+        },
         list = {
           selection = {
             preselect = false,
