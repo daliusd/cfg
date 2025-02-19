@@ -563,9 +563,9 @@ require("lazy").setup({
       keymap = {
         preset = 'none',
         ['<C-i>'] = { 'show', 'show_documentation', 'hide_documentation' },
+        ['<Tab>'] = { 'fallback' },
+        ['<S-Tab>'] = { 'fallback' },
         ['<Up>'] = { 'select_prev', 'fallback' },
-        ['<Tab>'] = { 'select_next', 'fallback' },
-        ['<S-Tab>'] = { 'select_prev', 'fallback' },
         ['<Down>'] = { 'select_next', 'fallback' },
         ['<C-k>'] = { 'select_prev', 'fallback' },
         ['<C-j>'] = { 'select_next', 'fallback' },
@@ -577,10 +577,11 @@ require("lazy").setup({
       },
       signature = { enabled = true },
 
+      cmdline = {
+        enabled = false,
+      },
+
       completion = {
-        trigger = {
-          show_on_blocked_trigger_characters = { ' ', '\n' }
-        },
         list = {
           selection = {
             preselect = false,
