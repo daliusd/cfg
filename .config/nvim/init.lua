@@ -162,7 +162,13 @@ require("lazy").setup({
       },
       { '<leader>ar', vim.lsp.buf.rename,      silent = true, desc = 'rename' },
       { '<leader>m',  vim.lsp.buf.code_action, silent = true, desc = 'code actions' },
-      { '<leader>m',  vim.lsp.buf.code_action, silent = true, desc = 'code actions' },
+      {
+        '<leader>m',
+        vim.lsp.buf.code_action,
+        mode = 'v',
+        silent = true,
+        desc = 'code actions'
+      },
       {
         '<leader>/',
         function() vim.lsp.buf.references(nil, { on_list = on_list }) end,
@@ -321,7 +327,14 @@ require("lazy").setup({
       },
 
       { '<leader>c',  ':FzfLua commands<cr>',       silent = true, desc = 'Commands' },
-      { '<leader>z',  ':FzfLua spell_suggest<cr>',  silent = true, desc = 'Spell suggest' },
+      {
+        '<leader>c',
+        ':FzfLua commands<cr>',
+        silent = true,
+        mode = 'v',
+        desc = 'Commands'
+      },
+      { '<leader>z', ':FzfLua spell_suggest<cr>', silent = true, desc = 'Spell suggest' },
     }
   },
   {
