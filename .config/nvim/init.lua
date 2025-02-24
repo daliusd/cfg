@@ -129,7 +129,7 @@ require("lazy").setup({
       { '<leader>s', ':w<cr>',                      silent = true, desc = 'write' },
 
       {
-        '<leader>bb',
+        '<leader>b',
         ':CodeCompanionChat Toggle<cr>',
         mode = { 'n', 'v' },
         silent = true,
@@ -729,8 +729,8 @@ require("lazy").setup({
     config = function()
       require('ghlite').setup({
         debug = false,
-        view_split = 'tabnew',
-        diff_split = 'tabnew',
+        view_split = '',
+        diff_split = '',
         open_command = 'open',
         keymaps = {
           diff = {
@@ -800,7 +800,7 @@ require("lazy").setup({
       require("codecompanion").setup({
         strategies = {
           chat = {
-            adapter = "copilot_o3_mini",
+            adapter = "google_gemini_2_flash",
             keymaps = {
               change_adapter = { modes = { n = "ca" } },
               debug = { modes = { n = "cd" } },
@@ -808,7 +808,7 @@ require("lazy").setup({
             },
           },
           inline = {
-            adapter = "copilot_o3_mini",
+            adapter = "google_gemini_2_flash",
             keymaps = {
               accept_change = { modes = { n = "ca" } },
               reject_change = { modes = { n = "cr" } },
@@ -840,7 +840,6 @@ require("lazy").setup({
 
       vim.api.nvim_set_keymap("n", "<C-a>", "<cmd>CodeCompanionActions<cr>", { noremap = true, silent = true })
       vim.api.nvim_set_keymap("v", "<C-a>", "<cmd>CodeCompanionActions<cr>", { noremap = true, silent = true })
-      vim.api.nvim_set_keymap("v", "<leader>ba", "<cmd>CodeCompanionChat Add<cr>", { noremap = true, silent = true })
 
       vim.cmd([[cab cc CodeCompanion]])
     end,
