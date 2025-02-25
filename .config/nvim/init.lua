@@ -800,7 +800,7 @@ require("lazy").setup({
       require("codecompanion").setup({
         strategies = {
           chat = {
-            adapter = "google_gemini_2_flash",
+            adapter = "google_gemini_2_pro",
             keymaps = {
               change_adapter = { modes = { n = "ca" } },
               debug = { modes = { n = "cd" } },
@@ -808,7 +808,7 @@ require("lazy").setup({
             },
           },
           inline = {
-            adapter = "google_gemini_2_flash",
+            adapter = "google_gemini_2_pro",
             keymaps = {
               accept_change = { modes = { n = "ca" } },
               reject_change = { modes = { n = "cr" } },
@@ -824,6 +824,9 @@ require("lazy").setup({
           end,
           google_gemini_2_flash = function()
             return create_adapter("gemini", "gemini-2.0-flash")
+          end,
+          google_gemini_2_pro = function()
+            return create_adapter("gemini", "gemini-2.0-pro-exp-02-05")
           end,
           copilot_o3_mini = function()
             return create_adapter("copilot", "o3-mini")
