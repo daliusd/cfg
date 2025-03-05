@@ -800,7 +800,7 @@ require("lazy").setup({
       require("codecompanion").setup({
         strategies = {
           chat = {
-            adapter = "google_gemini_2_pro",
+            adapter = "copilot_o3_mini",
             keymaps = {
               change_adapter = { modes = { n = "ca" } },
               debug = { modes = { n = "cd" } },
@@ -808,7 +808,7 @@ require("lazy").setup({
             },
           },
           inline = {
-            adapter = "google_gemini_2_pro",
+            adapter = "copilot_o3_mini",
             keymaps = {
               accept_change = { modes = { n = "ca" } },
               reject_change = { modes = { n = "cr" } },
