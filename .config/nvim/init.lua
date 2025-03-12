@@ -626,7 +626,17 @@ require("lazy").setup({
       }
     end,
   },
-  { "sindrets/diffview.nvim" },
+  {
+    "sindrets/diffview.nvim",
+    opts = {
+      keymaps = {
+        view = {
+          ["<leader>e"] = false,
+        }
+      }
+    }
+
+  },
   {
     'tpope/vim-fugitive',
     keys = {
