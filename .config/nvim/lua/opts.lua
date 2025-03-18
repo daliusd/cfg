@@ -64,3 +64,5 @@ vim.opt.ignorecase = true -- Ignore case when searching using lowercase
 vim.opt.smartcase = true  -- Ignore ignorecase if search contains upper case letters
 
 vim.opt.grepprg = 'rg --vimgrep -M 160 -S'
+
+vim.diagnostic.config({ virtual_text = true })
