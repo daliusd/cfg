@@ -11,3 +11,4 @@ npm install -g sql-language-server
 npm install -g @fsouza/prettierd
 npm install -g @daliusd/langd
 npm install -g npm-check-updates
+npm install -g tsx

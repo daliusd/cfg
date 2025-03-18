@@ -876,7 +876,48 @@ require("lazy").setup({
       vim.cmd([[cab cc CodeCompanion]])
     end,
   },
+  {
+    'Vigemus/iron.nvim',
+    config = function()
+      local iron = require("iron.core")
+      local view = require("iron.view")
+
+      iron.setup {
+        config = {
+          scratch_repl = true,
+          repl_definition = {
+            typescript = {
+              command = { "tsx" }
+            },
+            typescriptreact = {
+              command = { "tsx" }
+            },
+          },
+          repl_open_cmd = view.split.vertical.rightbelow("%40"),
+        },
+
+        keymaps = {
+          toggle_repl = "<leader>rr",
+          restart_repl = "<leader>rR",
+          send_motion = "<leader>rc",
+          visual_send = "<leader>rc",
+          send_file = "<leader>rf",
+          send_line = "<leader>rl",
+          cr = "<leader>r<cr>",
+          interrupt = "<leader>r<space>",
+          exit = "<leader>rq",
+          clear = "<leader>rx",
+        },
+        highlight = {
+          italic = true
+        },
+        ignore_blank_lines = true,
+      }
+    end
+  }
 })
+
+
 
 require('misc')
 require('highlights')
