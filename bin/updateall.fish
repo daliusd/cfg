@@ -14,4 +14,5 @@ switch (uname)
 end
 
 snc
-nvim --headless "+Lazy! sync" +qa
+# Not sure if I want to update Lazy silently
+# nvim --headless "+Lazy! sync" +qa
