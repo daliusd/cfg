@@ -813,7 +813,8 @@ require("lazy").setup({
     dependencies = {
       "nvim-lua/plenary.nvim",
       "nvim-treesitter/nvim-treesitter",
-      "j-hui/fidget.nvim"
+      "j-hui/fidget.nvim",
+      "ravitemer/mcphub.nvim",
     },
     config = function()
       local function create_adapter(adapter_name, default_model)
@@ -835,6 +836,16 @@ require("lazy").setup({
               debug = { modes = { n = "cd" } },
               system_prompt = { modes = { n = "cs" } },
             },
+            tools = {
+              ["mcp"] = {
+                -- calling it in a function would prevent mcphub from being loaded before it's needed
+                callback = function() return require("mcphub.extensions.codecompanion") end,
+                description = "Call tools and resources from the MCP Servers",
+                opts = {
+                  requires_approval = true,
+                }
+              }
+            }
           },
           inline = {
             adapter = "copilot_claude_sonnet",
@@ -913,6 +924,20 @@ require("lazy").setup({
         },
         ignore_blank_lines = true,
       }
+    end
+  },
+  {
+    "ravitemer/mcphub.nvim",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+    cmd = "MCPHub",
+    build = "npm install -g mcp-hub@latest",
+    config = function()
+      require("mcphub").setup({
+        port = 4000,
+        config = vim.fn.expand("~/mcpservers.json"),
+      })
     end
   }
 })
