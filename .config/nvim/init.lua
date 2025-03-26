@@ -410,6 +410,7 @@ require("lazy").setup({
 
       require 'lspconfig'.ansiblels.setup {}
       require 'lspconfig'.astro.setup {}
+      require 'lspconfig'.buf_ls.setup {}
       require 'lspconfig'.cssls.setup {
         capabilities = capabilities
       }

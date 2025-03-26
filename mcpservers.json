@@ -1,6 +1,7 @@
 {
   "mcpServers": {
     "time": {
+      "disabled": false,
       "command": "uvx",
       "args": [
         "mcp-server-time"

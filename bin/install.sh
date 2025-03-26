@@ -78,3 +78,5 @@ brew install --cask font-victor-mono-nerd-font
 brew install git-delta
 brew install lua-language-server
 brew install pinentry-mac
+brew install uv
+brew install bufbuild/buf/buf
