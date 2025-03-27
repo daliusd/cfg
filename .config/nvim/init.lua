@@ -389,6 +389,10 @@ require("lazy").setup({
     end
   },
   {
+    "kylechui/nvim-surround",
+    config = true,
+  },
+  {
     'numToStr/Comment.nvim',
     config = true,
   },
