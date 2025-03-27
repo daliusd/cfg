@@ -443,6 +443,7 @@ require("lazy").setup({
       require 'lspconfig'.pyright.setup {}
       require 'lspconfig'.sqlls.setup {}
       require 'lspconfig'.typos_lsp.setup {}
+      require 'lspconfig'.ts_ls.setup {}
       require 'lspconfig'.lua_ls.setup {
         settings = {
           Lua = {
@@ -545,26 +546,26 @@ require("lazy").setup({
       })
     end,
   },
-  {
-    "pmizio/typescript-tools.nvim",
-    dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
-    opts = {},
-    config = function()
-      require("typescript-tools").setup {
-        on_attach =
-            function(client, _)
-              client.server_capabilities.documentFormattingProvider = false
-              client.server_capabilities.documentRangeFormattingProvider = false
-            end,
-        settings = {
-          jsx_close_tag = {
-            enable = true,
-            filetypes = { "javascriptreact", "typescriptreact" },
-          }
-        }
-      }
-    end
-  },
+  -- {
+  --   "pmizio/typescript-tools.nvim",
+  --   dependencies = { "nvim-lua/plenary.nvim", "neovim/nvim-lspconfig" },
+  --   opts = {},
+  --   config = function()
+  --     require("typescript-tools").setup {
+  --       on_attach =
+  --           function(client, _)
+  --             client.server_capabilities.documentFormattingProvider = false
+  --             client.server_capabilities.documentRangeFormattingProvider = false
+  --           end,
+  --       settings = {
+  --         jsx_close_tag = {
+  --           enable = true,
+  --           filetypes = { "javascriptreact", "typescriptreact" },
+  --         }
+  --       }
+  --     }
+  --   end
+  -- },
   {
     'windwp/nvim-autopairs',
     event = "InsertEnter",
