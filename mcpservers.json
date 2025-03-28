@@ -1,11 +1,18 @@
 {
   "mcpServers": {
     "time": {
-      "disabled": false,
-      "command": "uvx",
       "args": [
         "mcp-server-time"
-      ]
+      ],
+      "command": "uvx",
+      "disabled": false
+    },
+    "igor": {
+      "args": [
+        "/home/daliusd/projects/igor-tools/build/index.js"
+      ],
+      "command": "node",
+      "disabled": false
     }
   }
 }
