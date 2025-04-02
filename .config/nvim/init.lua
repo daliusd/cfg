@@ -943,6 +943,12 @@ require("lazy").setup({
       require("mcphub").setup({
         port = 4000,
         config = vim.fn.expand("~/mcpservers.json"),
+        extensions = {
+          codecompanion = {
+            show_result_in_chat = true,
+            make_vars = true,
+          }
+        },
       })
     end
   }
