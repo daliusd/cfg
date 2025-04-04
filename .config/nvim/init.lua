@@ -367,6 +367,10 @@ require("lazy").setup({
   },
   { 'nvim-treesitter/nvim-treesitter-textobjects' },
   {
+    'echasnovski/mini.diff',
+    version = '*'
+  },
+  {
     'echasnovski/mini.ai',
     version = '*',
     config = function()
@@ -850,6 +854,10 @@ require("lazy").setup({
                 opts = {
                   requires_approval = true,
                 }
+              },
+              ["code_edit"] = {
+                description = "Run a custom code edit",
+                callback = require("code_edit"),
               }
             }
           },
@@ -883,6 +891,11 @@ require("lazy").setup({
           githubmodels_deepseek = function()
             return create_adapter("githubmodels", "DeepSeek-R1")
           end,
+        },
+        display = {
+          diff = {
+            provider = "mini_diff",
+          },
         },
       })
       require("fidget-spinner"):init()
