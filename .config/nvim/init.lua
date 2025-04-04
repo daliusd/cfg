@@ -368,7 +368,11 @@ require("lazy").setup({
   { 'nvim-treesitter/nvim-treesitter-textobjects' },
   {
     'echasnovski/mini.diff',
-    version = '*'
+    version = '*',
+    config = function()
+      local diff = require('mini.diff')
+      diff.setup({ source = diff.gen_source.none() })
+    end
   },
   {
     'echasnovski/mini.ai',
@@ -891,11 +895,6 @@ require("lazy").setup({
           githubmodels_deepseek = function()
             return create_adapter("githubmodels", "DeepSeek-R1")
           end,
-        },
-        display = {
-          diff = {
-            provider = "mini_diff",
-          },
         },
       })
       require("fidget-spinner"):init()
