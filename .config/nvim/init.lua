@@ -148,6 +148,29 @@ require("lazy").setup({
       -- Mapping to c-] because LSP go to definition then works with c-t
       { '<leader>d',  '<c-]>',  silent = true, desc = 'definition' },
       {
+        '<leader>aa',
+        function()
+          local bufnr = vim.api.nvim_get_current_buf();
+          local name = require("codecompanion").last_chat().references:make_id_from_buf(bufnr)
+          if name == "" then
+            name = "Buffer " .. bufnr
+          end
+          local id = "<buf>" .. name .. "</buf>"
+
+          require("codecompanion").last_chat().references:add({
+            bufnr = bufnr,
+            id = id,
+            source = "codecompanion.strategies.chat.variables.buffer",
+            opts = {
+              watched = true
+            }
+          })
+          vim.print('buffer added to chat')
+        end,
+        silent = true,
+        desc = 'buffer to CodeCompanion chat'
+      },
+      {
         '<leader>ad',
         function() vim.lsp.buf.declaration { on_list = on_list } end,
         silent = true,
