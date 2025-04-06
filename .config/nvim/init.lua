@@ -151,19 +151,38 @@ require("lazy").setup({
         '<leader>aa',
         function()
           local bufnr = vim.api.nvim_get_current_buf();
+
+          local content = require("codecompanion.utils.buffers").format_with_line_numbers(bufnr)
+
           local name = require("codecompanion").last_chat().references:make_id_from_buf(bufnr)
           if name == "" then
             name = "Buffer " .. bufnr
           end
           local id = "<buf>" .. name .. "</buf>"
 
+          local path = vim.api.nvim_buf_get_name(bufnr)
+          local message = "Here is the content from"
+
+          require("codecompanion").last_chat():add_message({
+            role = 'user',
+            content = string.format(
+              [[%s `%s` (which has a buffer number of _%d_ and a filepath of `%s`):
+
+%s]],
+              message,
+              vim.fn.fnamemodify(path, ":t"),
+              bufnr,
+              path,
+              content
+            ),
+          }, { reference = id, visible = false })
+
           require("codecompanion").last_chat().references:add({
             bufnr = bufnr,
             id = id,
-            source = "codecompanion.strategies.chat.variables.buffer",
-            opts = {
-              watched = true
-            }
+            path = path,
+            source = "codecompanion.strategies.chat.slash_commands.buffer",
+            opts = {}
           })
           vim.print('buffer added to chat')
         end,
@@ -867,7 +886,7 @@ require("lazy").setup({
       require("codecompanion").setup({
         strategies = {
           chat = {
-            adapter = "copilot_claude_sonnet",
+            adapter = "copilot_o3_mini",
             keymaps = {
               change_adapter = { modes = { n = "ca" } },
               debug = { modes = { n = "cd" } },
@@ -889,7 +908,7 @@ require("lazy").setup({
             }
           },
           inline = {
-            adapter = "copilot_claude_sonnet",
+            adapter = "copilot_o3_mini",
             keymaps = {
               accept_change = { modes = { n = "ca" } },
               reject_change = { modes = { n = "cr" } },
