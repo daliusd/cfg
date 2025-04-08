@@ -886,7 +886,7 @@ require("lazy").setup({
       require("codecompanion").setup({
         strategies = {
           chat = {
-            adapter = "copilot_o3_mini",
+            adapter = "copilot_claude_sonnet",
             keymaps = {
               change_adapter = { modes = { n = "ca" } },
               debug = { modes = { n = "cd" } },
@@ -908,7 +908,7 @@ require("lazy").setup({
             }
           },
           inline = {
-            adapter = "copilot_o3_mini",
+            adapter = "copilot_claude_sonnet",
             keymaps = {
               accept_change = { modes = { n = "ca" } },
               reject_change = { modes = { n = "cr" } },
