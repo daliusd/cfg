@@ -64,29 +64,29 @@ vim.api.nvim_create_user_command(
 
 vim.cmd(":cnoreabbrev <expr> rg (getcmdtype() == ':' && getcmdline() ==# 'rg') ? 'Rg' : 'rg'")
 
-vim.api.nvim_create_user_command(
-  'TSRemoveUnusedImports',
-  function()
-    ---@diagnostic disable-next-line: assign-type-mismatch
-    vim.lsp.buf.code_action({ apply = true, context = { only = { "source.removeUnusedImports.ts" }, diagnostics = {} } })
-  end,
-  {}
-)
-
-vim.api.nvim_create_user_command(
-  'TSRemoveUnused',
-  function()
-    ---@diagnostic disable-next-line: assign-type-mismatch
-    vim.lsp.buf.code_action({ apply = true, context = { only = { "source.removeUnused.ts" }, diagnostics = {} } })
-  end,
-  {}
-)
-
-vim.api.nvim_create_user_command(
-  'TSAddMissingImports',
-  function()
-    ---@diagnostic disable-next-line: assign-type-mismatch
-    vim.lsp.buf.code_action({ apply = true, context = { only = { "source.addMissingImports.ts" }, diagnostics = {} } })
-  end,
-  {}
-)
+-- vim.api.nvim_create_user_command(
+--   'TSRemoveUnusedImports',
+--   function()
+--     ---@diagnostic disable-next-line: assign-type-mismatch
+--     vim.lsp.buf.code_action({ apply = true, context = { only = { "source.removeUnusedImports.ts" }, diagnostics = {} } })
+--   end,
+--   {}
+-- )
+--
+-- vim.api.nvim_create_user_command(
+--   'TSRemoveUnused',
+--   function()
+--     ---@diagnostic disable-next-line: assign-type-mismatch
+--     vim.lsp.buf.code_action({ apply = true, context = { only = { "source.removeUnused.ts" }, diagnostics = {} } })
+--   end,
+--   {}
+-- )
+--
+-- vim.api.nvim_create_user_command(
+--   'TSAddMissingImports',
+--   function()
+--     ---@diagnostic disable-next-line: assign-type-mismatch
+--     vim.lsp.buf.code_action({ apply = true, context = { only = { "source.addMissingImports.ts" }, diagnostics = {} } })
+--   end,
+--   {}
+-- )
