@@ -901,10 +901,6 @@ require("lazy").setup({
                   requires_approval = true,
                 }
               },
-              ["code_edit"] = {
-                description = "Run a custom code edit",
-                callback = require("code_edit"),
-              }
             }
           },
           inline = {
