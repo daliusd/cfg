@@ -715,11 +715,11 @@ require("lazy").setup({
   {
     'tpope/vim-fugitive',
     keys = {
-      { '<leader>gg',  ':Git<cr>',         silent = true, desc = 'Git' },
-      { '<leader>gd',  ':Gvdiffsplit<cr>', silent = true, desc = 'Git diff split' },
-      { '<leader>gb',  ':Git blame<cr>',   silent = true, desc = 'Git blame' },
-      { '<leader>gps', ':Git push<cr>',    silent = true, desc = 'Git push' },
-      { '<leader>gpl', ':Git pull<cr>',    silent = true, desc = 'Git pull' },
+      { '<leader>gg', ':Git<cr>',         silent = true, desc = 'Git' },
+      { '<leader>gd', ':Gvdiffsplit<cr>', silent = true, desc = 'Git diff split' },
+      { '<leader>gb', ':Git blame<cr>',   silent = true, desc = 'Git blame' },
+      { '<leader>gp', ':Git push<cr>',    silent = true, desc = 'Git push' },
+      { '<leader>gl', ':Git pull<cr>',    silent = true, desc = 'Git pull' },
     }
   },
   {
