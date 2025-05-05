@@ -1,11 +1,16 @@
 {
   "mcpServers": {
-    "igor": {
+    "wix-mcp-remote-prod": {
       "args": [
-        "/home/daliusd/projects/igor-tools/build/index.js"
+        "-y",
+        "@wix/mcp-remote",
+        "https://mcp.wix.com/sse"
       ],
-      "command": "node",
+      "command": "npx",
       "disabled": false
     }
-  }
+  },
+  "nativeMCPServers": [
+    
+  ]
 }
