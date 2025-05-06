@@ -121,3 +121,5 @@ switch (uname)
     case '*'
         echo Open config.fish and review it!
 end
+
+fzf --fish | source

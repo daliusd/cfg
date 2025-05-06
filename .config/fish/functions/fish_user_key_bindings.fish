@@ -4,6 +4,4 @@ function fish_user_key_bindings
 
   bind -M insert \ck up-or-search
   bind -M insert \cj down-or-search
-
-  fzf_key_bindings
 end
