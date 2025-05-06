@@ -612,6 +612,8 @@ require("lazy").setup({
               client.server_capabilities.documentRangeFormattingProvider = false
             end,
         settings = {
+          tsserver_path = vim.env.HOME ..
+              "/.volta/tools/image/packages/typescript/lib/node_modules/typescript/lib/tsserver.js",
           jsx_close_tag = {
             enable = true,
             filetypes = { "javascriptreact", "typescriptreact" },
