@@ -105,7 +105,7 @@ function __check_nvmrc --on-variable PWD --description 'check .nvmrc on pwd chan
 
     if test -e "$nvmrc_file"
       set nodeversion (cat $nvmrc_file)
-      volta install node@$nodeversion > /dev/null
+      volta install node@$nodeversion
       break
     end
 
@@ -120,15 +120,4 @@ switch (uname)
         eval "$(/usr/local/bin/brew shellenv)"
     case '*'
         echo Open config.fish and review it!
-end
-
-
-function _async_load_api_keys
-    set -gx OPENAI_API_KEY (pass show openai-secret-key)
-    set -gx GEMINI_API_KEY (pass show googleai)
-    set -gx FIGMA_ACCESS_TOKEN (pass show figma-wix-key)
-end
-
-if status is-interactive
-    fish -c '_async_load_api_keys' &
 end
