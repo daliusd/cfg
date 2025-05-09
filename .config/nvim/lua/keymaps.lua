@@ -55,11 +55,16 @@ local function search_with_two_chars(search_command)
     char2 = vim.fn.nr2char(char2)
 
     local search_term = char1 .. char2
-    vim.api.nvim_feedkeys(search_command .. search_term .. "\n:noh\n", "n", false)
+
+    vim.api.nvim_feedkeys(search_command .. search_term .. "\n", "n", false)
+
+    vim.schedule(function()
+      vim.cmd('nohlsearch')
+    end)
   end
 end
 
-vim.api.nvim_set_keymap('n', 's', '', { noremap = true, silent = true, callback = search_with_two_chars('/') })
-vim.api.nvim_set_keymap('x', 's', '', { noremap = true, silent = true, callback = search_with_two_chars('/') })
-vim.api.nvim_set_keymap('n', 'S', '', { noremap = true, silent = true, callback = search_with_two_chars('?') })
-vim.api.nvim_set_keymap('x', 'S', '', { noremap = true, silent = true, callback = search_with_two_chars('?') })
+keymap('n', 's', search_with_two_chars('/'), opts)
+keymap('x', 's', search_with_two_chars('/'), opts)
+keymap('n', 'S', search_with_two_chars('?'), opts)
+keymap('x', 'S', search_with_two_chars('?'), opts)
