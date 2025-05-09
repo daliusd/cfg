@@ -409,14 +409,6 @@ require("lazy").setup({
   },
   { 'nvim-treesitter/nvim-treesitter-textobjects' },
   {
-    'echasnovski/mini.diff',
-    version = '*',
-    config = function()
-      local diff = require('mini.diff')
-      diff.setup({ source = diff.gen_source.none() })
-    end
-  },
-  {
     'echasnovski/mini.ai',
     version = '*',
     config = function()
