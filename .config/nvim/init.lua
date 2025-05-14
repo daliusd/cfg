@@ -299,8 +299,9 @@ require("lazy").setup({
   {
     "ibhagwan/fzf-lua",
     config = function()
-      require("fzf-lua").setup({
-        winopts = { height = 1, width = 1, preview = { border = 'noborder', layout = 'vertical' } },
+      local fzf_lua = require("fzf-lua");
+      fzf_lua.setup({
+        winopts = { height = 0.95, width = 0.95, preview = { border = 'rounded', layout = 'vertical' } },
         files = {
           git_icons = false,
         },
