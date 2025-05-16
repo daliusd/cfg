@@ -982,6 +982,10 @@ require("lazy").setup({
   },
   {
     "ravitemer/mcphub.nvim",
+    cond = function()
+      local hostname = vim.fn.hostname()
+      return hostname == "avokadas"
+    end,
     dependencies = {
       "nvim-lua/plenary.nvim",
     },
@@ -990,7 +994,7 @@ require("lazy").setup({
     config = function()
       require("mcphub").setup({
         port = 4000,
-        config = vim.fn.expand("~/mcpservers.json"),
+        config = vim.fn.expand("~/.config/mcphub/servers.json"),
         extensions = {
           codecompanion = {
             show_result_in_chat = true,
