@@ -623,11 +623,22 @@ require("lazy").setup({
   {
     'saghen/blink.cmp',
     version = '*',
+    dependencies = {
+      "moyiz/blink-emoji.nvim",
+    },
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
     opts = {
       sources = {
-        default = { 'lsp', 'path', 'snippets', 'buffer' },
+        default = { 'lsp', 'path', 'snippets', 'buffer', 'emoji' },
+        providers = {
+          emoji = {
+            module = "blink-emoji",
+            name = "Emoji",
+            score_offset = 15,
+            opts = { insert = true },
+          }
+        }
       },
 
       keymap = {
@@ -662,6 +673,7 @@ require("lazy").setup({
           auto_show = true,
         },
       },
+
     },
     opts_extend = { "sources.completion.enabled_providers" }
   },
@@ -834,15 +846,6 @@ require("lazy").setup({
     }
   },
   "tpope/vim-abolish",
-  {
-    "allaman/emoji.nvim",
-    dependencies = {
-      "nvim-lua/plenary.nvim",
-    },
-    config = function(_, opts)
-      require("emoji").setup(opts)
-    end,
-  },
   {
     "zbirenbaum/copilot.lua",
     cmd = "Copilot",
