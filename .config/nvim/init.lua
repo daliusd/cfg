@@ -408,29 +408,6 @@ require("lazy").setup({
     -- Optional dependencies
     dependencies = { "nvim-tree/nvim-web-devicons" },
   },
-  { 'nvim-treesitter/nvim-treesitter-textobjects' },
-  {
-    'echasnovski/mini.ai',
-    version = '*',
-    config = function()
-      local gen_spec = require('mini.ai').gen_spec
-      require('mini.ai').setup({
-        custom_textobjects = {
-          -- Tweak argument to be recognized only inside `()` between `;`
-          a = gen_spec.argument({ brackets = { '%b()' }, separator = ';' }),
-
-          -- Tweak function call to not detect dot in function name
-          f = gen_spec.function_call({ name_pattern = '[%w_]' }),
-
-          -- Function definition (needs treesitter queries with these captures)
-          F = gen_spec.treesitter({ a = '@function.outer', i = '@function.inner' }),
-
-          -- Make `|` select both edges in non-balanced way
-          ['|'] = gen_spec.pair('|', '|', { type = 'non-balanced' }),
-        }
-      })
-    end
-  },
   {
     "kylechui/nvim-surround",
     config = true,
@@ -884,7 +861,7 @@ require("lazy").setup({
       require("codecompanion").setup({
         strategies = {
           chat = {
-            adapter = "copilot_claude_sonnet",
+            adapter = "copilot_gpt_41",
             keymaps = {
               change_adapter = { modes = { n = "ca" } },
               debug = { modes = { n = "cd" } },
@@ -902,7 +879,7 @@ require("lazy").setup({
             }
           },
           inline = {
-            adapter = "copilot_claude_sonnet",
+            adapter = "copilot_gpt_41",
             keymaps = {
               accept_change = { modes = { n = "ca" } },
               reject_change = { modes = { n = "cr" } },
@@ -913,26 +890,11 @@ require("lazy").setup({
           copilot_claude_sonnet = function()
             return create_adapter("copilot", "claude-3.7-sonnet")
           end,
-          copilot_gemini_2_flash = function()
-            return create_adapter("copilot", "gemini-2.0-flash-001")
-          end,
           copilot_gemini_2_5_pro = function()
             return create_adapter("copilot", "gemini-2.5-pro")
           end,
-          google_gemini_2_flash = function()
-            return create_adapter("gemini", "gemini-2.0-flash")
-          end,
-          google_gemini_2_pro = function()
-            return create_adapter("gemini", "gemini-2.0-pro-exp-02-05")
-          end,
-          copilot_o3_mini = function()
-            return create_adapter("copilot", "o3-mini")
-          end,
-          githubmodels = function()
-            return create_adapter("githubmodels", "Codestral-2501")
-          end,
-          githubmodels_deepseek = function()
-            return create_adapter("githubmodels", "DeepSeek-R1")
+          copilot_gpt_41 = function()
+            return create_adapter("copilot", "gpt-4.1")
           end,
         },
       })
