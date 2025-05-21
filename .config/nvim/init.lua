@@ -63,7 +63,6 @@ require("lazy").setup({
         { "<leader>a", group = "lsp" },
         { "<leader>w", group = "window" },
         { "<leader>g", group = "git" },
-        { "<leader>s", group = "search" },
         { "<leader>u", group = "ghlite" },
       })
     end,
@@ -112,7 +111,7 @@ require("lazy").setup({
       },
       -- Grep
       {
-        '<leader>sg',
+        '<leader>G',
         function()
           local text = vim.fn.expand("<cword>")
           vim.fn.histadd(':', 'gr ' .. text)
@@ -326,7 +325,7 @@ require("lazy").setup({
       { '<leader>h', ':FzfLua oldfiles<cr>', silent = true, desc = 'Old files' },
       { '<leader>f', ':FzfLua files<cr>',    silent = true, desc = 'Files' },
       {
-        '<leader>ss',
+        '<leader>r',
         function()
           local text = vim.fn.expand("<cword>")
           vim.fn.histadd(':', 'Rg ' .. text)
@@ -336,7 +335,7 @@ require("lazy").setup({
         desc = 'Rg'
       },
       {
-        '<leader>ss',
+        '<leader>r',
         function()
           local text = vim.getVisualSelection()
           vim.fn.histadd(':', 'Rg ' .. text)
@@ -347,7 +346,7 @@ require("lazy").setup({
         desc = 'Rg'
       },
       {
-        '<leader>sg',
+        '<leader>G',
         function()
           local text = vim.getVisualSelection()
           vim.fn.histadd(':', 'gr ' .. text)
@@ -357,7 +356,7 @@ require("lazy").setup({
         silent = true,
         desc = 'gr',
       },
-      { '<leader>sr', ':FzfLua live_grep_glob<cr>', silent = true },
+      { '<leader>R', ':FzfLua live_grep_glob<cr>', silent = true },
       {
         '<leader>f',
         function()
@@ -369,7 +368,7 @@ require("lazy").setup({
         desc = 'Files',
       },
 
-      { '<leader>c',  ':FzfLua commands<cr>',       silent = true, desc = 'Commands' },
+      { '<leader>c', ':FzfLua commands<cr>',       silent = true, desc = 'Commands' },
       {
         '<leader>c',
         ':FzfLua commands<cr>',
@@ -408,10 +407,10 @@ require("lazy").setup({
     -- Optional dependencies
     dependencies = { "nvim-tree/nvim-web-devicons" },
   },
-  {
-    "kylechui/nvim-surround",
-    config = true,
-  },
+  -- {
+  --   "kylechui/nvim-surround",
+  --   config = true,
+  -- },
   {
     'numToStr/Comment.nvim',
     config = true,
@@ -527,6 +526,7 @@ require("lazy").setup({
       })
 
       require('lint').linters.langd = {
+        name = 'langd',
         cmd = 'langd',
         stdin = true,
         args = { vim.fn.getcwd() },
@@ -927,16 +927,16 @@ require("lazy").setup({
         },
 
         keymaps = {
-          toggle_repl = "<leader>rr",
-          restart_repl = "<leader>rR",
-          send_motion = "<leader>rc",
-          visual_send = "<leader>rc",
-          send_file = "<leader>rf",
-          send_line = "<leader>rl",
-          cr = "<leader>r<cr>",
-          interrupt = "<leader>r<space>",
-          exit = "<leader>rq",
-          clear = "<leader>rx",
+          toggle_repl = "<leader>ir",
+          restart_repl = "<leader>iR",
+          send_motion = "<leader>ic",
+          visual_send = "<leader>ic",
+          send_file = "<leader>if",
+          send_line = "<leader>il",
+          cr = "<leader>i<cr>",
+          interrupt = "<leader>i<space>",
+          exit = "<leader>iq",
+          clear = "<leader>ix",
         },
         highlight = {
           italic = true
