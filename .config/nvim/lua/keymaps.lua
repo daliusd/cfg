@@ -41,10 +41,17 @@ keymap('n', 'go', ':tabonly<cr>', opts)
 
 keymap('t', '<esc>', '<c-\\><c-n>', opts)
 
-keymap('n', '<c-left>', '<c-w>h', opts)
-keymap('n', '<c-down>', '<c-w>j', opts)
-keymap('n', '<c-up>', '<c-w>k', opts)
-keymap('n', '<c-right>', '<c-w>l', opts)
+-- movement
+vim.keymap.set({ 'n', 'v' }, '<C-up>', '<cmd>Treewalker Up<cr>', { silent = true })
+vim.keymap.set({ 'n', 'v' }, '<C-down>', '<cmd>Treewalker Down<cr>', { silent = true })
+vim.keymap.set({ 'n', 'v' }, '<C-left>', '<cmd>Treewalker Left<cr>', { silent = true })
+vim.keymap.set({ 'n', 'v' }, '<C-right>', '<cmd>Treewalker Right<cr>', { silent = true })
+
+-- swapping
+vim.keymap.set('n', '<C-S-up>', '<cmd>Treewalker SwapUp<cr>', { silent = true })
+vim.keymap.set('n', '<C-S-down>', '<cmd>Treewalker SwapDown<cr>', { silent = true })
+vim.keymap.set('n', '<C-S-left>', '<cmd>Treewalker SwapLeft<cr>', { silent = true })
+vim.keymap.set('n', '<C-S-right>', '<cmd>Treewalker SwapRight<cr>', { silent = true })
 
 local function search_with_two_chars(search_command)
   return function()

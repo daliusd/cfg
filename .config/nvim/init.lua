@@ -598,6 +598,9 @@ require("lazy").setup({
     config = true
   },
   {
+    'aaronik/treewalker.nvim',
+  },
+  {
     'saghen/blink.cmp',
     version = '*',
     dependencies = {
