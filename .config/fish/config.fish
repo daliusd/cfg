@@ -95,7 +95,7 @@ starship init fish | source
 set -gx VOLTA_HOME "$HOME/.volta"
 set -gx PATH "$VOLTA_HOME/bin" $PATH
 
-function __check_nvmrc --on-variable PWD --description 'check .nvmrc on pwd change and run volta install'
+function __check_nvmrc --on-event fish_prompt --description 'check .nvmrc on pwd change and run volta install'
   status --is-command-substitution; and return
 
   set -l dir (pwd)
@@ -105,7 +105,7 @@ function __check_nvmrc --on-variable PWD --description 'check .nvmrc on pwd chan
 
     if test -e "$nvmrc_file"
       set nodeversion (cat $nvmrc_file)
-      volta install node@$nodeversion
+      volta install node@$nodeversion --quiet
       break
     end
 
