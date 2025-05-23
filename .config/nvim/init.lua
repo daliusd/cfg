@@ -864,7 +864,7 @@ require("lazy").setup({
       require("codecompanion").setup({
         strategies = {
           chat = {
-            adapter = "copilot_gpt_41",
+            adapter = "copilot_claude_sonnet",
             keymaps = {
               change_adapter = { modes = { n = "ca" } },
               debug = { modes = { n = "cd" } },
@@ -882,7 +882,7 @@ require("lazy").setup({
             }
           },
           inline = {
-            adapter = "copilot_gpt_41",
+            adapter = "copilot_claude_sonnet",
             keymaps = {
               accept_change = { modes = { n = "ca" } },
               reject_change = { modes = { n = "cr" } },
@@ -891,7 +891,7 @@ require("lazy").setup({
         },
         adapters = {
           copilot_claude_sonnet = function()
-            return create_adapter("copilot", "claude-3.7-sonnet")
+            return create_adapter("copilot", "claude-3.5-sonnet")
           end,
           copilot_gemini_2_5_pro = function()
             return create_adapter("copilot", "gemini-2.5-pro")
