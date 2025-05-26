@@ -588,9 +588,6 @@ require("lazy").setup({
     config = true
   },
   {
-    'aaronik/treewalker.nvim',
-  },
-  {
     'saghen/blink.cmp',
     version = '*',
     dependencies = {
@@ -800,7 +797,7 @@ require("lazy").setup({
           'typescript',
           'typescriptreact', -- for tsx
           'vim',
-          'help',    -- for vimdoc
+          'help',            -- for vimdoc
           'xml',
           'yaml',
         },
