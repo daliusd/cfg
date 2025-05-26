@@ -729,15 +729,6 @@ require("lazy").setup({
     config = function()
       require 'nvim-treesitter'.setup {
         install_dir = vim.fn.stdpath('data') .. '/site',
-        -- incremental_selection = {
-        --   enable = true,
-        --   keymaps = {
-        --     init_selection = '<CR>',
-        --     scope_incremental = '<CR>',
-        --     node_incremental = '<TAB>',
-        --     node_decremental = '<S-TAB>',
-        --   },
-        -- },
       }
 
       local ensureInstalled = {
@@ -791,7 +782,15 @@ require("lazy").setup({
         pattern = { '*' },
         callback = function(ev)
           local filetype = ev.match
-          if filetype ~= 'fidget' and filetype ~= 'fzf' and filetype ~= 'fzflua_backdrop' and filetype ~= 'blink-cmp-menu' then
+          local excluded_filetypes = {
+            fidget = true,
+            fzf = true,
+            fzflua_backdrop = true,
+            ['blink-cmp-menu'] = true,
+            oil = true
+          }
+
+          if not excluded_filetypes[filetype] then
             vim.treesitter.start()
           end
         end,

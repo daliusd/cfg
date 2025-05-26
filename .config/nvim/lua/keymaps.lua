@@ -75,3 +75,14 @@ keymap('n', 's', search_with_two_chars('/'), opts)
 keymap('x', 's', search_with_two_chars('/'), opts)
 keymap('n', 'S', search_with_two_chars('?'), opts)
 keymap('x', 'S', search_with_two_chars('?'), opts)
+
+
+vim.keymap.set({ "n" }, "<cr>", function()
+  local node = vim.treesitter.get_node()
+  if not node then return end
+
+  local start_row, start_col, end_row, end_col = node:range()
+  vim.fn.setpos("'<", { 0, start_row + 1, start_col + 1, 0 })
+  vim.fn.setpos("'>", { 0, end_row + 1, end_col, 0 })
+  vim.cmd('normal! gv')
+end, { desc = "Select treesitter node" })
