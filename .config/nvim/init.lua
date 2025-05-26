@@ -286,16 +286,6 @@ require("lazy").setup({
     end
   },
   {
-    "OXY2DEV/markview.nvim",
-    lazy = false,
-    opts = {
-      preview = {
-        filetypes = { "markdown", "codecompanion" },
-        ignore_buftypes = {},
-      },
-    },
-  },
-  {
     "ibhagwan/fzf-lua",
     config = function()
       local fzf_lua = require("fzf-lua");
@@ -779,21 +769,43 @@ require("lazy").setup({
       require("nvim-treesitter").install(parsersToInstall)
 
       vim.api.nvim_create_autocmd('FileType', {
-        pattern = { '*' },
-        callback = function(ev)
-          local filetype = ev.match
-          local excluded_filetypes = {
-            fidget = true,
-            fzf = true,
-            fzflua_backdrop = true,
-            ['blink-cmp-menu'] = true,
-            oil = true,
-            todo = true,
-          }
-
-          if not excluded_filetypes[filetype] then
-            vim.treesitter.start()
-          end
+        pattern = {
+          'c',
+          'cmake',
+          'cpp',
+          'css',
+          'diff',
+          'dockerfile',
+          'fish',
+          'gitconfig',
+          'gitrebase',
+          'gitattributes',
+          'gitcommit',
+          'gitignore',
+          'go',
+          'gpg',
+          'html',
+          'htmldjango',
+          'http',
+          'javascript',
+          'json',
+          'lua',
+          'make',
+          'markdown',
+          'mermaid',
+          'python',
+          'rust',
+          'sql',
+          'svelte',
+          'typescript',
+          'typescriptreact', -- for tsx
+          'vim',
+          'help',    -- for vimdoc
+          'xml',
+          'yaml',
+        },
+        callback = function()
+          vim.treesitter.start()
         end,
       })
     end
