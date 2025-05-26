@@ -723,77 +723,79 @@ require("lazy").setup({
   -- Tree-sitter
   {
     'nvim-treesitter/nvim-treesitter',
+    lazy = false,
+    branch = 'main',
     build = ':TSUpdate',
     config = function()
-      require 'nvim-treesitter.configs'.setup {
-        ensure_installed = {
-          'c',
-          'cmake',
-          'comment',
-          'cpp',
-          'css',
-          'diff',
-          'dockerfile',
-          'fish',
-          'git_config',
-          'git_rebase',
-          'gitattributes',
-          'gitcommit',
-          'gitignore',
-          'go',
-          'gpg',
-          'html',
-          'htmldjango',
-          'http',
-          'javascript',
-          'jq',
-          'json',
-          'lua',
-          'luadoc',
-          'make',
-          'markdown',
-          'markdown_inline',
-          'mermaid',
-          'python',
-          'regex',
-          'rust',
-          'sql',
-          'svelte',
-          'tsx',
-          'typescript',
-          'vim',
-          'vimdoc',
-          'xml',
-          'yaml',
-        },
-        sync_install = false,
-        auto_install = true,
-        ignore_install = {},
-        highlight = {
-          enable = true,
-          additional_vim_regex_highlighting = false,
-          disable = function(_, bufnr)
-            -- Treesitter is slow on large files. Disable if files is larger than 256kb
-            local buf_name = vim.api.nvim_buf_get_name(bufnr)
-            local file_size = vim.api.nvim_call_function("getfsize", { buf_name })
-            return file_size > 256 * 1024
-          end,
-        },
-        incremental_selection = {
-          enable = true,
-          keymaps = {
-            init_selection = '<CR>',
-            scope_incremental = '<CR>',
-            node_incremental = '<TAB>',
-            node_decremental = '<S-TAB>',
-          },
-        },
-        indent = {
-          enable = false,
-          disable = {},
-        },
-        modules = {},
+      require 'nvim-treesitter'.setup {
+        install_dir = vim.fn.stdpath('data') .. '/site',
+        -- incremental_selection = {
+        --   enable = true,
+        --   keymaps = {
+        --     init_selection = '<CR>',
+        --     scope_incremental = '<CR>',
+        --     node_incremental = '<TAB>',
+        --     node_decremental = '<S-TAB>',
+        --   },
+        -- },
       }
+
+      local ensureInstalled = {
+        'c',
+        'cmake',
+        'comment',
+        'cpp',
+        'css',
+        'diff',
+        'dockerfile',
+        'fish',
+        'git_config',
+        'git_rebase',
+        'gitattributes',
+        'gitcommit',
+        'gitignore',
+        'go',
+        'gpg',
+        'html',
+        'htmldjango',
+        'http',
+        'javascript',
+        'jq',
+        'json',
+        'lua',
+        'luadoc',
+        'make',
+        'markdown',
+        'markdown_inline',
+        'mermaid',
+        'python',
+        'regex',
+        'rust',
+        'sql',
+        'svelte',
+        'tsx',
+        'typescript',
+        'vim',
+        'vimdoc',
+        'xml',
+        'yaml',
+      }
+
+      local alreadyInstalled = require("nvim-treesitter.config").installed_parsers()
+      local parsersToInstall = vim.iter(ensureInstalled)
+          :filter(function(parser) return not vim.tbl_contains(alreadyInstalled, parser) end)
+          :totable()
+      require("nvim-treesitter").install(parsersToInstall)
+
+      vim.api.nvim_create_autocmd('FileType', {
+        pattern = { '*' },
+        callback = function(ev)
+          local filetype = ev.match
+          if filetype ~= 'fidget' and filetype ~= 'fzf' and filetype ~= 'fzflua_backdrop' and filetype ~= 'blink-cmp-menu' then
+            vim.treesitter.start()
+          end
+        end,
+      })
     end
   },
   {
