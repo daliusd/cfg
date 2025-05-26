@@ -787,7 +787,8 @@ require("lazy").setup({
             fzf = true,
             fzflua_backdrop = true,
             ['blink-cmp-menu'] = true,
-            oil = true
+            oil = true,
+            todo = true,
           }
 
           if not excluded_filetypes[filetype] then
