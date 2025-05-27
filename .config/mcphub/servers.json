@@ -8,9 +8,14 @@
       ],
       "command": "npx",
       "disabled": false
+    },
+    "business-schema-mcp": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@wix/business-schema-mcp"
+      ]
     }
   },
-  "nativeMCPServers": [
-    
-  ]
+  "nativeMCPServers": []
 }

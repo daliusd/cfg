@@ -881,16 +881,6 @@ require("lazy").setup({
               debug = { modes = { n = "cd" } },
               system_prompt = { modes = { n = "cs" } },
             },
-            tools = {
-              ["mcp"] = {
-                -- calling it in a function would prevent mcphub from being loaded before it's needed
-                callback = function() return require("mcphub.extensions.codecompanion") end,
-                description = "Call tools and resources from the MCP Servers",
-                opts = {
-                  requires_approval = true,
-                }
-              },
-            }
           },
           inline = {
             adapter = "copilot_claude_sonnet",
@@ -899,6 +889,16 @@ require("lazy").setup({
               reject_change = { modes = { n = "cr" } },
             },
           },
+        },
+        extensions = {
+          mcphub = {
+            callback = "mcphub.extensions.codecompanion",
+            opts = {
+              show_result_in_chat = true, -- Show mcp tool results in chat
+              make_vars = true,           -- Convert resources to #variables
+              make_slash_commands = true, -- Add prompts as /slash commands
+            }
+          }
         },
         adapters = {
           copilot_claude_sonnet = function()
@@ -974,12 +974,6 @@ require("lazy").setup({
       require("mcphub").setup({
         port = 4000,
         config = vim.fn.expand("~/.config/mcphub/servers.json"),
-        extensions = {
-          codecompanion = {
-            show_result_in_chat = true,
-            make_vars = true,
-          }
-        },
       })
     end
   }
