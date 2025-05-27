@@ -961,19 +961,21 @@ require("lazy").setup({
   },
   {
     "ravitemer/mcphub.nvim",
-    cond = function()
-      local hostname = vim.fn.hostname()
-      return hostname == "avokadas"
-    end,
     dependencies = {
       "nvim-lua/plenary.nvim",
     },
     cmd = "MCPHub",
     build = "npm install -g mcp-hub@latest",
     config = function()
+      local hostname = vim.fn.hostname()
+      local config = vim.fn.expand("~/.config/mcphub/servers2.json")
+      if hostname == "avokadas" then
+        config = vim.fn.expand("~/.config/mcphub/servers.json")
+      end
+
       require("mcphub").setup({
         port = 4000,
-        config = vim.fn.expand("~/.config/mcphub/servers.json"),
+        config = config,
       })
     end
   }
