@@ -762,43 +762,12 @@ require("lazy").setup({
       require("nvim-treesitter").install(ensureInstalled)
 
       vim.api.nvim_create_autocmd('FileType', {
-        pattern = {
-          'c',
-          'cmake',
-          'cpp',
-          'css',
-          'diff',
-          'dockerfile',
-          'fish',
-          'gitconfig',
-          'gitrebase',
-          'gitattributes',
-          'gitcommit',
-          'gitignore',
-          'go',
-          'gpg',
-          'html',
-          'htmldjango',
-          'http',
-          'javascript',
-          'json',
-          'lua',
-          'make',
-          'markdown',
-          'mermaid',
-          'python',
-          'rust',
-          'sql',
-          'svelte',
-          'typescript',
-          'typescriptreact', -- for tsx
-          'vim',
-          'help',            -- for vimdoc
-          'xml',
-          'yaml',
-        },
+        pattern = { '*' },
         callback = function()
-          vim.treesitter.start()
+          -- remove error = false when nvim 0.12+ is default
+          if vim.treesitter.get_parser(nil, nil, { error = false }) then
+            vim.treesitter.start()
+          end
         end,
       })
     end
