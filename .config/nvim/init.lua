@@ -487,7 +487,7 @@ require("lazy").setup({
         callback = function(args)
           local client = vim.lsp.get_client_by_id(args.data.client_id)
 
-          if client ~= nil and client.supports_method('textDocument/formatting') and client.name ~= 'ts_ls' then
+          if client ~= nil and client:supports_method('textDocument/formatting') and client.name ~= 'ts_ls' then
             vim.api.nvim_create_autocmd('BufWritePre', {
               buffer = args.buf,
               callback = function()
@@ -599,6 +599,7 @@ require("lazy").setup({
       sources = {
         default = { 'lsp', 'path', 'snippets', 'buffer', 'emoji' },
         providers = {
+          lsp = { fallbacks = {} },
           emoji = {
             module = "blink-emoji",
             name = "Emoji",
