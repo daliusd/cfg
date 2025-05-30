@@ -759,11 +759,7 @@ require("lazy").setup({
         'yaml',
       }
 
-      local alreadyInstalled = require("nvim-treesitter.config").installed_parsers()
-      local parsersToInstall = vim.iter(ensureInstalled)
-          :filter(function(parser) return not vim.tbl_contains(alreadyInstalled, parser) end)
-          :totable()
-      require("nvim-treesitter").install(parsersToInstall)
+      require("nvim-treesitter").install(ensureInstalled)
 
       vim.api.nvim_create_autocmd('FileType', {
         pattern = {

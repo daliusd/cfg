@@ -15,6 +15,12 @@
         "-y",
         "@wix/business-schema-mcp"
       ]
+    },
+    "@wix/colombus-assistant-mcp": {
+      "command": "npx",
+      "args": [
+        "@wix/colombus-assistant-mcp"
+      ]
     }
   },
   "nativeMCPServers": []
