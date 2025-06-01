@@ -92,7 +92,7 @@ vim.keymap.set({ "n" }, "<tab>", function()
 end, { desc = "Select treesitter node" })
 
 
-vim.keymap.set("v", "<tab>", function()
+vim.keymap.set("x", "<tab>", function()
   if #_G.selected_nodes == 0 then
     return
   end
@@ -108,7 +108,7 @@ vim.keymap.set("v", "<tab>", function()
   end
 end, { desc = "Increment selection" })
 
-vim.keymap.set("v", "<S-tab>", function()
+vim.keymap.set("x", "<S-tab>", function()
   table.remove(_G.selected_nodes)
   local current_node = _G.selected_nodes[#_G.selected_nodes]
   if current_node then
