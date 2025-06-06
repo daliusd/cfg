@@ -65,11 +65,25 @@ keymap('n', 'S', search_with_two_chars('?'), opts)
 keymap('x', 'S', search_with_two_chars('?'), opts)
 
 -- Incremental selection
-_G.selected_nodes = {}
+_G.selected_nodes = {} ---@type TSNode[]
 
 local function get_node_at_cursor()
-  local node = vim.treesitter.get_node()
-  if not node then return nil end
+  local cursor = vim.api.nvim_win_get_cursor(0)
+  local row = cursor[1] - 1
+  local col = cursor[2]
+
+  local parser = vim.treesitter.get_parser()
+  if not parser then return end
+
+  parser:parse { vim.fn.line "w0" - 1, vim.fn.line "w$" }
+  local tree = parser:language_for_range({
+    row,
+    col,
+    row,
+    col,
+  })
+
+  local node = tree:named_node_for_range({ row, col, row, col })
   return node
 end
 
@@ -101,10 +115,30 @@ vim.keymap.set("x", "<tab>", function()
 
   if not current_node then return end
 
-  local parent = current_node:parent()
-  if parent then
-    table.insert(_G.selected_nodes, parent)
-    select_node(parent)
+  local node = current_node
+  while true do
+    local parent = node:parent()
+    if not parent then
+      local parser = vim.treesitter.get_parser()
+      if not parser then return end
+
+      parser:parse { vim.fn.line "w0" - 1, vim.fn.line "w$" }
+
+      local range = { node:range() }
+      if node == parser:node_for_range(range) then return end
+
+      parent = vim.treesitter.get_node()
+      if not parent then return nil end
+    end
+
+    local range = { node:range() }
+    local parent_range = { parent:range() }
+    if not vim.deep_equal(range, parent_range) then
+      table.insert(_G.selected_nodes, parent)
+      select_node(parent)
+      return
+    end
+    node = parent
   end
 end, { desc = "Increment selection" })
 
