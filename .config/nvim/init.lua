@@ -802,6 +802,11 @@ require("lazy").setup({
       { '<leader>ug', ':GHLitePROpenComment<cr>',   silent = true, desc = 'PR Open comment' },
     }
   },
+  {
+    "daliusd/incr.nvim",
+    -- dir = "~/projects/incr.nvim",
+    config = true,
+  },
   "tpope/vim-abolish",
   {
     "zbirenbaum/copilot.lua",
