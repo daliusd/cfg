@@ -612,8 +612,8 @@ require("lazy").setup({
       keymap = {
         preset = 'none',
         ['<C-i>'] = { 'show', 'show_documentation', 'hide_documentation' },
-        ['<Tab>'] = { 'fallback' },
-        ['<S-Tab>'] = { 'fallback' },
+        ['<Tab>'] = { 'select_next', 'fallback' },
+        ['<S-Tab>'] = { 'select_prev', 'fallback' },
         ['<Up>'] = { 'select_prev', 'fallback' },
         ['<Down>'] = { 'select_next', 'fallback' },
         ['<C-k>'] = { 'select_prev', 'fallback' },
@@ -824,6 +824,10 @@ require("lazy").setup({
     end,
   },
   {
+    "banjo/contextfiles.nvim",
+    -- dir = "~/projects/rare/contextfiles.nvim",
+  },
+  {
     "olimorris/codecompanion.nvim",
     -- dir = "~/projects/rare/codecompanion.nvim",
     dependencies = {
@@ -831,6 +835,7 @@ require("lazy").setup({
       "nvim-treesitter/nvim-treesitter",
       "j-hui/fidget.nvim",
       "ravitemer/mcphub.nvim",
+      "banjo/contextfiles.nvim",
     },
     config = function()
       local function create_adapter(adapter_name, default_model)
@@ -869,7 +874,11 @@ require("lazy").setup({
               make_vars = true,           -- Convert resources to #variables
               make_slash_commands = true, -- Add prompts as /slash commands
             }
-          }
+          },
+          contextfiles = {
+            opts = {
+            },
+          },
         },
         adapters = {
           copilot_claude_sonnet = function()
