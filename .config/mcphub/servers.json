@@ -1,5 +1,18 @@
 {
   "mcpServers": {
+    "business-schema-mcp": {
+      "args": [
+        "-y",
+        "@wix/business-schema-mcp"
+      ],
+      "command": "npx"
+    },
+    "@wix/colombus-assistant-mcp": {
+      "args": [
+        "@wix/colombus-assistant-mcp"
+      ],
+      "command": "npx"
+    },
     "wix-mcp-remote-prod": {
       "args": [
         "-y",
@@ -7,21 +20,10 @@
         "https://mcp.wix.com/sse"
       ],
       "command": "npx",
-      "disabled": false
-    },
-    "business-schema-mcp": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@wix/business-schema-mcp"
-      ]
-    },
-    "@wix/colombus-assistant-mcp": {
-      "command": "npx",
-      "args": [
-        "@wix/colombus-assistant-mcp"
-      ]
+      "disabled": true
     }
   },
-  "nativeMCPServers": []
+  "nativeMCPServers": [
+    
+  ]
 }
