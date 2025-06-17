@@ -80,3 +80,6 @@ brew install lua-language-server
 brew install pinentry-mac
 brew install uv
 brew install bufbuild/buf/buf
+brew install stylua
+
+uv tool install vectorcode
