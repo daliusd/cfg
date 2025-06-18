@@ -825,12 +825,6 @@ require('lazy').setup({
     -- dir = "~/projects/rare/contextfiles.nvim",
   },
   {
-    'Davidyz/VectorCode',
-    version = '*',
-    build = 'uv tool upgrade vectorcode[legacy]', -- This helps keeping the CLI up-to-date
-    dependencies = { 'nvim-lua/plenary.nvim' },
-  },
-  {
     'olimorris/codecompanion.nvim',
     -- dir = '~/projects/rare/codecompanion.nvim',
     -- dev = true,
@@ -884,11 +878,6 @@ require('lazy').setup({
           },
           contextfiles = {
             opts = {},
-          },
-          vectorcode = {
-            opts = {
-              add_tool = true,
-            },
           },
         },
         adapters = {
