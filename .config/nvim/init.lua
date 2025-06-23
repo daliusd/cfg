@@ -788,7 +788,7 @@ require('lazy').setup({
   },
   {
     'daliusd/incr.nvim',
-    -- dir = "~/projects/incr.nvim",
+    -- dir = '~/projects/incr.nvim',
     config = true,
   },
   'tpope/vim-abolish',
@@ -826,6 +826,40 @@ require('lazy').setup({
     build = 'make tiktoken', -- Only on MacOS or Linux
     opts = {
       model = 'claude-3.7-sonnet',
+      contexts = {
+
+        lsp_diagnostics = {
+          resolve = function()
+            local diagnostics = vim.diagnostic.get(nil, { severity = nil })
+            if vim.tbl_isempty(diagnostics) then
+              return { { content = 'Without diagnostics.', filetype = 'text' } }
+            end
+
+            local lines = {}
+            for _, d in ipairs(diagnostics) do
+              table.insert(
+                lines,
+                string.format(
+                  '[%s] %s:%d:%d - %s',
+                  vim.diagnostic.severity[d.severity],
+                  vim.fn.bufname(d.bufnr),
+                  d.lnum + 1,
+                  d.col + 1,
+                  d.message
+                )
+              )
+            end
+
+            return {
+              {
+                content = table.concat(lines, '\n'),
+                filename = 'lsp_diagnostics.txt',
+                filetype = 'text',
+              },
+            }
+          end,
+        },
+      },
     },
   },
   {
