@@ -748,6 +748,7 @@ require('lazy').setup({
       })
 
       local ensureInstalled = {
+        'astro',
         'c',
         'cmake',
         'comment',
