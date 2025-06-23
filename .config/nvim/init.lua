@@ -1,5 +1,5 @@
 local lazypath = vim.fn.stdpath('data') .. '/lazy/lazy.nvim'
-if not vim.loop.fs_stat(lazypath) then
+if not vim.uv.fs_stat(lazypath) then
   vim.fn.system({
     'git',
     'clone',
@@ -130,15 +130,11 @@ require('lazy').setup({
       { '<leader>p', ":let @+ = expand('%:p')<cr>", silent = true, desc = 'copy full path' },
       { '<leader>o', ":let @+ = expand('%:t')<cr>", silent = true, desc = 'copy file name' },
       { '<leader>s', ':w<cr>', silent = true, desc = 'write' },
-
       {
         '<leader>b',
-        ':CodeCompanionChat Toggle<cr>',
-        mode = { 'n', 'v' },
-        silent = true,
-        desc = 'CodeCompanionChat',
+        ':CopilotChatToggle<cr>',
+        desc = 'CopilotChat - Open in vertical split',
       },
-
       -- window commands
       { '<leader>ww', '<c-w>w', silent = true, desc = 'window switch' },
       { '<leader>wc', '<c-w>c', silent = true, desc = 'window close' },
@@ -150,15 +146,6 @@ require('lazy').setup({
       -- LSP
       -- Mapping to c-] because LSP go to definition then works with c-t
       { '<leader>d', '<c-]>', silent = true, desc = 'definition' },
-      {
-        '<leader>aa',
-        function()
-          local bufnr = vim.api.nvim_get_current_buf()
-          require('codecompanion').last_chat():add_buffer({ bufnr = bufnr })
-        end,
-        silent = true,
-        desc = 'Add buffer to CodeCompanion chat',
-      },
       {
         '<leader>ad',
         function()
@@ -543,9 +530,9 @@ require('lazy').setup({
         formatters = {
           prettierd = {
             condition = function()
-              return vim.loop.fs_realpath('.prettierrc.js') ~= nil
-                or vim.loop.fs_realpath('.prettierrc.mjs') ~= nil
-                or vim.loop.fs_realpath('.prettierrc.json')
+              return vim.uv.fs_realpath('.prettierrc.js') ~= nil
+                or vim.uv.fs_realpath('.prettierrc.mjs') ~= nil
+                or vim.uv.fs_realpath('.prettierrc.json')
             end,
           },
         },
@@ -825,80 +812,15 @@ require('lazy').setup({
     -- dir = "~/projects/rare/contextfiles.nvim",
   },
   {
-    'olimorris/codecompanion.nvim',
-    -- dir = '~/projects/rare/codecompanion.nvim',
-    -- dev = true,
+    'CopilotC-Nvim/CopilotChat.nvim',
     dependencies = {
-      'nvim-lua/plenary.nvim',
-      'nvim-treesitter/nvim-treesitter',
-      'j-hui/fidget.nvim',
-      'ravitemer/mcphub.nvim',
-      'banjo/contextfiles.nvim',
+      { 'zbirenbaum/copilot.lua' },
+      { 'nvim-lua/plenary.nvim', branch = 'master' },
     },
-    config = function()
-      local function create_adapter(adapter_name, default_model)
-        return require('codecompanion.adapters').extend(adapter_name, {
-          schema = {
-            model = {
-              default = default_model,
-            },
-          },
-        })
-      end
-
-      require('codecompanion').setup({
-        opts = {
-          -- log_level = 'DEBUG',
-        },
-        strategies = {
-          chat = {
-            adapter = 'copilot_claude_sonnet',
-            keymaps = {
-              change_adapter = { modes = { n = 'ca' } },
-              debug = { modes = { n = 'cd' } },
-              system_prompt = { modes = { n = 'cs' } },
-            },
-          },
-          inline = {
-            adapter = 'copilot_claude_sonnet',
-            keymaps = {
-              accept_change = { modes = { n = 'ca' } },
-              reject_change = { modes = { n = 'cr' } },
-            },
-          },
-        },
-        extensions = {
-          mcphub = {
-            callback = 'mcphub.extensions.codecompanion',
-            opts = {
-              show_result_in_chat = true, -- Show mcp tool results in chat
-              make_vars = true, -- Convert resources to #variables
-              make_slash_commands = true, -- Add prompts as /slash commands
-            },
-          },
-          contextfiles = {
-            opts = {},
-          },
-        },
-        adapters = {
-          copilot_claude_sonnet = function()
-            return create_adapter('copilot', 'claude-3.5-sonnet')
-          end,
-          copilot_gemini_2_5_pro = function()
-            return create_adapter('copilot', 'gemini-2.5-pro')
-          end,
-          copilot_gpt_41 = function()
-            return create_adapter('copilot', 'gpt-4.1')
-          end,
-        },
-      })
-      require('fidget-spinner'):init()
-
-      vim.api.nvim_set_keymap('n', '<C-a>', '<cmd>CodeCompanionActions<cr>', { noremap = true, silent = true })
-      vim.api.nvim_set_keymap('v', '<C-a>', '<cmd>CodeCompanionActions<cr>', { noremap = true, silent = true })
-
-      vim.cmd([[cab cc CodeCompanion]])
-    end,
+    build = 'make tiktoken', -- Only on MacOS or Linux
+    opts = {
+      model = 'claude-3.7-sonnet',
+    },
   },
   {
     'Vigemus/iron.nvim',
