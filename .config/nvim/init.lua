@@ -74,6 +74,18 @@ require('lazy').setup({
         desc = 'Diagnostics float',
       },
       {
+        '<leader>aa',
+        function()
+          local bufnr = vim.api.nvim_get_current_buf()
+          local chat = require('CopilotChat').chat
+          chat:append('#buffer:' .. bufnr .. '\n')
+          chat:finish()
+        end,
+        silent = true,
+        desc = '',
+      },
+
+      {
         '<leader>ak',
         function()
           vim.diagnostic.jump({ count = -1, float = true })
