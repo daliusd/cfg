@@ -84,7 +84,39 @@ require('lazy').setup({
         silent = true,
         desc = '',
       },
+      {
+        '<leader>aa',
+        function()
+          local start_pos = vim.fn.getpos('v')
+          local end_pos = vim.fn.getcurpos()
+          local start_line, start_col = start_pos[2], start_pos[3]
+          local end_line, end_col = end_pos[2], end_pos[3]
 
+          if end_line < start_line or (end_line == start_line and end_col < start_col) then
+            start_line, end_line = end_line, start_line
+            start_col, end_col = end_col, start_col
+          end
+
+          local filetype = vim.bo.filetype
+
+          local lines = vim.api.nvim_buf_get_lines(0, start_line - 1, end_line, false)
+
+          if #lines > 0 then
+            lines[#lines] = string.sub(lines[#lines], 1, end_col)
+            lines[1] = string.sub(lines[1], start_col, -1)
+          end
+
+          local text = 'I have following code:\n```' .. filetype .. '\n' .. table.concat(lines, '\n') .. '\n```'
+
+          local cc = require('CopilotChat')
+          cc.open()
+          cc.chat:append(text)
+          cc.chat:finish()
+        end,
+        mode = 'x',
+        silent = true,
+        desc = '',
+      },
       {
         '<leader>ak',
         function()
