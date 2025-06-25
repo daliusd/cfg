@@ -946,26 +946,26 @@ require('lazy').setup({
       })
     end,
   },
-  {
-    'ravitemer/mcphub.nvim',
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-    },
-    cmd = 'MCPHub',
-    build = 'npm install -g mcp-hub@latest',
-    config = function()
-      local hostname = vim.fn.hostname()
-      local config = vim.fn.expand('~/.config/mcphub/servers2.json')
-      if hostname == 'avokadas' then
-        config = vim.fn.expand('~/.config/mcphub/servers.json')
-      end
-
-      require('mcphub').setup({
-        port = 4000,
-        config = config,
-      })
-    end,
-  },
+  -- {
+  --   'ravitemer/mcphub.nvim',
+  --   dependencies = {
+  --     'nvim-lua/plenary.nvim',
+  --   },
+  --   cmd = 'MCPHub',
+  --   build = 'npm install -g mcp-hub@latest',
+  --   config = function()
+  --     local hostname = vim.fn.hostname()
+  --     local config = vim.fn.expand('~/.config/mcphub/servers2.json')
+  --     if hostname == 'avokadas' then
+  --       config = vim.fn.expand('~/.config/mcphub/servers.json')
+  --     end
+  --
+  --     require('mcphub').setup({
+  --       port = 4000,
+  --       config = config,
+  --     })
+  --   end,
+  -- },
 })
 
 require('misc')
