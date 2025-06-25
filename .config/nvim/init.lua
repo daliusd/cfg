@@ -190,6 +190,10 @@ require('lazy').setup({
         '<leader>ba',
         ':GpChatNew vsplit<cr>',
       },
+      {
+        '<leader>bf',
+        ':GpChatFinder<cr>',
+      },
       -- window commands
       { '<leader>ww', '<c-w>w', silent = true, desc = 'window switch' },
       { '<leader>wc', '<c-w>c', silent = true, desc = 'window close' },
@@ -924,6 +928,7 @@ require('lazy').setup({
       local conf = {
         default_command_agent = 'ChatCopilot',
         default_chat_agent = 'ChatCopilot',
+        chat_confirm_delete = false,
 
         providers = {
           copilot = {
