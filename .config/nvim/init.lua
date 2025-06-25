@@ -873,7 +873,7 @@ require('lazy').setup({
     ---@module 'render-markdown'
     ---@type render.md.UserConfig
     opts = {
-      completions = { blink = { enabled = true } },
+      completion = { blink = { enabled = true } },
       file_types = { 'markdown', 'copilot-chat' },
     },
   },
