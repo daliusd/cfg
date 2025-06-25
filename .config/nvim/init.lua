@@ -75,44 +75,46 @@ require('lazy').setup({
       },
       {
         '<leader>aa',
-        function()
-          local bufnr = vim.api.nvim_get_current_buf()
-          local chat = require('CopilotChat').chat
-          chat:append('#buffer:' .. bufnr .. '\n')
-          chat:finish()
-        end,
+        ':%GpChatPaste vsplit<cr>',
+        -- function()
+        --   local bufnr = vim.api.nvim_get_current_buf()
+        --   local chat = require('CopilotChat').chat
+        --   chat:append('#buffer:' .. bufnr .. '\n')
+        --   chat:finish()
+        -- end,
         silent = true,
         desc = '',
       },
       {
         '<leader>aa',
-        function()
-          local start_pos = vim.fn.getpos('v')
-          local end_pos = vim.fn.getcurpos()
-          local start_line, start_col = start_pos[2], start_pos[3]
-          local end_line, end_col = end_pos[2], end_pos[3]
-
-          if end_line < start_line or (end_line == start_line and end_col < start_col) then
-            start_line, end_line = end_line, start_line
-            start_col, end_col = end_col, start_col
-          end
-
-          local filetype = vim.bo.filetype
-
-          local lines = vim.api.nvim_buf_get_lines(0, start_line - 1, end_line, false)
-
-          if #lines > 0 then
-            lines[#lines] = string.sub(lines[#lines], 1, end_col)
-            lines[1] = string.sub(lines[1], start_col, -1)
-          end
-
-          local text = 'I have following code:\n```' .. filetype .. '\n' .. table.concat(lines, '\n') .. '\n```'
-
-          local cc = require('CopilotChat')
-          cc.open()
-          cc.chat:append(text)
-          cc.chat:finish()
-        end,
+        ':GpChatPaste vsplit<cr>',
+        -- function()
+        --   local start_pos = vim.fn.getpos('v')
+        --   local end_pos = vim.fn.getcurpos()
+        --   local start_line, start_col = start_pos[2], start_pos[3]
+        --   local end_line, end_col = end_pos[2], end_pos[3]
+        --
+        --   if end_line < start_line or (end_line == start_line and end_col < start_col) then
+        --     start_line, end_line = end_line, start_line
+        --     start_col, end_col = end_col, start_col
+        --   end
+        --
+        --   local filetype = vim.bo.filetype
+        --
+        --   local lines = vim.api.nvim_buf_get_lines(0, start_line - 1, end_line, false)
+        --
+        --   if #lines > 0 then
+        --     lines[#lines] = string.sub(lines[#lines], 1, end_col)
+        --     lines[1] = string.sub(lines[1], start_col, -1)
+        --   end
+        --
+        --   local text = 'I have following code:\n```' .. filetype .. '\n' .. table.concat(lines, '\n') .. '\n```'
+        --
+        --   local cc = require('CopilotChat')
+        --   cc.open()
+        --   cc.chat:append(text)
+        --   cc.chat:finish()
+        -- end,
         mode = 'x',
         silent = true,
         desc = '',
@@ -175,9 +177,18 @@ require('lazy').setup({
       { '<leader>o', ":let @+ = expand('%:t')<cr>", silent = true, desc = 'copy file name' },
       { '<leader>s', ':w<cr>', silent = true, desc = 'write' },
       {
-        '<leader>b',
-        ':CopilotChatToggle<cr>',
-        desc = 'CopilotChat - Open in vertical split',
+        '<leader>bb',
+        ':GpChatToggle vsplit<cr>',
+        -- ':CopilotChatToggle<cr>',
+        -- desc = 'CopilotChat - Open in vertical split',
+      },
+      {
+        '<leader>bd',
+        ':GpChatDelete<cr>',
+      },
+      {
+        '<leader>ba',
+        ':GpChatNew vsplit<cr>',
       },
       -- window commands
       { '<leader>ww', '<c-w>w', silent = true, desc = 'window switch' },
@@ -832,8 +843,8 @@ require('lazy').setup({
     },
   },
   {
-    'daliusd/incr.nvim',
-    -- dir = '~/projects/incr.nvim',
+    -- 'daliusd/incr.nvim',
+    dir = '~/projects/incr.nvim',
     config = true,
   },
   'tpope/vim-abolish',
@@ -862,50 +873,81 @@ require('lazy').setup({
       file_types = { 'markdown', 'copilot-chat' },
     },
   },
+  -- {
+  --   'CopilotC-Nvim/CopilotChat.nvim',
+  --   dependencies = {
+  --     { 'zbirenbaum/copilot.lua' },
+  --     { 'nvim-lua/plenary.nvim', branch = 'master' },
+  --   },
+  --   build = 'make tiktoken', -- Only on MacOS or Linux
+  --   opts = {
+  --     model = 'claude-3.7-sonnet',
+  --     contexts = {
+  --
+  --       lsp_diagnostics = {
+  --         resolve = function()
+  --           local diagnostics = vim.diagnostic.get(nil, { severity = nil })
+  --           if vim.tbl_isempty(diagnostics) then
+  --             return { { content = 'Without diagnostics.', filetype = 'text' } }
+  --           end
+  --
+  --           local lines = {}
+  --           for _, d in ipairs(diagnostics) do
+  --             table.insert(
+  --               lines,
+  --               string.format(
+  --                 '[%s] %s:%d:%d - %s',
+  --                 vim.diagnostic.severity[d.severity],
+  --                 vim.fn.bufname(d.bufnr),
+  --                 d.lnum + 1,
+  --                 d.col + 1,
+  --                 d.message
+  --               )
+  --             )
+  --           end
+  --
+  --           return {
+  --             {
+  --               content = table.concat(lines, '\n'),
+  --               filename = 'lsp_diagnostics.txt',
+  --               filetype = 'text',
+  --             },
+  --           }
+  --         end,
+  --       },
+  --     },
+  --   },
+  -- },
   {
-    'CopilotC-Nvim/CopilotChat.nvim',
-    dependencies = {
-      { 'zbirenbaum/copilot.lua' },
-      { 'nvim-lua/plenary.nvim', branch = 'master' },
-    },
-    build = 'make tiktoken', -- Only on MacOS or Linux
-    opts = {
-      model = 'claude-3.7-sonnet',
-      contexts = {
+    'robitx/gp.nvim',
+    config = function()
+      local conf = {
+        default_command_agent = 'ChatCopilot',
+        default_chat_agent = 'ChatCopilot',
 
-        lsp_diagnostics = {
-          resolve = function()
-            local diagnostics = vim.diagnostic.get(nil, { severity = nil })
-            if vim.tbl_isempty(diagnostics) then
-              return { { content = 'Without diagnostics.', filetype = 'text' } }
-            end
-
-            local lines = {}
-            for _, d in ipairs(diagnostics) do
-              table.insert(
-                lines,
-                string.format(
-                  '[%s] %s:%d:%d - %s',
-                  vim.diagnostic.severity[d.severity],
-                  vim.fn.bufname(d.bufnr),
-                  d.lnum + 1,
-                  d.col + 1,
-                  d.message
-                )
-              )
-            end
-
-            return {
-              {
-                content = table.concat(lines, '\n'),
-                filename = 'lsp_diagnostics.txt',
-                filetype = 'text',
-              },
-            }
-          end,
+        providers = {
+          copilot = {
+            endpoint = 'https://api.githubcopilot.com/chat/completions',
+            secret = {
+              'bash',
+              '-c',
+              "cat ~/.config/github-copilot/apps.json | sed -e 's/.*oauth_token...//;s/\".*//'",
+            },
+          },
         },
-      },
-    },
+        agents = {
+          {
+            provider = 'copilot',
+            name = 'ChatCopilot',
+            chat = true,
+            command = false,
+            model = { model = 'claude-3.5-sonnet', temperature = 0.3 },
+            system_prompt = require('gp.defaults').chat_system_prompt,
+          },
+        },
+      }
+      require('gp').setup(conf)
+    end,
   },
   {
     'Vigemus/iron.nvim',
