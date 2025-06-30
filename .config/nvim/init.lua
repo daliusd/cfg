@@ -629,12 +629,13 @@ require('lazy').setup({
     version = '*',
     dependencies = {
       'moyiz/blink-emoji.nvim',
+      'archie-judd/blink-cmp-words',
     },
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
     opts = {
       sources = {
-        default = { 'lsp', 'path', 'snippets', 'buffer', 'emoji' },
+        default = { 'lsp', 'path', 'snippets', 'buffer', 'emoji', 'dictionary', 'thesaurus' },
         providers = {
           lsp = { fallbacks = {} },
           emoji = {
@@ -642,6 +643,23 @@ require('lazy').setup({
             name = 'Emoji',
             score_offset = 15,
             opts = { insert = true },
+          },
+          thesaurus = {
+            name = 'blink-cmp-words',
+            module = 'blink-cmp-words.thesaurus',
+            opts = {
+              score_offset = 0,
+              pointer_symbols = { '!', '&', '^' },
+            },
+          },
+          dictionary = {
+            name = 'blink-cmp-words',
+            module = 'blink-cmp-words.dictionary',
+            opts = {
+              dictionary_search_threshold = 3,
+              score_offset = 0,
+              pointer_symbols = { '!', '&', '^' },
+            },
           },
         },
       },
