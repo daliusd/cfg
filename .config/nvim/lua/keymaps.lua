@@ -18,8 +18,12 @@ keymap('n', 'Q', 'q', opts)
 keymap('n', 'q', '<Nop>', opts)
 
 -- Command mode up/down remap
-keymap('c', '<c-k>', '<up>', opts)
-keymap('c', '<c-j>', '<down>', opts)
+keymap('c', '<C-k>', function()
+  return '<Up>'
+end, { expr = true })
+keymap('c', '<C-j>', function()
+  return '<Down>'
+end, { expr = true })
 
 -- Next/Previous result
 keymap('n', '<c-n>', ':cn<cr>', opts)
@@ -51,7 +55,7 @@ local function search_with_two_chars(search_command)
 
     local search_term = char1 .. char2
 
-    vim.api.nvim_feedkeys(search_command .. search_term .. "\n", "n", false)
+    vim.api.nvim_feedkeys(search_command .. search_term .. '\n', 'n', false)
 
     vim.schedule(function()
       vim.cmd('nohlsearch')
