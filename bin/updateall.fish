@@ -14,5 +14,7 @@ switch (uname)
 end
 
 snc
+
+~/projects/sync/pull.sh
 # Not sure if I want to update Lazy silently
 # nvim --headless "+Lazy! sync" +qa
