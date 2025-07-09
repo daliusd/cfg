@@ -140,6 +140,18 @@ require('lazy').setup({
         desc = 'Diagnostics Error prev',
       },
       {
+        '[e',
+        function()
+          vim.diagnostic.jump({
+            count = -1,
+            float = true,
+            severity = vim.diagnostic.severity.ERROR,
+          })
+        end,
+        silent = true,
+        desc = 'Diagnostics Error prev',
+      },
+      {
         '<leader>aj',
         function()
           vim.diagnostic.jump({ count = 1, float = true })
@@ -149,6 +161,18 @@ require('lazy').setup({
       },
       {
         '<leader>an',
+        function()
+          vim.diagnostic.jump({
+            count = 1,
+            float = true,
+            severity = vim.diagnostic.severity.ERROR,
+          })
+        end,
+        silent = true,
+        desc = 'Diagnostics Error next',
+      },
+      {
+        ']e',
         function()
           vim.diagnostic.jump({
             count = 1,
