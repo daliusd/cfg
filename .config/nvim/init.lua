@@ -659,7 +659,7 @@ require('lazy').setup({
     ---@type blink.cmp.Config
     opts = {
       sources = {
-        default = { 'lsp', 'path', 'snippets', 'buffer', 'emoji', 'dictionary', 'thesaurus' },
+        default = { 'lsp', 'path', 'snippets', 'buffer', 'emoji' },
         providers = {
           lsp = { fallbacks = {} },
           emoji = {
@@ -685,6 +685,10 @@ require('lazy').setup({
               pointer_symbols = { '!', '&', '^' },
             },
           },
+        },
+        per_filetype = {
+          text = { 'dictionary' },
+          markdown = { 'dictionary', 'thesaurus' },
         },
       },
 
