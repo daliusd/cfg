@@ -1,4 +1,4 @@
-local wezterm = require 'wezterm'
+local wezterm = require('wezterm')
 
 local config = {}
 
@@ -9,28 +9,28 @@ end
 config.scrollback_lines = 10000
 
 config.color_scheme = 'zenbones'
-config.font = wezterm.font_with_fallback {
+config.font = wezterm.font_with_fallback({
   { family = 'VictorMono Nerd Font Mono', weight = 'Bold' },
-  { family = 'Symbols Nerd Font Mono',    weight = 'Regular' },
-}
+  { family = 'Symbols Nerd Font Mono', weight = 'Regular' },
+})
 
-config.window_decorations = "RESIZE"
+config.window_decorations = 'RESIZE'
 
-local f = io.popen("uname")
-local s = f:read("*a")
-s = s:gsub("%s+", "")
+local f = io.popen('uname')
+local s = f:read('*a')
+s = s:gsub('%s+', '')
 f:close()
 
-if (s == "Linux") then
+if s == 'Linux' then
   config.font_size = 15
 else
   config.font_size = 17
 end
 
 config.window_frame = {
-  font = wezterm.font { family = 'VictorMono Nerd Font Mono', weight = 'Bold' },
+  font = wezterm.font({ family = 'VictorMono Nerd Font Mono', weight = 'Bold' }),
 
-  font_size = s == "Linux" and 15.0 or 17.0,
+  font_size = s == 'Linux' and 15.0 or 17.0,
   active_titlebar_bg = '#2c363c',
   inactive_titlebar_bg = '#2c363c',
 }
@@ -44,16 +44,23 @@ config.colors = {
 -- Disable ligatures
 config.harfbuzz_features = { 'calt=0', 'clig=0', 'liga=0' }
 
+wezterm.on('toggle-tabbar', function(window, _)
+  local overrides = window:get_config_overrides() or {}
+  overrides.enable_tab_bar = window:get_dimensions().is_full_screen
+  window:toggle_fullscreen()
+  window:set_config_overrides(overrides)
+end)
+
 config.keys = {
   {
     key = 'c',
     mods = 'CMD',
-    action = wezterm.action.CopyTo 'Clipboard',
+    action = wezterm.action.CopyTo('Clipboard'),
   },
   {
     key = 'v',
     mods = 'CMD',
-    action = wezterm.action.PasteFrom 'Clipboard',
+    action = wezterm.action.PasteFrom('Clipboard'),
   },
   {
     key = 's',
@@ -63,17 +70,18 @@ config.keys = {
   {
     key = 'f',
     mods = 'ALT',
-    action = wezterm.action.ToggleFullScreen,
+    action = wezterm.action.EmitEvent('toggle-tabbar'),
+    -- action = wezterm.action.ToggleFullScreen,
   },
   {
     key = 'n',
     mods = 'ALT',
-    action = wezterm.action.SplitVertical { domain = "CurrentPaneDomain" },
+    action = wezterm.action.SplitVertical({ domain = 'CurrentPaneDomain' }),
   },
   {
     key = 'm',
     mods = 'ALT',
-    action = wezterm.action.SplitHorizontal { domain = "CurrentPaneDomain" },
+    action = wezterm.action.SplitHorizontal({ domain = 'CurrentPaneDomain' }),
   },
   {
     key = 't',
@@ -89,7 +97,7 @@ config.keys = {
         end
       end
 
-      window:mux_window():spawn_tab {}
+      window:mux_window():spawn_tab({})
       window:perform_action(wezterm.action.MoveTab(current_index + 1), pane)
     end),
   },
@@ -116,72 +124,71 @@ config.keys = {
   {
     key = 'DownArrow',
     mods = 'ALT',
-    action = wezterm.action.ActivatePaneDirection "Down",
+    action = wezterm.action.ActivatePaneDirection('Down'),
   },
   {
     key = 'UpArrow',
     mods = 'ALT',
-    action = wezterm.action.ActivatePaneDirection "Up",
+    action = wezterm.action.ActivatePaneDirection('Up'),
   },
   {
     key = 'LeftArrow',
     mods = 'ALT',
-    action = wezterm.action.ActivatePaneDirection "Left",
+    action = wezterm.action.ActivatePaneDirection('Left'),
   },
   {
     key = 'RightArrow',
     mods = 'ALT',
-    action = wezterm.action.ActivatePaneDirection "Right",
+    action = wezterm.action.ActivatePaneDirection('Right'),
   },
   {
     key = 'DownArrow',
     mods = 'ALT|SHIFT',
-    action = wezterm.action.AdjustPaneSize { "Down", 1 },
+    action = wezterm.action.AdjustPaneSize({ 'Down', 1 }),
   },
   {
     key = 'UpArrow',
     mods = 'ALT|SHIFT',
-    action = wezterm.action.AdjustPaneSize { "Up", 1 },
+    action = wezterm.action.AdjustPaneSize({ 'Up', 1 }),
   },
   {
     key = 'LeftArrow',
     mods = 'ALT|SHIFT',
-    action = wezterm.action.AdjustPaneSize { "Left", 1 },
+    action = wezterm.action.AdjustPaneSize({ 'Left', 1 }),
   },
   {
     key = 'RightArrow',
     mods = 'ALT|SHIFT',
-    action = wezterm.action.AdjustPaneSize { "Right", 1 },
+    action = wezterm.action.AdjustPaneSize({ 'Right', 1 }),
   },
   {
     key = 'u',
     mods = 'ALT',
-    action = wezterm.action.QuickSelectArgs {
+    action = wezterm.action.QuickSelectArgs({
       label = 'open url',
       patterns = { 'https?://\\S+' },
       action = wezterm.action_callback(function(window, pane)
         local url = window:get_selection_text_for_pane(pane)
         wezterm.open_with(url)
       end),
-    },
+    }),
   },
   {
     key = 'g',
     mods = 'ALT',
-    action = wezterm.action.QuickSelectArgs {
+    action = wezterm.action.QuickSelectArgs({
       label = 'select hash',
       patterns = { '[a-f0-9]{6,}' },
       action = wezterm.action_callback(function(window, pane)
         local hash = window:get_selection_text_for_pane(pane)
         pane:send_text(hash)
       end),
-    },
-
+    }),
   },
   {
     key = 'p',
     mods = 'ALT',
-    action = wezterm.action.QuickSelectArgs {
+    action = wezterm.action.QuickSelectArgs({
       label = 'select path',
       patterns = { '[a-zA-Z0-9-.]*\\/\\S+' },
 
@@ -189,7 +196,7 @@ config.keys = {
         local hash = window:get_selection_text_for_pane(pane)
         pane:send_text(hash)
       end),
-    },
+    }),
   },
   {
     key = '/',
@@ -198,8 +205,8 @@ config.keys = {
       local text = pane:get_lines_as_text(100)
 
       local words = {}
-      for line in string.gmatch(text, "([^\n]+)") do
-        for word in line:gmatch("%S+") do
+      for line in string.gmatch(text, '([^\n]+)') do
+        for word in line:gmatch('%S+') do
           if #word > 4 then
             table.insert(words, word)
           end
@@ -212,7 +219,7 @@ config.keys = {
       end
 
       window:perform_action(
-        wezterm.action.InputSelector {
+        wezterm.action.InputSelector({
           action = wezterm.action_callback(function(window, pane, id, label)
             if label then
               pane:send_text(label)
@@ -222,22 +229,22 @@ config.keys = {
           choices = choices,
           alphabet = 'asdfghjkl;',
           description = 'Select line you want to use or press / to search.',
-        },
+        }),
         pane
       )
     end),
   },
   {
     key = 'N',
-    mods = "CTRL|SHIFT",
-    action = wezterm.action.DisableDefaultAssignment
+    mods = 'CTRL|SHIFT',
+    action = wezterm.action.DisableDefaultAssignment,
   },
 }
 
 local mux = wezterm.mux
 
-wezterm.on("gui-startup", function()
-  local tab, pane, window = mux.spawn_window {}
+wezterm.on('gui-startup', function()
+  local tab, pane, window = mux.spawn_window({})
   window:gui_window():maximize()
 end)
 
@@ -245,8 +252,7 @@ local function get_current_working_dir(tab)
   local current_dir = tab.active_pane.current_working_dir
   local HOME_DIR = string.format('file://%s', os.getenv('HOME'))
 
-  return current_dir == HOME_DIR and '.'
-      or string.gsub(current_dir, '(.*[/\\])(.*)', '%2')
+  return current_dir == HOME_DIR and '.' or string.gsub(current_dir, '(.*[/\\])(.*)', '%2')
 end
 
 local function get_process(tab)
@@ -254,42 +260,37 @@ local function get_process(tab)
   return process_name ~= '' and process_name or 'tab'
 end
 
-wezterm.on(
-  'format-tab-title',
-  function(tab)
-    local has_unseen_output = false
-    if not tab.is_active then
-      for _, pane in ipairs(tab.panes) do
-        if pane.has_unseen_output then
-          has_unseen_output = true
-          break
-        end
+wezterm.on('format-tab-title', function(tab)
+  local has_unseen_output = false
+  if not tab.is_active then
+    for _, pane in ipairs(tab.panes) do
+      if pane.has_unseen_output then
+        has_unseen_output = true
+        break
       end
     end
+  end
 
-    local title = string.format('%s', get_process(tab))
+  local title = string.format('%s', get_process(tab))
 
-    if has_unseen_output then
-      return {
-        { Foreground = { Color = 'Orange' } },
-        { Text = title },
-      }
-    end
+  if has_unseen_output then
     return {
+      { Foreground = { Color = 'Orange' } },
       { Text = title },
     }
   end
-)
-
-
+  return {
+    { Text = title },
+  }
+end)
 
 wezterm.on('update-right-status', function(window, pane)
-  local date = wezterm.strftime '%Y-%m-%d %H:%M:%S'
+  local date = wezterm.strftime('%Y-%m-%d %H:%M:%S')
 
   -- Make it italic and underlined
-  window:set_right_status(wezterm.format {
+  window:set_right_status(wezterm.format({
     { Text = date .. ' ' },
-  })
+  }))
 end)
 
 config.window_padding = {

@@ -198,7 +198,7 @@ require('lazy').setup({
       { '<leader>n', ':silent noh<cr>', silent = true, desc = 'noh' },
       { '<leader>q', ':qa<cr>', silent = true, desc = 'quit' },
       { '<leader>p', ":let @+ = expand('%:p')<cr>", silent = true, desc = 'copy full path' },
-      { '<leader>o', ":let @+ = expand('%:t')<cr>", silent = true, desc = 'copy file name' },
+      { '<leader>P', ":let @+ = expand('%:t')<cr>", silent = true, desc = 'copy file name' },
       { '<leader>s', ':w<cr>', silent = true, desc = 'write' },
       {
         '<leader>bb',
@@ -215,6 +215,11 @@ require('lazy').setup({
         ':GpChatNew vsplit<cr>',
       },
       {
+        '<leader>ba',
+        ':GpChatNew vsplit<cr>',
+        mode = 'v',
+      },
+      {
         '<leader>bf',
         ':GpChatFinder<cr>',
       },
@@ -226,6 +231,41 @@ require('lazy').setup({
       { '<leader>wj', '<c-w>j', silent = true, desc = 'window j' },
       { '<leader>wk', '<c-w>k', silent = true, desc = 'window k' },
       { '<leader>wl', '<c-w>l', silent = true, desc = 'window l' },
+      {
+        '<leader>wf',
+        function()
+          vim.g.lualine_hidden = not vim.g.lualine_hidden
+          require('lualine').hide({ unhide = not vim.g.lualine_hidden })
+
+          if vim.g.lualine_hidden then
+            vim.o.laststatus = 0
+            vim.o.showtabline = 0
+            vim.o.cmdheight = 0
+            vim.o.number = false
+            vim.o.signcolumn = 'no'
+
+            require('render-markdown').setup({
+              anti_conceal = {
+                enabled = false,
+              },
+            })
+          else
+            vim.o.laststatus = 3
+            vim.o.showtabline = 2
+            vim.o.cmdheight = 1
+            vim.o.number = true
+            vim.o.signcolumn = 'yes'
+            require('render-markdown').setup({
+              anti_conceal = {
+                enabled = true,
+              },
+            })
+          end
+        end,
+        silent = true,
+        desc = 'toggle fullscreen',
+      },
+
       -- LSP
       -- Mapping to c-] because LSP go to definition then works with c-t
       { '<leader>d', '<c-]>', silent = true, desc = 'definition' },
@@ -994,7 +1034,7 @@ require('lazy').setup({
             name = 'ChatCopilot',
             chat = true,
             command = false,
-            model = { model = 'claude-3.5-sonnet', temperature = 0.3 },
+            model = { model = 'claude-sonnet-4', temperature = 0.3 },
             system_prompt = require('gp.defaults').chat_system_prompt,
           },
         },
