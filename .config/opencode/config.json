@@ -1,5 +1,41 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "theme": "opencode",
-  "model": "github-copilot/claude-3.5-sonnet"
+  "model": "github-copilot/claude-sonnet-4",
+  "mcp": {
+    "wix-design-system-mcp": {
+      "type": "local",
+      "enabled": true,
+      "command": [
+        "npx",
+        "-y",
+        "@wix/design-system-mcp"
+      ]
+    },
+    "wix-figma-mcp": {
+      "type": "local",
+      "enabled": true,
+      "command": [
+        "/home/daliusd/.config/opencode/commands/figma.sh"
+      ],
+      "environment": {}
+    },
+    "business-schema-mcp": {
+      "type": "local",
+      "enabled": false,
+      "command": [
+        "npx",
+        "-y",
+        "@wix/business-schema-mcp"
+      ]
+    },
+    "@wix/colombus-assistant-mcp": {
+      "type": "local",
+      "enabled": false,
+      "command": [
+        "npx",
+        "@wix/colombus-assistant-mcp"
+      ]
+    }
+  }
 }
