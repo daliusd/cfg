@@ -246,8 +246,8 @@ require('lazy').setup({
             vim.o.laststatus = 0
             vim.o.showtabline = 0
             vim.o.cmdheight = 0
-            vim.o.number = false
             vim.o.signcolumn = 'no'
+            vim.o.spell = false
             vim.opt.fillchars = { eob = ' ' }
             vim.o.guicursor = new_cursor
 
@@ -256,12 +256,19 @@ require('lazy').setup({
                 enabled = false,
               },
             })
+
+            vim.o.number = false
+            vim.g.number_autocmd_id = vim.api.nvim_create_autocmd('BufEnter', {
+              callback = function()
+                vim.o.number = false
+              end,
+            })
           else
             vim.o.laststatus = 3
             vim.o.showtabline = 2
             vim.o.cmdheight = 1
-            vim.o.number = true
             vim.o.signcolumn = 'yes'
+            vim.o.spell = true
             vim.opt.fillchars = { eob = '~' }
             vim.o.guicursor = vim.g.old_cursor
 
@@ -270,6 +277,9 @@ require('lazy').setup({
                 enabled = true,
               },
             })
+
+            vim.o.number = true
+            vim.api.nvim_del_autocmd(vim.g.number_autocmd_id)
           end
         end,
         silent = true,
