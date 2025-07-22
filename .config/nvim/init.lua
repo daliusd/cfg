@@ -235,6 +235,11 @@ require('lazy').setup({
         '<leader>wf',
         function()
           vim.g.lualine_hidden = not vim.g.lualine_hidden
+          local new_cursor = 'a:hor1-Cursor/lCursor'
+          if vim.o.guicursor ~= new_cursor then
+            vim.g.old_cursor = vim.o.guicursor
+          end
+
           require('lualine').hide({ unhide = not vim.g.lualine_hidden })
 
           if vim.g.lualine_hidden then
@@ -243,6 +248,8 @@ require('lazy').setup({
             vim.o.cmdheight = 0
             vim.o.number = false
             vim.o.signcolumn = 'no'
+            vim.opt.fillchars = { eob = ' ' }
+            vim.o.guicursor = new_cursor
 
             require('render-markdown').setup({
               anti_conceal = {
@@ -255,6 +262,9 @@ require('lazy').setup({
             vim.o.cmdheight = 1
             vim.o.number = true
             vim.o.signcolumn = 'yes'
+            vim.opt.fillchars = { eob = '~' }
+            vim.o.guicursor = vim.g.old_cursor
+
             require('render-markdown').setup({
               anti_conceal = {
                 enabled = true,
