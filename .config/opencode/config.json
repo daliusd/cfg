@@ -10,7 +10,10 @@
         "npx",
         "-y",
         "@wix/design-system-mcp"
-      ]
+      ],
+      "environment": {
+        "WORKSPACE_FOLDER_PATHS": "."
+      }
     },
     "wix-figma-mcp": {
       "type": "local",
@@ -20,9 +23,19 @@
       ],
       "environment": {}
     },
-    "business-schema-mcp": {
+    "wix-s": {
       "type": "local",
       "enabled": false,
+      "command": [
+        "npx",
+        "mcp-remote",
+        "https://mcp-s.wewix.net/mcp?toolkit=wixchat-design-promoted"
+      ],
+      "environment": {}
+    },
+    "business-schema-mcp": {
+      "type": "local",
+      "enabled": true,
       "command": [
         "npx",
         "-y",
