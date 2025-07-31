@@ -81,5 +81,4 @@ brew install pinentry-mac
 brew install uv
 brew install bufbuild/buf/buf
 brew install stylua
-
-uv tool install vectorcode
+brew install sst/tap/opencode
