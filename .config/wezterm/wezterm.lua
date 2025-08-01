@@ -199,42 +199,6 @@ config.keys = {
     }),
   },
   {
-    key = '/',
-    mods = 'ALT',
-    action = wezterm.action_callback(function(window, pane)
-      local text = pane:get_lines_as_text(100)
-
-      local words = {}
-      for line in string.gmatch(text, '([^\n]+)') do
-        for word in line:gmatch('%S+') do
-          if #word > 4 then
-            table.insert(words, word)
-          end
-        end
-      end
-
-      local choices = {}
-      for i = #words, 1, -1 do
-        table.insert(choices, { label = words[i] })
-      end
-
-      window:perform_action(
-        wezterm.action.InputSelector({
-          action = wezterm.action_callback(function(window, pane, id, label)
-            if label then
-              pane:send_text(label)
-            end
-          end),
-          title = 'Select text you want to use',
-          choices = choices,
-          alphabet = 'asdfghjkl;',
-          description = 'Select line you want to use or press / to search.',
-        }),
-        pane
-      )
-    end),
-  },
-  {
     key = 'N',
     mods = 'CTRL|SHIFT',
     action = wezterm.action.DisableDefaultAssignment,
@@ -247,13 +211,6 @@ wezterm.on('gui-startup', function()
   local tab, pane, window = mux.spawn_window({})
   window:gui_window():maximize()
 end)
-
-local function get_current_working_dir(tab)
-  local current_dir = tab.active_pane.current_working_dir
-  local HOME_DIR = string.format('file://%s', os.getenv('HOME'))
-
-  return current_dir == HOME_DIR and '.' or string.gsub(current_dir, '(.*[/\\])(.*)', '%2')
-end
 
 local function get_process(tab)
   local process_name = string.gsub(tab.active_pane.foreground_process_name, '(.*[/\\])(.*)', '%2')
