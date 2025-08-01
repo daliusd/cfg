@@ -25,11 +25,11 @@
     },
     "wix-s": {
       "type": "local",
-      "enabled": false,
+      "enabled": true,
       "command": [
         "npx",
         "mcp-remote",
-        "https://mcp-s.wewix.net/mcp?toolkit=wixchat-design-promoted"
+        "https://mcp-s.wewix.net/mcp?toolkit=dev"
       ],
       "environment": {}
     },

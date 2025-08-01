@@ -961,11 +961,7 @@ require('lazy').setup({
       },
     },
     ---@type opencode.Config
-    opts = {
-      provider_id = 'github-copilot',
-      -- model_id = "gpt-4.1",
-      model_id = 'claude-sonnet-4',
-    },
+    opts = {},
   -- stylua: ignore
   keys = {
     { '<leader>ot', function() require('opencode').toggle() end, desc = 'Toggle embedded opencode', },
@@ -978,6 +974,8 @@ require('lazy').setup({
     { '<leader>oo', function() require('opencode').prompt('Optimize @selection for performance and readability') end, desc = 'Optimize selection', mode = 'v', },
     { '<leader>od', function() require('opencode').prompt('Add documentation comments for @selection') end, desc = 'Document selection', mode = 'v', },
     { '<leader>ot', function() require('opencode').prompt('Add tests for @selection') end, desc = 'Test selection', mode = 'v', },
+    { '<S-C-u>', function() require('opencode').command('messages_half_page_up') end, desc = 'New session', },
+    { '<S-C-d>', function() require('opencode').command('messages_half_page_down') end, desc = 'New session', },
   },
   },
 })
