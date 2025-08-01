@@ -33,6 +33,16 @@
       ],
       "environment": {}
     },
+    "wix-slack": {
+      "type": "local",
+      "enabled": true,
+      "command": [
+        "npx",
+        "mcp-remote",
+        "https://mcp-s.wewix.net/mcp?mcp=slack"
+      ],
+      "environment": {}
+    },
     "business-schema-mcp": {
       "type": "local",
       "enabled": true,
