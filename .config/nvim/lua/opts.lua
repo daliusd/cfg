@@ -20,6 +20,7 @@ vim.opt.listchars = { trail = '.', tab = ':▷⋮' } -- Show trailing dots and t
 
 vim.opt.scrolloff = 3 -- Keep 3 lines below and above the cursor
 vim.opt.number = true -- Show line numbering
+vim.opt.relativenumber = true -- Show relative numbering
 vim.opt.numberwidth = 1 -- Use 1 col + 1 space for numbers
 
 -- Vim stuff
