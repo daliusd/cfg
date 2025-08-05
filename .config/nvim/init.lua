@@ -592,7 +592,7 @@ require('lazy').setup({
           html = { 'prettierd' },
           javascript = { 'prettierd' },
           javascriptreact = { 'prettierd' },
-          markdown = { 'prettierd' },
+          -- markdown = { 'prettierd' },
           typescript = { 'prettierd' },
           typescriptreact = { 'prettierd' },
           ['*'] = { 'trim_whitespace' },
