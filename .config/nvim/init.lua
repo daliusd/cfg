@@ -891,8 +891,8 @@ require('lazy').setup({
     },
   },
   {
-    -- 'daliusd/incr.nvim',
-    dir = '~/projects/incr.nvim',
+    'daliusd/incr.nvim',
+    -- dir = '~/projects/incr.nvim',
     config = true,
   },
   'tpope/vim-abolish',
