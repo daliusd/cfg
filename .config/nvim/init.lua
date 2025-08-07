@@ -677,14 +677,10 @@ require('lazy').setup({
               pointer_symbols = { '!', '&', '^' },
             },
           },
-          opencode = {
-            module = 'opencode.cmp.blink',
-          },
         },
         per_filetype = {
           text = { 'dictionary' },
           markdown = { 'dictionary', 'thesaurus' },
-          opencode_ask = { 'opencode', 'buffer' },
         },
       },
 
