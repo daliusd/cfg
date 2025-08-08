@@ -124,4 +124,12 @@ switch (uname)
         echo Open config.fish and review it!
 end
 
+switch (uname)
+    case Darwin
+      set -Ux OPENCODE_CONFIG ~/.config/opencode/config-personal.json
+    case Linux
+      set -Ux OPENCODE_CONFIG ~/.config/opencode/config-work.json
+end
+
 fzf --fish | source
+
