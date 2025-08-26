@@ -80,7 +80,7 @@ alias h='history --merge'
 
 alias dnsflush='sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder'
 
-alias ai='gh models run gpt-4.1-mini'
+alias ai='gh models run openai/gpt-4.1-mini'
 # FZF
 
 set FZF_DEFAULT_COMMAND 'fd -t f'
