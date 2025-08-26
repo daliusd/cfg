@@ -18,13 +18,23 @@
     },
     "wix-figma-mcp": {
       "type": "local",
-      "enabled": true,
+      "enabled": false,
       "command": [
         "/home/daliusd/.config/opencode/commands/figma.sh"
       ],
       "environment": {}
     },
-    "wix-s": {
+    "wix-figma": {
+      "type": "local",
+      "enabled": true,
+      "command": [
+        "npx",
+        "mcp-remote",
+        "https://mcp-s.wewix.net/mcp?toolkit=wixchat-design-promoted"
+      ],
+      "environment": {}
+    },
+    "wix-dev": {
       "type": "local",
       "enabled": true,
       "command": [
