@@ -467,7 +467,6 @@ require('lazy').setup({
         },
       })
 
-      require('lspconfig').ansiblels.setup({})
       require('lspconfig').astro.setup({})
       require('lspconfig').buf_ls.setup({})
       require('lspconfig').cssls.setup({
@@ -498,8 +497,6 @@ require('lazy').setup({
       require('lspconfig').jsonls.setup({
         capabilities = capabilities,
       })
-      require('lspconfig').pyright.setup({})
-      require('lspconfig').sqlls.setup({})
       require('lspconfig').typos_lsp.setup({})
       -- require 'lspconfig'.ts_ls.setup {}
       require('lspconfig').lua_ls.setup({
@@ -798,7 +795,6 @@ require('lazy').setup({
         'go',
         'gpg',
         'html',
-        'htmldjango',
         'http',
         'javascript',
         'jq',
