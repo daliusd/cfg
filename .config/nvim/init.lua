@@ -151,8 +151,9 @@ require('lazy').setup({
       -- Misc
       { '<leader>n', ':silent noh<cr>', silent = true, desc = 'noh' },
       { '<leader>q', ':qa<cr>', silent = true, desc = 'quit' },
-      { '<leader>p', ":let @+ = expand('%:p')<cr>", silent = true, desc = 'copy full path' },
-      { '<leader>P', ":let @+ = expand('%:t')<cr>", silent = true, desc = 'copy file name' },
+      { '<leader>pp', ":let @+ = expand('%')<cr>", silent = true, desc = 'copy relative path' },
+      { '<leader>pn', ":let @+ = expand('%:t')<cr>", silent = true, desc = 'copy file name' },
+      { '<leader>pf', ":let @+ = expand('%:p')<cr>", silent = true, desc = 'copy full file name' },
       { '<leader>s', ':w<cr>', silent = true, desc = 'write' },
       -- window commands
       { '<leader>ww', '<c-w>w', silent = true, desc = 'window switch' },
@@ -929,6 +930,7 @@ require('lazy').setup({
     keys = {
       { '<leader>oA', function() require('opencode').ask() end, desc = 'Ask opencode', },
       { '<leader>oa', function() require('opencode').ask('@cursor: ') end, desc = 'Ask opencode about this', mode = 'n', },
+      { '<leader>of', function() require('opencode').ask('@buffer ') end, desc = 'Ask opencode about this buffer', mode = 'n', },
       { '<leader>oa', function() require('opencode').ask('@selection: ') end, desc = 'Ask opencode about selection', mode = 'v', },
       { '<leader>on', function() require('opencode').command('session_new') end, desc = 'New session', },
       { '<leader>oy', function() require('opencode').command('messages_copy') end, desc = 'Copy last message', },
