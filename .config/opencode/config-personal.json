@@ -2,5 +2,22 @@
   "$schema": "https://opencode.ai/config.json",
   "theme": "opencode",
   "model": "github-copilot/claude-sonnet-4",
-  "mcp": {}
+  "mcp": {
+    "browsermcp": {
+      "type": "local",
+      "enabled": true,
+      "command": [
+        "npx",
+        "@browsermcp/mcp@latest"
+      ]
+    },
+    "playwright": {
+      "type": "local",
+      "enabled": true,
+      "command": [
+        "npx",
+        "@playwright/mcp@latest"
+      ]
+    }
+  }
 }
