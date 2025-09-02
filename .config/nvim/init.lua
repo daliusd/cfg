@@ -151,7 +151,7 @@ require('lazy').setup({
       -- Misc
       { '<leader>n', ':silent noh<cr>', silent = true, desc = 'noh' },
       { '<leader>q', ':qa<cr>', silent = true, desc = 'quit' },
-      { '<leader>pp', ":let @+ = expand('%')<cr>", silent = true, desc = 'copy relative path' },
+      { '<leader>pp', ":let @+ = fnamemodify(expand('%'), ':.')<cr>", silent = true, desc = 'copy relative path' },
       { '<leader>pn', ":let @+ = expand('%:t')<cr>", silent = true, desc = 'copy file name' },
       { '<leader>pf', ":let @+ = expand('%:p')<cr>", silent = true, desc = 'copy full file name' },
       { '<leader>s', ':w<cr>', silent = true, desc = 'write' },
