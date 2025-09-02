@@ -275,6 +275,20 @@ require('lazy').setup({
     },
   },
   {
+    'folke/flash.nvim',
+    event = 'VeryLazy',
+    ---@type Flash.Config
+    opts = {},
+    -- stylua: ignore
+    keys = {
+      { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
+      { "S", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
+      { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
+      { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+      { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
+    },
+  },
+  {
     'j-hui/fidget.nvim',
     opts = {
       -- options
@@ -876,45 +890,6 @@ require('lazy').setup({
       completion = { blink = { enabled = true } },
       file_types = { 'markdown', 'copilot-chat' },
     },
-  },
-  {
-    'Vigemus/iron.nvim',
-    config = function()
-      local iron = require('iron.core')
-      local view = require('iron.view')
-
-      iron.setup({
-        config = {
-          scratch_repl = true,
-          repl_definition = {
-            typescript = {
-              command = { 'tsx' },
-            },
-            typescriptreact = {
-              command = { 'tsx' },
-            },
-          },
-          repl_open_cmd = view.split.vertical.rightbelow('%40'),
-        },
-
-        keymaps = {
-          toggle_repl = '<leader>ir',
-          restart_repl = '<leader>iR',
-          send_motion = '<leader>ic',
-          visual_send = '<leader>ic',
-          send_file = '<leader>if',
-          send_line = '<leader>il',
-          cr = '<leader>i<cr>',
-          interrupt = '<leader>i<space>',
-          exit = '<leader>iq',
-          clear = '<leader>ix',
-        },
-        highlight = {
-          italic = true,
-        },
-        ignore_blank_lines = true,
-      })
-    end,
   },
   {
     'NickvanDyke/opencode.nvim',
