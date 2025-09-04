@@ -70,6 +70,22 @@
         "npx",
         "@wix/colombus-assistant-mcp"
       ]
+    },
+    "tsserver-mcp": {
+      "type": "local",
+      "enabled": true,
+      "command": [
+        "npx",
+        "tsserver-mcp"
+      ]
+    },
+    "browsermcp": {
+      "type": "local",
+      "enabled": true,
+      "command": [
+        "npx",
+        "@browsermcp/mcp@latest"
+      ]
     }
   }
 }
