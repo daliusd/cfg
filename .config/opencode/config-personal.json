@@ -3,6 +3,14 @@
   "theme": "opencode",
   "model": "github-copilot/claude-sonnet-4",
   "mcp": {
+    "tsserver-mcp": {
+      "type": "local",
+      "enabled": true,
+      "command": [
+        "npx",
+        "tsserver-mcp"
+      ]
+    },
     "browsermcp": {
       "type": "local",
       "enabled": true,
