@@ -887,8 +887,8 @@ require('lazy').setup({
     ---@module 'render-markdown'
     ---@type render.md.UserConfig
     opts = {
-      completion = { blink = { enabled = true } },
-      file_types = { 'markdown', 'copilot-chat' },
+      completions = { lsp = { enabled = true } },
+      file_types = { 'markdown' },
     },
   },
   {
