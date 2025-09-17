@@ -81,6 +81,8 @@ alias h='history --merge'
 alias dnsflush='sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder'
 
 alias ai='gh models run openai/gpt-4.1-mini'
+
+alias yolo='gh pr create -f; gh pr comment -b "#skipreview"; gh pr merge --auto --squash'
 # FZF
 
 set FZF_DEFAULT_COMMAND 'fd -t f'
