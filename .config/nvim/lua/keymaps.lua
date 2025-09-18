@@ -44,3 +44,12 @@ keymap('n', 'go', ':tabonly<cr>', opts)
 -- Terminal escape
 
 keymap('t', '<esc>', '<c-\\><c-n>', opts)
+
+keymap({ 'n', 'x', 'o' }, '<tab>', function()
+  require('flash').treesitter({
+    actions = {
+      ['<tab>'] = 'next',
+      ['<s-tab>'] = 'prev',
+    },
+  })
+end, { desc = 'Treesitter incremental selection' })
