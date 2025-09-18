@@ -472,7 +472,7 @@ require('lazy').setup({
     config = function()
       local capabilities = require('blink.cmp').get_lsp_capabilities()
 
-      require('lspconfig').yamlls.setup({
+      vim.lsp.config('yamlls', {
         settings = {
           yaml = {
             schemas = {
@@ -481,15 +481,17 @@ require('lazy').setup({
           },
         },
       })
+      vim.lsp.enable('yamlls', true)
 
-      require('lspconfig').astro.setup({})
-      require('lspconfig').buf_ls.setup({})
-      require('lspconfig').cssls.setup({
+      vim.lsp.enable('astro', true)
+      vim.lsp.enable('buf_ls', true)
+      vim.lsp.config('cssls', {
         capabilities = capabilities,
       })
-      require('lspconfig').cssmodules_ls.setup({})
+      vim.lsp.enable('cssls', true)
+      vim.lsp.enable('cssmodules_ls', true)
 
-      require('lspconfig').eslint.setup({
+      vim.lsp.config('eslint', {
         settings = {
           packageManager = 'yarn',
         },
@@ -501,20 +503,23 @@ require('lazy').setup({
           })
         end,
       })
+      vim.lsp.enable('eslint', true)
 
-      require('lspconfig').html.setup({
+      vim.lsp.config('html', {
         capabilities = capabilities,
         on_attach = function(client)
           client.server_capabilities.documentFormattingProvider = false
           client.server_capabilities.documentRangeFormattingProvider = false
         end,
       })
-      require('lspconfig').jsonls.setup({
+      vim.lsp.enable('html', true)
+      vim.lsp.config('jsonls', {
         capabilities = capabilities,
       })
-      require('lspconfig').typos_lsp.setup({})
-      -- require 'lspconfig'.ts_ls.setup {}
-      require('lspconfig').lua_ls.setup({
+      vim.lsp.enable('jsonls', true)
+      vim.lsp.enable('typos_lsp', true)
+      -- vim.lsp.enable('ts_ls', true)
+      vim.lsp.config('lua_ls', {
         settings = {
           Lua = {
             runtime = {
@@ -538,6 +543,7 @@ require('lazy').setup({
           },
         },
       })
+      vim.lsp.enable('lua_ls', true)
 
       -- Format on write
       vim.api.nvim_create_autocmd('LspAttach', {
