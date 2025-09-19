@@ -63,12 +63,12 @@
         "@wix/business-schema-mcp"
       ]
     },
-    "@wix/colombus-assistant-mcp": {
+    "octocode": {
       "type": "local",
-      "enabled": false,
+      "enabled": true,
       "command": [
         "npx",
-        "@wix/colombus-assistant-mcp"
+        "octocode-mcp"
       ]
     },
     "tsserver-mcp": {
