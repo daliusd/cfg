@@ -155,6 +155,7 @@ require('lazy').setup({
       { '<leader>pn', ":let @+ = expand('%:t')<cr>", silent = true, desc = 'copy file name' },
       { '<leader>pf', ":let @+ = expand('%:p')<cr>", silent = true, desc = 'copy full file name' },
       { '<leader>s', ':w<cr>', silent = true, desc = 'write' },
+      { '<leader>t', ':ToggleCheckbox<cr>', silent = true, desc = 'write' },
       -- window commands
       { '<leader>ww', '<c-w>w', silent = true, desc = 'window switch' },
       { '<leader>wc', '<c-w>c', silent = true, desc = 'window close' },
