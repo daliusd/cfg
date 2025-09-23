@@ -45,15 +45,6 @@ keymap('n', 'go', ':tabonly<cr>', opts)
 
 keymap('t', '<esc>', '<c-\\><c-n>', opts)
 
-keymap({ 'n', 'x', 'o' }, '<tab>', function()
-  require('flash').treesitter({
-    actions = {
-      ['<tab>'] = 'next',
-      ['<s-tab>'] = 'prev',
-    },
-  })
-end, { desc = 'Treesitter incremental selection' })
-
 -- toggle checkbox
 local checked_character = 'x'
 
