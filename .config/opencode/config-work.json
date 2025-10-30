@@ -81,7 +81,7 @@
     },
     "browsermcp": {
       "type": "local",
-      "enabled": false,
+      "enabled": true,
       "command": [
         "npx",
         "@browsermcp/mcp@latest"
