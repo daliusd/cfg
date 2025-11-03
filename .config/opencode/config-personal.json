@@ -1,6 +1,6 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "theme": "opencode",
+  "theme": "rosepine",
   "model": "github-copilot/claude-sonnet-4.5",
   "mcp": {
     "tsserver-mcp": {

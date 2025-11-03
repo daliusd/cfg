@@ -1,6 +1,6 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "theme": "opencode",
+  "theme": "rosepine",
   "model": "github-copilot/claude-sonnet-4.5",
   "share": "disabled",
   "mcp": {
@@ -65,7 +65,7 @@
     },
     "octocode": {
       "type": "local",
-      "enabled": true,
+      "enabled": false,
       "command": [
         "npx",
         "octocode-mcp"
