@@ -94,6 +94,16 @@ set FZF_DEFAULT_OPTS '--bind ctrl-d:page-down,ctrl-u:page-up'
 
 starship init fish | source
 
+
+switch (uname)
+    case Linux
+        eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+    case Darwin
+        eval "$(/usr/local/bin/brew shellenv)"
+    case '*'
+        echo Open config.fish and review it!
+end
+
 # Volta
 
 set -gx VOLTA_HOME "$HOME/.volta"
@@ -115,15 +125,6 @@ function __check_nvmrc --on-event fish_prompt --description 'check .nvmrc on pwd
 
     set dir (string split -r -m1 / $dir)[1]
   end
-end
-
-switch (uname)
-    case Linux
-        eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-    case Darwin
-        eval "$(/usr/local/bin/brew shellenv)"
-    case '*'
-        echo Open config.fish and review it!
 end
 
 switch (uname)
