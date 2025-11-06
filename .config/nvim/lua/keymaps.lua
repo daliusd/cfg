@@ -17,6 +17,8 @@ keymap('i', '<up>', '<c-o>gk', opts)
 keymap('n', 'Q', 'q', opts)
 keymap('n', 'q', '<Nop>', opts)
 
+keymap('n', ',,', 'za', { noremap = true })
+
 -- Command mode up/down remap
 keymap('c', '<C-k>', function()
   return '<Up>'

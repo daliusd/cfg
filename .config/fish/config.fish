@@ -75,6 +75,7 @@ alias gpls='git pull --rebase && gps'
 alias gl='git lg'
 alias glt='git lgt'
 alias gsu='git ci -m "temp" && git stash && git reset --soft HEAD~1'
+alias gbprune='git fetch --prune && git branch -vv | grep ": gone]" | awk "{print \$1}" | xargs -r git branch -D'
 
 alias h='history --merge'
 
@@ -82,8 +83,8 @@ alias dnsflush='sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder'
 
 alias ai='gh models run openai/gpt-4.1-mini'
 
-alias yolo='git push -u origin $(git branch --show-current); gh pr create -f; gh pr comment -b "#skipreview"; gh pr merge --auto --squash'
-alias rubber-stamp='git push -u origin $(git branch --show-current); gh pr create -f; gh pr merge --auto --squash'
+alias yolo='git push -u origin $(git branch --show-current); gh pr create --fill-first; gh pr comment -b "#skipreview"; gh pr merge --auto --squash'
+alias rubber-stamp='git push -u origin $(git branch --show-current); gh pr create --fill-first; gh pr comment -b "#astra-review"; gh pr merge --auto --squash'
 # FZF
 
 set FZF_DEFAULT_COMMAND 'fd -t f'
