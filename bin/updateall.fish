@@ -13,6 +13,8 @@ switch (uname)
         echo Open updateall.fish and review it!
 end
 
+npm update -g
+
 snc
 
 ~/projects/sync/pull.sh
