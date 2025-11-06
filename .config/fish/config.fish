@@ -77,6 +77,19 @@ alias glt='git lgt'
 alias gsu='git ci -m "temp" && git stash && git reset --soft HEAD~1'
 alias gbprune='git fetch --prune && git branch -vv | grep ": gone]" | awk "{print \$1}" | xargs -r git branch -D'
 
+function gitsearch
+    if test (count $argv) -eq 0
+        echo "Usage: gitsearch <search_text>"
+        return 1
+    end
+    
+    git log -S "$argv" --oneline --color=always | \
+        fzf --ansi \
+            --preview 'git show --color=always {1}' \
+            --preview-window=right:60%:wrap \
+            --bind 'enter:execute(git show {1} | less -R)'
+end
+
 alias h='history --merge'
 
 alias dnsflush='sudo dscacheutil -flushcache; sudo killall -HUP mDNSResponder'
