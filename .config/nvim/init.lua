@@ -260,6 +260,7 @@ require('lazy').setup({
       -- vimrc file
       { '<leader>v', ':e ~/.config/nvim/init.lua<cr>', silent = true, desc = 'load nvim init.lua' },
       { '<leader>V', ':source $MYVIMRC<cr>', silent = true, desc = 'source nvim init.lua' },
+
       {
         '<leader>gc',
         function()
@@ -273,6 +274,7 @@ require('lazy').setup({
         silent = true,
         desc = 'Open commit in browser',
       },
+      { '<leader>gr', ':DiffviewOpen<cr>', silent = true, 'Review changes using Diffview' },
     },
   },
   {
