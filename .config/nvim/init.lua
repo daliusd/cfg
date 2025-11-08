@@ -903,6 +903,5 @@ require('lazy').setup({
 
 require('misc')
 require('highlights')
-require('todo')
 require('keymaps')
 require('commands')
