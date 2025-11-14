@@ -70,8 +70,8 @@ config.keys = {
   {
     key = 'f',
     mods = 'ALT',
-    action = wezterm.action.EmitEvent('toggle-tabbar'),
-    -- action = wezterm.action.ToggleFullScreen,
+    -- action = wezterm.action.EmitEvent('toggle-tabbar'),
+    action = wezterm.action.ToggleFullScreen,
   },
   {
     key = 'n',
