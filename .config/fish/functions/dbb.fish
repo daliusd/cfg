@@ -1,4 +1,4 @@
-function db
+function dbb
   git branch |
     grep --invert-match '\*' |
     cut -c 3- |
