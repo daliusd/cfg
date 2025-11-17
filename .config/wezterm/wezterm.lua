@@ -14,7 +14,7 @@ config.font = wezterm.font_with_fallback({
   { family = 'Symbols Nerd Font Mono', weight = 'Regular' },
 })
 
-config.window_decorations = 'RESIZE'
+-- config.window_decorations = 'RESIZE'
 
 local f = io.popen('uname')
 local s = f:read('*a')
@@ -254,7 +254,7 @@ config.window_padding = {
   left = '0.5cell',
   right = '0.5cell',
   top = '0.25cell',
-  bottom = 0,
+  bottom = '0.1cell',
 }
 
 return config
