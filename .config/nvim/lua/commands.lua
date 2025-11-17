@@ -41,7 +41,12 @@ vim.api.nvim_create_user_command(
 vim.api.nvim_create_user_command(
   'FormatHtml',
   function()
-    vim.cmd("%!tidy -q -i --show-errors 0")
+    if vim.fn.executable('npx') == 1 then
+      vim.cmd("%!npx prettier --parser html")
+      vim.bo.filetype = 'html'
+    else
+      vim.notify('npx is not available', vim.log.levels.ERROR)
+    end
   end,
   {}
 )
@@ -49,10 +54,16 @@ vim.api.nvim_create_user_command(
 vim.api.nvim_create_user_command(
   'FormatXml',
   function()
-    vim.cmd("%!tidy -q -i --show-errors 0 -xml")
+    if vim.fn.executable('npx') == 1 then
+      vim.cmd("%!npx -y prettier --parser xml --plugin=@prettier/plugin-xml")
+      vim.bo.filetype = 'xml'
+    else
+      vim.notify('npx is not available', vim.log.levels.ERROR)
+    end
   end,
   {}
 )
+
 
 vim.api.nvim_create_user_command(
   'Rg',
