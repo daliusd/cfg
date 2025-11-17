@@ -14,12 +14,16 @@ config.font = wezterm.font_with_fallback({
   { family = 'Symbols Nerd Font Mono', weight = 'Regular' },
 })
 
--- config.window_decorations = 'RESIZE'
-
 local f = io.popen('uname')
 local s = f:read('*a')
 s = s:gsub('%s+', '')
 f:close()
+
+if s == 'Linux' then
+  -- nothing to do
+else
+  config.window_decorations = 'RESIZE'
+end
 
 if s == 'Linux' then
   config.font_size = 15
