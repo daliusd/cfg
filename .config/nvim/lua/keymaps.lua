@@ -43,6 +43,12 @@ keymap('n', 'ga', ':tabnew<cr>', opts)
 keymap('n', 'gs', ':tab split<cr>', opts)
 keymap('n', 'go', ':tabonly<cr>', opts)
 
+-- Resize splits
+keymap('n', '<M-S-k>', ':resize +5<cr>', opts)
+keymap('n', '<M-S-j>', ':resize -5<cr>', opts)
+keymap('n', '<M-S-l>', ':vertical resize +5<cr>', opts)
+keymap('n', '<M-S-h>', ':vertical resize -5<cr>', opts)
+
 -- Terminal escape
 
 keymap('t', '<esc>', '<c-\\><c-n>', opts)
