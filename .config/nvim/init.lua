@@ -640,24 +640,21 @@ require('lazy').setup({
   },
   {
     'pmizio/typescript-tools.nvim',
-    dependencies = { 'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig' },
-    opts = {},
-    config = function()
-      require('typescript-tools').setup({
-        on_attach = function(client, _)
-          client.server_capabilities.documentFormattingProvider = false
-          client.server_capabilities.documentRangeFormattingProvider = false
-        end,
-        settings = {
-          tsserver_path = vim.env.HOME
-            .. '/.volta/tools/image/packages/typescript/lib/node_modules/typescript/lib/tsserver.js',
-          jsx_close_tag = {
-            enable = true,
-            filetypes = { 'javascriptreact', 'typescriptreact' },
-          },
+    dependencies = { 'neovim/nvim-lspconfig' },
+    opts = {
+      on_attach = function(client, _)
+        client.server_capabilities.documentFormattingProvider = false
+        client.server_capabilities.documentRangeFormattingProvider = false
+      end,
+      settings = {
+        tsserver_path = vim.env.HOME
+          .. '/.volta/tools/image/packages/typescript/lib/node_modules/typescript/lib/tsserver.js',
+        jsx_close_tag = {
+          enable = true,
+          filetypes = { 'javascriptreact', 'typescriptreact' },
         },
-      })
-    end,
+      },
+    },
   },
   {
     'windwp/nvim-autopairs',
