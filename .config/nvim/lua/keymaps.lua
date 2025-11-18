@@ -78,13 +78,18 @@ local checkbox = {
     return line:gsub(checked_checkbox, unchecked_checkbox, 1)
   end,
 
-  make_checkbox = function(line)
+  make_checkbox = function(line, cursor_col)
     if not line:match('^%s*-%s.*$') and not line:match('^%s*%d%s.*$') then
+      -- If line is empty or only whitespace, insert "- [ ] " at cursor position
+      if line:match('^%s*$') then
+        local indent = line:match('^%s*') or ''
+        return indent .. '- [ ] ', #indent + 6
+      end
       -- "xxx" -> "- [ ] xxx"
-      return line:gsub('(%S+)', '- [ ] %1', 1)
+      return line:gsub('(%S+)', '- [ ] %1', 1), nil
     else
       -- "- xxx" -> "- [ ] xxx", "3. xxx" -> "3. [ ] xxx"
-      return line:gsub('(%s*- )(.*)', '%1[ ] %2', 1):gsub('(%s*%d%. )(.*)', '%1[ ] %2', 1)
+      return line:gsub('(%s*- )(.*)', '%1[ ] %2', 1):gsub('(%s*%d%. )(.*)', '%1[ ] %2', 1), nil
     end
   end,
 }
@@ -100,9 +105,10 @@ M.toggle = function()
   -- If the line contains a checked checkbox then uncheck it.
   -- Otherwise, if it contains an unchecked checkbox, check it.
   local new_line = ''
+  local new_cursor_col = nil
 
   if not line_with_checkbox(current_line) then
-    new_line = checkbox.make_checkbox(current_line)
+    new_line, new_cursor_col = checkbox.make_checkbox(current_line, cursor[2])
   elseif line_contains_unchecked(current_line) then
     new_line = checkbox.check(current_line)
   elseif line_contains_checked(current_line) then
@@ -110,7 +116,11 @@ M.toggle = function()
   end
 
   vim.api.nvim_buf_set_lines(bufnr, start_line, start_line + 1, false, { new_line })
-  vim.api.nvim_win_set_cursor(0, cursor)
+  if new_cursor_col then
+    vim.api.nvim_win_set_cursor(0, { cursor[1], new_cursor_col })
+  else
+    vim.api.nvim_win_set_cursor(0, cursor)
+  end
 end
 
 vim.api.nvim_create_user_command('ToggleCheckbox', M.toggle, {})

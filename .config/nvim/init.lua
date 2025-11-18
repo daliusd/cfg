@@ -184,12 +184,6 @@ require('lazy').setup({
             vim.opt.fillchars = { eob = ' ' }
             vim.o.guicursor = new_cursor
 
-            require('render-markdown').setup({
-              anti_conceal = {
-                enabled = false,
-              },
-            })
-
             vim.o.number = false
             vim.g.number_autocmd_id = vim.api.nvim_create_autocmd('BufEnter', {
               callback = function()
@@ -204,12 +198,6 @@ require('lazy').setup({
             vim.o.spell = true
             vim.opt.fillchars = { eob = '~' }
             vim.o.guicursor = vim.g.old_cursor
-
-            require('render-markdown').setup({
-              anti_conceal = {
-                enabled = true,
-              },
-            })
 
             vim.o.number = true
             vim.api.nvim_del_autocmd(vim.g.number_autocmd_id)
@@ -886,16 +874,6 @@ require('lazy').setup({
     },
   },
   'tpope/vim-abolish',
-  {
-    'MeanderingProgrammer/render-markdown.nvim',
-    dependencies = { 'nvim-treesitter/nvim-treesitter', 'nvim-tree/nvim-web-devicons' },
-    ---@module 'render-markdown'
-    ---@type render.md.UserConfig
-    opts = {
-      completions = { lsp = { enabled = true } },
-      file_types = { 'markdown' },
-    },
-  },
 })
 
 require('misc')
