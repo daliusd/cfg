@@ -77,11 +77,21 @@ end
 
 local checkbox = {
   check = function(line)
-    return line:gsub(unchecked_checkbox, checked_checkbox, 1)
+    local checked_line = line:gsub(unchecked_checkbox, '[' .. checked_character .. ']', 1)
+    -- Add ISO date after checkbox if not already present
+    local iso_date = os.date('%Y-%m-%d')
+    -- Check if there's already a date after the checkbox
+    if not checked_line:match('%[' .. checked_character .. '%] %d%d%d%d%-%d%d%-%d%d') then
+      checked_line = checked_line:gsub('(%[' .. checked_character .. '%])', '%1 ' .. iso_date, 1)
+    end
+    return checked_line
   end,
 
   uncheck = function(line)
-    return line:gsub(checked_checkbox, unchecked_checkbox, 1)
+    local unchecked_line = line:gsub(checked_checkbox, unchecked_checkbox, 1)
+    -- Remove ISO date after checkbox if present
+    unchecked_line = unchecked_line:gsub('(' .. unchecked_checkbox .. ') %d%d%d%d%-%d%d%-%d%d', '%1', 1)
+    return unchecked_line
   end,
 
   make_checkbox = function(line, cursor_col)
