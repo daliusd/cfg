@@ -207,6 +207,81 @@ config.keys = {
     mods = 'CTRL|SHIFT',
     action = wezterm.action.DisableDefaultAssignment,
   },
+  {
+    key = '/',
+    mods = 'ALT',
+    action = wezterm.action_callback(function(window, pane)
+      local scrollback = pane:get_lines_as_text(100)
+
+      local paths = {}
+      local seen = {}
+
+      -- Split into lines for better context
+      for line in scrollback:gmatch('[^\r\n]+') do
+        -- Pattern 1: Absolute paths (/ or ~ at start of line or after whitespace)
+        for path in line:gmatch('[ \t]([~/][%w._/%-]+)') do
+          if #path > 4 and not seen[path] then
+            seen[path] = true
+            table.insert(paths, { type = 'absolute', path = path })
+          end
+        end
+        -- Also check at start of line
+        local start_path = line:match('^([~/][%w._/%-]+)')
+        if start_path and #start_path > 4 and not seen[start_path] then
+          seen[start_path] = true
+          table.insert(paths, { type = 'absolute', path = start_path })
+        end
+
+        -- Pattern 2: Relative paths with ../ or ./
+        for path in line:gmatch('([.]+/[%w._/%-]+)') do
+          if #path > 4 and not seen[path] then
+            seen[path] = true
+            table.insert(paths, { type = 'relative', path = path })
+          end
+        end
+
+        -- Pattern 3: Regular relative paths (dir/file)
+        for path in line:gmatch('([%w._%-]+/[%w._/%-]+)') do
+          if #path > 4 and not seen[path] then
+            seen[path] = true
+            table.insert(paths, { type = 'relative', path = path })
+          end
+        end
+
+        -- Pattern 4: Filenames with extensions (not already captured)
+        for filename in line:gmatch('([%w._%-]+%.[%w]+)') do
+          if #filename > 4 and not seen[filename] then
+            seen[filename] = true
+            table.insert(paths, { type = 'filename', path = filename })
+          end
+        end
+      end
+
+      if #paths == 0 then
+        return
+      end
+
+      -- Sort: absolute paths first, then relative, then filenames
+      table.sort(paths, function(a, b)
+        local order = { absolute = 1, relative = 2, filename = 3 }
+        return order[a.type] < order[b.type]
+      end)
+
+      local tmpdir = os.getenv('TMPDIR') or os.getenv('TEMP') or os.getenv('TMP') or '/tmp'
+      local tmpfile = tmpdir .. '/wezterm-words-' .. pane:pane_id() .. '.tmp'
+
+      local file = io.open(tmpfile, 'w')
+      if file then
+        for _, item in ipairs(paths) do
+          file:write(item.path .. '\n')
+        end
+        file:close()
+      end
+
+      -- Send F12 to trigger the fish keybinding
+      window:perform_action(wezterm.action.SendKey({ key = 'F12' }), pane)
+    end),
+  },
 }
 
 local mux = wezterm.mux
