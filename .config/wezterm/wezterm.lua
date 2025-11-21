@@ -218,6 +218,14 @@ config.keys = {
 
       -- Split into lines for better context
       for line in scrollback:gmatch('[^\r\n]+') do
+        -- Pattern 0: Git hashes (hexadecimal strings of length 7-40)
+        for hash in line:gmatch('([a-f0-9][a-f0-9][a-f0-9][a-f0-9][a-f0-9][a-f0-9][a-f0-9]+)') do
+          if #hash >= 7 and #hash <= 40 and not seen[hash] then
+            seen[hash] = true
+            table.insert(paths, { type = 'hash', path = hash })
+          end
+        end
+
         -- Pattern 1: Absolute paths (/ or ~ at start of line or after whitespace)
         for path in line:gmatch('[ \t]([~/][%w._/%-]+)') do
           if #path > 4 and not seen[path] then
@@ -261,9 +269,9 @@ config.keys = {
         return
       end
 
-      -- Sort: absolute paths first, then relative, then filenames
+      -- Sort: hashes first, then absolute paths, then relative, then filenames
       table.sort(paths, function(a, b)
-        local order = { absolute = 1, relative = 2, filename = 3 }
+        local order = { hash = 1, absolute = 2, relative = 3, filename = 4 }
         return order[a.type] < order[b.type]
       end)
 
