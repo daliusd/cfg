@@ -249,19 +249,7 @@ require('lazy').setup({
       { '<leader>v', ':e ~/.config/nvim/init.lua<cr>', silent = true, desc = 'load nvim init.lua' },
       { '<leader>V', ':source $MYVIMRC<cr>', silent = true, desc = 'source nvim init.lua' },
 
-      {
-        '<leader>gc',
-        function()
-          require('gitlinker').get_repo_url({
-            action_callback = function(url)
-              local commit = vim.fn.expand('<cword>')
-              require('gitlinker.actions').open_in_browser(url .. '/commit/' .. commit)
-            end,
-          })
-        end,
-        silent = true,
-        desc = 'Open commit in browser',
-      },
+      { '<leader>x', ':GithubCopyUrl<cr>', silent = true, desc = 'Copy GitHub URL', mode = { 'n', 'v' } },
       { '<leader>gr', ':DiffviewOpen<cr>', silent = true, 'Review changes using Diffview' },
     },
   },
@@ -606,7 +594,7 @@ require('lazy').setup({
   },
   {
     'pmizio/typescript-tools.nvim',
-    dependencies = { 'neovim/nvim-lspconfig' },
+    dependencies = { 'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig' },
     opts = {
       on_attach = function(client, _)
         client.server_capabilities.documentFormattingProvider = false
@@ -746,17 +734,7 @@ require('lazy').setup({
       { '<leader>gl', ':Git pull<cr>', silent = true, desc = 'Git pull' },
     },
   },
-  {
-    'ruifm/gitlinker.nvim',
-    dependencies = {
-      'nvim-lua/plenary.nvim',
-    },
-    config = function()
-      require('gitlinker').setup({
-        mappings = '<leader>x',
-      })
-    end,
-  },
+
   -- Tree-sitter
   {
     'nvim-treesitter/nvim-treesitter',
