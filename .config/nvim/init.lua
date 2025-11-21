@@ -540,6 +540,18 @@ require('lazy').setup({
       })
       vim.lsp.enable('lua_ls', true)
 
+      -- lang-lsp for translation hints
+      vim.api.nvim_create_autocmd('FileType', {
+        pattern = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
+        callback = function()
+          vim.lsp.start({
+            name = 'lang-lsp',
+            cmd = { 'lang-lsp', '--stdio' },
+            root_dir = vim.fs.root(0, { 'package.json', '.git' }),
+          })
+        end,
+      })
+
       -- Format on write
       vim.api.nvim_create_autocmd('LspAttach', {
         callback = function(args)
@@ -560,40 +572,6 @@ require('lazy').setup({
           end
         end,
       })
-    end,
-  },
-  {
-    'mfussenegger/nvim-lint',
-    config = function()
-      require('lint').linters_by_ft = {
-        javascript = { 'langd' },
-        javascriptreact = { 'langd' },
-        typescript = { 'langd' },
-        typescriptreact = { 'langd' },
-      }
-
-      vim.api.nvim_create_autocmd({ 'BufRead', 'InsertLeave', 'BufWritePost' }, {
-        callback = function()
-          require('lint').try_lint()
-        end,
-      })
-
-      require('lint').linters.langd = {
-        name = 'langd',
-        cmd = 'langd',
-        stdin = true,
-        args = { vim.fn.getcwd() },
-        stream = 'stdout',
-        parser = require('lint.parser').from_pattern(
-          '(%d+):(%d+):(%d+) (.*)',
-          { 'lnum', 'col', 'end_col', 'message' },
-          nil,
-          {
-            ['source'] = 'langd',
-            ['severity'] = vim.diagnostic.severity.INFO,
-          }
-        ),
-      }
     end,
   },
   {
