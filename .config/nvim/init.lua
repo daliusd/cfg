@@ -540,6 +540,29 @@ require('lazy').setup({
         end,
       })
 
+      -- prettier-lsp for formatting (only if prettier config exists)
+      vim.api.nvim_create_autocmd('FileType', {
+        pattern = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'json', 'html', 'css' },
+        callback = function()
+          local root_dir = vim.fs.root(0, {
+            '.prettierrc.js',
+            '.prettierrc.mjs',
+            '.prettierrc.json',
+          })
+
+          -- Only start LSP if prettier config was found
+          if root_dir then
+            vim.lsp.start({
+              name = 'prettier-lsp',
+              cmd = { 'prettier-lsp', '--stdio' },
+              root_dir = root_dir,
+            })
+          end
+        end,
+      })
+
+      vim.lsp.enable('stylua')
+
       -- Format on write
       vim.api.nvim_create_autocmd('LspAttach', {
         callback = function(args)
@@ -559,36 +582,6 @@ require('lazy').setup({
             })
           end
         end,
-      })
-    end,
-  },
-  {
-    'stevearc/conform.nvim',
-    config = function()
-      require('conform').setup({
-        formatters_by_ft = {
-          lua = { 'stylua' },
-          html = { 'prettierd' },
-          javascript = { 'prettierd' },
-          javascriptreact = { 'prettierd' },
-          -- markdown = { 'prettierd' },
-          typescript = { 'prettierd' },
-          typescriptreact = { 'prettierd' },
-          ['*'] = { 'trim_whitespace' },
-        },
-        format_on_save = {
-          timeout_ms = 500,
-          lsp_fallback = true,
-        },
-        formatters = {
-          prettierd = {
-            condition = function()
-              return vim.uv.fs_realpath('.prettierrc.js') ~= nil
-                or vim.uv.fs_realpath('.prettierrc.mjs') ~= nil
-                or vim.uv.fs_realpath('.prettierrc.json')
-            end,
-          },
-        },
       })
     end,
   },
