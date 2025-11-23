@@ -5,6 +5,7 @@ npm install -g @astrojs/language-server
 npm install -g cssmodules-language-server
 npm install -g @daliusd/prettier-lsp
 npm install -g @daliusd/lang-lsp
+npm install -g @biomejs/biome
 npm install -g npm-check-updates
 npm install -g tsx
 npm install -g typescript-language-server

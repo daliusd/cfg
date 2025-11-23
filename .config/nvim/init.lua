@@ -460,7 +460,7 @@ require('lazy').setup({
       })
       vim.lsp.enable('yamlls', true)
 
-      vim.lsp.enable('astro', true)
+      -- vim.lsp.enable('astro', true)
       vim.lsp.enable('buf_ls', true)
       vim.lsp.config('cssls', {
         capabilities = capabilities,
@@ -562,6 +562,7 @@ require('lazy').setup({
       })
 
       vim.lsp.enable('stylua')
+      vim.lsp.enable('biome')
 
       -- Format on write
       vim.api.nvim_create_autocmd('LspAttach', {
@@ -570,9 +571,10 @@ require('lazy').setup({
 
           if
             client ~= nil
-            and client:supports_method('textDocument/formatting')
-            and client.name ~= 'ts_ls'
-            and client.name ~= 'lua_ls'
+            and (
+              (client:supports_method('textDocument/formatting') and client.name ~= 'ts_ls' and client.name ~= 'lua_ls')
+              or client.name == 'biome'
+            )
           then
             vim.api.nvim_create_autocmd('BufWritePre', {
               buffer = args.buf,
