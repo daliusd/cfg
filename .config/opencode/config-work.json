@@ -63,9 +63,14 @@
         "@wix/business-schema-mcp"
       ]
     },
+    "bi-catalog-mcp": {
+      "type": "remote",
+      "enabled": true,
+      "url": "https://bo.wix.com/_serverless/bi-catalog-mcp/mcp/",
+    },
     "octocode": {
       "type": "local",
-      "enabled": false,
+      "enabled": true,
       "command": [
         "npx",
         "octocode-mcp"

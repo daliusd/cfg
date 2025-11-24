@@ -72,7 +72,10 @@ volta install node
 # npm config set prefix '~/.npm-global'
 
 # ??? Node stuff
-echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
+echo "fs.inotify.max_user_watches=1048576" | sudo tee -a /etc/sysctl.conf
+echo "fs.inotify.max_user_instances=1024" | sudo tee -a /etc/sysctl.conf
+echo "fs.inotify.max_queued_events=65536" | sudo tee -a /etc/sysctl.conf
+sudo sysctl -p
 
 # Mac OSX
 brew install --cask font-victor-mono-nerd-font
