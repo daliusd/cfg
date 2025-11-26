@@ -333,13 +333,13 @@ require('lazy').setup({
             ['ctrl-l'] = {
               function()
                 local text = require('fzf-lua').get_last_query() .. ' -- *_en.json'
-                require('fzf-lua').live_grep_glob({ search = text, no_esc = true })
+                require('fzf-lua').live_grep({ search = text, no_esc = true })
               end,
             },
             ['ctrl-g'] = {
               function()
                 local text = require('fzf-lua').get_last_query() .. ' -- *.js *.jsx *.ts *.tsx'
-                require('fzf-lua').live_grep_glob({ search = text, no_esc = true })
+                require('fzf-lua').live_grep({ search = text, no_esc = true })
               end,
             },
           },
@@ -356,7 +356,7 @@ require('lazy').setup({
         function()
           local text = vim.fn.expand('<cword>')
           vim.fn.histadd(':', 'Rg ' .. text)
-          require('fzf-lua').live_grep_glob({ search = text })
+          require('fzf-lua').live_grep({ search = text })
         end,
         silent = true,
         desc = 'Rg',
@@ -366,7 +366,7 @@ require('lazy').setup({
         function()
           local text = vim.getVisualSelection()
           vim.fn.histadd(':', 'Rg ' .. text)
-          require('fzf-lua').live_grep_glob({ search = text })
+          require('fzf-lua').live_grep({ search = text })
         end,
         mode = 'v',
         silent = true,
@@ -383,7 +383,7 @@ require('lazy').setup({
         silent = true,
         desc = 'gr',
       },
-      { '<leader>R', ':FzfLua live_grep_glob<cr>', silent = true },
+      { '<leader>R', ':FzfLua live_grep<cr>', silent = true },
       {
         '<leader>f',
         function()
