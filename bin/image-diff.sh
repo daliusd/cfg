@@ -8,7 +8,9 @@ if [[ -z "$GIT_DIFF_IMAGE_ENABLED" ]]; then
   echo "Diffing disabled for \"$bn\". Use 'git diff-image' to see image diffs."
 else
   echo "Diffing $1"
-  if [[ "$2" != "/dev/null" ]]; then
+  if [[ ! -f "$1" ]]; then
+    echo "File deleted: $bn"
+  elif [[ "$2" != "/dev/null" ]]; then
     diff="$(mktemp -t "$bn.XXXXXXX").png"
     gm compare -highlight-style assign -highlight-color red -file "$diff" "$1" "$2"
 
@@ -37,6 +39,4 @@ else
     echo "New:"
     wezterm imgcat "$1"
   fi
-
-
 fi
