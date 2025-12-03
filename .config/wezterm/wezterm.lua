@@ -269,8 +269,45 @@ config.keys = {
         return
       end
 
+      -- Filter out redundant paths and filenames
+      -- First, collect basenames from all paths for filename filtering
+      local path_basenames = {}
+      for _, item in ipairs(paths) do
+        if item.type == 'absolute' or item.type == 'relative' then
+          local basename = item.path:match('([^/]+)$')
+          if basename then
+            path_basenames[basename] = true
+          end
+        end
+      end
+
+      -- Filter out items that are redundant
+      local filtered_paths = {}
+      for _, item in ipairs(paths) do
+        local is_redundant = false
+
+        if item.type == 'filename' then
+          -- Filter filenames that match basenames of paths
+          if path_basenames[item.path] then
+            is_redundant = true
+          end
+        elseif item.type == 'relative' then
+          -- Check if this relative path is a suffix of any absolute path
+          for _, other in ipairs(paths) do
+            if other.type == 'absolute' and other.path:sub(-#item.path) == item.path then
+              is_redundant = true
+              break
+            end
+          end
+        end
+
+        if not is_redundant then
+          table.insert(filtered_paths, item)
+        end
+      end
+
       -- Sort: hashes first, then absolute paths, then relative, then filenames
-      table.sort(paths, function(a, b)
+      table.sort(filtered_paths, function(a, b)
         local order = { hash = 1, absolute = 2, relative = 3, filename = 4 }
         return order[a.type] < order[b.type]
       end)
@@ -280,7 +317,7 @@ config.keys = {
 
       local file = io.open(tmpfile, 'w')
       if file then
-        for _, item in ipairs(paths) do
+        for _, item in ipairs(filtered_paths) do
           file:write(item.path .. '\n')
         end
         file:close()
