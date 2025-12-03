@@ -65,12 +65,12 @@
     },
     "bi-catalog-mcp": {
       "type": "remote",
-      "enabled": true,
+      "enabled": false,
       "url": "https://bo.wix.com/_serverless/bi-catalog-mcp/mcp/",
     },
     "octocode": {
       "type": "local",
-      "enabled": true,
+      "enabled": false,
       "command": [
         "npx",
         "octocode-mcp"
