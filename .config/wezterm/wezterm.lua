@@ -72,12 +72,6 @@ config.keys = {
     action = wezterm.action.ActivateCopyMode,
   },
   {
-    key = 'f',
-    mods = 'ALT',
-    -- action = wezterm.action.EmitEvent('toggle-tabbar'),
-    action = wezterm.action.ToggleFullScreen,
-  },
-  {
     key = 'n',
     mods = 'ALT',
     action = wezterm.action.SplitVertical({ domain = 'CurrentPaneDomain' }),
@@ -208,117 +202,44 @@ config.keys = {
     action = wezterm.action.DisableDefaultAssignment,
   },
   {
-    key = '/',
+    key = 'f',
     mods = 'ALT',
     action = wezterm.action_callback(function(window, pane)
       local scrollback = pane:get_lines_as_text(100)
 
-      local paths = {}
+      local words = {}
       local seen = {}
 
-      -- Split into lines for better context
+      -- Extract all strings longer than 3 symbols bounded by whitespace or line boundaries
       for line in scrollback:gmatch('[^\r\n]+') do
-        -- Pattern 0: Git hashes (hexadecimal strings of length 7-40)
-        for hash in line:gmatch('([a-f0-9][a-f0-9][a-f0-9][a-f0-9][a-f0-9][a-f0-9][a-f0-9]+)') do
-          if #hash >= 7 and #hash <= 40 and not seen[hash] then
-            seen[hash] = true
-            table.insert(paths, { type = 'hash', path = hash })
+        -- Match words at start of line
+        for word in line:gmatch('^([^%s]+)') do
+          if #word > 3 and not seen[word] then
+            seen[word] = true
+            table.insert(words, word)
           end
         end
 
-        -- Pattern 1: Absolute paths (/ or ~ at start of line or after whitespace)
-        for path in line:gmatch('[ \t]([~/][%w._/%-]+)') do
-          if #path > 4 and not seen[path] then
-            seen[path] = true
-            table.insert(paths, { type = 'absolute', path = path })
-          end
-        end
-        -- Also check at start of line
-        local start_path = line:match('^([~/][%w._/%-]+)')
-        if start_path and #start_path > 4 and not seen[start_path] then
-          seen[start_path] = true
-          table.insert(paths, { type = 'absolute', path = start_path })
-        end
-
-        -- Pattern 2: Relative paths with ../ or ./
-        for path in line:gmatch('([.]+/[%w._/%-]+)') do
-          if #path > 4 and not seen[path] then
-            seen[path] = true
-            table.insert(paths, { type = 'relative', path = path })
-          end
-        end
-
-        -- Pattern 3: Regular relative paths (dir/file)
-        for path in line:gmatch('([%w._%-]+/[%w._/%-]+)') do
-          if #path > 4 and not seen[path] then
-            seen[path] = true
-            table.insert(paths, { type = 'relative', path = path })
-          end
-        end
-
-        -- Pattern 4: Filenames with extensions (not already captured)
-        for filename in line:gmatch('([%w._%-]+%.[%w]+)') do
-          if #filename > 4 and not seen[filename] then
-            seen[filename] = true
-            table.insert(paths, { type = 'filename', path = filename })
+        -- Match words after whitespace
+        for word in line:gmatch('%s+([^%s]+)') do
+          if #word > 3 and not seen[word] then
+            seen[word] = true
+            table.insert(words, word)
           end
         end
       end
 
-      if #paths == 0 then
+      if #words == 0 then
         return
       end
-
-      -- Filter out redundant paths and filenames
-      -- First, collect basenames from all paths for filename filtering
-      local path_basenames = {}
-      for _, item in ipairs(paths) do
-        if item.type == 'absolute' or item.type == 'relative' then
-          local basename = item.path:match('([^/]+)$')
-          if basename then
-            path_basenames[basename] = true
-          end
-        end
-      end
-
-      -- Filter out items that are redundant
-      local filtered_paths = {}
-      for _, item in ipairs(paths) do
-        local is_redundant = false
-
-        if item.type == 'filename' then
-          -- Filter filenames that match basenames of paths
-          if path_basenames[item.path] then
-            is_redundant = true
-          end
-        elseif item.type == 'relative' then
-          -- Check if this relative path is a suffix of any absolute path
-          for _, other in ipairs(paths) do
-            if other.type == 'absolute' and other.path:sub(-#item.path) == item.path then
-              is_redundant = true
-              break
-            end
-          end
-        end
-
-        if not is_redundant then
-          table.insert(filtered_paths, item)
-        end
-      end
-
-      -- Sort: hashes first, then absolute paths, then relative, then filenames
-      table.sort(filtered_paths, function(a, b)
-        local order = { hash = 1, absolute = 2, relative = 3, filename = 4 }
-        return order[a.type] < order[b.type]
-      end)
 
       local tmpdir = os.getenv('TMPDIR') or os.getenv('TEMP') or os.getenv('TMP') or '/tmp'
       local tmpfile = tmpdir .. '/wezterm-words-' .. pane:pane_id() .. '.tmp'
 
       local file = io.open(tmpfile, 'w')
       if file then
-        for _, item in ipairs(filtered_paths) do
-          file:write(item.path .. '\n')
+        for _, word in ipairs(words) do
+          file:write(word .. '\n')
         end
         file:close()
       end
