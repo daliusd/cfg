@@ -8,7 +8,7 @@ npm install -g @daliusd/lang-lsp
 npm install -g @biomejs/biome
 npm install -g npm-check-updates
 npm install -g tsx
-npm install -g typescript-language-server
+npm install -g @typescript/native-preview
 
 # npm install -g neovim
 # npm install -g vim-language-server

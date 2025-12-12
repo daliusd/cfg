@@ -528,6 +528,20 @@ require('lazy').setup({
       })
       vim.lsp.enable('lua_ls', true)
 
+      vim.lsp.config('ts_go_ls', {
+        cmd = { 'tsgo', '--lsp', '--stdio' },
+        filetypes = {
+          'javascript',
+          'javascriptreact',
+          'javascript.jsx',
+          'typescript',
+          'typescriptreact',
+          'typescript.tsx',
+        },
+        root_markers = { 'tsconfig.json', 'jsconfig.json', 'package.json', '.git' },
+      })
+      vim.lsp.enable('ts_go_ls')
+
       -- lang-lsp for translation hints
       vim.api.nvim_create_autocmd('FileType', {
         pattern = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact' },
@@ -586,25 +600,6 @@ require('lazy').setup({
         end,
       })
     end,
-  },
-  {
-    'pmizio/typescript-tools.nvim',
-    dependencies = { 'nvim-lua/plenary.nvim', 'neovim/nvim-lspconfig' },
-    opts = {
-      on_attach = function(client, _)
-        client.server_capabilities.documentFormattingProvider = false
-        client.server_capabilities.documentRangeFormattingProvider = false
-      end,
-      settings = {
-        separate_diagnostic_server = false,
-        tsserver_path = vim.env.HOME
-          .. '/.volta/tools/image/packages/typescript/lib/node_modules/typescript/lib/tsserver.js',
-        jsx_close_tag = {
-          enable = true,
-          filetypes = { 'javascriptreact', 'typescriptreact' },
-        },
-      },
-    },
   },
   {
     'windwp/nvim-autopairs',
