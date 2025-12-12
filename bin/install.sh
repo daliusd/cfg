@@ -85,4 +85,6 @@ brew install pinentry-mac
 brew install uv
 brew install bufbuild/buf/buf
 brew install stylua
-brew install sst/tap/opencode
+brew install opencode
+brew install tree-sitter
+brew install tree-sitter-cli
