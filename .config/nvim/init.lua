@@ -701,6 +701,17 @@ require('lazy').setup({
             end)
             return '<Ignore>'
           end, { expr = true })
+
+          map('n', '<leader>ghh', gs.stage_hunk)
+          map('n', '<leader>ghr', gs.reset_hunk)
+
+          map('v', '<leader>ghh', function()
+            gs.stage_hunk({ vim.fn.line('.'), vim.fn.line('v') })
+          end)
+
+          map('v', '<leader>ghr', function()
+            gs.reset_hunk({ vim.fn.line('.'), vim.fn.line('v') })
+          end)
         end,
       })
     end,
