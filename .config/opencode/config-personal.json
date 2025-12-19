@@ -2,15 +2,8 @@
   "$schema": "https://opencode.ai/config.json",
   "theme": "rosepine",
   "model": "github-copilot/claude-sonnet-4.5",
+  "lsp": false,
   "mcp": {
-    "tsserver-mcp": {
-      "type": "local",
-      "enabled": true,
-      "command": [
-        "npx",
-        "tsserver-mcp"
-      ]
-    },
     "browsermcp": {
       "type": "local",
       "enabled": true,
@@ -19,25 +12,9 @@
         "@browsermcp/mcp@latest"
       ]
     },
-    "playwright": {
-      "type": "local",
-      "enabled": true,
-      "command": [
-        "npx",
-        "@playwright/mcp@latest"
-      ]
-    },
-    "octocode": {
-      "type": "local",
-      "enabled": true,
-      "command": [
-        "npx",
-        "octocode-mcp"
-      ]
-    },
     "youtube_transcript": {
       "type": "local",
-      "enabled": true,
+      "enabled": false,
       "command": [
         "docker",
         "run",
