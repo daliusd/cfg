@@ -11,17 +11,6 @@
         "npx",
         "@browsermcp/mcp@latest"
       ]
-    },
-    "youtube_transcript": {
-      "type": "local",
-      "enabled": false,
-      "command": [
-        "docker",
-        "run",
-        "-i",
-        "--rm",
-        "mcp/youtube-transcript"
-      ]
     }
   }
 }
