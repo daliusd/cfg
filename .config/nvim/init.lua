@@ -499,7 +499,6 @@ require('lazy').setup({
       })
       vim.lsp.enable('jsonls', true)
       vim.lsp.enable('typos_lsp', true)
-      -- vim.lsp.enable('ts_ls', true)
       vim.lsp.config('lua_ls', {
         settings = {
           Lua = {
@@ -525,20 +524,7 @@ require('lazy').setup({
         },
       })
       vim.lsp.enable('lua_ls', true)
-
-      vim.lsp.config('ts_go_ls', {
-        cmd = { 'tsgo', '--lsp', '--stdio' },
-        filetypes = {
-          'javascript',
-          'javascriptreact',
-          'javascript.jsx',
-          'typescript',
-          'typescriptreact',
-          'typescript.tsx',
-        },
-        root_markers = { 'tsconfig.json', 'jsconfig.json', 'package.json', '.git' },
-      })
-      vim.lsp.enable('ts_go_ls')
+      vim.lsp.enable('tsgo', true)
 
       -- lang-lsp for translation hints
       vim.api.nvim_create_autocmd('FileType', {
