@@ -150,6 +150,11 @@ switch (uname)
       set -Ux OPENCODE_CONFIG ~/.config/opencode/config-work.json
 end
 
+switch (uname)
+    case Darwin
+      set -x DOCKER_HOST unix://$HOME/.colima/default/docker.sock
+end
+
 fzf --fish | source
 
 # Bind F12 to wezterm word selector (triggered by WezTerm Alt+/)
