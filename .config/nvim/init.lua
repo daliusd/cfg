@@ -468,6 +468,7 @@ require('lazy').setup({
       vim.lsp.enable('cssls', true)
       vim.lsp.enable('cssmodules_ls', true)
 
+      local base_on_attach = vim.lsp.config.eslint.on_attach
       vim.lsp.config('eslint', {
         root_dir = function(bufnr, on_dir)
           local util = require('lspconfig.util')
@@ -483,6 +484,17 @@ require('lazy').setup({
             mode = 'location',
           },
         },
+        on_attach = function(client, bufnr)
+          if not base_on_attach then
+            return
+          end
+
+          base_on_attach(client, bufnr)
+          vim.api.nvim_create_autocmd('BufWritePre', {
+            buffer = bufnr,
+            command = 'LspEslintFixAll',
+          })
+        end,
       })
       vim.lsp.enable('eslint', true)
 
