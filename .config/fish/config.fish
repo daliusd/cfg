@@ -156,8 +156,3 @@ switch (uname)
 end
 
 fzf --fish | source
-
-# Bind F12 to wezterm word selector (triggered by WezTerm Alt+/)
-bind \e\[24~ wezterm-fzf-words
-bind -M insert \e\[24~ wezterm-fzf-words
-

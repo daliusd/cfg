@@ -201,53 +201,6 @@ config.keys = {
     mods = 'CTRL|SHIFT',
     action = wezterm.action.DisableDefaultAssignment,
   },
-  {
-    key = 'f',
-    mods = 'ALT',
-    action = wezterm.action_callback(function(window, pane)
-      local scrollback = pane:get_lines_as_text(100)
-
-      local words = {}
-      local seen = {}
-
-      -- Extract all strings longer than 3 symbols bounded by whitespace or line boundaries
-      for line in scrollback:gmatch('[^\r\n]+') do
-        -- Match words at start of line
-        for word in line:gmatch('^([^%s]+)') do
-          if #word > 3 and not seen[word] then
-            seen[word] = true
-            table.insert(words, word)
-          end
-        end
-
-        -- Match words after whitespace
-        for word in line:gmatch('%s+([^%s]+)') do
-          if #word > 3 and not seen[word] then
-            seen[word] = true
-            table.insert(words, word)
-          end
-        end
-      end
-
-      if #words == 0 then
-        return
-      end
-
-      local tmpdir = os.getenv('TMPDIR') or os.getenv('TEMP') or os.getenv('TMP') or '/tmp'
-      local tmpfile = tmpdir .. '/wezterm-words-' .. pane:pane_id() .. '.tmp'
-
-      local file = io.open(tmpfile, 'w')
-      if file then
-        for _, word in ipairs(words) do
-          file:write(word .. '\n')
-        end
-        file:close()
-      end
-
-      -- Send F12 to trigger the fish keybinding
-      window:perform_action(wezterm.action.SendKey({ key = 'F12' }), pane)
-    end),
-  },
 }
 
 local mux = wezterm.mux
