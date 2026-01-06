@@ -1,5 +1,4 @@
 [core]
-    pager = delta
     attributesfile = ~/.gitattributes
 [push]
     followTags = true
@@ -20,21 +19,20 @@
 [commit]
     gpgsign = true
 
-[delta]
-    syntax-theme = Solarized (light)
-    navigate = true
-
-[interactive]
-    diffFilter = delta --color-only
-
-[merge]
-    conflictstyle = diff3
-
 [diff]
-    colorMoved = default
+  external = difft
 
 [diff "gpg"]
     textconv = gpg --no-tty --decrypt
 
 [diff "image"]
     command = ~/bin/image-diff.sh
+
+[difftool]
+    prompt = false
+
+[pager]
+    difftool = true
+
+[diff]
+    tool = difftastic
