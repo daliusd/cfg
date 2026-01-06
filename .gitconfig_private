@@ -27,12 +27,3 @@
 
 [diff "image"]
     command = ~/bin/image-diff.sh
-
-[difftool]
-    prompt = false
-
-[pager]
-    difftool = true
-
-[diff]
-    tool = difftastic
