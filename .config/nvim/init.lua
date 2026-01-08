@@ -250,7 +250,7 @@ require('lazy').setup({
       { '<leader>V', ':source $MYVIMRC<cr>', silent = true, desc = 'source nvim init.lua' },
 
       { '<leader>x', ':GithubCopyUrl<cr>', silent = true, desc = 'Copy GitHub URL', mode = { 'n', 'v' } },
-      { '<leader>gr', ':DiffviewOpen<cr>', silent = true, 'Review changes using Diffview' },
+      { '<leader>gr', ':CodeDiff<cr>', silent = true, 'Review changes using CodeDiff' },
     },
   },
   {
@@ -713,14 +713,9 @@ require('lazy').setup({
     end,
   },
   {
-    'sindrets/diffview.nvim',
-    opts = {
-      keymaps = {
-        view = {
-          ['<leader>e'] = false,
-        },
-      },
-    },
+    'esmuellert/codediff.nvim',
+    dependencies = { 'MunifTanjim/nui.nvim' },
+    cmd = 'CodeDiff',
   },
   {
     'tpope/vim-fugitive',
