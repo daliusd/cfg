@@ -43,6 +43,14 @@
         "npx",
         "@browsermcp/mcp@latest"
       ]
+    },
+    "octocode": {
+      "type": "local",
+      "enabled": true,
+      "command": [
+        "npx",
+        "octocode-mcp"
+      ]
     }
   }
 }
