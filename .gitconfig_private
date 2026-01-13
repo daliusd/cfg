@@ -1,5 +1,6 @@
 [core]
     attributesfile = ~/.gitattributes
+    pager = delta
 [push]
     followTags = true
 [pull]
@@ -19,11 +20,18 @@
 [commit]
     gpgsign = true
 
-[diff]
-  external = difft
-
 [diff "gpg"]
     textconv = gpg --no-tty --decrypt
 
 [diff "image"]
     command = ~/bin/image-diff.sh
+
+[interactive]
+    diffFilter = delta --color-only
+
+[delta]
+    navigate = true
+    light = true
+
+[merge]
+    conflictStyle = zdiff3
