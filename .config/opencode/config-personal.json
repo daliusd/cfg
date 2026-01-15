@@ -6,7 +6,7 @@
   "mcp": {
     "browsermcp": {
       "type": "local",
-      "enabled": true,
+      "enabled": false,
       "command": [
         "npx",
         "@browsermcp/mcp@latest"
