@@ -3,14 +3,5 @@
   "theme": "rosepine",
   "model": "github-copilot/claude-sonnet-4.5",
   "lsp": false,
-  "mcp": {
-    "browsermcp": {
-      "type": "local",
-      "enabled": false,
-      "command": [
-        "npx",
-        "@browsermcp/mcp@latest"
-      ]
-    }
-  }
+  "mcp": {}
 }

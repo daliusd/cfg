@@ -1,0 +1,16 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "theme": "rosepine",
+  "model": "github-copilot/claude-sonnet-4.5",
+  "lsp": false,
+  "mcp": {
+    "browsermcp": {
+      "type": "local",
+      "enabled": true,
+      "command": [
+        "npx",
+        "@browsermcp/mcp@latest"
+      ]
+    }
+  }
+}

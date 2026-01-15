@@ -150,6 +150,9 @@ switch (uname)
       set -Ux OPENCODE_CONFIG ~/.config/opencode/config-work.json
 end
 
+alias opencode-mcp='OPENCODE_CONFIG=$HOME/.config/opencode/config-personal-mcp.json opencode'
+alias opencode-work-mcp='OPENCODE_CONFIG=$HOME/.config/opencode/config-work-mcp.json opencode'
+
 switch (uname)
     case Darwin
       set -x DOCKER_HOST unix://$HOME/.colima/default/docker.sock

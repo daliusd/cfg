@@ -4,33 +4,5 @@
   "model": "github-copilot/claude-sonnet-4.5",
   "lsp": false,
   "share": "disabled",
-  "mcp": {
-    "wix-figma": {
-      "type": "local",
-      "enabled": false,
-      "command": [
-        "npx",
-        "mcp-remote",
-        "https://mcp-s.wewix.net/mcp?toolkit=wixchat-design-promoted"
-      ],
-      "environment": {}
-    },
-    "business-schema-mcp": {
-      "type": "local",
-      "enabled": false,
-      "command": [
-        "npx",
-        "-y",
-        "@wix/business-schema-mcp"
-      ]
-    },
-    "browsermcp": {
-      "type": "local",
-      "enabled": false,
-      "command": [
-        "npx",
-        "@browsermcp/mcp@latest"
-      ]
-    },
-  }
+  "mcp": {}
 }
