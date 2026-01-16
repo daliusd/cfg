@@ -582,8 +582,12 @@ require('lazy').setup({
           if
             client ~= nil
             and (
-              (client:supports_method('textDocument/formatting') and client.name ~= 'ts_ls' and client.name ~= 'lua_ls')
-              or client.name == 'biome'
+              (
+                client:supports_method('textDocument/formatting')
+                and client.name ~= 'ts_ls'
+                and client.name ~= 'lua_ls'
+                and client.name ~= 'tsgo'
+              ) or client.name == 'biome'
             )
           then
             vim.api.nvim_create_autocmd('BufWritePre', {
