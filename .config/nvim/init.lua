@@ -607,6 +607,15 @@ require('lazy').setup({
     config = true,
   },
   {
+    'newtoallofthis123/blink-cmp-fuzzy-path',
+    dependencies = { 'saghen/blink.cmp' },
+    opts = {
+      filetypes = { 'markdown', 'json' },
+      trigger_char = '@',
+      max_results = 5,
+    },
+  },
+  {
     'saghen/blink.cmp',
     version = '*',
     dependencies = {
@@ -617,7 +626,7 @@ require('lazy').setup({
     opts = {
 
       sources = {
-        default = { 'lsp', 'path', 'snippets', 'buffer', 'emoji' },
+        default = { 'fuzzy-path', 'lsp', 'path', 'snippets', 'buffer', 'emoji' },
         providers = {
           lsp = { fallbacks = {} },
           emoji = {
@@ -625,6 +634,11 @@ require('lazy').setup({
             name = 'Emoji',
             score_offset = 15,
             opts = { insert = true },
+          },
+          ['fuzzy-path'] = {
+            name = 'Fuzzy Path',
+            module = 'blink-cmp-fuzzy-path',
+            score_offset = 0,
           },
         },
       },
