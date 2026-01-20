@@ -607,19 +607,11 @@ require('lazy').setup({
     config = true,
   },
   {
-    'newtoallofthis123/blink-cmp-fuzzy-path',
-    dependencies = { 'saghen/blink.cmp' },
-    opts = {
-      filetypes = { 'markdown', 'json' },
-      trigger_char = '@',
-      max_results = 5,
-    },
-  },
-  {
     'saghen/blink.cmp',
     version = '*',
     dependencies = {
       'moyiz/blink-emoji.nvim',
+      'daliusd/blink-cmp-fuzzy-path',
     },
     ---@module 'blink.cmp'
     ---@type blink.cmp.Config
@@ -639,6 +631,7 @@ require('lazy').setup({
             name = 'Fuzzy Path',
             module = 'blink-cmp-fuzzy-path',
             score_offset = 0,
+            opts = {},
           },
         },
       },
