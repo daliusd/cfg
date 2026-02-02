@@ -506,6 +506,7 @@ require('lazy').setup({
         end,
       })
       vim.lsp.enable('html', true)
+      vim.lsp.enable('jdtls')
       vim.lsp.config('jsonls', {
         capabilities = capabilities,
       })
