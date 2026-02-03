@@ -5,13 +5,11 @@
   "lsp": false,
   "share": "disabled",
   "mcp": {
-    "wix-figma": {
+    "wix-figma-mcp": {
       "type": "local",
       "enabled": true,
       "command": [
-        "npx",
-        "mcp-remote",
-        "https://mcp-s.wewix.net/mcp?toolkit=wixchat-design-promoted"
+        "/home/daliusd/.config/opencode/commands/figma.sh"
       ],
       "environment": {}
     },
