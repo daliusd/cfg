@@ -87,7 +87,10 @@ require('lazy').setup({
           vim.diagnostic.jump({
             count = -1,
             float = true,
-            severity = vim.diagnostic.severity.ERROR,
+            severity = {
+              vim.diagnostic.severity.ERROR,
+              vim.diagnostic.severity.WARN,
+            },
           })
         end,
         silent = true,
@@ -119,7 +122,10 @@ require('lazy').setup({
           vim.diagnostic.jump({
             count = 1,
             float = true,
-            severity = vim.diagnostic.severity.ERROR,
+            severity = {
+              vim.diagnostic.severity.ERROR,
+              vim.diagnostic.severity.WARN,
+            },
           })
         end,
         silent = true,
