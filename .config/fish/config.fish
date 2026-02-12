@@ -76,7 +76,7 @@ alias gpls='git pull --rebase && gps'
 alias gl='git lg'
 alias glt='git lgt'
 alias gsu='git ci -m "temp" && git stash && git reset --soft HEAD~1'
-alias gbprune='git fetch --prune && git branch -vv | grep ": gone]" | awk "{print \$1}" | xargs -r git branch -D'
+alias gbp='git fetch --prune && git branch -vv | grep ": gone]" | awk "{print \$1}" | xargs -r git branch -D'
 
 function gitsearch
     if test (count $argv) -eq 0
