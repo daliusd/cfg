@@ -60,7 +60,7 @@ alias kben='gsettings set org.gnome.desktop.input-sources sources "[(\'xkb\', \'
 alias kblt='gsettings set org.gnome.desktop.input-sources sources "[(\'xkb\', \'us\'), (\'xkb\', \'lt\')]"'
 
 alias npmpublic='npm config set registry https://registry.npmjs.org/ && npm config get registry'
-alias npmprivate='npm config set registry http://npm.dev.wixpress.com && npm config get registry'
+alias npmprivate='npm config set registry https://npm.dev.wixpress.com && npm config get registry'
 
 alias ga='git add'
 alias gb='git branch'

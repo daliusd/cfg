@@ -557,27 +557,6 @@ require('lazy').setup({
         end,
       })
 
-      -- prettier-lsp for formatting (only if prettier config exists)
-      vim.api.nvim_create_autocmd('FileType', {
-        pattern = { 'javascript', 'javascriptreact', 'typescript', 'typescriptreact', 'json', 'html', 'css' },
-        callback = function()
-          local root_dir = vim.fs.root(0, {
-            '.prettierrc.js',
-            '.prettierrc.mjs',
-            '.prettierrc.json',
-          })
-
-          -- Only start LSP if prettier config was found
-          if root_dir then
-            vim.lsp.start({
-              name = 'prettier-lsp',
-              cmd = { 'prettier-lsp', '--stdio' },
-              root_dir = root_dir,
-            })
-          end
-        end,
-      })
-
       vim.lsp.enable('stylua')
       vim.lsp.enable('biome')
 
