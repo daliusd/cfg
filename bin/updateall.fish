@@ -13,7 +13,7 @@ switch (uname)
         echo Open updateall.fish and review it!
 end
 
-npm update -g
+npm update -g --verbose
 
 snc
 
