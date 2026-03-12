@@ -716,7 +716,8 @@ require('lazy').setup({
       { '<leader>gb', ':Git blame<cr>', silent = true, desc = 'Git blame' },
       { '<leader>gp', ':Git push<cr>', silent = true, desc = 'Git push' },
       { '<leader>gl', ':Git pull<cr>', silent = true, desc = 'Git pull' },
-      { '<leader>gr', ':Git difftool -y<cr>', silent = true, desc = 'Git difftool' },
+      { '<leader>gq', ':Git difftool | only<cr>', silent = true, desc = 'Git difftool' },
+      { '<leader>gr', ':Git difftool -y<cr>', silent = true, desc = 'Git difftool -y' },
     },
   },
 
