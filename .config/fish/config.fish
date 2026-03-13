@@ -159,3 +159,8 @@ switch (uname)
 end
 
 fzf --fish | source
+
+switch (uname)
+    case Linux
+      codex completion fish | source
+end
