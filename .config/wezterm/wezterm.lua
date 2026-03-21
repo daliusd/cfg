@@ -215,6 +215,19 @@ local function get_process(tab)
   return process_name ~= '' and process_name or 'tab'
 end
 
+local function get_cwd(pane_info)
+  local cwd_uri = pane_info.current_working_dir
+  if not cwd_uri then return '' end
+  local path = cwd_uri.file_path
+  if not path or path == '' then return '' end
+  local home = wezterm.home_dir
+  if home and path == home then return '~' end
+  if home and path:sub(1, #home + 1) == home .. '/' then
+    path = '~' .. path:sub(#home + 1)
+  end
+  return path:match('[^/]+$') or path
+end
+
 wezterm.on('format-tab-title', function(tab)
   local has_unseen_output = false
   if not tab.is_active then
@@ -226,7 +239,7 @@ wezterm.on('format-tab-title', function(tab)
     end
   end
 
-  local title = string.format('%s', get_process(tab))
+  local title = string.format('%s %s', get_process(tab), get_cwd(tab.active_pane)):gsub('%s+$', '')
 
   if has_unseen_output then
     return {
