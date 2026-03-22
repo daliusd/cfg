@@ -210,7 +210,27 @@ wezterm.on('gui-startup', function()
   window:gui_window():maximize()
 end)
 
+local function find_deepest_non_volta(info)
+  for _, child in pairs(info.children) do
+    local found = find_deepest_non_volta(child)
+    if found then return found end
+  end
+  if not info.executable:find('.volta', 1, true) then
+    return info
+  end
+  return nil
+end
+
 local function get_process(tab)
+  local pane = wezterm.mux.get_pane(tab.active_pane.pane_id)
+  if pane then
+    local info = pane:get_foreground_process_info()
+    if info then
+      local target = find_deepest_non_volta(info) or info
+      local name = string.gsub(target.executable, '(.*[/\\])(.*)', '%2')
+      if name ~= '' then return name end
+    end
+  end
   local process_name = string.gsub(tab.active_pane.foreground_process_name, '(.*[/\\])(.*)', '%2')
   return process_name ~= '' and process_name or 'tab'
 end
