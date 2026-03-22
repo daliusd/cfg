@@ -210,15 +210,23 @@ wezterm.on('gui-startup', function()
   window:gui_window():maximize()
 end)
 
+local STOP_PROCESSES = {
+  nvim = true,
+  vim = true,
+  vi = true,
+  helix = true,
+  emacs = true,
+}
+
 local function find_deepest_non_volta(info)
+  local name = string.gsub(info.executable, '(.*[/\\])(.*)', '%2')
+  if STOP_PROCESSES[name] then return info end
+  if not info.executable:find('.volta', 1, true) then return info end
   for _, child in pairs(info.children) do
     local found = find_deepest_non_volta(child)
     if found then return found end
   end
-  if not info.executable:find('.volta', 1, true) then
-    return info
-  end
-  return nil
+  return info
 end
 
 local function get_process(tab)
