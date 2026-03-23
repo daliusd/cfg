@@ -88,3 +88,4 @@ brew install stylua
 brew install opencode
 brew install tree-sitter
 brew install tree-sitter-cli
+brew install rtk (read https://github.com/rtk-ai/rtk)
