@@ -6,7 +6,18 @@ au('TextYankPost', {
   group = ag('yank_highlight', {}),
   pattern = '*',
   callback = function()
-    vim.highlight.on_yank { higroup = 'IncSearch', timeout = 200 }
+    vim.highlight.on_yank({ higroup = 'IncSearch', timeout = 200 })
+  end,
+})
+
+--- Remove trailing whitespace on save
+au('BufWritePre', {
+  group = ag('trailing_whitespace', {}),
+  pattern = '*',
+  callback = function()
+    local view = vim.fn.winsaveview()
+    vim.cmd([[%s/\s\+$//e]])
+    vim.fn.winrestview(view)
   end,
 })
 
