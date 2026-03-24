@@ -201,6 +201,21 @@ config.keys = {
     mods = 'CTRL|SHIFT',
     action = wezterm.action.DisableDefaultAssignment,
   },
+  {
+    key = '-',
+    mods = 'CTRL|SHIFT',
+    action = wezterm.action.DisableDefaultAssignment,
+  },
+  {
+    key = '_',
+    mods = 'CTRL',
+    action = wezterm.action.DisableDefaultAssignment,
+  },
+  {
+    key = '_',
+    mods = 'CTRL|SHIFT',
+    action = wezterm.action.DisableDefaultAssignment,
+  },
 }
 
 local mux = wezterm.mux
@@ -220,11 +235,17 @@ local STOP_PROCESSES = {
 
 local function find_deepest_non_volta(info)
   local name = string.gsub(info.executable, '(.*[/\\])(.*)', '%2')
-  if STOP_PROCESSES[name] then return info end
-  if not info.executable:find('.volta', 1, true) then return info end
+  if STOP_PROCESSES[name] then
+    return info
+  end
+  if not info.executable:find('.volta', 1, true) then
+    return info
+  end
   for _, child in pairs(info.children) do
     local found = find_deepest_non_volta(child)
-    if found then return found end
+    if found then
+      return found
+    end
   end
   return info
 end
@@ -236,7 +257,9 @@ local function get_process(tab)
     if info then
       local target = find_deepest_non_volta(info) or info
       local name = string.gsub(target.executable, '(.*[/\\])(.*)', '%2')
-      if name ~= '' then return name end
+      if name ~= '' then
+        return name
+      end
     end
   end
   local process_name = string.gsub(tab.active_pane.foreground_process_name, '(.*[/\\])(.*)', '%2')
@@ -245,11 +268,17 @@ end
 
 local function get_cwd(pane_info)
   local cwd_uri = pane_info.current_working_dir
-  if not cwd_uri then return '' end
+  if not cwd_uri then
+    return ''
+  end
   local path = cwd_uri.file_path
-  if not path or path == '' then return '' end
+  if not path or path == '' then
+    return ''
+  end
   local home = wezterm.home_dir
-  if home and path == home then return '~' end
+  if home and path == home then
+    return '~'
+  end
   if home and path:sub(1, #home + 1) == home .. '/' then
     path = '~' .. path:sub(#home + 1)
   end
