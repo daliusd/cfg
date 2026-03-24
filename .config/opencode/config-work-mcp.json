@@ -11,23 +11,6 @@
         "/home/daliusd/.config/opencode/commands/figma.sh"
       ],
       "environment": {}
-    },
-    "business-schema-mcp": {
-      "type": "local",
-      "enabled": true,
-      "command": [
-        "npx",
-        "-y",
-        "@wix/business-schema-mcp"
-      ]
-    },
-    "browsermcp": {
-      "type": "local",
-      "enabled": true,
-      "command": [
-        "npx",
-        "@browsermcp/mcp@latest"
-      ]
-    },
+    }
   }
 }

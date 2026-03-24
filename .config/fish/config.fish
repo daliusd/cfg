@@ -83,7 +83,7 @@ function gitsearch
         echo "Usage: gitsearch <search_text>"
         return 1
     end
-    
+
     git log -S "$argv" --oneline --color=always | \
         fzf --ansi \
             --preview 'git show --color=always {1}' \
@@ -150,7 +150,6 @@ switch (uname)
       set -Ux OPENCODE_CONFIG ~/.config/opencode/config-work.json
 end
 
-alias opencode-mcp='OPENCODE_CONFIG=$HOME/.config/opencode/config-personal-mcp.json opencode'
 alias opencode-work-mcp='OPENCODE_CONFIG=$HOME/.config/opencode/config-work-mcp.json opencode'
 
 switch (uname)
