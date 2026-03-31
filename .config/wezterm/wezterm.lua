@@ -61,6 +61,7 @@ local process_icons = {
   ssh = '󰣀',
   docker = '',
   node = '󰎙',
+  ['volta-shim'] = '󰎙',
   python = '',
   ruby = '',
   go = '',
@@ -78,7 +79,12 @@ wezterm.on('format-tab-title', function(tab)
       (type(cwd) == 'string' and cwd:gsub('^file://[^/]*', '') or cwd.file_path):gsub('[/\\]+$', ''):match('([^/\\]+)$')
     )
 
-  return string.format('%s %s', icon, last)
+  return {
+    { Foreground = { Color = '#ffffff' } },
+    { Text = icon },
+    { Foreground = { Color = '#a4a8a8' } },
+    { Text = string.format(' %s', last or '') },
+  }
 end)
 
 config.keys = {
