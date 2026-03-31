@@ -55,6 +55,32 @@ wezterm.on('toggle-tabbar', function(window, _)
   window:set_config_overrides(overrides)
 end)
 
+local process_icons = {
+  nvim = '',
+  fish = '󰈺',
+  ssh = '󰣀',
+  docker = '',
+  node = '󰎙',
+  python = '',
+  ruby = '',
+  go = '',
+  claude = '',
+  codex = '󰘦',
+}
+
+wezterm.on('format-tab-title', function(tab)
+  local proc = string.gsub(tab.active_pane.foreground_process_name, '(.*[/\\])(.*)', '%2')
+  local icon = proc:match('^codex') and '󰘦' or process_icons[proc] or ''
+
+  local cwd = tab.active_pane.current_working_dir
+  local last = cwd
+    and (
+      (type(cwd) == 'string' and cwd:gsub('^file://[^/]*', '') or cwd.file_path):gsub('[/\\]+$', ''):match('([^/\\]+)$')
+    )
+
+  return string.format('%s %s', icon, last)
+end)
+
 config.keys = {
   {
     key = 'c',
