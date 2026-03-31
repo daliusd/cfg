@@ -81,7 +81,7 @@ wezterm.on('format-tab-title', function(tab)
 
   return {
     { Foreground = { Color = '#ffffff' } },
-    { Text = icon },
+    { Text = '{' .. icon .. '}' },
     { Foreground = { Color = '#a4a8a8' } },
     { Text = string.format(' %s', last or '') },
   }
