@@ -35,13 +35,36 @@ config.window_frame = {
   font = wezterm.font({ family = 'VictorMono Nerd Font Mono', weight = 'Bold' }),
 
   font_size = s == 'Linux' and 15.0 or 17.0,
-  active_titlebar_bg = '#2c363c',
-  inactive_titlebar_bg = '#2c363c',
+  active_titlebar_bg = '#f5efe0',
+  inactive_titlebar_bg = '#ede7d8',
+  active_titlebar_fg = '#364249',
+  inactive_titlebar_fg = '#617076',
 }
 
 config.colors = {
   tab_bar = {
-    inactive_tab_edge = '#2c363c',
+    background = '#f5efe0',
+    inactive_tab_edge = '#ddd4c0',
+    active_tab = {
+      bg_color = '#faf4e4',
+      fg_color = '#364249',
+    },
+    inactive_tab = {
+      bg_color = '#ede7d8',
+      fg_color = '#617076',
+    },
+    inactive_tab_hover = {
+      bg_color = '#e6dfce',
+      fg_color = '#364249',
+    },
+    new_tab = {
+      bg_color = '#ede7d8',
+      fg_color = '#617076',
+    },
+    new_tab_hover = {
+      bg_color = '#e6dfce',
+      fg_color = '#364249',
+    },
   },
 }
 
@@ -80,9 +103,7 @@ wezterm.on('format-tab-title', function(tab)
     )
 
   return {
-    { Foreground = { Color = '#ffffff' } },
     { Text = '{' .. icon .. '}' },
-    { Foreground = { Color = '#a4a8a8' } },
     { Text = string.format(' %s', last or '') },
   }
 end)
