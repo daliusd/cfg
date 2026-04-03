@@ -558,6 +558,8 @@ require('lazy').setup({
 
       vim.lsp.enable('stylua')
       vim.lsp.enable('biome')
+      vim.lsp.enable('oxfmt')
+      vim.lsp.enable('oxlint')
 
       -- Format on write
       vim.api.nvim_create_autocmd('LspAttach', {
@@ -700,11 +702,19 @@ require('lazy').setup({
 
           map('n', ';', function()
             if last_hunk_dir == 'next' then
-              if vim.wo.diff then return ']c' end
-              vim.schedule(function() gs.next_hunk() end)
+              if vim.wo.diff then
+                return ']c'
+              end
+              vim.schedule(function()
+                gs.next_hunk()
+              end)
             else
-              if vim.wo.diff then return '[c' end
-              vim.schedule(function() gs.prev_hunk() end)
+              if vim.wo.diff then
+                return '[c'
+              end
+              vim.schedule(function()
+                gs.prev_hunk()
+              end)
             end
             return '<Ignore>'
           end, { expr = true })
