@@ -798,15 +798,26 @@ require('lazy').setup({
         'yaml',
       }
 
-      require('nvim-treesitter').install(ensureInstalled)
+      -- nvim-treesitter symlinks queries on plugin install, causing get_installed()
+      -- to report all parsers as installed even without the actual .so binary.
+      -- Filter to only parsers that have install_info but are missing their binary.
+      local parsers_module = require('nvim-treesitter.parsers')
+      local parser_dir = vim.fn.stdpath('data') .. '/site/parser'
+      local toInstall = vim.tbl_filter(function(lang)
+        local info = parsers_module[lang]
+        if not (info and info.install_info) then
+          return false
+        end
+        return vim.uv.fs_stat(parser_dir .. '/' .. lang .. '.so') == nil
+      end, ensureInstalled)
+      if #toInstall > 0 then
+        require('nvim-treesitter').install(toInstall, { force = true })
+      end
 
       vim.api.nvim_create_autocmd('FileType', {
         pattern = { '*' },
         callback = function()
-          -- remove error = false when nvim 0.12+ is default
-          if vim.treesitter.get_parser(nil, nil, { error = false }) then
-            vim.treesitter.start()
-          end
+          pcall(vim.treesitter.start)
         end,
       })
     end,
