@@ -746,81 +746,8 @@ require('lazy').setup({
     },
   },
 
-  -- Tree-sitter
   {
-    'nvim-treesitter/nvim-treesitter',
-    lazy = false,
-    branch = 'main',
-    build = ':TSUpdate',
-    config = function()
-      require('nvim-treesitter').setup({
-        install_dir = vim.fn.stdpath('data') .. '/site',
-      })
-
-      local ensureInstalled = {
-        'astro',
-        'c',
-        'cmake',
-        'comment',
-        'cpp',
-        'css',
-        'diff',
-        'dockerfile',
-        'fish',
-        'git_config',
-        'git_rebase',
-        'gitattributes',
-        'gitcommit',
-        'gitignore',
-        'go',
-        'gpg',
-        'html',
-        'http',
-        'javascript',
-        'jq',
-        'json',
-        'lua',
-        'luadoc',
-        'make',
-        'markdown',
-        'markdown_inline',
-        'mermaid',
-        'python',
-        'regex',
-        'rust',
-        'sql',
-        'svelte',
-        'tsx',
-        'typescript',
-        'vim',
-        'vimdoc',
-        'xml',
-        'yaml',
-      }
-
-      -- nvim-treesitter symlinks queries on plugin install, causing get_installed()
-      -- to report all parsers as installed even without the actual .so binary.
-      -- Filter to only parsers that have install_info but are missing their binary.
-      local parsers_module = require('nvim-treesitter.parsers')
-      local parser_dir = vim.fn.stdpath('data') .. '/site/parser'
-      local toInstall = vim.tbl_filter(function(lang)
-        local info = parsers_module[lang]
-        if not (info and info.install_info) then
-          return false
-        end
-        return vim.uv.fs_stat(parser_dir .. '/' .. lang .. '.so') == nil
-      end, ensureInstalled)
-      if #toInstall > 0 then
-        require('nvim-treesitter').install(toInstall, { force = true })
-      end
-
-      vim.api.nvim_create_autocmd('FileType', {
-        pattern = { '*' },
-        callback = function()
-          pcall(vim.treesitter.start)
-        end,
-      })
-    end,
+    'https://github.com/arborist-ts/arborist.nvim',
   },
   {
     dir = '~/projects/ghlite.nvim',
