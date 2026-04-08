@@ -676,10 +676,7 @@ require('lazy').setup({
           end
 
           -- Navigation
-          local last_hunk_dir = 'next'
-
-          map('n', ']c', function()
-            last_hunk_dir = 'next'
+          map('n', ';', function()
             if vim.wo.diff then
               return ']c'
             end
@@ -690,32 +687,12 @@ require('lazy').setup({
           end, { expr = true })
 
           map('n', '[c', function()
-            last_hunk_dir = 'prev'
             if vim.wo.diff then
               return '[c'
             end
             vim.schedule(function()
               gs.prev_hunk()
             end)
-            return '<Ignore>'
-          end, { expr = true })
-
-          map('n', ';', function()
-            if last_hunk_dir == 'next' then
-              if vim.wo.diff then
-                return ']c'
-              end
-              vim.schedule(function()
-                gs.next_hunk()
-              end)
-            else
-              if vim.wo.diff then
-                return '[c'
-              end
-              vim.schedule(function()
-                gs.prev_hunk()
-              end)
-            end
             return '<Ignore>'
           end, { expr = true })
 
