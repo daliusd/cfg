@@ -77,36 +77,20 @@ vim.api.nvim_create_user_command('GithubCopyUrl', function(opts)
   print('Copied: ' .. url)
 end, { range = true })
 
--- vim.api.nvim_create_user_command(
---   'TSRemoveUnusedImports',
---   function()
---     ---@diagnostic disable-next-line: assign-type-mismatch
---     vim.lsp.buf.code_action({ apply = true, context = { only = { "source.removeUnusedImports.ts" }, diagnostics = {} } })
---   end,
---   {}
--- )
---
--- vim.api.nvim_create_user_command(
---   'TSRemoveUnused',
---   function()
---     ---@diagnostic disable-next-line: assign-type-mismatch
---     vim.lsp.buf.code_action({ apply = true, context = { only = { "source.removeUnused.ts" }, diagnostics = {} } })
---   end,
---   {}
--- )
---
--- vim.api.nvim_create_user_command(
---   'TSAddMissingImports',
---   function()
---     ---@diagnostic disable-next-line: assign-type-mismatch
---     vim.lsp.buf.code_action({ apply = true, context = { only = { "source.addMissingImports.ts" }, diagnostics = {} } })
---   end,
---   {}
--- )
+vim.api.nvim_create_autocmd('LspProgress', {
+  callback = function(ev)
+    local client = vim.lsp.get_client_by_id(ev.data.client_id)
+    local value = ev.data.params.value
 
-vim.api.nvim_create_user_command('LspRestart', function()
-  for _, client in ipairs(vim.lsp.get_clients({ bufnr = 0 })) do
-    client:stop()
-  end
-  vim.cmd('edit')
-end, {})
+    local title = ('%s: %s'):format(client.name, value.title or '')
+
+    vim.api.nvim_echo({ { value.message or '✓' } }, true, {
+      id = 'lsp.' .. ev.data.client_id,
+      kind = 'progress',
+      source = 'vim.lsp',
+      title = title,
+      status = value.kind ~= 'end' and 'running' or 'success',
+      percent = value.percentage,
+    })
+  end,
+})

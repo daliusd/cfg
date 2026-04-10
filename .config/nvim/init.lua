@@ -271,15 +271,6 @@ require('lazy').setup({
     end,
   },
   {
-    'j-hui/fidget.nvim',
-    opts = {
-      -- options
-      notification = {
-        override_vim_notify = true,
-      },
-    },
-  },
-  {
     'nvim-lualine/lualine.nvim',
     config = function()
       require('lualine').setup({
@@ -757,6 +748,7 @@ require('lazy').setup({
   },
 
   'tpope/vim-abolish',
+  'rachartier/tiny-cmdline.nvim',
 })
 
 require('misc')
