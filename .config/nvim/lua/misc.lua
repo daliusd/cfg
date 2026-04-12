@@ -1,3 +1,8 @@
+--- Treesitter: register missing predicates not handled by Neovim's runtime
+vim.treesitter.query.add_predicate('is-not?', function()
+  return true
+end, { force = true })
+
 --- Highlight yanked text
 local ag = vim.api.nvim_create_augroup
 local au = vim.api.nvim_create_autocmd
