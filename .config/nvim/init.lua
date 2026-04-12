@@ -259,11 +259,6 @@ require('lazy').setup({
     },
   },
   {
-    'daliusd/incr.nvim',
-    -- dir = '~/projects/incr.nvim',
-    config = true,
-  },
-  {
     'https://codeberg.org/andyg/leap.nvim',
     config = function()
       vim.keymap.set({ 'n', 'x', 'o' }, 's', '<Plug>(leap-forward)')

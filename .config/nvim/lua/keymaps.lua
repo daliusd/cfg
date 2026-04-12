@@ -3,7 +3,15 @@
 local keymap = vim.keymap.set
 local opts = { noremap = true, silent = true }
 
--- keymap('n', ';', ':', { noremap = true })
+-- node based selection
+keymap('n', '<Tab>', ':normal van<cr>', opts)
+keymap('v', '<Tab>', function()
+  vim.api.nvim_feedkeys('an', 'v', false)
+end)
+keymap('n', '<S-Tab>', ':normal vin<cr>', opts)
+keymap('v', '<S-Tab>', function()
+  vim.api.nvim_feedkeys('in', 'v', false)
+end)
 
 -- Better navigation for wrapped lines.
 keymap('n', 'j', 'gj', opts)
