@@ -16,7 +16,7 @@ vim.opt.hidden = true -- Allow opening new buffer without saving or opening it i
 vim.opt.showmode = false -- This is shown by status line plugin already so I don't need NORMAL/INSERT/... in command line
 
 vim.opt.list = true
-vim.opt.listchars = { trail = '.', tab = ':▷⋮' } -- Show trailing dots and tabs
+vim.opt.listchars = { trail = '￮', tab = '·┈', nbsp = '␣' } -- Show trailing dots and tabs
 
 vim.opt.scrolloff = 3 -- Keep 3 lines below and above the cursor
 vim.opt.number = true -- Show line numbering

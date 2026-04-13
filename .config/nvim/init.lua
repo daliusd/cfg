@@ -498,6 +498,7 @@ require('lazy').setup({
         capabilities = capabilities,
       })
       vim.lsp.enable('jsonls', true)
+      vim.lsp.enable('gopls')
       vim.lsp.enable('typos_lsp', true)
       vim.lsp.config('lua_ls', {
         settings = {
