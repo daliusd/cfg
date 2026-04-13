@@ -431,10 +431,6 @@ require('lazy').setup({
     config = true,
   },
   {
-    'numToStr/Comment.nvim',
-    config = true,
-  },
-  {
     'neovim/nvim-lspconfig',
     dependencies = { 'saghen/blink.cmp' },
     config = function()
