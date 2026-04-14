@@ -12,6 +12,12 @@ vim.api.nvim_create_user_command('UnformatJSON', function()
   vim.bo.filetype = 'json'
 end, {})
 
+vim.api.nvim_create_user_command('ReformatJSON', function()
+  vim.cmd(':%!node ~/bin/unjson.js')
+  vim.cmd('%!python3 -m json.tool')
+  vim.bo.filetype = 'json'
+end, {})
+
 vim.api.nvim_create_user_command('FormatSHTOUT', function()
   vim.cmd(':%!node ~/bin/sht.js')
   vim.bo.filetype = 'json'
@@ -32,11 +38,13 @@ vim.api.nvim_create_user_command('FormatHtml', function()
 end, {})
 
 vim.api.nvim_create_user_command('FormatXml', function()
-  if vim.fn.executable('npx') == 1 then
-    vim.cmd('%!npx -y prettier --parser xml --plugin=@prettier/plugin-xml')
+  if vim.fn.executable('python3') == 1 then
+    vim.cmd(
+      [[%!python3 -c "import sys, xml.dom.minidom as m; sys.stdout.write(m.parse(sys.stdin).toprettyxml(indent='  '))"]]
+    )
     vim.bo.filetype = 'xml'
   else
-    vim.notify('npx is not available', vim.log.levels.ERROR)
+    vim.notify('python3 is not available', vim.log.levels.ERROR)
   end
 end, {})
 
