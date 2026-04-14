@@ -14,6 +14,7 @@ switch (uname)
 end
 
 npm update -g
+gem update kamal
 
 snc
 
