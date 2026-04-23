@@ -706,10 +706,14 @@ require('lazy').setup({
       { '<leader>gr', ':Git difftool -y<cr>', silent = true, desc = 'Git difftool -y' },
     },
   },
-
   {
-    'https://github.com/arborist-ts/arborist.nvim',
-    config = true,
+    'romus204/tree-sitter-manager.nvim',
+    dependencies = {}, -- tree-sitter CLI must be installed system-wide
+    config = function()
+      require('tree-sitter-manager').setup({
+        auto_install = true,
+      })
+    end,
   },
   {
     dir = '~/projects/ghlite.nvim',
