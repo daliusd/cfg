@@ -37,6 +37,15 @@ vim.api.nvim_create_user_command('FormatHtml', function()
   end
 end, {})
 
+vim.api.nvim_create_user_command('FormatMjml', function()
+  if vim.fn.executable('npx') == 1 then
+    vim.cmd('%!npx --yes prettier@3.8.3 --parser mjml')
+    vim.bo.filetype = 'mjml'
+  else
+    vim.notify('npx is not available', vim.log.levels.ERROR)
+  end
+end, {})
+
 vim.api.nvim_create_user_command('FormatXml', function()
   if vim.fn.executable('python3') == 1 then
     vim.cmd(
