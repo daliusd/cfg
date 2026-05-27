@@ -39,7 +39,7 @@ end, {})
 
 vim.api.nvim_create_user_command('FormatMjml', function()
   if vim.fn.executable('npx') == 1 then
-    vim.cmd('%!npx --yes prettier@3.8.3 --parser mjml')
+    vim.cmd('%!npx --yes prettier@3.8.3 --parser html --html-whitespace-sensitivity ignore --bracket-same-line')
     vim.bo.filetype = 'mjml'
   else
     vim.notify('npx is not available', vim.log.levels.ERROR)
