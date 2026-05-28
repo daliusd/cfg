@@ -38,11 +38,14 @@ vim.api.nvim_create_user_command('FormatHtml', function()
 end, {})
 
 vim.api.nvim_create_user_command('FormatMjml', function()
-  if vim.fn.executable('npx') == 1 then
+  if vim.fn.executable('prettier') == 1 then
+    vim.cmd('%!prettier --parser html --html-whitespace-sensitivity ignore --bracket-same-line')
+    vim.bo.filetype = 'mjml'
+  elseif vim.fn.executable('npx') == 1 then
     vim.cmd('%!npx --yes prettier@3.8.3 --parser html --html-whitespace-sensitivity ignore --bracket-same-line')
     vim.bo.filetype = 'mjml'
   else
-    vim.notify('npx is not available', vim.log.levels.ERROR)
+    vim.notify('prettier and npx are not available', vim.log.levels.ERROR)
   end
 end, {})
 
