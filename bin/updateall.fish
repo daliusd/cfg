@@ -15,6 +15,7 @@ end
 
 npm update -g
 gem update kamal
+npx skills update -g -y
 
 snc
 
