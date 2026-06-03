@@ -61,9 +61,7 @@ require('lazy').setup({
       })
       wk.add({
         { '<leader>a', group = 'lsp' },
-        { '<leader>w', group = 'window' },
         { '<leader>g', group = 'git' },
-        { '<leader>u', group = 'ghlite' },
       })
     end,
     keys = {
@@ -162,56 +160,6 @@ require('lazy').setup({
       { '<leader>pf', ":let @+ = expand('%:p')<cr>", silent = true, desc = 'copy full file name' },
       { '<leader>s', ':w<cr>', silent = true, desc = 'write' },
       { '<leader>t', ':ToggleCheckbox<cr>', silent = true, desc = 'write' },
-      -- window commands
-      { '<leader>ww', '<c-w>w', silent = true, desc = 'window switch' },
-      { '<leader>wc', '<c-w>c', silent = true, desc = 'window close' },
-      { '<leader>wo', '<c-w>o', silent = true, desc = 'window close other' },
-      { '<leader>wh', '<c-w>h', silent = true, desc = 'window k' },
-      { '<leader>wj', '<c-w>j', silent = true, desc = 'window j' },
-      { '<leader>wk', '<c-w>k', silent = true, desc = 'window k' },
-      { '<leader>wl', '<c-w>l', silent = true, desc = 'window l' },
-      {
-        '<leader>wf',
-        function()
-          vim.g.lualine_hidden = not vim.g.lualine_hidden
-          local new_cursor = 'a:hor1-Cursor/lCursor'
-          if vim.o.guicursor ~= new_cursor then
-            vim.g.old_cursor = vim.o.guicursor
-          end
-
-          require('lualine').hide({ unhide = not vim.g.lualine_hidden })
-
-          if vim.g.lualine_hidden then
-            vim.o.laststatus = 0
-            vim.o.showtabline = 0
-            vim.o.cmdheight = 0
-            vim.o.signcolumn = 'no'
-            vim.o.spell = false
-            vim.opt.fillchars = { eob = ' ' }
-            vim.o.guicursor = new_cursor
-
-            vim.o.number = false
-            vim.g.number_autocmd_id = vim.api.nvim_create_autocmd('BufEnter', {
-              callback = function()
-                vim.o.number = false
-              end,
-            })
-          else
-            vim.o.laststatus = 3
-            vim.o.showtabline = 2
-            vim.o.cmdheight = 1
-            vim.o.signcolumn = 'yes'
-            vim.o.spell = true
-            vim.opt.fillchars = { eob = '~' }
-            vim.o.guicursor = vim.g.old_cursor
-
-            vim.o.number = true
-            vim.api.nvim_del_autocmd(vim.g.number_autocmd_id)
-          end
-        end,
-        silent = true,
-        desc = 'toggle fullscreen',
-      },
 
       -- LSP
       -- Mapping to c-] because LSP go to definition then works with c-t
@@ -566,11 +514,6 @@ require('lazy').setup({
         end,
       })
     end,
-  },
-  {
-    'windwp/nvim-autopairs',
-    event = 'InsertEnter',
-    config = true,
   },
   {
     'saghen/blink.cmp',
