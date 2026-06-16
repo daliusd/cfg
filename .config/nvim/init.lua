@@ -42,9 +42,6 @@ require('lazy').setup({
     config = function()
       vim.cmd([[colorscheme rose-pine]])
     end,
-    keys = {
-      { '<leader>l', ':Lazy<cr>', silent = true, desc = 'Lazy' },
-    },
   },
 
   -- Generic plugins
@@ -153,6 +150,7 @@ require('lazy').setup({
         desc = 'Grep word',
       },
       -- Misc
+      { '<leader>l', ':Lazy<cr>', silent = true, desc = 'Lazy' },
       { '<leader>n', ':silent noh<cr>', silent = true, desc = 'noh' },
       { '<leader>q', ':qa<cr>', silent = true, desc = 'quit' },
       { '<leader>pp', ":let @+ = fnamemodify(expand('%'), ':.')<cr>", silent = true, desc = 'copy relative path' },
