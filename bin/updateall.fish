@@ -5,10 +5,10 @@ switch (uname)
       sudo apt update
       sudo apt upgrade -y
       brew update
-      brew upgrade
+      brew upgrade -y
     case Darwin
       brew update
-      brew upgrade
+      brew upgrade -y
     case '*'
         echo Open updateall.fish and review it!
 end
