@@ -90,3 +90,17 @@ brew install tree-sitter
 brew install tree-sitter-cli
 brew install rtk (read https://github.com/rtk-ai/rtk)
 brew install getsentry/tools/sentry
+
+# Skills
+#
+# agent-browser
+# ck-ux-content
+# frontend-design
+# grill-me
+# mcp-s-cli
+# petri
+# sentry-cli
+# skill-creator
+# taskey
+# test-driven-development
+# turborepo
