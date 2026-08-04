@@ -656,12 +656,14 @@ require('lazy').setup({
   'rachartier/tiny-cmdline.nvim',
   {
     dir = '~/projects/ghlite.nvim',
+    dependencies = { 'lewis6991/async.nvim' },
     config = function()
       require('ghlite').setup({
         debug = false,
         view_split = '',
         diff_split = '',
         open_command = 'open',
+        comment_hunk = false,
         keymaps = {
           diff = {
             open_file_tab = 'gt',
