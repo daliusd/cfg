@@ -14,7 +14,15 @@ switch (uname)
 end
 
 npm update -g
-gem update kamal
+switch (uname)
+    case Linux
+      sudo gem update kamal
+    case Darwin
+      gem update kamal
+    case '*'
+        echo Open updateall.fish and review it!
+end
+
 npx skills update -g -y
 
 snc
