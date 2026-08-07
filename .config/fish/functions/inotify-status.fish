@@ -49,22 +49,10 @@ function inotify-status --description 'Show inotify instances and watches usage'
                         set -l cmdline_file "/proc/$pid/cmdline"
                         if test -f "$cmdline_file"
                             set -l cmdline (tr "\0" " " < "$cmdline_file")
-                            # Check if it's a node/python/etc process running a specific script
+                            # Node often reports a generic process name such as
+                            # "MainThread". Show its complete command line instead.
                             if string match -q "*node*" -- "$cmdline"
-                                # Look for common language servers and tools
-                                if string match -q "*tsserver.js*" -- "$cmdline"
-                                    set cmd "tsserver"
-                                else if string match -q "*typescript-language-server*" -- "$cmdline"
-                                    set cmd "typescript-ls"
-                                else if string match -q "*vscode-eslint-language-server*" -- "$cmdline"
-                                    set cmd "eslint-ls"
-                                else if string match -q "*eslint*" -- "$cmdline"
-                                    set cmd "eslint"
-                                else if string match -q "*prettier*" -- "$cmdline"
-                                    set cmd "prettier"
-                                else if string match -q "*vue-language-server*" -- "$cmdline"
-                                    set cmd "vue-ls"
-                                end
+                                set cmd (string trim -- "$cmdline")
                             else if string match -q "*python*" -- "$cmdline"
                                 # Extract script name for python processes
                                 if string match -q "*pylsp*" -- "$cmdline"
