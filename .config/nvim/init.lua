@@ -640,7 +640,7 @@ require('lazy').setup({
     keys = {
       { '<leader>gg', ':Git | only<cr>', silent = true, desc = 'Git' },
       { '<leader>ga', ':Git add %<cr>', silent = true, desc = 'Git add current file' },
-      { '<leader>gd', ':Gvdiffsplit<cr>', silent = true, desc = 'Git diff split' },
+      { '<leader>gd', ':Gvdiffsplit | wincmd l<cr>', silent = true, desc = 'Git diff split' },
       { '<leader>gb', ':Git blame<cr>', silent = true, desc = 'Git blame' },
       { '<leader>gp', ':Git push<cr>', silent = true, desc = 'Git push' },
       { '<leader>gl', ':Git pull<cr>', silent = true, desc = 'Git pull' },
