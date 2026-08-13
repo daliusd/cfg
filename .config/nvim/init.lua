@@ -467,7 +467,12 @@ require('lazy').setup({
         },
       })
       vim.lsp.enable('lua_ls', true)
-      vim.lsp.enable('tsgo', true)
+      local tsc = vim.fn.systemlist({ 'volta', 'which', 'tsc' })[1]
+      vim.lsp.config('tsc', {
+        capabilities = capabilities,
+        cmd = { tsc ~= '' and tsc or 'tsc', '--lsp', '--stdio' },
+      })
+      vim.lsp.enable('tsc', true)
 
       -- lang-lsp for translation hints
       vim.api.nvim_create_autocmd('FileType', {
