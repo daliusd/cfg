@@ -467,10 +467,16 @@ require('lazy').setup({
         },
       })
       vim.lsp.enable('lua_ls', true)
-      local tsc = vim.fn.systemlist({ 'volta', 'which', 'tsc' })[1]
+      local volta = vim.system({ 'volta', 'which', 'tsc' }, { cwd = vim.env.HOME, text = true }):wait()
+      local tsc = vim.trim(volta.stdout)
       vim.lsp.config('tsc', {
         capabilities = capabilities,
         cmd = { tsc ~= '' and tsc or 'tsc', '--lsp', '--stdio' },
+        root_dir = function(buffer, on_directory)
+          local root = vim.fs.root(buffer, { 'package-lock.json', 'yarn.lock', 'pnpm-lock.yaml', 'bun.lockb', 'bun.lock', '.git' })
+
+          on_directory(root or vim.fn.getcwd())
+        end,
       })
       vim.lsp.enable('tsc', true)
 
