@@ -473,7 +473,8 @@ require('lazy').setup({
         capabilities = capabilities,
         cmd = { tsc ~= '' and tsc or 'tsc', '--lsp', '--stdio' },
         root_dir = function(buffer, on_directory)
-          local root = vim.fs.root(buffer, { 'package-lock.json', 'yarn.lock', 'pnpm-lock.yaml', 'bun.lockb', 'bun.lock', '.git' })
+          local root =
+            vim.fs.root(buffer, { 'package-lock.json', 'yarn.lock', 'pnpm-lock.yaml', 'bun.lockb', 'bun.lock', '.git' })
 
           on_directory(root or vim.fn.getcwd())
         end,
@@ -510,6 +511,7 @@ require('lazy').setup({
                 and client.name ~= 'ts_ls'
                 and client.name ~= 'lua_ls'
                 and client.name ~= 'tsgo'
+                and client.name ~= 'tsc'
               ) or client.name == 'biome'
             )
           then
@@ -683,7 +685,7 @@ require('lazy').setup({
       })
     end,
     keys = {
-      { '<leader>us', ':GHLitePRSelect<cr>', silent = true, desc = 'PR Select' },
+      { '<leader>us', ':GHLitePRList<cr>', silent = true, desc = 'PR List' },
       { '<leader>uo', ':GHLitePRCheckout<cr>', silent = true, desc = 'PR Checkout' },
       { '<leader>uv', ':GHLitePRView<cr>', silent = true, desc = 'PR View' },
       { '<leader>uu', ':GHLitePRLoadComments<cr>', silent = true, desc = 'PR Load Comments' },
