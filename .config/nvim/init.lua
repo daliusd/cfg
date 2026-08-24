@@ -495,8 +495,8 @@ require('lazy').setup({
 
       vim.lsp.enable('stylua')
       vim.lsp.enable('biome')
-      vim.lsp.enable('oxfmt')
-      vim.lsp.enable('oxlint')
+      -- vim.lsp.enable('oxfmt')
+      -- vim.lsp.enable('oxlint')
 
       -- Format on write
       vim.api.nvim_create_autocmd('LspAttach', {
@@ -668,6 +668,10 @@ require('lazy').setup({
   'tpope/vim-abolish',
   'rachartier/tiny-cmdline.nvim',
   {
+    'esmuellert/codediff.nvim',
+    cmd = 'CodeDiff',
+  },
+  {
     dir = '~/projects/ghlite.nvim',
     dependencies = { 'lewis6991/async.nvim' },
     config = function()
@@ -677,6 +681,13 @@ require('lazy').setup({
         diff_split = '',
         open_command = 'open',
         comment_hunk = false,
+        pr_commands = {
+          {
+            name = 'AI Review', -- shown in the PR view keymap hints
+            cmd = 'pi -p "/pair-review"', -- run in the repository root
+            key = 'cr', -- set to '' to disable the keymap
+          },
+        },
         keymaps = {
           diff = {
             open_file_tab = 'gt',
@@ -690,6 +701,7 @@ require('lazy').setup({
       { '<leader>uv', ':GHLitePRView<cr>', silent = true, desc = 'PR View' },
       { '<leader>uu', ':GHLitePRLoadComments<cr>', silent = true, desc = 'PR Load Comments' },
       { '<leader>up', ':GHLitePRDiff<cr>', silent = true, desc = 'PR Diff' },
+      { '<leader>ul', ':GHLitePRDiffview<cr>', silent = true, desc = 'PR Diffview' },
       { '<leader>ua', ':GHLitePRAddComment<cr>', silent = true, desc = 'PR Add comment' },
       { '<leader>ua', ':GHLitePRAddComment<cr>', mode = 'x', silent = true, desc = 'PR Add comment' },
       { '<leader>uc', ':GHLitePRUpdateComment<cr>', silent = true, desc = 'PR Update comment' },
