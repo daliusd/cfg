@@ -158,6 +158,7 @@ require('lazy').setup({
       { '<leader>pf', ":let @+ = expand('%:p')<cr>", silent = true, desc = 'copy full file name' },
       { '<leader>s', ':w<cr>', silent = true, desc = 'write' },
       { '<leader>t', ':ToggleCheckbox<cr>', silent = true, desc = 'write' },
+      { '<leader>b', ':CodeDiff<cr>', silent = true, desc = 'write' },
 
       -- LSP
       -- Mapping to c-] because LSP go to definition then works with c-t
