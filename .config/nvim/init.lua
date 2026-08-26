@@ -670,6 +670,19 @@ require('lazy').setup({
   {
     'esmuellert/codediff.nvim',
     cmd = 'CodeDiff',
+    opts = {
+      explorer = {
+        initial_focus = 'modified', -- Initial focus: "explorer", "original", or "modified"
+      },
+      keymaps = {
+        view = {
+          focus_explorer = '<leader>i',
+          next_hunk = ';', -- Jump to next change
+          next_file = '<tab>', -- Next file in explorer/history mode
+          prev_file = '<s-tab>', -- Previous file in explorer/history mode
+        },
+      },
+    },
   },
   {
     dir = '~/projects/ghlite.nvim',
