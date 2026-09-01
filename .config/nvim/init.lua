@@ -707,6 +707,13 @@ require('lazy').setup({
             open_file_tab = 'gt',
           },
         },
+        pr_commands = {
+          {
+            name = 'AI Review', -- shown in the PR view keymap hints
+            cmd = 'claude -p "review this PR"', -- run in the repository root
+            key = 'cr', -- set to '' to disable the keymap
+          },
+        },
       })
     end,
     keys = {
