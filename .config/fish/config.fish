@@ -2,6 +2,10 @@ if status is-interactive
     # Commands to run in interactive sessions can go here
 end
 
+if test -f ~/.bazelenv.fish
+    source ~/.bazelenv.fish
+end
+
 set -Ux EDITOR nvim
 set -Ux GPG_TTY tty
 
