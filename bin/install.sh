@@ -468,6 +468,32 @@ SENTRY_OS=$([[ $OS == linux ]] && echo Linux || echo Darwin)
 SENTRY_ARCH=$([[ $ARCH == x86_64 ]] && echo x86_64 || echo arm64)
 install_direct_binary sentry-cli getsentry/sentry-cli "/sentry-cli-${SENTRY_OS}-${SENTRY_ARCH}$" sentry-cli
 
+log 'Installing Go'
+go_metadata="$(curl -fsSL --retry 3 'https://go.dev/dl/?mode=json')"
+go_release="$(printf '%s' "$go_metadata" \
+  | grep -Eo '"version"[[:space:]]*:[[:space:]]*"go[0-9.]+"' \
+  | head -n 1 | grep -Eo 'go[0-9.]+' || true)"
+[[ -n $go_release ]] || die 'Could not resolve the latest stable Go release.'
+go_version="${go_release#go}"
+go_os=$([[ $OS == linux ]] && echo linux || echo darwin)
+go_arch=$([[ $ARCH == x86_64 ]] && echo amd64 || echo arm64)
+go_url="https://go.dev/dl/${go_release}.${go_os}-${go_arch}.tar.gz"
+installed_go_version="$("$OPT_DIR/go/bin/go" version 2>/dev/null \
+  | grep -Eo 'go[0-9.]+' | head -n 1 || true)"
+if [[ $installed_go_version == "$go_release" ]]; then
+  record_release go "$go_url"
+  log "Go ${go_version} is already the latest stable release"
+else
+  download "$go_url" "$TMP_DIR/go.tar.gz"
+  rm -rf "$OPT_DIR/go" "$TMP_DIR/go-unpacked"
+  mkdir -p "$TMP_DIR/go-unpacked"
+  extract "$TMP_DIR/go.tar.gz" "$TMP_DIR/go-unpacked"
+  mv "$TMP_DIR/go-unpacked/go" "$OPT_DIR/go"
+  record_release go "$go_url"
+fi
+ln -sfn "$OPT_DIR/go/bin/go" "$BIN_DIR/go"
+ln -sfn "$OPT_DIR/go/bin/gofmt" "$BIN_DIR/gofmt"
+
 log 'Installing Rust'
 if ! command -v rustup >/dev/null 2>&1; then
   curl --proto '=https' --tlsv1.2 -fsSL https://sh.rustup.rs \
