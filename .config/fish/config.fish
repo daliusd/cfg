@@ -2,10 +2,6 @@ if status is-interactive
     # Commands to run in interactive sessions can go here
 end
 
-if test -f ~/.bazelenv.fish
-    source ~/.bazelenv.fish
-end
-
 set -Ux EDITOR nvim
 set -Ux GPG_TTY tty
 
@@ -178,4 +174,8 @@ switch (uname)
       if type -q codex
         codex completion fish | source
       end
+end
+
+if test -f "$HOME/.bazelenv.fish"
+    source "$HOME/.bazelenv.fish"
 end
