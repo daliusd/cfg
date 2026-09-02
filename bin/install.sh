@@ -208,7 +208,7 @@ release_is_current() {
     release_version="${release#*/releases/download/}"
     release_version="${release_version%%/*}"
     release_version="${release_version#v}"
-    installed_version="$("$installed_path" --version 2>&1 \
+    installed_version="$("$installed_path" --version </dev/null 2>&1 \
       | grep -Eo '[0-9]+(\.[0-9]+){1,3}([-+][0-9A-Za-z.-]+)?' \
       | head -n 1 || true)"
     if [[ -n $installed_version ]]; then
@@ -361,7 +361,11 @@ RIPGREP_TARGET=$RUST_TARGET
 install_archive_binary rg BurntSushi/ripgrep "ripgrep-.*-${RIPGREP_TARGET}\\.tar\\.gz$" rg
 install_archive_binary fd sharkdp/fd "fd-v.*-${RUST_TARGET}\\.tar\\.gz$" fd
 install_archive_binary bat sharkdp/bat "bat-v.*-${RUST_TARGET}\\.tar\\.gz$" bat
-install_archive_binary delta dandavison/delta "delta-.*-${RUST_TARGET}\\.tar\\.gz$" delta
+if [[ $OS == darwin && $ARCH == x86_64 ]]; then
+  : # dandavison/delta stopped publishing an x86_64-apple-darwin asset; installed via cargo below.
+else
+  install_archive_binary delta dandavison/delta "delta-.*-${RUST_TARGET}\\.tar\\.gz$" delta
+fi
 
 GH_ARCH=$([[ $ARCH == x86_64 ]] && echo amd64 || echo arm64)
 if [[ $OS == linux ]]; then
@@ -380,13 +384,13 @@ else
   docker_listing="$(curl -fsSL --retry 3 \
     "https://download.docker.com/mac/static/stable/${MAC_ARCH}/")"
   docker_asset="$(printf '%s' "$docker_listing" \
-    | grep -Eo 'docker-[0-9]+(\\.[0-9]+)+\\.tgz' | tail -n 1)"
+    | grep -Eo 'docker-[0-9]+(\.[0-9]+)+\.tgz' | tail -n 1)"
   [[ -n $docker_asset ]] || die 'Could not resolve the latest Docker CLI release.'
   docker_version="${docker_asset#docker-}"
   docker_version="${docker_version%.tgz}"
   docker_url="https://download.docker.com/mac/static/stable/${MAC_ARCH}/${docker_asset}"
   installed_docker_version="$(docker --version 2>/dev/null \
-    | grep -Eo '[0-9]+(\\.[0-9]+){1,3}' | head -n 1 || true)"
+    | grep -Eo '[0-9]+(\.[0-9]+){1,3}' | head -n 1 || true)"
   if [[ $installed_docker_version == "$docker_version" ]]; then
     record_release docker "$docker_url"
     log "Docker CLI ${docker_version} is already the latest release"
@@ -508,12 +512,40 @@ if [[ $OS == darwin ]]; then
   # eza does not currently publish macOS release artifacts.
   cargo install --locked eza
 fi
+if [[ $OS == darwin && $ARCH == x86_64 ]]; then
+  # dandavison/delta stopped publishing an x86_64-apple-darwin asset.
+  cargo install --locked git-delta
+fi
 
 log 'Installing uv'
 if command -v uv >/dev/null 2>&1; then
   uv self update
 else
   curl -LsSf https://astral.sh/uv/install.sh | env UV_NO_MODIFY_PATH=1 sh
+fi
+
+if [[ $OS == darwin ]]; then
+  # macOS ships no yaml.h, and there is no Homebrew here, so ruby-build's
+  # psych extension cannot find libyaml. Vendor a static build ourselves.
+  log 'Installing libyaml'
+  libyaml_version=0.2.5
+  libyaml_dir="$OPT_DIR/libyaml-${libyaml_version}"
+  if [[ -f $libyaml_dir/lib/libyaml.a || -f $libyaml_dir/lib/libyaml.dylib ]]; then
+    log "libyaml ${libyaml_version} is already installed"
+  else
+    download "https://pyyaml.org/download/libyaml/yaml-${libyaml_version}.tar.gz" \
+      "$TMP_DIR/libyaml.tar.gz"
+    rm -rf "$TMP_DIR/libyaml-src"
+    extract "$TMP_DIR/libyaml.tar.gz" "$TMP_DIR/libyaml-src"
+    (
+      cd "$TMP_DIR/libyaml-src/yaml-${libyaml_version}"
+      ./configure --prefix="$libyaml_dir" --disable-shared --with-pic
+      make -j"$(sysctl -n hw.ncpu)"
+      make install
+    )
+  fi
+  ln -sfn "$libyaml_dir" "$OPT_DIR/libyaml"
+  export RUBY_CONFIGURE_OPTS="${RUBY_CONFIGURE_OPTS:-} --with-libyaml-dir=$OPT_DIR/libyaml"
 fi
 
 log 'Installing Ruby from source'
@@ -666,8 +698,10 @@ if $DESKTOP; then
       wezterm_url="$(github_asset_url wez/wezterm 'WezTerm-macos-nightly\.zip$' nightly)"
       download "$wezterm_url" "$TMP_DIR/wezterm.zip"
       extract "$TMP_DIR/wezterm.zip" "$TMP_DIR/wezterm"
+      wezterm_app="$(find "$TMP_DIR/wezterm" -maxdepth 2 -name 'WezTerm.app' -print -quit)"
+      [[ -n $wezterm_app ]] || die "WezTerm.app not found in downloaded archive"
       rm -rf "$HOME/Applications/WezTerm.app"
-      cp -R "$TMP_DIR/wezterm/WezTerm.app" "$HOME/Applications/"
+      cp -R "$wezterm_app" "$HOME/Applications/"
       record_release wezterm "$wezterm_marker"
     fi
   fi
