@@ -68,6 +68,7 @@ if $DRY_RUN; then
 Plan for ${OS}/${ARCH}:
   bootstrap OS build dependencies
   install/update CLI tools and fonts in ${PREFIX}
+  install Docker Engine from Ubuntu, or Docker CLI + Compose + Lima + Colima on macOS
   install/update Rust, Volta, Node LTS, and global npm packages
   desktop applications: ${DESKTOP}
   login shell/editor/inotify system tweaks: ${SYSTEM_TWEAKS}
@@ -275,6 +276,16 @@ if [[ $OS == linux ]]; then
     build-essential ca-certificates curl git gnupg pass pinentry-curses
     unzip xz-utils fontconfig
   )
+  docker_engine_installed=false
+  for package in docker.io docker-ce; do
+    if dpkg-query -W -f='${Status}' "$package" 2>/dev/null | grep -q 'ok installed'; then
+      docker_engine_installed=true
+      break
+    fi
+  done
+  $docker_engine_installed || apt_packages+=(docker.io)
+  docker compose version >/dev/null 2>&1 || apt_packages+=(docker-compose-v2)
+
   missing_packages=()
   for package in "${apt_packages[@]}"; do
     dpkg-query -W -f='${Status}' "$package" 2>/dev/null | grep -q 'ok installed' \
@@ -285,6 +296,17 @@ if [[ $OS == linux ]]; then
     sudo_run env DEBIAN_FRONTEND=noninteractive apt-get install -y "${missing_packages[@]}"
   else
     log 'Ubuntu prerequisites are already installed'
+  fi
+
+  if getent group docker >/dev/null 2>&1; then
+    if ! id -nG "$USER" | tr ' ' '\n' | grep -Fxq docker; then
+      sudo_run usermod -aG docker "$USER"
+      warn 'Added your account to the docker group; log out and back in before using Docker without sudo.'
+    fi
+    if command -v systemctl >/dev/null 2>&1 \
+      && ! systemctl is-active --quiet docker; then
+      sudo_run systemctl enable --now docker
+    fi
   fi
 else
   if ! xcode-select -p >/dev/null 2>&1; then
@@ -350,6 +372,53 @@ install_archive_binary gh cli/cli "$GH_ASSET" gh
 
 if [[ $OS == linux ]]; then
   install_archive_binary eza eza-community/eza "eza_${RUST_TARGET}\\.tar\\.gz$" eza
+else
+  log 'Installing Docker CLI, Compose, Lima, and Colima'
+  MAC_ARCH=$([[ $ARCH == x86_64 ]] && echo x86_64 || echo aarch64)
+
+  docker_listing="$(curl -fsSL --retry 3 \
+    "https://download.docker.com/mac/static/stable/${MAC_ARCH}/")"
+  docker_asset="$(printf '%s' "$docker_listing" \
+    | grep -Eo 'docker-[0-9]+(\\.[0-9]+)+\\.tgz' | tail -n 1)"
+  [[ -n $docker_asset ]] || die 'Could not resolve the latest Docker CLI release.'
+  docker_version="${docker_asset#docker-}"
+  docker_version="${docker_version%.tgz}"
+  docker_url="https://download.docker.com/mac/static/stable/${MAC_ARCH}/${docker_asset}"
+  installed_docker_version="$(docker --version 2>/dev/null \
+    | grep -Eo '[0-9]+(\\.[0-9]+){1,3}' | head -n 1 || true)"
+  if [[ $installed_docker_version == "$docker_version" ]]; then
+    record_release docker "$docker_url"
+    log "Docker CLI ${docker_version} is already the latest release"
+  else
+    download "$docker_url" "$TMP_DIR/docker.tgz"
+    extract "$TMP_DIR/docker.tgz" "$TMP_DIR/docker"
+    install -m 0755 "$TMP_DIR/docker/docker/docker" "$BIN_DIR/docker"
+    record_release docker "$docker_url"
+  fi
+
+  compose_url="$(github_asset_url docker/compose "/docker-compose-darwin-${MAC_ARCH}$")"
+  compose_dir="$HOME/.docker/cli-plugins"
+  mkdir -p "$compose_dir"
+  if release_is_current docker-compose "$compose_url" "$compose_dir/docker-compose"; then
+    log 'Docker Compose is already the latest release'
+  else
+    download "$compose_url" "$TMP_DIR/docker-compose"
+    install -m 0755 "$TMP_DIR/docker-compose" "$compose_dir/docker-compose"
+    record_release docker-compose "$compose_url"
+  fi
+  ln -sfn "$compose_dir/docker-compose" "$BIN_DIR/docker-compose"
+
+  lima_url="$(github_asset_url lima-vm/lima "/lima-[0-9.]+-Darwin-${MAC_ARCH}\\.tar\\.gz$")"
+  if release_is_current lima "$lima_url" "$BIN_DIR/limactl"; then
+    log 'Lima is already the latest release'
+  else
+    download "$lima_url" "$TMP_DIR/lima.tar.gz"
+    extract "$TMP_DIR/lima.tar.gz" "$TMP_DIR/lima"
+    cp -R "$TMP_DIR/lima/"* "$PREFIX/"
+    record_release lima "$lima_url"
+  fi
+
+  install_direct_binary colima abiosoft/colima "/colima-Darwin-$([[ $ARCH == x86_64 ]] && echo x86_64 || echo arm64)$" colima
 fi
 
 log 'Installing Neovim'
