@@ -15,6 +15,7 @@ BIN_DIR="${PREFIX}/bin"
 OPT_DIR="${PREFIX}/opt"
 SRC_DIR="${PREFIX}/src"
 CACHE_DIR="${XDG_CACHE_HOME:-${HOME}/.cache}/dalius-install"
+STATE_DIR="${PREFIX}/share/dalius-install/releases"
 
 usage() {
   cat <<'EOF'
@@ -80,7 +81,7 @@ if ! $YES; then
   [[ $answer == y || $answer == Y ]] || exit 0
 fi
 
-mkdir -p "$BIN_DIR" "$OPT_DIR" "$SRC_DIR" "$CACHE_DIR"
+mkdir -p "$BIN_DIR" "$OPT_DIR" "$SRC_DIR" "$CACHE_DIR" "$STATE_DIR"
 export PATH="$BIN_DIR:$HOME/.cargo/bin:$HOME/.volta/bin:$PATH"
 TMP_DIR="$(mktemp -d "${TMPDIR:-/tmp}/dalius-install.XXXXXX")"
 trap 'rm -rf "$TMP_DIR"' EXIT
@@ -89,24 +90,80 @@ sudo_run() {
   if [[ $EUID -eq 0 ]]; then "$@"; else sudo "$@"; fi
 }
 
-github_json() {
-  local repo=$1 release=${2:-latest}
-  if [[ $release == latest ]]; then
-    curl -fsSL --retry 3 "https://api.github.com/repos/${repo}/releases/latest"
+github_release_tag() {
+  local repo=$1 release=${2:-latest} effective
+  if [[ $release != latest ]]; then
+    printf '%s\n' "$release"
+    return
+  fi
+
+  # Resolve the ordinary releases/latest redirect instead of GitHub's API.
+  # The unauthenticated API allows only 60 requests/hour, which made routine
+  # updateall runs fail with a misleading "No asset" error.
+  effective="$(curl -fsSLI --retry 3 -o /dev/null -w '%{url_effective}' \
+    "https://github.com/${repo}/releases/latest")"
+  [[ $effective == */tag/* ]] \
+    || die "Could not resolve the latest release tag for ${repo}."
+  printf '%s\n' "${effective##*/}"
+}
+
+github_release_marker() {
+  local repo=$1 release=${2:-latest} endpoint tag assets
+  if command -v gh >/dev/null 2>&1 && gh auth status >/dev/null 2>&1; then
+    if [[ $release == latest ]]; then
+      endpoint="repos/${repo}/releases/latest"
+    else
+      endpoint="repos/${repo}/releases/tags/${release}"
+    fi
+    gh api "$endpoint" --jq '.updated_at'
+    return
+  fi
+
+  tag="$(github_release_tag "$repo" "$release")"
+  assets="$(curl -fsSL --retry 3 \
+    "https://github.com/${repo}/releases/expanded_assets/${tag}")"
+  if command -v sha256sum >/dev/null; then
+    printf '%s' "$assets" | sha256sum | awk '{print $1}'
   else
-    curl -fsSL --retry 3 "https://api.github.com/repos/${repo}/releases/tags/${release}"
+    printf '%s' "$assets" | shasum -a 256 | awk '{print $1}'
   fi
 }
 
 github_asset_url() {
-  local repo=$1 pattern=$2 release=${3:-latest} url
-  url="$(github_json "$repo" "$release" \
-    | grep '"browser_download_url"' \
-    | sed -E 's/.*"(https:[^"]+)".*/\1/' \
+  local repo=$1 pattern=$2 release=${3:-latest} tag assets path endpoint url
+
+  # Prefer gh's authenticated API (5,000 requests/hour). A clean machine does
+  # not have gh or credentials yet, so the release-page path remains required.
+  if command -v gh >/dev/null 2>&1 && gh auth status >/dev/null 2>&1; then
+    if [[ $release == latest ]]; then
+      endpoint="repos/${repo}/releases/latest"
+    else
+      endpoint="repos/${repo}/releases/tags/${release}"
+    fi
+    url="$(gh api "$endpoint" --jq '.assets[].browser_download_url' 2>/dev/null \
+      | grep -E "$pattern" | head -n 1 || true)"
+    if [[ -n $url ]]; then
+      printf '%s\n' "$url"
+      return
+    fi
+    warn "Authenticated gh could not resolve ${repo}; using the release page."
+  fi
+
+  tag="$(github_release_tag "$repo" "$release")"
+  assets="$(curl -fsSL --retry 3 \
+    "https://github.com/${repo}/releases/expanded_assets/${tag}")" \
+    || die "Could not load release assets for ${repo} (${tag})."
+  path="$(printf '%s' "$assets" \
+    | grep -Eo 'href="[^"]+"' \
+    | cut -d'"' -f2 \
     | grep -E "$pattern" \
     | head -n 1 || true)"
-  [[ -n $url ]] || die "No asset matching '${pattern}' in ${repo} (${release})."
-  printf '%s\n' "$url"
+  [[ -n $path ]] \
+    || die "No asset matching '${pattern}' in ${repo} (${tag})."
+  case "$path" in
+    http://*|https://*) printf '%s\n' "$path" ;;
+    *) printf 'https://github.com%s\n' "$path" ;;
+  esac
 }
 
 download() {
@@ -138,11 +195,49 @@ extract() {
   esac
 }
 
+release_is_current() {
+  local name=$1 release=$2 installed_path=$3 state_file="$STATE_DIR/$1"
+  local release_version installed_version
+  [[ -e $installed_path ]] || return 1
+
+  # GitHub release URLs contain the exact stable tag. Check the executable's
+  # actual version on every run, including installations made before manifests
+  # existed or binaries changed outside this script.
+  if [[ -x $installed_path && $release == */releases/download/* ]]; then
+    release_version="${release#*/releases/download/}"
+    release_version="${release_version%%/*}"
+    release_version="${release_version#v}"
+    installed_version="$("$installed_path" --version 2>&1 \
+      | grep -Eo '[0-9]+(\.[0-9]+){1,3}([-+][0-9A-Za-z.-]+)?' \
+      | head -n 1 || true)"
+    if [[ -n $installed_version ]]; then
+      if [[ $installed_version == "$release_version" ]]; then
+        record_release "$name" "$release"
+        return 0
+      fi
+      return 1
+    fi
+  fi
+
+  # Non-executable assets such as fonts and applications use the recorded
+  # release URL (or nightly release marker) plus the installed path.
+  [[ -r $state_file && $(<"$state_file") == "$release" ]]
+}
+
+record_release() {
+  local name=$1 release=$2
+  printf '%s\n' "$release" > "$STATE_DIR/$name"
+}
+
 install_archive_binary() {
   local name=$1 repo=$2 pattern=$3 binary=${4:-$1} release=${5:-latest}
   local work="$TMP_DIR/$name" url archive found
   rm -rf "$work"; mkdir -p "$work"
   url="$(github_asset_url "$repo" "$pattern" "$release")"
+  if release_is_current "$name" "$url" "$BIN_DIR/$binary"; then
+    log "$name is already the latest release"
+    return
+  fi
   archive="$work/asset.${url##*.}"
   case "$url" in
     *.tar.gz) archive="$work/asset.tar.gz" ;;
@@ -157,15 +252,21 @@ install_archive_binary() {
   [[ -n $found ]] || found="$(find "$work/unpacked" -type f -name "$binary" -print -quit)"
   [[ -n $found ]] || die "Could not find $binary in the $name archive."
   install -m 0755 "$found" "$BIN_DIR/$binary"
+  record_release "$name" "$url"
 }
 
 install_direct_binary() {
   local name=$1 repo=$2 pattern=$3 binary=${4:-$1}
   local url="$TMP_DIR/${name}.url" file="$TMP_DIR/${name}.download"
   github_asset_url "$repo" "$pattern" > "$url"
+  if release_is_current "$name" "$(<"$url")" "$BIN_DIR/$binary"; then
+    log "$name is already the latest release"
+    return
+  fi
   log "Installing $name from $(<"$url")"
   download "$(<"$url")" "$file"
   install -m 0755 "$file" "$BIN_DIR/$binary"
+  record_release "$name" "$(<"$url")"
 }
 
 log 'Installing operating-system prerequisites'
@@ -197,16 +298,23 @@ git config --global include.path '~/.gitconfig_private'
 log 'Installing Fish'
 if [[ $OS == linux ]]; then
   fish_url="$(github_asset_url fish-shell/fish-shell 'fish-[0-9.]+-linux-'"${ARCH}"'\.tar\.xz$')"
+else
+  fish_url="$(github_asset_url fish-shell/fish-shell 'fish-[0-9.]+\.app\.zip$')"
+fi
+if release_is_current fish "$fish_url" "$BIN_DIR/fish"; then
+  log 'Fish is already the latest release'
+elif [[ $OS == linux ]]; then
   download "$fish_url" "$TMP_DIR/fish.tar.xz"
   tar -xJf "$TMP_DIR/fish.tar.xz" -C "$TMP_DIR"
   install -m 0755 "$TMP_DIR/fish" "$BIN_DIR/fish"
+  record_release fish "$fish_url"
 else
-  fish_url="$(github_asset_url fish-shell/fish-shell 'fish-[0-9.]+\.app\.zip$')"
   download "$fish_url" "$TMP_DIR/fish.app.zip"
   extract "$TMP_DIR/fish.app.zip" "$TMP_DIR/fish-app"
   fish_base="$(find "$TMP_DIR/fish-app" -type d -path '*/Resources/base/usr/local' -print -quit)"
   [[ -n $fish_base ]] || die 'Could not locate Fish files in the macOS app archive.'
   cp -R "$fish_base/"* "$PREFIX/"
+  record_release fish "$fish_url"
 fi
 
 if [[ $OS == linux ]]; then
@@ -246,21 +354,31 @@ fi
 
 log 'Installing Neovim'
 nvim_url="$(github_asset_url neovim/neovim "$NVIM_ASSET")"
-download "$nvim_url" "$TMP_DIR/nvim.tar.gz"
-rm -rf "$OPT_DIR/nvim" "$TMP_DIR/nvim-unpacked"
-extract "$TMP_DIR/nvim.tar.gz" "$TMP_DIR/nvim-unpacked"
-nvim_root="$(find "$TMP_DIR/nvim-unpacked" -mindepth 1 -maxdepth 1 -type d -print -quit)"
-[[ -n $nvim_root ]] || die 'Could not find the Neovim archive root.'
-mv "$nvim_root" "$OPT_DIR/nvim"
-ln -sfn "$OPT_DIR/nvim/bin/nvim" "$BIN_DIR/nvim"
+if release_is_current nvim "$nvim_url" "$BIN_DIR/nvim"; then
+  log 'Neovim is already the latest release'
+else
+  download "$nvim_url" "$TMP_DIR/nvim.tar.gz"
+  rm -rf "$OPT_DIR/nvim" "$TMP_DIR/nvim-unpacked"
+  extract "$TMP_DIR/nvim.tar.gz" "$TMP_DIR/nvim-unpacked"
+  nvim_root="$(find "$TMP_DIR/nvim-unpacked" -mindepth 1 -maxdepth 1 -type d -print -quit)"
+  [[ -n $nvim_root ]] || die 'Could not find the Neovim archive root.'
+  mv "$nvim_root" "$OPT_DIR/nvim"
+  ln -sfn "$OPT_DIR/nvim/bin/nvim" "$BIN_DIR/nvim"
+  record_release nvim "$nvim_url"
+fi
 
 log 'Installing Lua language server'
 lua_url="$(github_asset_url LuaLS/lua-language-server "$LUA_ASSET")"
-download "$lua_url" "$TMP_DIR/lua-language-server.tar.gz"
-rm -rf "$OPT_DIR/lua-language-server"
-mkdir -p "$OPT_DIR/lua-language-server"
-extract "$TMP_DIR/lua-language-server.tar.gz" "$OPT_DIR/lua-language-server"
-ln -sfn "$OPT_DIR/lua-language-server/bin/lua-language-server" "$BIN_DIR/lua-language-server"
+if release_is_current lua-language-server "$lua_url" "$BIN_DIR/lua-language-server"; then
+  log 'Lua language server is already the latest release'
+else
+  download "$lua_url" "$TMP_DIR/lua-language-server.tar.gz"
+  rm -rf "$OPT_DIR/lua-language-server"
+  mkdir -p "$OPT_DIR/lua-language-server"
+  extract "$TMP_DIR/lua-language-server.tar.gz" "$OPT_DIR/lua-language-server"
+  ln -sfn "$OPT_DIR/lua-language-server/bin/lua-language-server" "$BIN_DIR/lua-language-server"
+  record_release lua-language-server "$lua_url"
+fi
 
 BUF_OS=$([[ $OS == linux ]] && echo Linux || echo Darwin)
 BUF_ARCH=$([[ $ARCH == x86_64 ]] && echo x86_64 || echo arm64)
@@ -282,8 +400,10 @@ SENTRY_ARCH=$([[ $ARCH == x86_64 ]] && echo x86_64 || echo arm64)
 install_direct_binary sentry-cli getsentry/sentry-cli "/sentry-cli-${SENTRY_OS}-${SENTRY_ARCH}$" sentry-cli
 
 log 'Installing Rust'
-curl --proto '=https' --tlsv1.2 -fsSL https://sh.rustup.rs \
-  | sh -s -- -y --no-modify-path --profile minimal --default-toolchain stable
+if ! command -v rustup >/dev/null 2>&1; then
+  curl --proto '=https' --tlsv1.2 -fsSL https://sh.rustup.rs \
+    | sh -s -- -y --no-modify-path --profile minimal --default-toolchain stable
+fi
 rustup update stable
 rustup default stable
 if [[ $OS == darwin ]]; then
@@ -292,18 +412,30 @@ if [[ $OS == darwin ]]; then
 fi
 
 log 'Installing uv'
-curl -LsSf https://astral.sh/uv/install.sh | env UV_NO_MODIFY_PATH=1 sh
+if command -v uv >/dev/null 2>&1; then
+  uv self update
+else
+  curl -LsSf https://astral.sh/uv/install.sh | env UV_NO_MODIFY_PATH=1 sh
+fi
 
 log 'Installing Nerd Fonts'
 font_dir="$HOME/.local/share/fonts"
 [[ $OS == darwin ]] && font_dir="$HOME/Library/Fonts"
 mkdir -p "$font_dir"
+fonts_changed=false
 for font_asset in VictorMono.zip NerdFontsSymbolsOnly.zip; do
   font_url="$(github_asset_url ryanoasis/nerd-fonts "/${font_asset}$")"
+  font_name="font-${font_asset%.zip}"
+  if release_is_current "$font_name" "$font_url" "$font_dir"; then
+    log "${font_asset%.zip} is already the latest release"
+    continue
+  fi
   download "$font_url" "$TMP_DIR/$font_asset"
   unzip -q -o "$TMP_DIR/$font_asset" -d "$font_dir"
+  record_release "$font_name" "$font_url"
+  fonts_changed=true
 done
-[[ $OS == linux ]] && fc-cache -f
+[[ $OS == linux && $fonts_changed == true ]] && fc-cache -f
 
 if [[ $OS == darwin ]]; then
   log 'Installing GPG Suite and pass'
@@ -332,7 +464,14 @@ if [[ $OS == darwin ]]; then
 fi
 
 log 'Installing Volta and Node LTS'
-curl -fsSL https://get.volta.sh | bash -s -- --skip-setup
+volta_tag="$(github_release_tag volta-cli/volta)"
+volta_latest="${volta_tag#v}"
+volta_installed="$(volta --version 2>/dev/null || true)"
+if [[ $volta_installed == "$volta_latest" ]]; then
+  log "Volta ${volta_installed} is already the latest release"
+else
+  curl -fsSL https://get.volta.sh | bash -s -- --skip-setup
+fi
 export VOLTA_HOME="$HOME/.volta"
 export PATH="$VOLTA_HOME/bin:$PATH"
 # A script launched by a Volta-managed tool (including this coding agent) can
@@ -355,23 +494,39 @@ if [[ $OS == linux ]]; then
 else
   agent-browser install
 fi
-npx --yes skills add vercel-labs/agent-browser --global --agent pi --yes
+if [[ -f $HOME/.pi/agent/skills/agent-browser/SKILL.md ]]; then
+  log 'Pi agent-browser skill is already installed'
+else
+  npx --yes skills add vercel-labs/agent-browser --global --agent pi --yes
+fi
 
 if $DESKTOP; then
   log 'Installing desktop tools'
   if [[ $OS == linux ]]; then
     sudo_run env DEBIAN_FRONTEND=noninteractive apt-get install -y \
       gnome-tweaks gnome-sushi libfuse2t64
-    wezterm_url="$(github_asset_url wez/wezterm 'WezTerm-nightly-Ubuntu24\.04\.AppImage$' nightly)"
-    download "$wezterm_url" "$BIN_DIR/wezterm"
-    chmod 0755 "$BIN_DIR/wezterm"
+    wezterm_marker="$(github_release_marker wez/wezterm nightly)"
+    if release_is_current wezterm "$wezterm_marker" "$BIN_DIR/wezterm"; then
+      log 'WezTerm nightly is already current'
+    else
+      wezterm_url="$(github_asset_url wez/wezterm 'WezTerm-nightly-Ubuntu24\.04\.AppImage$' nightly)"
+      download "$wezterm_url" "$BIN_DIR/wezterm"
+      chmod 0755 "$BIN_DIR/wezterm"
+      record_release wezterm "$wezterm_marker"
+    fi
   else
     mkdir -p "$HOME/Applications"
-    wezterm_url="$(github_asset_url wez/wezterm 'WezTerm-macos-nightly\.zip$' nightly)"
-    download "$wezterm_url" "$TMP_DIR/wezterm.zip"
-    extract "$TMP_DIR/wezterm.zip" "$TMP_DIR/wezterm"
-    rm -rf "$HOME/Applications/WezTerm.app"
-    cp -R "$TMP_DIR/wezterm/WezTerm.app" "$HOME/Applications/"
+    wezterm_marker="$(github_release_marker wez/wezterm nightly)"
+    if release_is_current wezterm "$wezterm_marker" "$HOME/Applications/WezTerm.app"; then
+      log 'WezTerm nightly is already current'
+    else
+      wezterm_url="$(github_asset_url wez/wezterm 'WezTerm-macos-nightly\.zip$' nightly)"
+      download "$wezterm_url" "$TMP_DIR/wezterm.zip"
+      extract "$TMP_DIR/wezterm.zip" "$TMP_DIR/wezterm"
+      rm -rf "$HOME/Applications/WezTerm.app"
+      cp -R "$TMP_DIR/wezterm/WezTerm.app" "$HOME/Applications/"
+      record_release wezterm "$wezterm_marker"
+    fi
   fi
 fi
 
