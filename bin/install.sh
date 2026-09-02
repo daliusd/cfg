@@ -462,6 +462,8 @@ TREE_OS=$([[ $OS == linux ]] && echo linux || echo macos)
 TREE_ARCH=$([[ $ARCH == x86_64 ]] && echo x64 || echo arm64)
 install_archive_binary tree-sitter tree-sitter/tree-sitter "tree-sitter-cli-${TREE_OS}-${TREE_ARCH}\\.zip$" tree-sitter
 
+install_archive_binary typos-lsp tekumara/typos-lsp "typos-lsp-v.*-${RUST_TARGET}\\.tar\\.gz$" typos-lsp
+
 if [[ $OS == linux && $ARCH == x86_64 ]]; then RTK_TARGET=x86_64-unknown-linux-musl; else RTK_TARGET=$RUST_TARGET; fi
 install_archive_binary rtk rtk-ai/rtk "rtk-${RTK_TARGET}\\.tar\\.gz$" rtk
 
