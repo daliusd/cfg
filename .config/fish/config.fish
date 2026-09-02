@@ -5,6 +5,13 @@ end
 set -Ux EDITOR nvim
 set -Ux GPG_TTY tty
 
+switch (uname)
+    case Darwin
+      # Stable runtime dir for nvim's RPC socket (macOS's dynamic $TMPDIR can
+      # be inconsistent across process launches, breaking fzf-lua's serverstart())
+      set -gx XDG_RUNTIME_DIR "$HOME/.cache/nvim-runtime"
+end
+
 # Aliases
 
 alias e=nvim
