@@ -21,6 +21,8 @@ switch (uname)
         echo Open config.fish and review it!
 end
 
+fish_add_path -P ~/.local/opt/ruby/bin
+
 if type -q ruby
   fish_add_path -P (ruby -e 'print Gem.user_dir')/bin
 end

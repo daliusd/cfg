@@ -69,7 +69,7 @@ Plan for ${OS}/${ARCH}:
   bootstrap OS build dependencies
   install/update CLI tools and fonts in ${PREFIX}
   install Docker Engine from Ubuntu, or Docker CLI + Compose + Lima + Colima on macOS
-  install/update Rust, Volta, Node LTS, and global npm packages
+  install/update Go, Rust, Ruby + Kamal, Volta, Node LTS, and global npm packages
   desktop applications: ${DESKTOP}
   login shell/editor/inotify system tweaks: ${SYSTEM_TWEAKS}
 EOF
@@ -274,7 +274,8 @@ log 'Installing operating-system prerequisites'
 if [[ $OS == linux ]]; then
   apt_packages=(
     build-essential ca-certificates curl git gnupg pass pinentry-curses
-    unzip xz-utils fontconfig
+    unzip xz-utils fontconfig autoconf bison libssl-dev libyaml-dev
+    libreadline-dev zlib1g-dev libffi-dev libgdbm-dev libncurses-dev
   )
   docker_engine_installed=false
   for package in docker.io docker-ce; do
@@ -511,6 +512,51 @@ if command -v uv >/dev/null 2>&1; then
   uv self update
 else
   curl -LsSf https://astral.sh/uv/install.sh | env UV_NO_MODIFY_PATH=1 sh
+fi
+
+log 'Installing Ruby from source'
+ruby_build_dir="$SRC_DIR/ruby-build"
+if [[ -d $ruby_build_dir/.git ]]; then
+  git -C "$ruby_build_dir" pull --ff-only
+else
+  rm -rf "$ruby_build_dir"
+  git clone --depth 1 https://github.com/rbenv/ruby-build.git "$ruby_build_dir"
+fi
+ruby_latest="$("$ruby_build_dir/bin/ruby-build" --definitions \
+  | grep -E '^[0-9]+\.[0-9]+\.[0-9]+$' | tail -n 1)"
+[[ -n $ruby_latest ]] || die 'Could not resolve the latest stable Ruby release.'
+ruby_version_dir="$OPT_DIR/ruby-${ruby_latest}"
+installed_ruby="$("$OPT_DIR/ruby/bin/ruby" --version 2>/dev/null \
+  | grep -Eo '[0-9]+(\.[0-9]+){2}' | head -n 1 || true)"
+if [[ $installed_ruby == "$ruby_latest" ]]; then
+  log "Ruby ${ruby_latest} is already the latest stable release"
+else
+  rm -rf "$ruby_version_dir"
+  if [[ $OS == darwin ]]; then
+    RUBY_BUILD_VENDOR_OPENSSL=1 \
+      "$ruby_build_dir/bin/ruby-build" "$ruby_latest" "$ruby_version_dir"
+  else
+    "$ruby_build_dir/bin/ruby-build" "$ruby_latest" "$ruby_version_dir"
+  fi
+  if [[ -d $OPT_DIR/ruby && ! -L $OPT_DIR/ruby ]]; then
+    mv "$OPT_DIR/ruby" "$OPT_DIR/ruby-legacy-$(date +%s)"
+  fi
+  ln -sfn "$ruby_version_dir" "$OPT_DIR/ruby"
+  record_release ruby "$ruby_latest"
+fi
+export PATH="$OPT_DIR/ruby/bin:$PATH"
+
+log 'Installing Kamal gem'
+kamal_latest="$(gem list --remote --exact kamal 2>/dev/null \
+  | grep -Eo '[0-9]+(\.[0-9]+){1,3}' | head -n 1 || true)"
+[[ -n $kamal_latest ]] || die 'Could not resolve the latest Kamal gem.'
+kamal_installed="$(gem list --local --exact kamal 2>/dev/null \
+  | grep -Eo '[0-9]+(\.[0-9]+){1,3}' | head -n 1 || true)"
+if [[ $kamal_installed == "$kamal_latest" ]]; then
+  log "Kamal ${kamal_latest} is already the latest release"
+else
+  gem install kamal --version "$kamal_latest" --no-document
+  gem cleanup kamal >/dev/null 2>&1 || true
 fi
 
 log 'Installing Nerd Fonts'

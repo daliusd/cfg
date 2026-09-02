@@ -17,10 +17,6 @@ end
 # fonts, WezTerm nightly, and desktop helpers. System tweaks remain opt-in.
 "$script_dir/install.sh" --yes --desktop; or exit $status
 
-if type -q gem
-    gem install --user-install kamal
-end
-
 if type -q npx
     npx skills update -g -y
 end
