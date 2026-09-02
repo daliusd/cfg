@@ -1,106 +1,398 @@
-#!/bin/sh
+#!/usr/bin/env bash
+set -Eeuo pipefail
 
-# This file is not intended to be run. It is just instructions what must be done or installed.
+# Bootstrap and update Dalius' command-line environment on Ubuntu and macOS.
+# Upstream release artifacts are preferred; apt is used for bootstrap, costly
+# dependency chains, and OS integration. Safe to rerun.
 
-sudo apt install git
-git config --global include.path "~/.gitconfig_private"
+YES=false
+DESKTOP=false
+SYSTEM_TWEAKS=false
+DRY_RUN=false
+SCRIPT_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd)"
+PREFIX="${HOME}/.local"
+BIN_DIR="${PREFIX}/bin"
+OPT_DIR="${PREFIX}/opt"
+SRC_DIR="${PREFIX}/src"
+CACHE_DIR="${XDG_CACHE_HOME:-${HOME}/.cache}/dalius-install"
 
-# Ubuntu
+usage() {
+  cat <<'EOF'
+Usage: install.sh [options]
 
-sudo apt install gnome-tweaks # Gnome tweaks. E.g. caps lock to escape
+  -y, --yes          Do not prompt
+      --desktop      Install desktop applications and GNOME helpers
+      --system-tweaks Set the login shell/editor and Linux inotify limits
+      --dry-run      Print the plan without changing anything
+  -h, --help         Show this help
+EOF
+}
 
-sudo apt install build-essential
-sudo apt install curl
-sudo apt install fzf
-curl -sS https://starship.rs/install.sh | sh
+while (($#)); do
+  case "$1" in
+    -y|--yes) YES=true ;;
+    --desktop) DESKTOP=true ;;
+    --system-tweaks) SYSTEM_TWEAKS=true ;;
+    --dry-run) DRY_RUN=true ;;
+    -h|--help) usage; exit 0 ;;
+    *) printf 'Unknown option: %s\n' "$1" >&2; usage >&2; exit 2 ;;
+  esac
+  shift
+done
 
-sudo add-apt-repository ppa:neovim-ppa/unstable
-sudo apt update
-sudo apt-get install neovim
-sudo update-alternatives --config editor
+log() { printf '\n\033[1;34m==>\033[0m %s\n' "$*"; }
+warn() { printf '\033[1;33mwarning:\033[0m %s\n' "$*" >&2; }
+die() { printf '\033[1;31merror:\033[0m %s\n' "$*" >&2; exit 1; }
 
-curl https://sh.rustup.rs -sSf | sh
-cargo install lsd
-chsh -s $(which fish) # might need relogin after this
+if [[ $(uname -s) == Linux ]]; then
+  OS=linux
+  [[ -r /etc/os-release ]] || die 'Linux is supported only on Ubuntu.'
+  # shellcheck disable=SC1091
+  . /etc/os-release
+  [[ ${ID:-} == ubuntu ]] || die "Unsupported Linux distribution: ${ID:-unknown} (Ubuntu required)."
+elif [[ $(uname -s) == Darwin ]]; then
+  OS=darwin
+else
+  die "Unsupported operating system: $(uname -s)"
+fi
 
-curl -fsSL https://apt.fury.io/wez/gpg.key | sudo gpg --yes --dearmor -o /usr/share/keyrings/wezterm-fury.gpg
-echo 'deb [signed-by=/usr/share/keyrings/wezterm-fury.gpg] https://apt.fury.io/wez/ * *' | sudo tee /etc/apt/sources.list.d/wezterm.list
-sudo chmod 644 /usr/share/keyrings/wezterm-fury.gpg
-sudo apt update
-sudo apt install wezterm
-# Override Super+S, Super+L, Super+H in Ubuntu
+case "$(uname -m)" in
+  x86_64|amd64) ARCH=x86_64 ;;
+  arm64|aarch64) ARCH=aarch64 ;;
+  *) die "Unsupported architecture: $(uname -m)" ;;
+esac
 
-sudo update-alternatives --config x-terminal-emulator
+if $DRY_RUN; then
+  cat <<EOF
+Plan for ${OS}/${ARCH}:
+  bootstrap OS build dependencies
+  install/update CLI tools and fonts in ${PREFIX}
+  install/update Rust, Volta, Node LTS, and global npm packages
+  desktop applications: ${DESKTOP}
+  login shell/editor/inotify system tweaks: ${SYSTEM_TWEAKS}
+EOF
+  exit 0
+fi
 
-# Password store gist here: https://gist.github.com/abtrout/d64fb11ad6f9f49fa325
-# Multi user password store: https://medium.com/@davidpiegza/using-pass-in-a-team-1aa7adf36592
-#
-# import gpg keys
-#
-sudo apt install pass
-git clone password-store-location ~/.password-store
+if ! $YES; then
+  printf 'Install/update the environment for %s/%s? [y/N] ' "$OS" "$ARCH"
+  read -r answer
+  [[ $answer == y || $answer == Y ]] || exit 0
+fi
 
-# Tools
-sudo apt install ripgrep
-sudo apt install fd-find
-ln -s $(which fdfind) ~/bin/fd
-sudo apt install bat
-sudo apt install git-delta
+mkdir -p "$BIN_DIR" "$OPT_DIR" "$SRC_DIR" "$CACHE_DIR"
+export PATH="$BIN_DIR:$HOME/.cargo/bin:$HOME/.volta/bin:$PATH"
+TMP_DIR="$(mktemp -d "${TMPDIR:-/tmp}/dalius-install.XXXXXX")"
+trap 'rm -rf "$TMP_DIR"' EXIT
 
-sudo apt install gnome-sushi # for space previews in nautilus
+sudo_run() {
+  if [[ $EUID -eq 0 ]]; then "$@"; else sudo "$@"; fi
+}
 
-# Fonts
-mkdir ~/.fonts
-cd .fonts/
-wget https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/VictorMono.zip
-unzip VictorMono.zip
-https://github.com/ryanoasis/nerd-fonts/releases/download/v3.2.1/NerdFontsSymbolsOnly.zip
-unzip NerdFontsSymbolsOnly.zip
-fc-cache -fv
-# ??? gsettings set org.gnome.desktop.interface monospace-font-name 'Victor Mono'
+github_json() {
+  local repo=$1 release=${2:-latest}
+  if [[ $release == latest ]]; then
+    curl -fsSL --retry 3 "https://api.github.com/repos/${repo}/releases/latest"
+  else
+    curl -fsSL --retry 3 "https://api.github.com/repos/${repo}/releases/tags/${release}"
+  fi
+}
 
-# Node
-#
-#
-curl https://get.volta.sh | bash
-volta install node
+github_asset_url() {
+  local repo=$1 pattern=$2 release=${3:-latest} url
+  url="$(github_json "$repo" "$release" \
+    | grep '"browser_download_url"' \
+    | sed -E 's/.*"(https:[^"]+)".*/\1/' \
+    | grep -E "$pattern" \
+    | head -n 1 || true)"
+  [[ -n $url ]] || die "No asset matching '${pattern}' in ${repo} (${release})."
+  printf '%s\n' "$url"
+}
 
-./nodeinstall.sh
+download() {
+  local url=$1 output=$2 expected actual
+  curl -fL --retry 3 --retry-all-errors --progress-bar "$url" -o "$output"
+  # Verify the common upstream sidecar format when one is published.
+  expected="$(curl -fsSL --retry 2 "${url}.sha256" 2>/dev/null \
+    | grep -Eo '[0-9a-fA-F]{64}' | head -n 1 || true)"
+  if [[ -n $expected ]]; then
+    if command -v sha256sum >/dev/null; then
+      actual="$(sha256sum "$output" | awk '{print $1}')"
+    else
+      actual="$(shasum -a 256 "$output" | awk '{print $1}')"
+    fi
+    actual="$(printf '%s' "$actual" | tr '[:upper:]' '[:lower:]')"
+    expected="$(printf '%s' "$expected" | tr '[:upper:]' '[:lower:]')"
+    [[ $actual == "$expected" ]] || die "Checksum verification failed for $url"
+  fi
+}
 
-# In case volta is not used.
-# mkdir ~/.npm-global
-# npm config set prefix '~/.npm-global'
+extract() {
+  local archive=$1 destination=$2
+  mkdir -p "$destination"
+  case "$archive" in
+    *.tar.gz|*.tgz) tar -xzf "$archive" -C "$destination" ;;
+    *.tar.xz) tar -xJf "$archive" -C "$destination" ;;
+    *.zip) unzip -q -o "$archive" -d "$destination" ;;
+    *) die "Unknown archive format: $archive" ;;
+  esac
+}
 
-# ??? Node stuff
-echo "fs.inotify.max_user_watches=1048576" | sudo tee -a /etc/sysctl.conf
-echo "fs.inotify.max_user_instances=1024" | sudo tee -a /etc/sysctl.conf
-echo "fs.inotify.max_queued_events=65536" | sudo tee -a /etc/sysctl.conf
-sudo sysctl -p
+install_archive_binary() {
+  local name=$1 repo=$2 pattern=$3 binary=${4:-$1} release=${5:-latest}
+  local work="$TMP_DIR/$name" url archive found
+  rm -rf "$work"; mkdir -p "$work"
+  url="$(github_asset_url "$repo" "$pattern" "$release")"
+  archive="$work/asset.${url##*.}"
+  case "$url" in
+    *.tar.gz) archive="$work/asset.tar.gz" ;;
+    *.tar.xz) archive="$work/asset.tar.xz" ;;
+    *.tgz) archive="$work/asset.tgz" ;;
+    *.zip) archive="$work/asset.zip" ;;
+  esac
+  log "Installing $name from $url"
+  download "$url" "$archive"
+  extract "$archive" "$work/unpacked"
+  found="$(find "$work/unpacked" -type f -name "$binary" -perm -u+x -print -quit)"
+  [[ -n $found ]] || found="$(find "$work/unpacked" -type f -name "$binary" -print -quit)"
+  [[ -n $found ]] || die "Could not find $binary in the $name archive."
+  install -m 0755 "$found" "$BIN_DIR/$binary"
+}
 
-# Mac OSX
-brew install --cask font-victor-mono-nerd-font
-brew install git-delta
-brew install lua-language-server
-brew install pinentry-mac
-brew install uv
-brew install bufbuild/buf/buf
-brew install stylua
-brew install opencode
-brew install tree-sitter
-brew install tree-sitter-cli
-brew install rtk (read https://github.com/rtk-ai/rtk)
-brew install getsentry/tools/sentry
+install_direct_binary() {
+  local name=$1 repo=$2 pattern=$3 binary=${4:-$1}
+  local url="$TMP_DIR/${name}.url" file="$TMP_DIR/${name}.download"
+  github_asset_url "$repo" "$pattern" > "$url"
+  log "Installing $name from $(<"$url")"
+  download "$(<"$url")" "$file"
+  install -m 0755 "$file" "$BIN_DIR/$binary"
+}
 
-# Skills
-#
-# agent-browser
-# ck-ux-content
-# frontend-design
-# grill-me
-# mcp-s-cli
-# petri
-# sentry-cli
-# skill-creator
-# taskey
-# test-driven-development
-# turborepo
+log 'Installing operating-system prerequisites'
+if [[ $OS == linux ]]; then
+  apt_packages=(
+    build-essential ca-certificates curl git gnupg pass pinentry-curses
+    unzip xz-utils fontconfig
+  )
+  missing_packages=()
+  for package in "${apt_packages[@]}"; do
+    dpkg-query -W -f='${Status}' "$package" 2>/dev/null | grep -q 'ok installed' \
+      || missing_packages+=("$package")
+  done
+  if ((${#missing_packages[@]})); then
+    sudo_run apt-get update
+    sudo_run env DEBIAN_FRONTEND=noninteractive apt-get install -y "${missing_packages[@]}"
+  else
+    log 'Ubuntu prerequisites are already installed'
+  fi
+else
+  if ! xcode-select -p >/dev/null 2>&1; then
+    xcode-select --install
+    die 'Finish installing Xcode Command Line Tools, then rerun this script.'
+  fi
+fi
+
+git config --global include.path '~/.gitconfig_private'
+
+log 'Installing Fish'
+if [[ $OS == linux ]]; then
+  fish_url="$(github_asset_url fish-shell/fish-shell 'fish-[0-9.]+-linux-'"${ARCH}"'\.tar\.xz$')"
+  download "$fish_url" "$TMP_DIR/fish.tar.xz"
+  tar -xJf "$TMP_DIR/fish.tar.xz" -C "$TMP_DIR"
+  install -m 0755 "$TMP_DIR/fish" "$BIN_DIR/fish"
+else
+  fish_url="$(github_asset_url fish-shell/fish-shell 'fish-[0-9.]+\.app\.zip$')"
+  download "$fish_url" "$TMP_DIR/fish.app.zip"
+  extract "$TMP_DIR/fish.app.zip" "$TMP_DIR/fish-app"
+  fish_base="$(find "$TMP_DIR/fish-app" -type d -path '*/Resources/base/usr/local' -print -quit)"
+  [[ -n $fish_base ]] || die 'Could not locate Fish files in the macOS app archive.'
+  cp -R "$fish_base/"* "$PREFIX/"
+fi
+
+if [[ $OS == linux ]]; then
+  PLATFORM=linux
+  FZF_ARCH=$([[ $ARCH == x86_64 ]] && echo amd64 || echo arm64)
+  RUST_TARGET="${ARCH}-unknown-linux-gnu"
+  NVIM_ASSET="nvim-linux-${ARCH}\.tar\.gz$"
+  LUA_ASSET="lua-language-server-.*-linux-$([[ $ARCH == x86_64 ]] && echo x64 || echo arm64)\.tar\.gz$"
+else
+  PLATFORM=darwin
+  FZF_ARCH=$([[ $ARCH == x86_64 ]] && echo amd64 || echo arm64)
+  RUST_TARGET="${ARCH}-apple-darwin"
+  NVIM_ASSET="nvim-macos-$([[ $ARCH == x86_64 ]] && echo x86_64 || echo arm64)\.tar\.gz$"
+  LUA_ASSET="lua-language-server-.*-darwin-$([[ $ARCH == x86_64 ]] && echo x64 || echo arm64)\.tar\.gz$"
+fi
+
+install_archive_binary fzf junegunn/fzf "fzf-.*-${PLATFORM}_${FZF_ARCH}\\.tar\\.gz$"
+install_archive_binary starship starship/starship "starship-${RUST_TARGET}\\.tar\\.gz$"
+RIPGREP_TARGET=$RUST_TARGET
+[[ $OS == linux && $ARCH == x86_64 ]] && RIPGREP_TARGET=x86_64-unknown-linux-musl
+install_archive_binary rg BurntSushi/ripgrep "ripgrep-.*-${RIPGREP_TARGET}\\.tar\\.gz$" rg
+install_archive_binary fd sharkdp/fd "fd-v.*-${RUST_TARGET}\\.tar\\.gz$" fd
+install_archive_binary bat sharkdp/bat "bat-v.*-${RUST_TARGET}\\.tar\\.gz$" bat
+install_archive_binary delta dandavison/delta "delta-.*-${RUST_TARGET}\\.tar\\.gz$" delta
+
+GH_ARCH=$([[ $ARCH == x86_64 ]] && echo amd64 || echo arm64)
+if [[ $OS == linux ]]; then
+  GH_ASSET="gh_.*_linux_${GH_ARCH}\\.tar\\.gz$"
+else
+  GH_ASSET="gh_.*_macOS_${GH_ARCH}\\.zip$"
+fi
+install_archive_binary gh cli/cli "$GH_ASSET" gh
+
+if [[ $OS == linux ]]; then
+  install_archive_binary eza eza-community/eza "eza_${RUST_TARGET}\\.tar\\.gz$" eza
+fi
+
+log 'Installing Neovim'
+nvim_url="$(github_asset_url neovim/neovim "$NVIM_ASSET")"
+download "$nvim_url" "$TMP_DIR/nvim.tar.gz"
+rm -rf "$OPT_DIR/nvim" "$TMP_DIR/nvim-unpacked"
+extract "$TMP_DIR/nvim.tar.gz" "$TMP_DIR/nvim-unpacked"
+nvim_root="$(find "$TMP_DIR/nvim-unpacked" -mindepth 1 -maxdepth 1 -type d -print -quit)"
+[[ -n $nvim_root ]] || die 'Could not find the Neovim archive root.'
+mv "$nvim_root" "$OPT_DIR/nvim"
+ln -sfn "$OPT_DIR/nvim/bin/nvim" "$BIN_DIR/nvim"
+
+log 'Installing Lua language server'
+lua_url="$(github_asset_url LuaLS/lua-language-server "$LUA_ASSET")"
+download "$lua_url" "$TMP_DIR/lua-language-server.tar.gz"
+rm -rf "$OPT_DIR/lua-language-server"
+mkdir -p "$OPT_DIR/lua-language-server"
+extract "$TMP_DIR/lua-language-server.tar.gz" "$OPT_DIR/lua-language-server"
+ln -sfn "$OPT_DIR/lua-language-server/bin/lua-language-server" "$BIN_DIR/lua-language-server"
+
+BUF_OS=$([[ $OS == linux ]] && echo Linux || echo Darwin)
+BUF_ARCH=$([[ $ARCH == x86_64 ]] && echo x86_64 || echo arm64)
+install_direct_binary buf bufbuild/buf "/buf-${BUF_OS}-${BUF_ARCH}$" buf
+
+STYLUA_OS=$([[ $OS == linux ]] && echo linux || echo macos)
+STYLUA_ARCH=$([[ $ARCH == x86_64 ]] && echo x86_64 || echo aarch64)
+install_archive_binary stylua JohnnyMorganz/StyLua "stylua-${STYLUA_OS}-${STYLUA_ARCH}\\.zip$" stylua
+
+TREE_OS=$([[ $OS == linux ]] && echo linux || echo macos)
+TREE_ARCH=$([[ $ARCH == x86_64 ]] && echo x64 || echo arm64)
+install_archive_binary tree-sitter tree-sitter/tree-sitter "tree-sitter-cli-${TREE_OS}-${TREE_ARCH}\\.zip$" tree-sitter
+
+if [[ $OS == linux && $ARCH == x86_64 ]]; then RTK_TARGET=x86_64-unknown-linux-musl; else RTK_TARGET=$RUST_TARGET; fi
+install_archive_binary rtk rtk-ai/rtk "rtk-${RTK_TARGET}\\.tar\\.gz$" rtk
+
+SENTRY_OS=$([[ $OS == linux ]] && echo Linux || echo Darwin)
+SENTRY_ARCH=$([[ $ARCH == x86_64 ]] && echo x86_64 || echo arm64)
+install_direct_binary sentry-cli getsentry/sentry-cli "/sentry-cli-${SENTRY_OS}-${SENTRY_ARCH}$" sentry-cli
+
+log 'Installing Rust'
+curl --proto '=https' --tlsv1.2 -fsSL https://sh.rustup.rs \
+  | sh -s -- -y --no-modify-path --profile minimal --default-toolchain stable
+rustup update stable
+rustup default stable
+if [[ $OS == darwin ]]; then
+  # eza does not currently publish macOS release artifacts.
+  cargo install --locked eza
+fi
+
+log 'Installing uv'
+curl -LsSf https://astral.sh/uv/install.sh | env UV_NO_MODIFY_PATH=1 sh
+
+log 'Installing Nerd Fonts'
+font_dir="$HOME/.local/share/fonts"
+[[ $OS == darwin ]] && font_dir="$HOME/Library/Fonts"
+mkdir -p "$font_dir"
+for font_asset in VictorMono.zip NerdFontsSymbolsOnly.zip; do
+  font_url="$(github_asset_url ryanoasis/nerd-fonts "/${font_asset}$")"
+  download "$font_url" "$TMP_DIR/$font_asset"
+  unzip -q -o "$TMP_DIR/$font_asset" -d "$font_dir"
+done
+[[ $OS == linux ]] && fc-cache -f
+
+if [[ $OS == darwin ]]; then
+  log 'Installing GPG Suite and pass'
+  if ! command -v gpg >/dev/null || ! command -v pinentry-mac >/dev/null; then
+    gpg_dmg_url="$(curl -fsSL https://gpgtools.org/ | grep -Eo 'https://releases\.gpgtools\.com/[^" ]+\.dmg' | head -n 1 || true)"
+    if [[ -n $gpg_dmg_url ]]; then
+      download "$gpg_dmg_url" "$TMP_DIR/gpg-suite.dmg"
+      mount_point="$TMP_DIR/gpg-suite"
+      mkdir -p "$mount_point"
+      hdiutil attach -nobrowse -quiet -mountpoint "$mount_point" "$TMP_DIR/gpg-suite.dmg"
+      gpg_pkg="$(find "$mount_point" -name '*.pkg' -print -quit)"
+      [[ -n $gpg_pkg ]] || die 'No installer package found in GPG Suite image.'
+      sudo_run installer -pkg "$gpg_pkg" -target /
+      hdiutil detach -quiet "$mount_point"
+    else
+      warn 'Could not discover the current GPG Suite download.'
+    fi
+  fi
+  if [[ -d $SRC_DIR/password-store/.git ]]; then
+    git -C "$SRC_DIR/password-store" pull --ff-only
+  else
+    rm -rf "$SRC_DIR/password-store"
+    git clone https://git.zx2c4.com/password-store "$SRC_DIR/password-store"
+  fi
+  make -C "$SRC_DIR/password-store" install PREFIX="$PREFIX"
+fi
+
+log 'Installing Volta and Node LTS'
+curl -fsSL https://get.volta.sh | bash -s -- --skip-setup
+export VOLTA_HOME="$HOME/.volta"
+export PATH="$VOLTA_HOME/bin:$PATH"
+# A script launched by a Volta-managed tool (including this coding agent) can
+# inherit this internal guard, which would otherwise pin child commands to the
+# parent's Node version instead of the newly installed LTS.
+unset _VOLTA_TOOL_RECURSION || true
+volta install node@lts
+if $YES; then
+  "$SCRIPT_DIR/nodeinstall.sh" --yes
+else
+  "$SCRIPT_DIR/nodeinstall.sh"
+fi
+# Volta can restore a package's previously selected platform while replacing a
+# global package; assert the requested default once more after all installs.
+volta install node@lts
+
+log 'Installing agent-browser Chrome runtime and skill'
+if [[ $OS == linux ]]; then
+  agent-browser install --with-deps
+else
+  agent-browser install
+fi
+npx --yes skills add vercel-labs/agent-browser --global --agent pi --yes
+
+if $DESKTOP; then
+  log 'Installing desktop tools'
+  if [[ $OS == linux ]]; then
+    sudo_run env DEBIAN_FRONTEND=noninteractive apt-get install -y \
+      gnome-tweaks gnome-sushi libfuse2t64
+    wezterm_url="$(github_asset_url wez/wezterm 'WezTerm-nightly-Ubuntu24\.04\.AppImage$' nightly)"
+    download "$wezterm_url" "$BIN_DIR/wezterm"
+    chmod 0755 "$BIN_DIR/wezterm"
+  else
+    mkdir -p "$HOME/Applications"
+    wezterm_url="$(github_asset_url wez/wezterm 'WezTerm-macos-nightly\.zip$' nightly)"
+    download "$wezterm_url" "$TMP_DIR/wezterm.zip"
+    extract "$TMP_DIR/wezterm.zip" "$TMP_DIR/wezterm"
+    rm -rf "$HOME/Applications/WezTerm.app"
+    cp -R "$TMP_DIR/wezterm/WezTerm.app" "$HOME/Applications/"
+  fi
+fi
+
+if $SYSTEM_TWEAKS; then
+  log 'Applying system-level settings'
+  fish_path="$BIN_DIR/fish"
+  grep -Fxq "$fish_path" /etc/shells 2>/dev/null \
+    || printf '%s\n' "$fish_path" | sudo_run tee -a /etc/shells >/dev/null
+  sudo_run chsh -s "$fish_path" "$USER"
+  if [[ $OS == linux ]]; then
+    sudo_run update-alternatives --install /usr/bin/editor editor "$BIN_DIR/nvim" 100
+    sudo_run tee /etc/sysctl.d/99-user-watches.conf >/dev/null <<'EOF'
+fs.inotify.max_user_watches=1048576
+fs.inotify.max_user_instances=1024
+fs.inotify.max_queued_events=65536
+EOF
+    sudo_run sysctl --system
+  fi
+fi
+
+log 'Installation complete'
+printf 'Ensure %s and %s are at the front of PATH, then restart Fish.\n' "$BIN_DIR" "$HOME/.volta/bin"
+if ! $DESKTOP; then printf 'Rerun with --desktop to install WezTerm and desktop helpers.\n'; fi
+if ! $SYSTEM_TWEAKS; then printf 'Rerun with --system-tweaks to change the login shell and system settings.\n'; fi

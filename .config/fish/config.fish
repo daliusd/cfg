@@ -21,20 +21,42 @@ switch (uname)
         echo Open config.fish and review it!
 end
 
-switch (uname)
-    case Darwin
-      fish_add_path -P /usr/local/opt/ruby/bin
-      fish_add_path -P (gem environment gemdir)/bin
+if type -q ruby
+  fish_add_path -P (ruby -e 'print Gem.user_dir')/bin
 end
 
-fish_add_path -P ~/bin
-fish_add_path -P ~/.local/bin
-fish_add_path -P ~/.npm-global/bin
+# Remove inherited and old universal Homebrew paths during migration.
+set -l clean_path
+for dir in $PATH
+  if not string match -q '*linuxbrew*' $dir; and \
+     not string match -q '*/Homebrew/*' $dir; and \
+     not string match -q '/usr/local/opt/*' $dir
+    set -a clean_path $dir
+  end
+end
+set -gx PATH $clean_path
+
+set -l clean_user_paths
+for dir in $fish_user_paths
+  if not string match -q '*linuxbrew*' $dir; and \
+     not string match -q '*/Homebrew/*' $dir; and \
+     not string match -q '/usr/local/opt/*' $dir
+    set -a clean_user_paths $dir
+  end
+end
+set -l old_user_paths (string join \x1e $fish_user_paths)
+set -l new_user_paths (string join \x1e $clean_user_paths)
+if test "$old_user_paths" != "$new_user_paths"
+  set -U fish_user_paths $clean_user_paths
+end
+
+# User-space upstream installs take precedence over old system/Brew binaries.
+fish_add_path -mP ~/.local/bin ~/bin
 fish_add_path -P ~/.cargo/bin
 fish_add_path -P ~/.bun/bin
 fish_add_path -P ~/go/bin
 
-alias ls='lsd'
+alias ls='eza'
 alias ll='ls -al'
 alias lt='ls --tree'
 
@@ -109,16 +131,8 @@ set FZF_DEFAULT_OPTS '--bind ctrl-d:page-down,ctrl-u:page-up'
 
 # Starship
 
-starship init fish | source
-
-
-switch (uname)
-    case Linux
-        eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
-    case Darwin
-        eval "$(/usr/local/bin/brew shellenv)"
-    case '*'
-        echo Open config.fish and review it!
+if type -q starship
+  starship init fish | source
 end
 
 # Volta
@@ -149,9 +163,13 @@ switch (uname)
       set -x DOCKER_HOST unix://$HOME/.colima/default/docker.sock
 end
 
-fzf --fish | source
+if type -q fzf
+  fzf --fish | source
+end
 
 switch (uname)
     case Linux
-      codex completion fish | source
+      if type -q codex
+        codex completion fish | source
+      end
 end
