@@ -21,17 +21,5 @@ if type -q npx
     npx skills update -g -y
 end
 
-if type -q sync.sh
-    sync.sh
-else
-    echo 'warning: sync.sh is not on PATH' >&2
-end
-
-if test -x ~/projects/sync/pull.sh
-    ~/projects/sync/pull.sh
-else
-    echo 'warning: ~/projects/sync/pull.sh is unavailable' >&2
-end
-
 # Not sure if I want to update Lazy silently.
 # nvim --headless "+Lazy! sync" +qa
