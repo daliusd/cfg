@@ -68,7 +68,7 @@ if $DRY_RUN; then
 Plan for ${OS}/${ARCH}:
   bootstrap OS build dependencies
   install/update CLI tools and fonts in ${PREFIX}
-  install Docker Engine from Ubuntu, or Docker CLI + Compose + Lima + Colima on macOS
+  install Docker Engine + Buildx from Ubuntu, or Docker CLI + Compose + Buildx + Lima + Colima on macOS
   install/update Go, Rust, Ruby + Kamal, Volta, Node LTS, and global npm packages
   desktop applications: ${DESKTOP}
   login shell/editor/inotify system tweaks: ${SYSTEM_TWEAKS}
@@ -291,6 +291,7 @@ if [[ $OS == linux ]]; then
   done
   $docker_engine_installed || apt_packages+=(docker.io)
   docker compose version >/dev/null 2>&1 || apt_packages+=(docker-compose-v2)
+  docker buildx version >/dev/null 2>&1 || apt_packages+=(docker-buildx-plugin)
 
   missing_packages=()
   for package in "${apt_packages[@]}"; do
@@ -417,6 +418,15 @@ else
     record_release docker-compose "$compose_url"
   fi
   ln -sfn "$compose_dir/docker-compose" "$BIN_DIR/docker-compose"
+
+  buildx_url="$(github_asset_url docker/buildx "/buildx-v[0-9.]+\\.darwin-$([[ $ARCH == x86_64 ]] && echo amd64 || echo arm64)$")"
+  if release_is_current docker-buildx "$buildx_url" "$compose_dir/docker-buildx"; then
+    log 'Docker Buildx is already the latest release'
+  else
+    download "$buildx_url" "$TMP_DIR/docker-buildx"
+    install -m 0755 "$TMP_DIR/docker-buildx" "$compose_dir/docker-buildx"
+    record_release docker-buildx "$buildx_url"
+  fi
 
   lima_url="$(github_asset_url lima-vm/lima "/lima-[0-9.]+-Darwin-${MAC_ARCH}\\.tar\\.gz$")"
   if release_is_current lima "$lima_url" "$BIN_DIR/limactl"; then
