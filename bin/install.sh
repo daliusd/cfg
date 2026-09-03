@@ -280,6 +280,7 @@ if [[ $OS == linux ]]; then
     build-essential ca-certificates curl git gnupg pass pinentry-curses
     unzip xz-utils fontconfig autoconf bison libssl-dev libyaml-dev
     libreadline-dev zlib1g-dev libffi-dev libgdbm-dev libncurses-dev
+    htop
   )
   docker_engine_installed=false
   for package in docker.io docker-ce; do
@@ -533,6 +534,30 @@ fi
 if [[ $OS == darwin && $ARCH == x86_64 ]]; then
   # dandavison/delta stopped publishing an x86_64-apple-darwin asset.
   cargo install --locked git-delta
+fi
+
+if [[ $OS == darwin ]]; then
+  # htop-dev/htop publishes no macOS binaries and there is no Homebrew here,
+  # so build from the release tarball, which ships a pre-generated ./configure
+  # (no autoconf/automake needed) and links against the system ncurses.
+  log 'Installing htop from source'
+  htop_url="$(github_asset_url htop-dev/htop 'htop-[0-9.]+\.tar\.xz$')"
+  if release_is_current htop "$htop_url" "$BIN_DIR/htop"; then
+    log 'htop is already the latest release'
+  else
+    download "$htop_url" "$TMP_DIR/htop.tar.xz"
+    rm -rf "$TMP_DIR/htop-src"
+    extract "$TMP_DIR/htop.tar.xz" "$TMP_DIR/htop-src"
+    htop_root="$(find "$TMP_DIR/htop-src" -mindepth 1 -maxdepth 1 -type d -print -quit)"
+    [[ -n $htop_root ]] || die 'Could not find the htop archive root.'
+    (
+      cd "$htop_root"
+      ./configure --prefix="$PREFIX"
+      make -j"$(sysctl -n hw.ncpu)"
+      make install
+    )
+    record_release htop "$htop_url"
+  fi
 fi
 
 log 'Installing uv'
