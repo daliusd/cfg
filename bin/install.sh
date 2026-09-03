@@ -632,20 +632,24 @@ done
 
 if [[ $OS == darwin ]]; then
   log 'Installing GPG Suite and pass'
-  if ! command -v gpg >/dev/null || ! command -v pinentry-mac >/dev/null; then
-    gpg_dmg_url="$(curl -fsSL https://gpgtools.org/ | grep -Eo 'https://releases\.gpgtools\.com/[^" ]+\.dmg' | head -n 1 || true)"
-    if [[ -n $gpg_dmg_url ]]; then
-      download "$gpg_dmg_url" "$TMP_DIR/gpg-suite.dmg"
-      mount_point="$TMP_DIR/gpg-suite"
-      mkdir -p "$mount_point"
-      hdiutil attach -nobrowse -quiet -mountpoint "$mount_point" "$TMP_DIR/gpg-suite.dmg"
-      gpg_pkg="$(find "$mount_point" -name '*.pkg' -print -quit)"
-      [[ -n $gpg_pkg ]] || die 'No installer package found in GPG Suite image.'
-      sudo_run installer -pkg "$gpg_pkg" -target /
-      hdiutil detach -quiet "$mount_point"
-    else
-      warn 'Could not discover the current GPG Suite download.'
-    fi
+  gpg_dmg_url="$(curl -fsSL https://gpgtools.org/ | grep -Eo 'https://releases\.gpgtools\.com/[^" ]+\.dmg' | head -n 1 || true)"
+  gpg_suite_version="$(printf '%s' "$gpg_dmg_url" | grep -Eo '[0-9]+(\.[0-9]+){1,3}' | head -n 1 || true)"
+  installed_gpg_version="$(gpg --version 2>/dev/null | head -n 1 | grep -Eo '[0-9]+(\.[0-9]+){1,3}' | head -n 1 || true)"
+
+  if command -v gpg >/dev/null && command -v pinentry-mac >/dev/null \
+    && [[ -n $gpg_suite_version && $installed_gpg_version == "$gpg_suite_version" ]]; then
+    log "GPG Suite ${gpg_suite_version} is already the latest release"
+  elif [[ -n $gpg_dmg_url ]]; then
+    download "$gpg_dmg_url" "$TMP_DIR/gpg-suite.dmg"
+    mount_point="$TMP_DIR/gpg-suite"
+    mkdir -p "$mount_point"
+    hdiutil attach -nobrowse -quiet -mountpoint "$mount_point" "$TMP_DIR/gpg-suite.dmg"
+    gpg_pkg="$(find "$mount_point" -name '*.pkg' -print -quit)"
+    [[ -n $gpg_pkg ]] || die 'No installer package found in GPG Suite image.'
+    sudo_run installer -pkg "$gpg_pkg" -target /
+    hdiutil detach -quiet "$mount_point"
+  else
+    warn 'Could not discover the current GPG Suite download.'
   fi
   if [[ -d $SRC_DIR/password-store/.git ]]; then
     git -C "$SRC_DIR/password-store" pull --ff-only
