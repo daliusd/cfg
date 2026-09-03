@@ -633,12 +633,15 @@ done
 if [[ $OS == darwin ]]; then
   log 'Installing GPG Suite and pass'
   gpg_dmg_url="$(curl -fsSL https://gpgtools.org/ | grep -Eo 'https://releases\.gpgtools\.com/[^" ]+\.dmg' | head -n 1 || true)"
-  gpg_suite_version="$(printf '%s' "$gpg_dmg_url" | grep -Eo '[0-9]+(\.[0-9]+){1,3}' | head -n 1 || true)"
-  installed_gpg_version="$(gpg --version 2>/dev/null | head -n 1 | grep -Eo '[0-9]+(\.[0-9]+){1,3}' | head -n 1 || true)"
 
-  if command -v gpg >/dev/null && command -v pinentry-mac >/dev/null \
-    && [[ -n $gpg_suite_version && $installed_gpg_version == "$gpg_suite_version" ]]; then
-    log "GPG Suite ${gpg_suite_version} is already the latest release"
+  # GPG Suite's release version (e.g. 2023.3, embedded in the .dmg filename) has no
+  # relation to `gpg --version`, which reports GnuPG's own version, and none of the
+  # component .pkg receipts under pkgutil carry the suite version either. Track the
+  # last-installed release URL instead, the same way non-executable assets like fonts
+  # and Lima are tracked above.
+  if [[ -n $gpg_dmg_url ]] && command -v gpg >/dev/null \
+    && release_is_current gpg-suite "$gpg_dmg_url" "$(command -v gpg)"; then
+    log 'GPG Suite is already the latest release'
   elif [[ -n $gpg_dmg_url ]]; then
     download "$gpg_dmg_url" "$TMP_DIR/gpg-suite.dmg"
     mount_point="$TMP_DIR/gpg-suite"
@@ -648,6 +651,7 @@ if [[ $OS == darwin ]]; then
     [[ -n $gpg_pkg ]] || die 'No installer package found in GPG Suite image.'
     sudo_run installer -pkg "$gpg_pkg" -target /
     hdiutil detach -quiet "$mount_point"
+    record_release gpg-suite "$gpg_dmg_url"
   else
     warn 'Could not discover the current GPG Suite download.'
   fi
