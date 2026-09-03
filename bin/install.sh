@@ -471,9 +471,23 @@ install_archive_binary typos-lsp tekumara/typos-lsp "typos-lsp-v.*-${RUST_TARGET
 if [[ $OS == linux && $ARCH == x86_64 ]]; then RTK_TARGET=x86_64-unknown-linux-musl; else RTK_TARGET=$RUST_TARGET; fi
 install_archive_binary rtk rtk-ai/rtk "rtk-${RTK_TARGET}\\.tar\\.gz$" rtk
 
-SENTRY_OS=$([[ $OS == linux ]] && echo Linux || echo Darwin)
-SENTRY_ARCH=$([[ $ARCH == x86_64 ]] && echo x86_64 || echo arm64)
-install_direct_binary sentry-cli getsentry/sentry-cli "/sentry-cli-${SENTRY_OS}-${SENTRY_ARCH}$" sentry-cli
+# Migrate from the legacy getsentry/sentry-cli binary to the new CLI. The
+# upstream installer manages updates and places the `sentry` binary in our
+# existing local bin directory without changing shell startup files.
+if [[ -e $BIN_DIR/sentry-cli || -L $BIN_DIR/sentry-cli ]]; then
+  log 'Removing legacy sentry-cli'
+  rm -f "$BIN_DIR/sentry-cli" "$STATE_DIR/sentry-cli"
+fi
+if [[ -x $BIN_DIR/sentry ]]; then
+  # The CLI checks its configured channel and does nothing when already current.
+  # This avoids rerunning the bootstrap installer on every environment update.
+  log 'Updating Sentry CLI'
+  "$BIN_DIR/sentry" cli upgrade
+else
+  log 'Installing Sentry CLI'
+  curl -fsS --retry 3 --retry-all-errors https://cli.sentry.dev/install \
+    | SENTRY_INSTALL_DIR="$BIN_DIR" bash -s -- --no-modify-path
+fi
 
 log 'Installing Go'
 go_metadata="$(curl -fsSL --retry 3 'https://go.dev/dl/?mode=json')"
