@@ -183,7 +183,3 @@ switch (uname)
         codex completion fish | source
       end
 end
-
-if test -f "$HOME/.bazelenv.fish"
-    source "$HOME/.bazelenv.fish"
-end
