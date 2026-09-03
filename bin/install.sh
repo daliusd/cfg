@@ -218,6 +218,10 @@ release_is_current() {
       fi
       return 1
     fi
+    # The binary exists but --version produced no output (crash, kernel code-
+    # signing rejection, truncated download, ...). Never trust a stale state
+    # file over a binary that cannot even report its own version.
+    return 1
   fi
 
   # Non-executable assets such as fonts and applications use the recorded
