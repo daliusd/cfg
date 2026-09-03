@@ -58,6 +58,9 @@ ensure_package '@earendil-works/pi-coding-agent@latest' --ignore-scripts
 # binary correctly, so lifecycle scripts are intentionally disabled here too.
 ensure_package 'agent-browser@latest' --ignore-scripts
 
+# OpenAI Codex CLI: https://learn.chatgpt.com/docs/codex/cli
+ensure_package '@openai/codex@latest'
+
 packages=(
   '@daliusd/lang-lsp@latest'
   'typescript@7'

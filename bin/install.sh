@@ -677,6 +677,11 @@ fi
 # global package; assert the requested default once more after all installs.
 volta install node@lts
 
+# Claude Code's official native installer verifies the platform binary and
+# installs its launcher in ~/.local/bin, which is already this script's BIN_DIR.
+log 'Installing/updating Claude Code'
+curl -fsSL --retry 3 --retry-all-errors https://claude.ai/install.sh | bash
+
 log 'Installing agent-browser Chrome runtime and skill'
 if [[ $OS == linux ]]; then
   agent-browser install --with-deps
