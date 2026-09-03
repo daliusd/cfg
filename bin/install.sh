@@ -662,6 +662,38 @@ if [[ $OS == darwin ]]; then
     git clone https://git.zx2c4.com/password-store "$SRC_DIR/password-store"
   fi
   make -C "$SRC_DIR/password-store" install PREFIX="$PREFIX"
+
+  # pass's installed platform.sh hardcodes GETOPT to Homebrew's gnu-getopt or
+  # MacPorts, falling back to /usr/local/bin/getopt when neither is present.
+  # On Apple Silicon Homebrew (at /opt/homebrew) already provides gnu-getopt,
+  # so this only needs handling on x86_64 Macs with no Homebrew/MacPorts,
+  # where macOS's built-in /usr/bin/getopt is BSD getopt and silently fails
+  # to parse pass's long options. Build GNU getopt from util-linux there and
+  # point pass at it via PATH instead.
+  if [[ $ARCH == x86_64 ]]; then
+    log 'Installing GNU getopt (required by pass; macOS ships BSD getopt)'
+    getopt_version=2.40.2
+    getopt_marker="util-linux-${getopt_version}"
+    if release_is_current getopt "$getopt_marker" "$BIN_DIR/getopt"; then
+      log 'GNU getopt is already the latest installed release'
+    else
+      download "https://www.kernel.org/pub/linux/utils/util-linux/v${getopt_version%.*}/util-linux-${getopt_version}.tar.xz" \
+        "$TMP_DIR/util-linux.tar.xz"
+      rm -rf "$TMP_DIR/util-linux-src"
+      extract "$TMP_DIR/util-linux.tar.xz" "$TMP_DIR/util-linux-src"
+      (
+        cd "$TMP_DIR/util-linux-src/util-linux-${getopt_version}"
+        ./configure --without-python --without-ncurses --without-ncursesw \
+          --disable-libmount --disable-libblkid --disable-libuuid \
+          --disable-libsmartcols --disable-libfdisk \
+          --disable-liblastlog2 --disable-pam-lastlog2 >/dev/null
+        make getopt
+      )
+      install -m 0755 "$TMP_DIR/util-linux-src/util-linux-${getopt_version}/getopt" "$BIN_DIR/getopt"
+      record_release getopt "$getopt_marker"
+    fi
+    sed -i '' 's|^GETOPT=.*|GETOPT="getopt"|' "$PREFIX/lib/password-store/platform.sh"
+  fi
 fi
 
 log 'Installing Volta and Node LTS'
