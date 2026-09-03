@@ -183,3 +183,8 @@ switch (uname)
         codex completion fish | source
       end
 end
+
+# swop CLI
+if test -d "$HOME/.swop/bin"
+    fish_add_path "$HOME/.swop/bin"
+end
