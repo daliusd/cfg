@@ -98,6 +98,7 @@ alias npmprivate='npm config set registry https://npm.dev.wixpress.com && npm co
 alias ga='git add'
 alias gb='git branch'
 alias gs='git status'
+alias gsh='git show'
 alias gd='git diff'
 alias gds='git diff --staged'
 alias gci='git commit'
