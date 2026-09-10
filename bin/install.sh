@@ -168,21 +168,32 @@ github_asset_url() {
 }
 
 download() {
-  local url=$1 output=$2 expected actual
-  curl -fL --retry 3 --retry-all-errors --progress-bar "$url" -o "$output"
+  local url=$1 output=$2 expected actual partial
+  # Download and verify a sibling temporary file before atomically replacing
+  # the destination. In particular, Linux cannot open a running executable
+  # for writing (ETXTBSY), but it can rename a replacement over it.
+  partial="$(mktemp "${output}.part.XXXXXX")"
+  if ! curl -fL --retry 3 --retry-all-errors --progress-bar "$url" -o "$partial"; then
+    rm -f "$partial"
+    return 1
+  fi
   # Verify the common upstream sidecar format when one is published.
   expected="$(curl -fsSL --retry 2 "${url}.sha256" 2>/dev/null \
     | grep -Eo '[0-9a-fA-F]{64}' | head -n 1 || true)"
   if [[ -n $expected ]]; then
     if command -v sha256sum >/dev/null; then
-      actual="$(sha256sum "$output" | awk '{print $1}')"
+      actual="$(sha256sum "$partial" | awk '{print $1}')"
     else
-      actual="$(shasum -a 256 "$output" | awk '{print $1}')"
+      actual="$(shasum -a 256 "$partial" | awk '{print $1}')"
     fi
     actual="$(printf '%s' "$actual" | tr '[:upper:]' '[:lower:]')"
     expected="$(printf '%s' "$expected" | tr '[:upper:]' '[:lower:]')"
-    [[ $actual == "$expected" ]] || die "Checksum verification failed for $url"
+    if [[ $actual != "$expected" ]]; then
+      rm -f "$partial"
+      die "Checksum verification failed for $url"
+    fi
   fi
+  mv -f "$partial" "$output"
 }
 
 extract() {
