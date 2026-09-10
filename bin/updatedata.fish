@@ -7,6 +7,8 @@ else
 end
 
 if test -x ~/projects/sync/pull.sh
+    cd ~/projects/sync
+    git pull
     ~/projects/sync/pull.sh
 else
     echo 'warning: ~/projects/sync/pull.sh is unavailable' >&2
