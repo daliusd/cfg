@@ -503,9 +503,6 @@ install_archive_binary tree-sitter tree-sitter/tree-sitter "tree-sitter-cli-${TR
 # typos-lsp is an LSP daemon and intentionally emits no --version output.
 install_archive_binary typos-lsp tekumara/typos-lsp "typos-lsp-v.*-${RUST_TARGET}\\.tar\\.gz$" typos-lsp latest state
 
-if [[ $OS == linux && $ARCH == x86_64 ]]; then RTK_TARGET=x86_64-unknown-linux-musl; else RTK_TARGET=$RUST_TARGET; fi
-install_archive_binary rtk rtk-ai/rtk "rtk-${RTK_TARGET}\\.tar\\.gz$" rtk
-
 # Migrate from the legacy getsentry/sentry-cli binary to the new CLI. The
 # upstream installer manages updates and places the `sentry` binary in our
 # existing local bin directory without changing shell startup files.
