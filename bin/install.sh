@@ -208,9 +208,17 @@ extract() {
 }
 
 release_is_current() {
-  local name=$1 release=$2 installed_path=$3 state_file="$STATE_DIR/$1"
+  local name=$1 release=$2 installed_path=$3 check=${4:-version} state_file="$STATE_DIR/$1"
   local release_version installed_version
   [[ -e $installed_path ]] || return 1
+
+  # Some daemon-style binaries (such as typos-lsp) do not implement
+  # --version. For those, the resolved immutable asset URL recorded after a
+  # successful installation is the version check.
+  if [[ $check == state ]]; then
+    [[ -r $state_file && $(<"$state_file") == "$release" ]]
+    return
+  fi
 
   # GitHub release URLs contain the exact stable tag. Check the executable's
   # actual version on every run, including installations made before manifests
@@ -246,11 +254,11 @@ record_release() {
 }
 
 install_archive_binary() {
-  local name=$1 repo=$2 pattern=$3 binary=${4:-$1} release=${5:-latest}
+  local name=$1 repo=$2 pattern=$3 binary=${4:-$1} release=${5:-latest} check=${6:-version}
   local work="$TMP_DIR/$name" url archive found
   rm -rf "$work"; mkdir -p "$work"
   url="$(github_asset_url "$repo" "$pattern" "$release")"
-  if release_is_current "$name" "$url" "$BIN_DIR/$binary"; then
+  if release_is_current "$name" "$url" "$BIN_DIR/$binary" "$check"; then
     log "$name is already the latest release"
     return
   fi
@@ -492,7 +500,8 @@ TREE_OS=$([[ $OS == linux ]] && echo linux || echo macos)
 TREE_ARCH=$([[ $ARCH == x86_64 ]] && echo x64 || echo arm64)
 install_archive_binary tree-sitter tree-sitter/tree-sitter "tree-sitter-cli-${TREE_OS}-${TREE_ARCH}\\.zip$" tree-sitter
 
-install_archive_binary typos-lsp tekumara/typos-lsp "typos-lsp-v.*-${RUST_TARGET}\\.tar\\.gz$" typos-lsp
+# typos-lsp is an LSP daemon and intentionally emits no --version output.
+install_archive_binary typos-lsp tekumara/typos-lsp "typos-lsp-v.*-${RUST_TARGET}\\.tar\\.gz$" typos-lsp latest state
 
 if [[ $OS == linux && $ARCH == x86_64 ]]; then RTK_TARGET=x86_64-unknown-linux-musl; else RTK_TARGET=$RUST_TARGET; fi
 install_archive_binary rtk rtk-ai/rtk "rtk-${RTK_TARGET}\\.tar\\.gz$" rtk
