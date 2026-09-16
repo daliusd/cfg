@@ -361,6 +361,15 @@ else
   extract "$TMP_DIR/fish.app.zip" "$TMP_DIR/fish-app"
   fish_base="$(find "$TMP_DIR/fish-app" -type d -path '*/Resources/base/usr/local' -print -quit)"
   [[ -n $fish_base ]] || die 'Could not locate Fish files in the macOS app archive.'
+  # Upstream signs the app bundle with a CodeDirectory that older macOS kernels
+  # refuse to load ("load code signature error 2"), so the binary is SIGKILLed
+  # on launch. Re-signing ad hoc before installing makes it runnable again;
+  # the download itself was already verified over HTTPS above.
+  for fish_binary in "$fish_base"/bin/*; do
+    [[ -f $fish_binary ]] || continue
+    codesign --force --sign - "$fish_binary" >/dev/null 2>&1 \
+      || warn "Could not re-sign ${fish_binary##*/}."
+  done
   cp -R "$fish_base/"* "$PREFIX/"
   record_release fish "$fish_url"
 fi
