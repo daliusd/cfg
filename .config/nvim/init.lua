@@ -496,8 +496,89 @@ require('lazy').setup({
 
       vim.lsp.enable('stylua')
       vim.lsp.enable('biome')
-      -- vim.lsp.enable('oxfmt')
-      -- vim.lsp.enable('oxlint')
+
+      -- oxfmt is not installed everywhere and, in monorepos, is only available as part of
+      -- the yarn/npm/pnpm install (hoisted to the workspace root's node_modules/.bin). Prefer
+      -- that local binary (walking up from the buffer), falling back to a global install, and
+      -- if no oxfmt binary is reachable at all do NOT start the server so nvim doesn't spam a
+      -- "Spawning language server ... failed" warning on every matching filetype.
+      local function find_oxfmt_bin(from)
+        local dir = vim.fs.dirname(from or vim.fn.getcwd())
+        while dir and dir ~= '' do
+          local bin = vim.fs.joinpath(dir, 'node_modules', '.bin', 'oxfmt')
+          if vim.fn.executable(bin) == 1 then
+            return bin
+          end
+          local parent = vim.fs.dirname(dir)
+          if parent == dir then
+            break
+          end
+          dir = parent
+        end
+        return vim.fn.executable('oxfmt') == 1 and 'oxfmt' or nil
+      end
+      vim.lsp.config('oxfmt', {
+        cmd = function(dispatchers, config)
+          local bin = find_oxfmt_bin(config.root_dir) or 'oxfmt'
+          return vim.lsp.rpc.start({ bin, '--lsp' }, dispatchers)
+        end,
+        root_dir = function(bufnr, on_dir)
+          local bufname = vim.api.nvim_buf_get_name(bufnr)
+          -- Only activate when an oxfmt binary is actually reachable, so we don't spawn a
+          -- missing server (which nvim reports as a noisy warning).
+          if bufname ~= '' and not find_oxfmt_bin(bufname) then
+            return
+          end
+          local root = vim.fs.root(bufnr, {
+            '.oxfmtrc.json',
+            '.oxfmtrc.jsonc',
+            'oxfmt.config.ts',
+            'package.json',
+          })
+          on_dir(root or vim.fn.getcwd())
+        end,
+      })
+      vim.lsp.enable('oxfmt')
+
+      -- Same as oxfmt: oxlint is only available in some projects (often via a yarn/npm/pnpm
+      -- install hoisted to the workspace root's node_modules/.bin). Resolve that local binary
+      -- first, fall back to a global install, and skip starting the server entirely when no
+      -- oxlint binary is reachable so nvim doesn't spam a spawn warning.
+      local function find_oxlint_bin(from)
+        local dir = vim.fs.dirname(from or vim.fn.getcwd())
+        while dir and dir ~= '' do
+          local bin = vim.fs.joinpath(dir, 'node_modules', '.bin', 'oxlint')
+          if vim.fn.executable(bin) == 1 then
+            return bin
+          end
+          local parent = vim.fs.dirname(dir)
+          if parent == dir then
+            break
+          end
+          dir = parent
+        end
+        return vim.fn.executable('oxlint') == 1 and 'oxlint' or nil
+      end
+      vim.lsp.config('oxlint', {
+        cmd = function(dispatchers, config)
+          local bin = find_oxlint_bin(config.root_dir) or 'oxlint'
+          return vim.lsp.rpc.start({ bin, '--lsp' }, dispatchers)
+        end,
+        root_dir = function(bufnr, on_dir)
+          local bufname = vim.api.nvim_buf_get_name(bufnr)
+          if bufname ~= '' and not find_oxlint_bin(bufname) then
+            return
+          end
+          local root = vim.fs.root(bufnr, {
+            '.oxlintrc.json',
+            '.oxlintrc.jsonc',
+            'oxlint.config.ts',
+            'package.json',
+          })
+          on_dir(root or vim.fn.getcwd())
+        end,
+      })
+      vim.lsp.enable('oxlint')
 
       -- Format on write
       vim.api.nvim_create_autocmd('LspAttach', {
