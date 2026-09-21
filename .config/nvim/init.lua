@@ -158,7 +158,6 @@ require('lazy').setup({
       { '<leader>pf', ":let @+ = expand('%:p')<cr>", silent = true, desc = 'copy full file name' },
       { '<leader>s', ':w<cr>', silent = true, desc = 'write' },
       { '<leader>t', ':ToggleCheckbox<cr>', silent = true, desc = 'write' },
-      { '<leader>b', ':CodeDiff<cr>', silent = true, desc = 'write' },
 
       -- LSP
       -- Mapping to c-] because LSP go to definition then works with c-t
@@ -713,6 +712,7 @@ require('lazy').setup({
 
           map('n', '<leader>ghh', gs.stage_hunk)
           map('n', '<leader>ghr', gs.reset_hunk)
+          map('n', '<leader>gb', '<cmd>Gitsigns blame<cr>', { desc = 'Git blame' })
 
           map('v', '<leader>ghh', function()
             gs.stage_hunk({ vim.fn.line('.'), vim.fn.line('v') })
@@ -724,19 +724,6 @@ require('lazy').setup({
         end,
       })
     end,
-  },
-  {
-    'tpope/vim-fugitive',
-    keys = {
-      { '<leader>gg', ':Git | only<cr>', silent = true, desc = 'Git' },
-      { '<leader>ga', ':Git add %<cr>', silent = true, desc = 'Git add current file' },
-      { '<leader>gd', ':Gvdiffsplit | wincmd l<cr>', silent = true, desc = 'Git diff split' },
-      { '<leader>gb', ':Git blame<cr>', silent = true, desc = 'Git blame' },
-      { '<leader>gp', ':Git push<cr>', silent = true, desc = 'Git push' },
-      { '<leader>gl', ':Git pull<cr>', silent = true, desc = 'Git pull' },
-      { '<leader>gq', ':Git difftool | only<cr>', silent = true, desc = 'Git difftool' },
-      { '<leader>gr', ':Git difftool -y<cr>', silent = true, desc = 'Git difftool -y' },
-    },
   },
   {
     'romus204/tree-sitter-manager.nvim',
@@ -752,6 +739,10 @@ require('lazy').setup({
   {
     'esmuellert/codediff.nvim',
     cmd = 'CodeDiff',
+    keys = {
+      { '<leader>gg', ':CodeDiff<cr>', silent = true, desc = 'Git diff' },
+      { '<leader>gd', ':CodeDiff file HEAD<cr>', silent = true, desc = 'Git diff' },
+    },
     opts = {
       explorer = {
         initial_focus = 'modified', -- Initial focus: "explorer", "original", or "modified"
