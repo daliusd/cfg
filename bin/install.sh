@@ -512,6 +512,32 @@ install_archive_binary tree-sitter tree-sitter/tree-sitter "tree-sitter-cli-${TR
 # typos-lsp is an LSP daemon and intentionally emits no --version output.
 install_archive_binary typos-lsp tekumara/typos-lsp "typos-lsp-v.*-${RUST_TARGET}\\.tar\\.gz$" typos-lsp latest state
 
+# FFmpeg publishes source only. Static builds: evermeet.cx for Intel macOS
+# (Martin Riedl stopped those in 2026-01), Martin Riedl for everything else.
+# Martin Riedl has no macOS release channel, so Apple Silicon uses snapshots.
+# The resolved, versioned download URL is the installed-version marker.
+log 'Installing FFmpeg'
+for ffmpeg_tool in ffmpeg ffprobe; do
+  if [[ $OS == darwin && $ARCH == x86_64 ]]; then
+    ffmpeg_url="$(curl -fsSL --retry 3 --retry-all-errors "https://evermeet.cx/ffmpeg/info/${ffmpeg_tool}/release" \
+      | grep -Eo '"zip":\{"url":"[^"]+"' | cut -d'"' -f6 || true)"
+  else
+    ffmpeg_channel=$([[ $OS == linux ]] && echo release || echo snapshot)
+    ffmpeg_url="$(curl -fsSI --retry 3 --retry-all-errors -o /dev/null -w '%{redirect_url}' \
+      "https://ffmpeg.martin-riedl.de/redirect/latest/$([[ $OS == linux ]] && echo linux || echo macos)/${GH_ARCH}/${ffmpeg_channel}/${ffmpeg_tool}.zip" || true)"
+  fi
+  [[ $ffmpeg_url == https://*.zip ]] || die "Could not resolve the latest ${ffmpeg_tool} build."
+  if release_is_current "$ffmpeg_tool" "$ffmpeg_url" "$BIN_DIR/$ffmpeg_tool" state; then
+    log "${ffmpeg_tool} is already the latest build"
+    continue
+  fi
+  download "$ffmpeg_url" "$TMP_DIR/${ffmpeg_tool}.zip"
+  rm -rf "$TMP_DIR/${ffmpeg_tool}-unpacked"
+  extract "$TMP_DIR/${ffmpeg_tool}.zip" "$TMP_DIR/${ffmpeg_tool}-unpacked"
+  install -m 0755 "$TMP_DIR/${ffmpeg_tool}-unpacked/${ffmpeg_tool}" "$BIN_DIR/$ffmpeg_tool"
+  record_release "$ffmpeg_tool" "$ffmpeg_url"
+done
+
 # Migrate from the legacy getsentry/sentry-cli binary to the new CLI. The
 # upstream installer manages updates and places the `sentry` binary in our
 # existing local bin directory without changing shell startup files.
