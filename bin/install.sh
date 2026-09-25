@@ -69,6 +69,7 @@ Plan for ${OS}/${ARCH}:
   bootstrap OS build dependencies
   install/update CLI tools and fonts in ${PREFIX}
   install Docker Engine + Buildx from Ubuntu, or Docker CLI + Compose + Buildx + Lima + Colima on macOS
+  build whisper.cpp (whisper-cli, whisper-server) from the latest release
   install/update Go, Rust, Ruby + Kamal, Volta, Node LTS, and global npm packages
   desktop applications: ${DESKTOP}
   login shell/editor/inotify system tweaks: ${SYSTEM_TWEAKS}
@@ -299,7 +300,7 @@ if [[ $OS == linux ]]; then
     build-essential ca-certificates curl git gnupg pass pinentry-curses
     unzip xz-utils fontconfig autoconf bison libssl-dev libyaml-dev
     libreadline-dev zlib1g-dev libffi-dev libgdbm-dev libncurses-dev
-    htop
+    htop cmake
   )
   docker_engine_installed=false
   for package in docker.io docker-ce; do
@@ -620,6 +621,54 @@ if [[ $OS == darwin ]]; then
     )
     record_release htop "$htop_url"
   fi
+fi
+
+if [[ $OS == darwin ]]; then
+  # There is no Homebrew here, and whisper.cpp needs CMake to build. Kitware
+  # publishes a universal macOS app bundle whose Contents/bin holds the CLIs.
+  log 'Installing CMake'
+  cmake_url="$(github_asset_url Kitware/CMake '/cmake-[0-9.]+-macos-universal\.tar\.gz$')"
+  if release_is_current cmake "$cmake_url" "$BIN_DIR/cmake"; then
+    log 'CMake is already the latest release'
+  else
+    download "$cmake_url" "$TMP_DIR/cmake.tar.gz"
+    rm -rf "$TMP_DIR/cmake-unpacked"
+    extract "$TMP_DIR/cmake.tar.gz" "$TMP_DIR/cmake-unpacked"
+    cmake_app="$(find "$TMP_DIR/cmake-unpacked" -maxdepth 2 -type d -name 'CMake.app' -print -quit)"
+    [[ -n $cmake_app ]] || die 'Could not find CMake.app in the CMake archive.'
+    rm -rf "$OPT_DIR/CMake.app"
+    mv "$cmake_app" "$OPT_DIR/CMake.app"
+    for cmake_tool in cmake ctest cpack; do
+      ln -sfn "$OPT_DIR/CMake.app/Contents/bin/$cmake_tool" "$BIN_DIR/$cmake_tool"
+    done
+    record_release cmake "$cmake_url"
+  fi
+fi
+
+# whisper.cpp publishes only Windows/iOS binaries, so build the CLI tools from
+# the release source. Static linking keeps the installed binaries standalone;
+# Metal is enabled by default on macOS. Models are not downloaded here.
+log 'Installing whisper.cpp'
+whisper_tag="$(github_release_tag ggml-org/whisper.cpp)"
+whisper_url="https://github.com/ggml-org/whisper.cpp/archive/refs/tags/${whisper_tag}.tar.gz"
+if release_is_current whisper-cpp "$whisper_url" "$BIN_DIR/whisper-cli" state; then
+  log "whisper.cpp ${whisper_tag} is already the latest release"
+else
+  download "$whisper_url" "$TMP_DIR/whisper.tar.gz"
+  rm -rf "$TMP_DIR/whisper-src"
+  extract "$TMP_DIR/whisper.tar.gz" "$TMP_DIR/whisper-src"
+  whisper_root="$(find "$TMP_DIR/whisper-src" -mindepth 1 -maxdepth 1 -type d -print -quit)"
+  [[ -n $whisper_root ]] || die 'Could not find the whisper.cpp archive root.'
+  whisper_jobs="$([[ $OS == linux ]] && nproc || sysctl -n hw.ncpu)"
+  cmake -S "$whisper_root" -B "$whisper_root/build" \
+    -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=OFF -DWHISPER_BUILD_TESTS=OFF
+  cmake --build "$whisper_root/build" --config Release -j "$whisper_jobs" \
+    --target whisper-cli whisper-server whisper-bench whisper-quantize
+  install -m 0755 "$whisper_root/build/bin/whisper-cli" "$BIN_DIR/whisper-cli"
+  install -m 0755 "$whisper_root/build/bin/whisper-server" "$BIN_DIR/whisper-server"
+  install -m 0755 "$whisper_root/build/bin/whisper-bench" "$BIN_DIR/whisper-bench"
+  install -m 0755 "$whisper_root/build/bin/whisper-quantize" "$BIN_DIR/whisper-quantize"
+  record_release whisper-cpp "$whisper_url"
 fi
 
 log 'Installing uv'
