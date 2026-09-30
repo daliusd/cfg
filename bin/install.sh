@@ -524,8 +524,11 @@ for ffmpeg_tool in ffmpeg ffprobe; do
       | grep -Eo '"zip":\{"url":"[^"]+"' | cut -d'"' -f6 || true)"
   else
     ffmpeg_channel=$([[ $OS == linux ]] && echo release || echo snapshot)
-    ffmpeg_url="$(curl -fsSI --retry 3 --retry-all-errors -o /dev/null -w '%{redirect_url}' \
-      "https://ffmpeg.martin-riedl.de/redirect/latest/$([[ $OS == linux ]] && echo linux || echo macos)/${GH_ARCH}/${ffmpeg_channel}/${ffmpeg_tool}.zip" || true)"
+    # This redirect endpoint supports GET only (HEAD returns 404). Do not
+    # follow it: we only need the versioned URL, not the archive contents.
+    ffmpeg_url="$(curl -fsS --retry 3 --retry-all-errors -o /dev/null -w '%{redirect_url}' \
+      "https://ffmpeg.martin-riedl.de/redirect/latest/$([[ $OS == linux ]] && echo linux || echo macos)/${GH_ARCH}/${ffmpeg_channel}/${ffmpeg_tool}.zip")" \
+      || die "Could not resolve the latest ${ffmpeg_tool} build."
   fi
   [[ $ffmpeg_url == https://*.zip ]] || die "Could not resolve the latest ${ffmpeg_tool} build."
   if release_is_current "$ffmpeg_tool" "$ffmpeg_url" "$BIN_DIR/$ffmpeg_tool" state; then
