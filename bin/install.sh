@@ -542,26 +542,12 @@ for ffmpeg_tool in ffmpeg ffprobe; do
   record_release "$ffmpeg_tool" "$ffmpeg_url"
 done
 
-# Migrate from the legacy getsentry/sentry-cli binary to the new CLI. The
-# upstream installer manages updates and places the `sentry` binary in our
-# existing local bin directory without changing shell startup files.
-if [[ -e $BIN_DIR/sentry-cli || -L $BIN_DIR/sentry-cli ]]; then
-  log 'Removing legacy sentry-cli'
-  rm -f "$BIN_DIR/sentry-cli" "$STATE_DIR/sentry-cli"
-fi
-# Resolve the stable tag ourselves: Sentry's automatic release discovery can
-# fail with "No version found in GitHub release" even when a release exists.
-# An explicit version bypasses that lookup and still skips an up-to-date binary.
-sentry_tag="$(github_release_tag getsentry/cli)"
-sentry_latest="${sentry_tag#v}"
-if [[ -x $BIN_DIR/sentry ]]; then
-  log 'Updating Sentry CLI'
-  "$BIN_DIR/sentry" cli upgrade "$sentry_latest"
-else
-  log 'Installing Sentry CLI'
-  curl -fsS --retry 3 --retry-all-errors https://cli.sentry.dev/install \
-    | SENTRY_INSTALL_DIR="$BIN_DIR" bash -s -- --no-modify-path --version "$sentry_latest"
-fi
+# Avoid Sentry's self-updater: even an explicit version triggers its own
+# unauthenticated GitHub API request, which can fail with HTTP 403. Our asset
+# resolver prefers authenticated gh and falls back to GitHub release pages.
+log 'Installing/updating Sentry CLI'
+SENTRY_ARCH=$([[ $ARCH == x86_64 ]] && echo x64 || echo arm64)
+install_direct_binary sentry getsentry/cli "/sentry-${OS}-${SENTRY_ARCH}$" sentry
 
 log 'Installing Go'
 go_metadata="$(curl -fsSL --retry 3 'https://go.dev/dl/?mode=json')"
