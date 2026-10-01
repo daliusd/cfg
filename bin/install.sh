@@ -549,15 +549,18 @@ if [[ -e $BIN_DIR/sentry-cli || -L $BIN_DIR/sentry-cli ]]; then
   log 'Removing legacy sentry-cli'
   rm -f "$BIN_DIR/sentry-cli" "$STATE_DIR/sentry-cli"
 fi
+# Resolve the stable tag ourselves: Sentry's automatic release discovery can
+# fail with "No version found in GitHub release" even when a release exists.
+# An explicit version bypasses that lookup and still skips an up-to-date binary.
+sentry_tag="$(github_release_tag getsentry/cli)"
+sentry_latest="${sentry_tag#v}"
 if [[ -x $BIN_DIR/sentry ]]; then
-  # The CLI checks its configured channel and does nothing when already current.
-  # This avoids rerunning the bootstrap installer on every environment update.
   log 'Updating Sentry CLI'
-  "$BIN_DIR/sentry" cli upgrade
+  "$BIN_DIR/sentry" cli upgrade "$sentry_latest"
 else
   log 'Installing Sentry CLI'
   curl -fsS --retry 3 --retry-all-errors https://cli.sentry.dev/install \
-    | SENTRY_INSTALL_DIR="$BIN_DIR" bash -s -- --no-modify-path
+    | SENTRY_INSTALL_DIR="$BIN_DIR" bash -s -- --no-modify-path --version "$sentry_latest"
 fi
 
 log 'Installing Go'
