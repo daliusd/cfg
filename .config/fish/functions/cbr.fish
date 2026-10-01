@@ -1,5 +1,5 @@
 function cbr -d "Checkout remote branch (fetch first)"
-  git fetch --all
+  git fetch --all --prune
   set current_branch (git branch --show-current)
   git branch -r |
     grep --invert-match '\->' |
