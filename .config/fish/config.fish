@@ -34,31 +34,6 @@ if type -q ruby
   fish_add_path -P (ruby -e 'print Gem.user_dir')/bin
 end
 
-# Remove inherited and old universal Homebrew paths during migration.
-set -l clean_path
-for dir in $PATH
-  if not string match -q '*linuxbrew*' $dir; and \
-     not string match -q '*/Homebrew/*' $dir; and \
-     not string match -q '/usr/local/opt/*' $dir
-    set -a clean_path $dir
-  end
-end
-set -gx PATH $clean_path
-
-set -l clean_user_paths
-for dir in $fish_user_paths
-  if not string match -q '*linuxbrew*' $dir; and \
-     not string match -q '*/Homebrew/*' $dir; and \
-     not string match -q '/usr/local/opt/*' $dir
-    set -a clean_user_paths $dir
-  end
-end
-set -l old_user_paths (string join \x1e $fish_user_paths)
-set -l new_user_paths (string join \x1e $clean_user_paths)
-if test "$old_user_paths" != "$new_user_paths"
-  set -U fish_user_paths $clean_user_paths
-end
-
 # User-space upstream installs take precedence over old system/Brew binaries.
 fish_add_path -mP ~/.local/bin ~/bin
 fish_add_path -P ~/.cargo/bin
