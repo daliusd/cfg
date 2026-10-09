@@ -793,6 +793,7 @@ require('lazy').setup({
       { '<leader>uc', ':GHLitePRUpdateComment<cr>', silent = true, desc = 'PR Update comment' },
       { '<leader>ud', ':GHLitePRDeleteComment<cr>', silent = true, desc = 'PR Delete comment' },
       { '<leader>ug', ':GHLitePROpenComment<cr>', silent = true, desc = 'PR Open comment' },
+      { '<leader>ut', ':GHLitePRToggleFileViewed<cr>', silent = true, desc = 'PR Toggle file viewed' },
     },
   },
 })
