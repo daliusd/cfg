@@ -219,6 +219,22 @@ if $YES; then "$SCRIPT_DIR/nodeinstall.sh" --yes; else "$SCRIPT_DIR/nodeinstall.
 volta install node@lts
 log 'Installing/updating Claude Code'
 curl -fsSL --retry 3 https://claude.ai/install.sh | bash
+log 'Configuring Claude Code settings'
+node <<'NODE'
+const fs = require('node:fs');
+const path = require('node:path');
+const settingsPath = path.join(process.env.HOME, '.claude', 'settings.json');
+const settings = fs.existsSync(settingsPath)
+  ? JSON.parse(fs.readFileSync(settingsPath, 'utf8'))
+  : {};
+if (settings === null || typeof settings !== 'object' || Array.isArray(settings)) {
+  throw new Error(`${settingsPath} must contain a JSON object`);
+}
+settings.disableClaudeAiConnectors = true;
+settings.enableArtifact = false;
+fs.mkdirSync(path.dirname(settingsPath), { recursive: true });
+fs.writeFileSync(settingsPath, JSON.stringify(settings, null, 2) + '\n', { mode: 0o600 });
+NODE
 log 'Installing agent-browser Chrome runtime and skill'
 if [[ $OS == linux ]]; then agent-browser install --with-deps; else agent-browser install; fi
 if [[ ! -f $HOME/.pi/agent/skills/agent-browser/SKILL.md ]]; then

@@ -853,6 +853,22 @@ volta install node@lts
 # installs its launcher in ~/.local/bin, which is already this script's BIN_DIR.
 log 'Installing/updating Claude Code'
 curl -fsSL --retry 3 --retry-all-errors https://claude.ai/install.sh | bash
+log 'Configuring Claude Code settings'
+node <<'NODE'
+const fs = require('node:fs');
+const path = require('node:path');
+const settingsPath = path.join(process.env.HOME, '.claude', 'settings.json');
+const settings = fs.existsSync(settingsPath)
+  ? JSON.parse(fs.readFileSync(settingsPath, 'utf8'))
+  : {};
+if (settings === null || typeof settings !== 'object' || Array.isArray(settings)) {
+  throw new Error(`${settingsPath} must contain a JSON object`);
+}
+settings.disableClaudeAiConnectors = true;
+settings.enableArtifact = false;
+fs.mkdirSync(path.dirname(settingsPath), { recursive: true });
+fs.writeFileSync(settingsPath, JSON.stringify(settings, null, 2) + '\n', { mode: 0o600 });
+NODE
 
 log 'Installing agent-browser Chrome runtime and skill'
 if [[ $OS == linux ]]; then
