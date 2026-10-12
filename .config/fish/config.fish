@@ -1,5 +1,6 @@
 if status is-interactive
-    # Commands to run in interactive sessions can go here
+    # Keep autosuggestions grey regardless of the terminal colour palette.
+    set -g fish_color_autosuggestion 808080
 end
 
 set -Ux EDITOR nvim
