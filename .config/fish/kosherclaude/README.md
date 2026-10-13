@@ -15,14 +15,23 @@ removes command-hook handlers referring to `creator-kit/`, and adds `off`
 overrides for project `ck-*` skills. Other handlers, including those sharing a
 hook group with CK, are retained. Claude loads this generated file with
 `--setting-sources user`, preventing original project/local hooks from merging
-back in. User/managed settings and plugins remain loaded normally; CK installed
-there is not filtered. Temporary settings are removed when Claude exits.
+back in. Because this also suppresses project skill/plugin discovery, non-CK
+folders in `.claude/skills` and `.agents/skills` are explicitly loaded using
+`--plugin-dir` (deduplicated by resolved path). Their original scripts and
+references remain accessible. Full plugins with `.claude-plugin/plugin.json`
+are included too. User/managed settings and installed plugins remain loaded
+normally; CK installed there is not filtered. Temporary settings are removed
+when Claude exits.
 
 No persistent project settings, skills, Codex configuration, or Pi configuration
 are changed. Disabled skills may still be listed in Claude's skills browser.
 
 Limitations:
-- Project/local settings are snapshots taken at launch; restart to pick up edits.
+- Project/local settings and the skill-directory list are snapshots taken at
+  launch; restart to pick up edits.
+- Explicitly restored skills use Claude's plugin-qualified names. Simple names
+  like `/wds-docs` retain aliases; names containing colons may need the qualified
+  command shown in `/skills` (e.g. `conductor_use-in-code:conductor:use-in-code`).
 - Generated settings are passed through `--settings`, which has higher precedence
   than ordinary settings files. Managed settings still take precedence.
 - Claude does not load the original local settings source, so do not rely on

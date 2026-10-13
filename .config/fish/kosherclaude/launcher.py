@@ -54,6 +54,27 @@ def filtered_settings(root):
     return data
 
 
+def project_plugin_args(root):
+    """Restore non-CK skills/plugin directories excluded by --setting-sources.
+
+    Claude accepts both standalone SKILL.md folders and full plugins via
+    --plugin-dir. Use original paths so their scripts/references keep working.
+    """
+    args = []
+    seen = set()
+    for folder in ('.claude/skills', '.agents/skills'):
+        for entry in sorted((root / folder).glob('*')):
+            path = entry.resolve()
+            if entry.name.startswith('ck-') or path in seen or not entry.is_dir():
+                continue
+            if not ((entry / 'SKILL.md').is_file()
+                    or (entry / '.claude-plugin/plugin.json').is_file()):
+                continue
+            seen.add(path)
+            args.extend(['--plugin-dir', str(path)])
+    return args
+
+
 def main():
     args = sys.argv[1:]
     if args[:1] == ['--']:
@@ -65,12 +86,15 @@ def main():
     root = Path(git.stdout.strip()).resolve() if git.returncode == 0 else cwd
     settings = filtered_settings(root)
     # Exclude BOTH project and local sources: their hook arrays would otherwise merge back in.
-    # User/managed settings and plugins remain under Claude's own control.
+    # This also excludes project skills/plugins; restore non-CK directories
+    # explicitly without loading their original project hook settings.
+    # User/managed settings and installed plugins remain under Claude's control.
     with tempfile.TemporaryDirectory(prefix='kosherclaude-') as tmp:
         path = Path(tmp) / 'settings.json'
         path.write_text(json.dumps(settings, indent=2) + '\n')
         path.chmod(0o600)
-        return subprocess.call(['claude', '--setting-sources', 'user', '--settings', str(path), *args])
+        return subprocess.call(['claude', '--setting-sources', 'user', '--settings', str(path),
+                                *project_plugin_args(root), *args])
 
 
 if __name__ == '__main__':

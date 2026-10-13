@@ -76,6 +76,48 @@ class LauncherTest(unittest.TestCase):
             self.assertEqual(saved['settings'], {'model': 'project'})
             self.assertFalse(Path(saved['path']).exists())
 
+    def test_project_skills_load_without_ck_skills(self):
+        # Source filtering must not hide unrelated project skills/plugins.
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            skills = root / '.agents/skills'
+            for directory, name in [('wds-docs', 'wds-docs'),
+                                    ('conductor_use-in-code', 'conductor:use-in-code'),
+                                    ('ck-example', 'ck-example')]:
+                skill = skills / directory
+                skill.mkdir(parents=True)
+                (skill / 'SKILL.md').write_text(
+                    f'---\nname: {name}\ndescription: Regression fixture\n---\nInstructions\n')
+            plugin = skills / 'example-plugin'
+            (plugin / '.claude-plugin').mkdir(parents=True)
+            (plugin / '.claude-plugin/plugin.json').write_text('{"name":"example-plugin"}')
+            (plugin / 'skills/check').mkdir(parents=True)
+            (plugin / 'skills/check/SKILL.md').write_text(
+                '---\nname: check\ndescription: Plugin regression fixture\n---\nInstructions\n')
+            (root / '.claude').mkdir()
+            (root / '.claude/skills').symlink_to(skills, target_is_directory=True)
+            before = sorted(str(path.relative_to(root)) for path in root.rglob('*'))
+            request = json.dumps({'type': 'control_request', 'request_id': 'test',
+                                  'request': {'subtype': 'initialize'}}) + '\n'
+            result = subprocess.run(
+                ['python3', str(SCRIPT), '--', '--print', '--verbose',
+                 '--input-format', 'stream-json', '--output-format', 'stream-json'],
+                input=request, cwd=root, capture_output=True, text=True, timeout=30)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            responses = [json.loads(line) for line in result.stdout.splitlines()]
+            response = next(row['response']['response'] for row in responses
+                            if row.get('type') == 'control_response')
+            names = set()
+            for command in response['commands']:
+                names.add(command['name'])
+                names.update(command.get('aliases', []))
+            self.assertIn('wds-docs', names)
+            self.assertIn('conductor_use-in-code:conductor:use-in-code', names)
+            self.assertIn('example-plugin:check', names)
+            self.assertFalse(any('ck-example' in name for name in names))
+            self.assertEqual(before, sorted(str(path.relative_to(root))
+                                            for path in root.rglob('*')))
+
     def test_rejects_settings_flags_that_bypass_filtering(self):
         if not SCRIPT.exists():
             self.fail('Filtered Claude launcher is not implemented')
