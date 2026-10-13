@@ -794,6 +794,10 @@ require('lazy').setup({
       { '<leader>ud', ':GHLitePRDeleteComment<cr>', silent = true, desc = 'PR Delete comment' },
       { '<leader>ug', ':GHLitePROpenComment<cr>', silent = true, desc = 'PR Open comment' },
       { '<leader>ut', ':GHLitePRToggleFileViewed<cr>', silent = true, desc = 'PR Toggle file viewed' },
+      { '<leader>urr', ':GHLitePRStartReview agent<cr>', silent = true, desc = 'PR start review' },
+      { '<leader>ura', ':GHLitePRStartReview agent<cr>', silent = true, desc = 'PR start agent review' },
+      { '<leader>urs', ':GHLitePRSubmitReview<cr>', silent = true, desc = 'PR submit review' },
+      { '<leader>urd', ':GHLitePRDiscardReview<cr>', silent = true, desc = 'PR discard review' },
     },
   },
 })
