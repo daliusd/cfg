@@ -81,8 +81,13 @@ fi
 log 'Installing operating-system prerequisites'
 if [[ $OS == linux ]]; then
   sudo_run apt-get update
+  # Python 3.12+ provides distutils through setuptools instead of the stdlib.
+  python_packages=(python3 python3-setuptools)
+  if apt-cache policy python3-distutils | grep -Eq 'Candidate: [^ (]'; then
+    python_packages+=(python3-distutils)
+  fi
   sudo_run env DEBIAN_FRONTEND=noninteractive apt-get install -y \
-    build-essential procps ca-certificates curl git unzip fontconfig
+    build-essential procps ca-certificates curl git unzip fontconfig "${python_packages[@]}"
   docker_packages=()
   if ! dpkg-query -W -f='${Status}' docker.io docker-ce 2>/dev/null | grep -q 'ok installed'; then
     docker_packages+=(docker.io)
@@ -142,7 +147,7 @@ brew update
 formulae=(
   fish fzf starship ripgrep fd bat git-delta gh eza neovim lua-language-server
   buf stylua tree-sitter typos-lsp ffmpeg go ruby rustup uv whisper-cpp volta
-  htop cmake gnupg pass pinentry
+  htop cmake gnupg pass pinentry python python-setuptools
 )
 if [[ $OS == darwin ]]; then
   formulae+=(docker docker-compose docker-buildx lima colima pinentry-mac)
@@ -155,7 +160,7 @@ brew upgrade "${formulae[@]}"
 mkdir -p "$BIN_DIR"
 for tool in fish fzf starship rg fd bat delta gh eza nvim lua-language-server \
   buf stylua tree-sitter typos-lsp ffmpeg ffprobe go gofmt uv htop cmake ctest \
-  cpack gpg pass pinentry volta whisper-cli whisper-server whisper-bench whisper-quantize; do
+  cpack gpg pass pinentry python3 pip3 volta whisper-cli whisper-server whisper-bench whisper-quantize; do
   if [[ -x $BREW_PREFIX/bin/$tool ]]; then
     ln -sfn "$BREW_PREFIX/bin/$tool" "$BIN_DIR/$tool"
   fi
