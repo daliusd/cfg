@@ -57,6 +57,12 @@ ensure_package '@earendil-works/pi-coding-agent@latest' --ignore-scripts
 # which is incompatible with Volta. Its JS launcher selects the bundled native
 # binary correctly, so lifecycle scripts are intentionally disabled here too.
 ensure_package 'agent-browser@latest' --ignore-scripts
+# An install with scripts enabled leaves a launcher pointing into Volta's
+# deleted temporary directory, and the version check above would keep it.
+if ! agent-browser --version >/dev/null 2>&1; then
+  printf 'Reinstalling agent-browser because its launcher is broken\n'
+  npm install --global --ignore-scripts 'agent-browser@latest'
+fi
 
 # OpenAI Codex CLI: https://learn.chatgpt.com/docs/codex/cli
 ensure_package '@openai/codex@latest'
