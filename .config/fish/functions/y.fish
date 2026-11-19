@@ -4,13 +4,22 @@ function y
 
       if test -n "$scripts"
           set script_name (echo "$scripts" | awk -F '\t' '{print $1}')
-          if test -e package-lock.json
-            commandline -it -- 'npm run '
-          else if test -e pnpm-lock.yaml
-            commandline -it -- 'pnpm run '
-          else
-            commandline -it -- 'yarn '
+          # Find the nearest package manager marker without leaving this repo.
+          set -l dir "$PWD"
+          set -l runner 'yarn '
+          while true
+            if test -e "$dir/package-lock.json"
+              set runner 'npm run '
+              break
+            else if test -e "$dir/pnpm-lock.yaml"; or test -e "$dir/pnpm-workspace.yaml"
+              set runner 'pnpm run '
+              break
+            else if test -e "$dir/yarn.lock"; or test -e "$dir/.git"; or test "$dir" = /
+              break
+            end
+            set dir (path dirname -- "$dir")
           end
+          commandline -it -- "$runner"
           commandline -it -- $script_name
           commandline -it -- ' '
           commandline -f repaint
