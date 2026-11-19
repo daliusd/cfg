@@ -6,6 +6,8 @@ function y
           set script_name (echo "$scripts" | awk -F '\t' '{print $1}')
           if test -e package-lock.json
             commandline -it -- 'npm run '
+          else if test -e pnpm-lock.yaml
+            commandline -it -- 'pnpm run '
           else
             commandline -it -- 'yarn '
           end
