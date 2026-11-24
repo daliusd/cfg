@@ -542,13 +542,6 @@ for ffmpeg_tool in ffmpeg ffprobe; do
   record_release "$ffmpeg_tool" "$ffmpeg_url"
 done
 
-# Avoid Sentry's self-updater: even an explicit version triggers its own
-# unauthenticated GitHub API request, which can fail with HTTP 403. Our asset
-# resolver prefers authenticated gh and falls back to GitHub release pages.
-log 'Installing/updating Sentry CLI'
-SENTRY_ARCH=$([[ $ARCH == x86_64 ]] && echo x64 || echo arm64)
-install_direct_binary sentry getsentry/cli "/sentry-${OS}-${SENTRY_ARCH}$" sentry
-
 log 'Installing Go'
 go_metadata="$(curl -fsSL --retry 3 'https://go.dev/dl/?mode=json')"
 go_release="$(printf '%s' "$go_metadata" \

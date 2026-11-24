@@ -64,7 +64,7 @@ Plan for ${OS}/${ARCH}:
   bootstrap Homebrew and OS prerequisites
   install/update CLI tools, Go, Ruby, uv, whisper.cpp and Volta with Homebrew
   install Docker Engine with apt on Ubuntu; Docker CLI, Compose, Buildx and Colima with Homebrew on macOS
-  install/update Rust, Kamal, Node LTS, npm packages, Sentry and Claude Code
+  install/update Rust, Kamal, Node LTS, npm packages and Claude Code
   install Nerd Fonts
   desktop applications: ${DESKTOP}
   login shell/editor/inotify system tweaks: ${SYSTEM_TWEAKS}
@@ -211,10 +211,6 @@ else
   done
   fc-cache -f
 fi
-
-log 'Installing/updating Sentry CLI'
-curl -fL --retry 3 "https://github.com/getsentry/cli/releases/latest/download/sentry-${OS}-${ARCH}" -o "$TMP_DIR/sentry"
-install -m 0755 "$TMP_DIR/sentry" "$BIN_DIR/sentry"
 
 log 'Installing Node LTS and global packages'
 export VOLTA_HOME="$HOME/.volta"
